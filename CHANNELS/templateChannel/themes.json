@@ -1,0 +1,9 @@
+{
+  "toBeUsed": [
+    "REPLACE ME. This is a list of video ideas. Video text generation uses this ideas to write texts.",
+    "REPLACE ME. Each line is an idea a new video.",
+    "REPLACE ME. Simply write a few words - the model will transform in into a complete text.",
+    "REPLACE ME. Have specific topic to cover in video? Feel free to list all of them inside within a single element of this array!"
+  ],
+  "used": []
+}

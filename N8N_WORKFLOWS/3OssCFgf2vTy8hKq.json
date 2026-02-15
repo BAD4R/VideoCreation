@@ -1,0 +1,215 @@
+{
+  "updatedAt": "2026-02-09T22:55:47.395Z",
+  "createdAt": "2026-02-04T22:23:45.770Z",
+  "id": "3OssCFgf2vTy8hKq",
+  "name": "Media Binary File Works",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"filePath\": \"\",\n  \"fileAction\": \"\"\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Start').item.json.fileAction == \"read\"}}",
+                    "rightValue": "={{ $('Start').item.json.fileAction == \"read\" }}",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "eb26c69e-7c8f-43a1-8c34-72e532863446"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "read"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "59f6c1c8-ebca-4952-983f-3dd97c5d2a23",
+                    "leftValue": "={{ $('Start').item.json.fileAction == \"write\"}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "write"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        496,
+        352
+      ],
+      "id": "21a6676f-a047-4709-b375-8bfe7a2faf5c",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $('Start').first().json.filePath }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        752,
+        288
+      ],
+      "id": "872830c7-e2dd-4cb1-94f5-f90a78648a2f",
+      "name": "Read Media File",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $('Start').first().json.filePath }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        752,
+        432
+      ],
+      "id": "65b636e2-4b37-4daa-afc5-748a682a6bca",
+      "name": "Write Media File",
+      "alwaysOutputData": true
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Read Media File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Write Media File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Media File": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "filePath": "C:/Users/V/Desktop/Channels/LifeOfAPirate/VIDEOS/2026-02-03_RBsqa/VOICE/RBsqa_00009.mp4",
+          "fileAction": "write"
+        },
+        "binary": {
+          "data": {
+            "mimeType": "audio/mpeg",
+            "fileType": "audio",
+            "fileExtension": "mpga",
+            "data": "filesystem-v2",
+            "directory": "http://37.114.53.126:8001/proxy-elevenlabs",
+            "fileName": "proxy-elevenlabs",
+            "id": "filesystem-v2:workflows/QGwzjOX1i2qj5DPR/executions/1051/binary_data/7165d147-3dcf-4131-a774-f078b19ead69",
+            "fileSize": "1.16 MB",
+            "bytes": 1158208
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "5ad506f1-172f-401d-b691-a06008005cf3",
+  "activeVersionId": "5ad506f1-172f-401d-b691-a06008005cf3",
+  "versionCounter": 36,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-04T22:23:45.773Z",
+      "createdAt": "2026-02-04T22:23:45.773Z",
+      "role": "workflow:owner",
+      "workflowId": "3OssCFgf2vTy8hKq",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

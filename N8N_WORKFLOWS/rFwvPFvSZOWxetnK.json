@@ -1,0 +1,317 @@
+{
+  "updatedAt": "2026-02-14T21:50:12.222Z",
+  "createdAt": "2026-02-13T01:59:51.314Z",
+  "id": "rFwvPFvSZOWxetnK",
+  "name": "LoRA Works - paralleling",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"headers\": {},\n  \"body\": {},\n  \"stylePromptsArray\":\"\",\n  \"promptsArray\":\"\",\n  \"loraTrainArray\":\"\",\n  \"prefix\":\"\",\n  \"path\":\"\",\n  \"index\":0\n}"
+      },
+      "id": "78a165be-1ebc-47d0-a6e4-9aa626fe0dbb",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        608,
+        288
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/Users/varvarahanma/Documents/videos/main/gemini_dataset_for_lora/{{ $('Start').item.json.index.toString().padStart(3,\"0\") }}.png",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        1280,
+        144
+      ],
+      "id": "af455500-a5c8-4629-aa2c-cf58ceb18df6",
+      "name": "Read/Write Files from Disk1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node (JavaScript)\n// Для КАЖДОГО входного item: base64 -> binary.data + индекс в json\n\nconst binaryKey = \"data\";\n\nfunction extFromMime(m) {\n  if (m === \"image/jpeg\") return \"jpg\";\n  if (m === \"image/webp\") return \"webp\";\n  if (m === \"image/gif\") return \"gif\";\n  if (m === \"image/bmp\") return \"bmp\";\n  return \"png\";\n}\n\nconst items = $input.all();\nconst out = [];\n\nfor (let i = 0; i < items.length; i++) {\n  const item = items[i];\n  const j = item.json || {};\n\n  const base64 = j?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.data;\n  if (typeof base64 !== \"string\" || !base64.trim()) {\n    throw new Error(`Item #${i}: base64 is empty or not a string at candidates[0].content.parts[0].inlineData.data`);\n  }\n\n  const mimeFromJson = j?.candidates?.[0]?.content?.parts?.[0]?.inlineData?.mimeType;\n  let mime = (typeof mimeFromJson === \"string\" && mimeFromJson.trim()) ? mimeFromJson.trim() : \"image/png\";\n\n  let pure = base64.trim();\n  const m = pure.match(/^data:([^;]+);base64,(.*)$/s);\n  if (m) {\n    mime = m[1] || mime;\n    pure = m[2] || \"\";\n  }\n\n  const buf = Buffer.from(pure, \"base64\");\n  if (!buf.length) throw new Error(`Item #${i}: decoded buffer is empty`);\n\n  const ext = extFromMime(mime);\n  const fileName = j.fileName || `image_${String(i + 1).padStart(4, \"0\")}.${ext}`;\n\n  out.push({\n    json: {\n      ...j,\n      index: i,                 // <- индекс (0-based)\n      index1: i + 1,            // <- индекс (1-based, если нужно)\n      _image: { fileName, mime, bytes: buf.length },\n    },\n    binary: {\n      ...(item.binary || {}),\n      [binaryKey]: await this.helpers.prepareBinaryData(buf, fileName, mime),\n    },\n  });\n}\n\nreturn out;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1056,
+        288
+      ],
+      "id": "5a537796-3945-4d91-a9c4-27cd29780a65",
+      "name": "base64 to binary"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e95c39e4-5952-4a5d-bf02-8445c4ba8f81",
+              "name": "loraDescription",
+              "value": "={{ $('Start').item.json.promptsArray }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1280,
+        288
+      ],
+      "id": "6a5c8232-0d22-430c-8730-735e4dff9e88",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "loraDescription",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1456,
+        288
+      ],
+      "id": "24ada935-7e9d-4293-bbc9-926bbf85eaae",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "=/Users/varvarahanma/Documents/videos/main/gemini_dataset_for_lora/{{ $('Start').item.json.index.toString().padStart(3,\"0\") }}.txt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        1632,
+        288
+      ],
+      "id": "ed95368a-d809-4849-8b7e-271a29f52640",
+      "name": "Read/Write Files from Disk3"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "method": "POST",
+            "route": "http://37.114.53.126:8001/proxy-google-responses",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        848,
+        288
+      ],
+      "id": "7c7e7f68-8749-4dbc-b0bc-89b9f3503c59",
+      "name": "Call 'http works'"
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Call 'http works'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "base64 to binary": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Read/Write Files from Disk1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'http works'": {
+      "main": [
+        [
+          {
+            "node": "base64 to binary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "headers": {
+            "X-Request-ID": "69ed-6117-56ba-fa79",
+            "x-goog-api-key": "AIzaSyC5x8ju0Z8gcYNrbW94E4gk1YdTQLa3OlM"
+          },
+          "body": {
+            "model": "gemini-3-pro-image-preview",
+            "version": "v1beta",
+            "operation": "generateContent",
+            "contents": [
+              {
+                "parts": [
+                  {
+                    "text": "Modern gritty graphic-novel illustration, bold black ink lineart with varied line weight, crisp outlines, controlled cross-hatching, cel-shaded shadows, muted/desaturated palette, cinematic lighting, high contrast, semi-cartoon proportions (slightly larger eyes/hands), simplified midtones, expressive character acting.Aerial bird’s-eye view straight down over a medieval street during a plague outbreak: dominant is a hooded healer kneeling beside a sick person with swollen neck lumps and dark skin blotches; secondary is a loose ring of worried townsfolk; background shows carts, shuttered stalls, puddles, and cobblestones, fully detailed; no frame, no vignette, no text, no numbers, no subtitles, no watermarks, no ui, no icons, no blur, all in focus."
+                  }
+                ]
+              }
+            ],
+            "generationConfig": {
+              "responseModalities": [
+                "IMAGE"
+              ],
+              "imageConfig": {
+                "aspectRatio": "16:9",
+                "imageSize": "2K"
+              }
+            }
+          },
+          "stylePromptsArray": "Modern gritty graphic-novel illustration, bold black ink lineart with varied line weight, crisp outlines, controlled cross-hatching, cel-shaded shadows, muted/desaturated palette, cinematic lighting, high contrast, semi-cartoon proportions (slightly larger eyes/hands), simplified midtones, expressive character acting.Aerial bird’s-eye view straight down over a medieval street during a plague outbreak: dominant is a hooded healer kneeling beside a sick person with swollen neck lumps and dark skin blotches; secondary is a loose ring of worried townsfolk; background shows carts, shuttered stalls, puddles, and cobblestones, fully detailed; no frame, no vignette, no text, no numbers, no subtitles, no watermarks, no ui, no icons, no blur, all in focus.",
+          "promptsArray": "gemini3procimicsstyle, bird’s-eye aerial top-down wide shot third-person, medieval street during plague outbreak, hooded healer kneeling beside sick person, worried townsfolk ring with carts and shuttered stalls, swollen neck lumps dark skin blotches puddles sharp cobblestones",
+          "loraTrainArray": "Aerial bird’s-eye view straight down over a medieval street during a plague outbreak: dominant is a hooded healer kneeling beside a sick person with swollen neck lumps and dark skin blotches; secondary is a loose ring of worried townsfolk; background shows carts, shuttered stalls, puddles, and cobblestones, fully detailed; no frame, no vignette, no text, no numbers, no subtitles, no watermarks, no ui, no icons, no blur, all in focus.",
+          "prefix": "Modern gritty graphic-novel illustration, bold black ink lineart with varied line weight, crisp outlines, controlled cross-hatching, cel-shaded shadows, muted/desaturated palette, cinematic lighting, high contrast, semi-cartoon proportions (slightly larger eyes/hands), simplified midtones, expressive character acting.",
+          "path": "C:/Users/V/Downloads/gemini_image_gen_test/Aerial_bird’s-eye_view",
+          "index": 0
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "f9743610-3add-45cd-b399-a3cf19440b1a",
+  "activeVersionId": "d483492d-5a12-4c61-9f56-d7f4748b0ab5",
+  "versionCounter": 85,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-13T01:59:51.318Z",
+      "createdAt": "2026-02-13T01:59:51.318Z",
+      "role": "workflow:owner",
+      "workflowId": "rFwvPFvSZOWxetnK",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

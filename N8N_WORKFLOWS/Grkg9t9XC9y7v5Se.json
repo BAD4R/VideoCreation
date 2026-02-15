@@ -1,0 +1,94 @@
+{
+  "updatedAt": "2026-02-08T22:07:04.873Z",
+  "createdAt": "2026-02-05T00:37:10.690Z",
+  "id": "Grkg9t9XC9y7v5Se",
+  "name": "execute command works",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"command\":\"\"\n}"
+      },
+      "id": "e931801b-0bce-4ff4-8818-d1421e3bf32b",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        672,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "executeOnce": false,
+        "command": "={{ $json.command }}"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        880,
+        352
+      ],
+      "id": "b3a990c8-20d0-43f2-815f-9d0d3b247ad8",
+      "name": "execute command"
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "execute command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "command": "start \"\" \"C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe\" --remote-debugging-port=9333 --remote-debugging-address=127.0.0.1 --user-data-dir=\"C:\\Users\\V\\AppData\\Local\\Google\\Chrome\\RemoteControl\" --profile-directory=Default --start-maximized --window-size=1920,1080"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "b0592a14-b49d-415a-886c-0e1df22f5ef6",
+  "activeVersionId": "b0592a14-b49d-415a-886c-0e1df22f5ef6",
+  "versionCounter": 30,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-05T00:37:10.693Z",
+      "createdAt": "2026-02-05T00:37:10.693Z",
+      "role": "workflow:owner",
+      "workflowId": "Grkg9t9XC9y7v5Se",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

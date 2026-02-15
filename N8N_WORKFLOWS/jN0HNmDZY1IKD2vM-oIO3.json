@@ -1,0 +1,337 @@
+{
+  "updatedAt": "2026-02-09T01:10:23.812Z",
+  "createdAt": "2026-02-04T02:28:54.065Z",
+  "id": "jN0HNmDZY1IKD2vM-oIO3",
+  "name": "Text file works",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"filePath\": \"\",\n  \"fileAction\": \"\",\n  \"text\": \"\"\n}"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "b8185468-69dd-4668-b7a6-1fc884031178",
+      "name": "Start"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Start').item.json.fileAction == \"read\"}}",
+                    "rightValue": "={{ $('Start').item.json.fileAction == \"read\" }}",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "eb26c69e-7c8f-43a1-8c34-72e532863446"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "read"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a5686232-c6f4-4d91-8489-eb9284fa4d7a",
+                    "leftValue": "={{ $('Start').item.json.fileAction == \"append\"}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "append"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "59f6c1c8-ebca-4952-983f-3dd97c5d2a23",
+                    "leftValue": "={{ $('Start').item.json.fileAction == \"write\"}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "write"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        368,
+        -16
+      ],
+      "id": "e2580aeb-ae06-4341-8d82-c3408cf7c0f9",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $('Start').first().json.filePath }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        800,
+        128
+      ],
+      "id": "fa78456a-e832-4619-a5fe-b55e13bed203",
+      "name": "Write Text File",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================\n// НАСТРОЙКИ (TXT)\n\n// Если бинарник с TXT лежит в ДРУГОЙ ноде — укажи её имя (ТОЧНО как в n8n).\n// Если бинарник уже приходит на вход этой Code-ноды — оставь пустую строку.\nconst SOURCE_NODE = \"Read TXT File\";\n\n// Имя бинарного поля (обычно \"data\"). Пусто = возьмём первый ключ из binary.\nconst SOURCE_BIN_KEY = \"\";\n\n// Выходное имя файла, если не удалось взять из входного бинарника / item.json.fileName\nconst DEFAULT_OUT_FILE = \"updated.txt\";\n\n// Дефолтный текст, если бинарник пуст/не найден.\nconst BASE_TEXT = \"\";\n\n// ====== ВОТ ТУТ ТЫ ПЕРЕДАЁШЬ ТЕКСТ ======\nconst INPUT_TEXT = \"\"; // <-- если append=true, то добавится это. если replace=true, то это станет всем текстом.\n\n// Возвращать ли бинарник (по умолчанию true/false как хочешь)\nconst RETURN_BINARY_FALLBACK = false;\n\n// Возвращать ли текст в json (по умолчанию false/true как хочешь)\n// Если false -> item.json будет {}\nconst RETURN_TEXT_FALLBACK = true;\n\n// Режим полной замены текста (по умолчанию true/false как хочешь)\nconst REPLACE_WHOLE_TEXT_FALLBACK = false;\n\n// Режим добавления (append).\nconst APPEND_FALLBACK = false;\n\n// Вставлять разделитель между исходным и добавляемым текстом (если оба непустые)\nconst APPEND_SEPARATOR_FALLBACK = \"\\n\";\n// ✅ Поведение, если бинарник ЕСТЬ, но файл пустой (0 байт):\n// true  -> считать \"бинарник был\" (вернём мету + isEmpty:true, и text по логике)\n// false -> считать \"как будто бинарника не было\" (json будет {})\nconst EMPTY_BINARY_COUNTS_AS_PRESENT = true;\n\n// ============================\n// HELPERS\n\nfunction toStr(v) {\n  if (v === null || v === undefined) return \"\";\n  return String(v);\n}\n\nfunction normalizeNewlines(s) {\n  return toStr(s).replace(/\\r\\n/g, \"\\n\");\n}\n\nfunction resolveReturnBinary(item) {\n  if (item.json?.returnBinary !== undefined) return Boolean(item.json.returnBinary);\n  const g = $input.first()?.json?.returnBinary;\n  if (g !== undefined) return Boolean(g);\n  return Boolean(RETURN_BINARY_FALLBACK);\n}\n\nfunction resolveReturnText(item) {\n  if (item.json?.returnText !== undefined) return Boolean(item.json.returnText);\n  const g = $input.first()?.json?.returnText;\n  if (g !== undefined) return Boolean(g);\n  return Boolean(RETURN_TEXT_FALLBACK);\n}\n\nfunction resolveReplaceWholeText(item) {\n  if (item.json?.replaceWholeText !== undefined) return Boolean(item.json.replaceWholeText);\n  const g = $input.first()?.json?.replaceWholeText;\n  if (g !== undefined) return Boolean(g);\n  return Boolean(REPLACE_WHOLE_TEXT_FALLBACK);\n}\n\nfunction resolveAppend(item) {\n  if (item.json?.append !== undefined) return Boolean(item.json.append);\n  const g = $input.first()?.json?.append;\n  if (g !== undefined) return Boolean(g);\n  return Boolean(APPEND_FALLBACK);\n}\n\nfunction getAppendSeparator(item) {\n  const v = item.json?.appendSeparator ?? $input.first()?.json?.appendSeparator;\n  return v !== undefined ? toStr(v) : toStr(APPEND_SEPARATOR_FALLBACK);\n}\n\n// Один источник текста: INPUT_TEXT.\n// Если пустой — можно (опционально) подать через item.json.inputText\nfunction getInputText(item) {\n  if (toStr(INPUT_TEXT).length) return toStr(INPUT_TEXT);\n  const v = item.json?.inputText ?? $input.first()?.json?.inputText;\n  return v !== undefined ? toStr(v) : \"\";\n}\n\nfunction getSourceItemForIndexSafe(idx) {\n  try {\n    if (!SOURCE_NODE) return items[idx] ?? null;\n\n    try {\n      const m = $(SOURCE_NODE).itemMatching(idx);\n      if (m) return m;\n    } catch (_) {}\n\n    try {\n      const all = $(SOURCE_NODE).all();\n      return all?.[idx] ?? null;\n    } catch (_) {}\n\n    return null;\n  } catch (_) {\n    return null;\n  }\n}\n\nfunction pickBinKeySafe(srcItem) {\n  try {\n    if (SOURCE_BIN_KEY) return SOURCE_BIN_KEY;\n    const keys = Object.keys(srcItem?.binary || {});\n    return keys[0] || \"\";\n  } catch (_) {\n    return \"\";\n  }\n}\n\n// ✅ бинарник существует как поле (даже если пустой)\nfunction hasBinaryField(srcItem, binKey) {\n  try {\n    return !!(srcItem?.binary && binKey && srcItem.binary[binKey]);\n  } catch (_) {\n    return false;\n  }\n}\n\n// ✅ бинарник содержит данные (не пустая base64-строка)\nfunction hasBinaryData(srcItem, binKey) {\n  try {\n    const b = srcItem?.binary?.[binKey];\n    return typeof b?.data === \"string\" && b.data.length > 0;\n  } catch (_) {\n    return false;\n  }\n}\n\n// имя файла ТОЛЬКО если реально известно из входа (json/fileName или binary.fileName)\nfunction getKnownInputFileName(item, srcItem, binKey) {\n  const fromJson = item.json?.fileName && String(item.json.fileName).trim();\n  if (fromJson) return fromJson;\n\n  const fromBin = srcItem?.binary?.[binKey]?.fileName && String(srcItem.binary[binKey].fileName).trim();\n  if (fromBin) return fromBin;\n\n  return \"\"; // неизвестно\n}\n\n// для создания output binary (если надо) — можно fallback на DEFAULT_OUT_FILE\nfunction chooseOutFileName(item, srcItem, binKey) {\n  const known = getKnownInputFileName(item, srcItem, binKey);\n  return known || DEFAULT_OUT_FILE;\n}\n\nfunction buildTextOutput(existingText, item) {\n  const shouldReplace = resolveReplaceWholeText(item);\n  const shouldAppend = resolveAppend(item);\n\n  const src = normalizeNewlines(existingText);\n  const base = src.length ? src : normalizeNewlines(BASE_TEXT);\n  const inText = normalizeNewlines(getInputText(item));\n\n  if (shouldReplace) return inText;\n\n  if (shouldAppend) {\n    if (!base) return inText;\n    if (!inText) return base;\n    const sep = normalizeNewlines(getAppendSeparator(item));\n    return base + sep + inText;\n  }\n\n  return base;\n}\n\n// ============================\n// MAIN\n\nreturn await Promise.all(\n  items.map(async (item, idx) => {\n    const shouldReturnBinary = resolveReturnBinary(item);\n    const shouldReturnText = resolveReturnText(item);\n\n    const srcItem = getSourceItemForIndexSafe(idx);\n    const binKey = pickBinKeySafe(srcItem);\n\n    const binaryExists = hasBinaryField(srcItem, binKey);      // поле есть?\n    const binaryHasData = hasBinaryData(srcItem, binKey);      // данные есть?\n    const binaryIsEmpty = binaryExists && !binaryHasData;      // есть, но пустой\n\n    // ✅ Твой кейс: \"если бинарника НЕ было\" => пустой json и НИЧЕГО больше\n    // (и при желании: пустой json также для \"пустой бинарник\", если флаг выключен)\n    const treatAsNoBinary = !binaryExists || (!EMPTY_BINARY_COUNTS_AS_PRESENT && binaryIsEmpty);\n\n    let existingText = \"\";\n\n    // Читаем бинарник только если он существует (даже пустой — прочтём 0 байт)\n    if (binaryExists) {\n      try {\n        if (SOURCE_NODE) {\n          item.binary = item.binary || {};\n          item.binary[binKey] = srcItem.binary[binKey];\n        }\n      } catch (_) {}\n\n      try {\n        const buf = await this.helpers.getBinaryDataBuffer(idx, binKey);\n        existingText = (buf && buf.length) ? buf.toString(\"utf8\") : \"\";\n      } catch (_) {\n        existingText = \"\";\n      }\n    }\n\n    const outText = buildTextOutput(existingText, item);\n\n    // имя файла для binary-выхода (если нужно)\n    const outFileName = chooseOutFileName(item, srcItem, binKey);\n\n    // ===== JSON OUTPUT =====\n    let outJson = {};\n\n    if (!treatAsNoBinary) {\n      // ✅ Бинарник был (включая пустой, если флаг true)\n      // fileName кладём ТОЛЬКО если реально известен из входа, без дефолта\n      const knownName = getKnownInputFileName(item, srcItem, binKey);\n\n      outJson = { index: idx, isEmpty: binaryIsEmpty };\n      if (knownName) outJson.fileName = knownName;\n\n      if (shouldReturnText) {\n        outJson.text = outText; // для пустого файла будет \"\" или BASE_TEXT/append/replace — как настроишь\n      }\n    } else {\n      // ✅ бинарника не было => outJson остаётся {}\n    }\n\n    const result = { json: outJson, pairedItem: idx };\n\n    // ===== BINARY OUTPUT (если нужно) =====\n    if (shouldReturnBinary) {\n      const outBuf = Buffer.from(outText, \"utf8\");\n      const binaryData = await this.helpers.prepareBinaryData(outBuf, outFileName, \"text/plain\");\n      result.binary = { data: binaryData };\n    }\n\n    return result;\n  })\n);"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        -128
+      ],
+      "id": "a2eb53b3-397e-4407-852e-faefa5f6473f",
+      "name": "Return Text"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================\n// НАСТРОЙКИ (TXT)\n\n// Если бинарник с TXT лежит в ДРУГОЙ ноде — укажи её имя (ТОЧНО как в n8n).\n// Если бинарник уже приходит на вход этой Code-ноды — оставь пустую строку.\nconst SOURCE_NODE = \"Read TXT File\";\n\n// Имя бинарного поля (обычно \"data\"). Пусто = возьмём первый ключ из binary.\nconst SOURCE_BIN_KEY = \"\";\n\n// Выходное имя файла, если не удалось взять из входного бинарника / item.json.fileName\nconst DEFAULT_OUT_FILE = \"updated.txt\";\n\n// Дефолтный текст, если бинарник пуст/не найден.\nconst BASE_TEXT = \"\";\n\n// ====== ВОТ ТУТ ТЫ ПЕРЕДАЁШЬ ТЕКСТ ======\nconst INPUT_TEXT = $('Start').first().json.text; // <-- если append=true, то добавится это. если replace=true, то это станет всем текстом.\n\n// Возвращать ли бинарник (по умолчанию true/false как хочешь)\nconst RETURN_BINARY_FALLBACK = true;\n\n// Возвращать ли текст в json (по умолчанию false/true как хочешь)\n// Если false -> item.json будет {}\nconst RETURN_TEXT_FALLBACK = false;\n\n// Режим полной замены текста (по умолчанию true/false как хочешь)\nconst REPLACE_WHOLE_TEXT_FALLBACK = false;\n\n// Режим добавления (append).\nconst APPEND_FALLBACK = true;\n\n// Вставлять разделитель между исходным и добавляемым текстом (если оба непустые)\nconst APPEND_SEPARATOR_FALLBACK = \"\";\n// ✅ Поведение, если бинарник ЕСТЬ, но файл пустой (0 байт):\n// true  -> считать \"бинарник был\" (вернём мету + isEmpty:true, и text по логике)\n// false -> считать \"как будто бинарника не было\" (json будет {})\nconst EMPTY_BINARY_COUNTS_AS_PRESENT = true;\n\n// ============================\n// HELPERS\n\nfunction toStr(v) {\n  if (v === null || v === undefined) return \"\";\n  return String(v);\n}\n\nfunction normalizeNewlines(s) {\n  return toStr(s).replace(/\\r\\n/g, \"\\n\");\n}\n\nfunction resolveReturnBinary(item) {\n  if (item.json?.returnBinary !== undefined) return Boolean(item.json.returnBinary);\n  const g = $input.first()?.json?.returnBinary;\n  if (g !== undefined) return Boolean(g);\n  return Boolean(RETURN_BINARY_FALLBACK);\n}\n\nfunction resolveReturnText(item) {\n  if (item.json?.returnText !== undefined) return Boolean(item.json.returnText);\n  const g = $input.first()?.json?.returnText;\n  if (g !== undefined) return Boolean(g);\n  return Boolean(RETURN_TEXT_FALLBACK);\n}\n\nfunction resolveReplaceWholeText(item) {\n  if (item.json?.replaceWholeText !== undefined) return Boolean(item.json.replaceWholeText);\n  const g = $input.first()?.json?.replaceWholeText;\n  if (g !== undefined) return Boolean(g);\n  return Boolean(REPLACE_WHOLE_TEXT_FALLBACK);\n}\n\nfunction resolveAppend(item) {\n  if (item.json?.append !== undefined) return Boolean(item.json.append);\n  const g = $input.first()?.json?.append;\n  if (g !== undefined) return Boolean(g);\n  return Boolean(APPEND_FALLBACK);\n}\n\nfunction getAppendSeparator(item) {\n  const v = item.json?.appendSeparator ?? $input.first()?.json?.appendSeparator;\n  return v !== undefined ? toStr(v) : toStr(APPEND_SEPARATOR_FALLBACK);\n}\n\n// Один источник текста: INPUT_TEXT.\n// Если пустой — можно (опционально) подать через item.json.inputText\nfunction getInputText(item) {\n  if (toStr(INPUT_TEXT).length) return toStr(INPUT_TEXT);\n  const v = item.json?.inputText ?? $input.first()?.json?.inputText;\n  return v !== undefined ? toStr(v) : \"\";\n}\n\nfunction getSourceItemForIndexSafe(idx) {\n  try {\n    if (!SOURCE_NODE) return items[idx] ?? null;\n\n    try {\n      const m = $(SOURCE_NODE).itemMatching(idx);\n      if (m) return m;\n    } catch (_) {}\n\n    try {\n      const all = $(SOURCE_NODE).all();\n      return all?.[idx] ?? null;\n    } catch (_) {}\n\n    return null;\n  } catch (_) {\n    return null;\n  }\n}\n\nfunction pickBinKeySafe(srcItem) {\n  try {\n    if (SOURCE_BIN_KEY) return SOURCE_BIN_KEY;\n    const keys = Object.keys(srcItem?.binary || {});\n    return keys[0] || \"\";\n  } catch (_) {\n    return \"\";\n  }\n}\n\n// ✅ бинарник существует как поле (даже если пустой)\nfunction hasBinaryField(srcItem, binKey) {\n  try {\n    return !!(srcItem?.binary && binKey && srcItem.binary[binKey]);\n  } catch (_) {\n    return false;\n  }\n}\n\n// ✅ бинарник содержит данные (не пустая base64-строка)\nfunction hasBinaryData(srcItem, binKey) {\n  try {\n    const b = srcItem?.binary?.[binKey];\n    return typeof b?.data === \"string\" && b.data.length > 0;\n  } catch (_) {\n    return false;\n  }\n}\n\n// имя файла ТОЛЬКО если реально известно из входа (json/fileName или binary.fileName)\nfunction getKnownInputFileName(item, srcItem, binKey) {\n  const fromJson = item.json?.fileName && String(item.json.fileName).trim();\n  if (fromJson) return fromJson;\n\n  const fromBin = srcItem?.binary?.[binKey]?.fileName && String(srcItem.binary[binKey].fileName).trim();\n  if (fromBin) return fromBin;\n\n  return \"\"; // неизвестно\n}\n\n// для создания output binary (если надо) — можно fallback на DEFAULT_OUT_FILE\nfunction chooseOutFileName(item, srcItem, binKey) {\n  const known = getKnownInputFileName(item, srcItem, binKey);\n  return known || DEFAULT_OUT_FILE;\n}\n\nfunction buildTextOutput(existingText, item) {\n  const shouldReplace = resolveReplaceWholeText(item);\n  const shouldAppend = resolveAppend(item);\n\n  const src = normalizeNewlines(existingText);\n  const base = src.length ? src : normalizeNewlines(BASE_TEXT);\n  const inText = normalizeNewlines(getInputText(item));\n\n  if (shouldReplace) return inText;\n\n  if (shouldAppend) {\n    if (!base) return inText;\n    if (!inText) return base;\n    const sep = normalizeNewlines(getAppendSeparator(item));\n    return base + sep + inText;\n  }\n\n  return base;\n}\n\n// ============================\n// MAIN\n\nreturn await Promise.all(\n  items.map(async (item, idx) => {\n    const shouldReturnBinary = resolveReturnBinary(item);\n    const shouldReturnText = resolveReturnText(item);\n\n    const srcItem = getSourceItemForIndexSafe(idx);\n    const binKey = pickBinKeySafe(srcItem);\n\n    const binaryExists = hasBinaryField(srcItem, binKey);      // поле есть?\n    const binaryHasData = hasBinaryData(srcItem, binKey);      // данные есть?\n    const binaryIsEmpty = binaryExists && !binaryHasData;      // есть, но пустой\n\n    // ✅ Твой кейс: \"если бинарника НЕ было\" => пустой json и НИЧЕГО больше\n    // (и при желании: пустой json также для \"пустой бинарник\", если флаг выключен)\n    const treatAsNoBinary = !binaryExists || (!EMPTY_BINARY_COUNTS_AS_PRESENT && binaryIsEmpty);\n\n    let existingText = \"\";\n\n    // Читаем бинарник только если он существует (даже пустой — прочтём 0 байт)\n    if (binaryExists) {\n      try {\n        if (SOURCE_NODE) {\n          item.binary = item.binary || {};\n          item.binary[binKey] = srcItem.binary[binKey];\n        }\n      } catch (_) {}\n\n      try {\n        const buf = await this.helpers.getBinaryDataBuffer(idx, binKey);\n        existingText = (buf && buf.length) ? buf.toString(\"utf8\") : \"\";\n      } catch (_) {\n        existingText = \"\";\n      }\n    }\n\n    const outText = buildTextOutput(existingText, item);\n\n    // имя файла для binary-выхода (если нужно)\n    const outFileName = chooseOutFileName(item, srcItem, binKey);\n\n    // ===== JSON OUTPUT =====\n    let outJson = {};\n\n    if (!treatAsNoBinary) {\n      // ✅ Бинарник был (включая пустой, если флаг true)\n      // fileName кладём ТОЛЬКО если реально известен из входа, без дефолта\n      const knownName = getKnownInputFileName(item, srcItem, binKey);\n\n      outJson = { index: idx, isEmpty: binaryIsEmpty };\n      if (knownName) outJson.fileName = knownName;\n\n      if (shouldReturnText) {\n        outJson.text = outText; // для пустого файла будет \"\" или BASE_TEXT/append/replace — как настроишь\n      }\n    } else {\n      // ✅ бинарника не было => outJson остаётся {}\n    }\n\n    const result = { json: outJson, pairedItem: idx };\n\n    // ===== BINARY OUTPUT (если нужно) =====\n    if (shouldReturnBinary) {\n      const outBuf = Buffer.from(outText, \"utf8\");\n      const binaryData = await this.helpers.prepareBinaryData(outBuf, outFileName, \"text/plain\");\n      result.binary = { data: binaryData };\n    }\n\n    return result;\n  })\n);"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        0
+      ],
+      "id": "5b4197e9-5f5d-44b7-901e-669e778526e0",
+      "name": "Return Meregd Texts"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================\n// НАСТРОЙКИ (TXT)\n\n// Если бинарник с TXT лежит в ДРУГОЙ ноде — укажи её имя (ТОЧНО как в n8n).\n// Если бинарник уже приходит на вход этой Code-ноды — оставь пустую строку.\nconst SOURCE_NODE = \"Read TXT File\";\n\n// Имя бинарного поля (обычно \"data\"). Пусто = возьмём первый ключ из binary.\nconst SOURCE_BIN_KEY = \"\";\n\n// Выходное имя файла, если не удалось взять из входного бинарника / item.json.fileName\nconst DEFAULT_OUT_FILE = \"updated.txt\";\n\n// Дефолтный текст, если бинарник пуст/не найден.\nconst BASE_TEXT = \"\";\n\n// ====== ВОТ ТУТ ТЫ ПЕРЕДАЁШЬ ТЕКСТ ======\nconst INPUT_TEXT = $('Start').first().json.text; // <-- если append=true, то добавится это. если replace=true, то это станет всем текстом.\n\n// Возвращать ли бинарник (по умолчанию true/false как хочешь)\nconst RETURN_BINARY_FALLBACK = true;\n\n// Возвращать ли текст в json (по умолчанию false/true как хочешь)\n// Если false -> item.json будет {}\nconst RETURN_TEXT_FALLBACK = false;\n\n// Режим полной замены текста (по умолчанию true/false как хочешь)\nconst REPLACE_WHOLE_TEXT_FALLBACK = true;\n\n// Режим добавления (append).\nconst APPEND_FALLBACK = false;\n\n// Вставлять разделитель между исходным и добавляемым текстом (если оба непустые)\nconst APPEND_SEPARATOR_FALLBACK = \"\\n\";\n// ✅ Поведение, если бинарник ЕСТЬ, но файл пустой (0 байт):\n// true  -> считать \"бинарник был\" (вернём мету + isEmpty:true, и text по логике)\n// false -> считать \"как будто бинарника не было\" (json будет {})\nconst EMPTY_BINARY_COUNTS_AS_PRESENT = true;\n\n// ============================\n// HELPERS\n\nfunction toStr(v) {\n  if (v === null || v === undefined) return \"\";\n  return String(v);\n}\n\nfunction normalizeNewlines(s) {\n  return toStr(s).replace(/\\r\\n/g, \"\\n\");\n}\n\nfunction resolveReturnBinary(item) {\n  if (item.json?.returnBinary !== undefined) return Boolean(item.json.returnBinary);\n  const g = $input.first()?.json?.returnBinary;\n  if (g !== undefined) return Boolean(g);\n  return Boolean(RETURN_BINARY_FALLBACK);\n}\n\nfunction resolveReturnText(item) {\n  if (item.json?.returnText !== undefined) return Boolean(item.json.returnText);\n  const g = $input.first()?.json?.returnText;\n  if (g !== undefined) return Boolean(g);\n  return Boolean(RETURN_TEXT_FALLBACK);\n}\n\nfunction resolveReplaceWholeText(item) {\n  if (item.json?.replaceWholeText !== undefined) return Boolean(item.json.replaceWholeText);\n  const g = $input.first()?.json?.replaceWholeText;\n  if (g !== undefined) return Boolean(g);\n  return Boolean(REPLACE_WHOLE_TEXT_FALLBACK);\n}\n\nfunction resolveAppend(item) {\n  if (item.json?.append !== undefined) return Boolean(item.json.append);\n  const g = $input.first()?.json?.append;\n  if (g !== undefined) return Boolean(g);\n  return Boolean(APPEND_FALLBACK);\n}\n\nfunction getAppendSeparator(item) {\n  const v = item.json?.appendSeparator ?? $input.first()?.json?.appendSeparator;\n  return v !== undefined ? toStr(v) : toStr(APPEND_SEPARATOR_FALLBACK);\n}\n\n// Один источник текста: INPUT_TEXT.\n// Если пустой — можно (опционально) подать через item.json.inputText\nfunction getInputText(item) {\n  if (toStr(INPUT_TEXT).length) return toStr(INPUT_TEXT);\n  const v = item.json?.inputText ?? $input.first()?.json?.inputText;\n  return v !== undefined ? toStr(v) : \"\";\n}\n\nfunction getSourceItemForIndexSafe(idx) {\n  try {\n    if (!SOURCE_NODE) return items[idx] ?? null;\n\n    try {\n      const m = $(SOURCE_NODE).itemMatching(idx);\n      if (m) return m;\n    } catch (_) {}\n\n    try {\n      const all = $(SOURCE_NODE).all();\n      return all?.[idx] ?? null;\n    } catch (_) {}\n\n    return null;\n  } catch (_) {\n    return null;\n  }\n}\n\nfunction pickBinKeySafe(srcItem) {\n  try {\n    if (SOURCE_BIN_KEY) return SOURCE_BIN_KEY;\n    const keys = Object.keys(srcItem?.binary || {});\n    return keys[0] || \"\";\n  } catch (_) {\n    return \"\";\n  }\n}\n\n// ✅ бинарник существует как поле (даже если пустой)\nfunction hasBinaryField(srcItem, binKey) {\n  try {\n    return !!(srcItem?.binary && binKey && srcItem.binary[binKey]);\n  } catch (_) {\n    return false;\n  }\n}\n\n// ✅ бинарник содержит данные (не пустая base64-строка)\nfunction hasBinaryData(srcItem, binKey) {\n  try {\n    const b = srcItem?.binary?.[binKey];\n    return typeof b?.data === \"string\" && b.data.length > 0;\n  } catch (_) {\n    return false;\n  }\n}\n\n// имя файла ТОЛЬКО если реально известно из входа (json/fileName или binary.fileName)\nfunction getKnownInputFileName(item, srcItem, binKey) {\n  const fromJson = item.json?.fileName && String(item.json.fileName).trim();\n  if (fromJson) return fromJson;\n\n  const fromBin = srcItem?.binary?.[binKey]?.fileName && String(srcItem.binary[binKey].fileName).trim();\n  if (fromBin) return fromBin;\n\n  return \"\"; // неизвестно\n}\n\n// для создания output binary (если надо) — можно fallback на DEFAULT_OUT_FILE\nfunction chooseOutFileName(item, srcItem, binKey) {\n  const known = getKnownInputFileName(item, srcItem, binKey);\n  return known || DEFAULT_OUT_FILE;\n}\n\nfunction buildTextOutput(existingText, item) {\n  const shouldReplace = resolveReplaceWholeText(item);\n  const shouldAppend = resolveAppend(item);\n\n  const src = normalizeNewlines(existingText);\n  const base = src.length ? src : normalizeNewlines(BASE_TEXT);\n  const inText = normalizeNewlines(getInputText(item));\n\n  if (shouldReplace) return inText;\n\n  if (shouldAppend) {\n    if (!base) return inText;\n    if (!inText) return base;\n    const sep = normalizeNewlines(getAppendSeparator(item));\n    return base + sep + inText;\n  }\n\n  return base;\n}\n\n// ============================\n// MAIN\n\nreturn await Promise.all(\n  items.map(async (item, idx) => {\n    const shouldReturnBinary = resolveReturnBinary(item);\n    const shouldReturnText = resolveReturnText(item);\n\n    const srcItem = getSourceItemForIndexSafe(idx);\n    const binKey = pickBinKeySafe(srcItem);\n\n    const binaryExists = hasBinaryField(srcItem, binKey);      // поле есть?\n    const binaryHasData = hasBinaryData(srcItem, binKey);      // данные есть?\n    const binaryIsEmpty = binaryExists && !binaryHasData;      // есть, но пустой\n\n    // ✅ Твой кейс: \"если бинарника НЕ было\" => пустой json и НИЧЕГО больше\n    // (и при желании: пустой json также для \"пустой бинарник\", если флаг выключен)\n    const treatAsNoBinary = !binaryExists || (!EMPTY_BINARY_COUNTS_AS_PRESENT && binaryIsEmpty);\n\n    let existingText = \"\";\n\n    // Читаем бинарник только если он существует (даже пустой — прочтём 0 байт)\n    if (binaryExists) {\n      try {\n        if (SOURCE_NODE) {\n          item.binary = item.binary || {};\n          item.binary[binKey] = srcItem.binary[binKey];\n        }\n      } catch (_) {}\n\n      try {\n        const buf = await this.helpers.getBinaryDataBuffer(idx, binKey);\n        existingText = (buf && buf.length) ? buf.toString(\"utf8\") : \"\";\n      } catch (_) {\n        existingText = \"\";\n      }\n    }\n\n    const outText = buildTextOutput(existingText, item);\n\n    // имя файла для binary-выхода (если нужно)\n    const outFileName = chooseOutFileName(item, srcItem, binKey);\n\n    // ===== JSON OUTPUT =====\n    let outJson = {};\n\n    if (!treatAsNoBinary) {\n      // ✅ Бинарник был (включая пустой, если флаг true)\n      // fileName кладём ТОЛЬКО если реально известен из входа, без дефолта\n      const knownName = getKnownInputFileName(item, srcItem, binKey);\n\n      outJson = { index: idx, isEmpty: binaryIsEmpty };\n      if (knownName) outJson.fileName = knownName;\n\n      if (shouldReturnText) {\n        outJson.text = outText; // для пустого файла будет \"\" или BASE_TEXT/append/replace — как настроишь\n      }\n    } else {\n      // ✅ бинарника не было => outJson остаётся {}\n    }\n\n    const result = { json: outJson, pairedItem: idx };\n\n    // ===== BINARY OUTPUT (если нужно) =====\n    if (shouldReturnBinary) {\n      const outBuf = Buffer.from(outText, \"utf8\");\n      const binaryData = await this.helpers.prepareBinaryData(outBuf, outFileName, \"text/plain\");\n      result.binary = { data: binaryData };\n    }\n\n    return result;\n  })\n);"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        608,
+        128
+      ],
+      "id": "0367e116-82ab-4dd2-b94b-1d9406634576",
+      "name": "Return Binary With New Text"
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $('Start').first().json.filePath }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        176,
+        0
+      ],
+      "id": "2f47599b-bb9a-450c-8f5a-c25ef349a938",
+      "name": "Read TXT File",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "abab8165-2225-40aa-bfda-5c08deab5ee6",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        944,
+        128
+      ],
+      "id": "2cf8a3c8-34de-480a-b81f-db2df5a05d94",
+      "name": "empty out"
+    }
+  ],
+  "connections": {
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Return Text",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Return Meregd Texts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Return Binary With New Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Read TXT File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Text File": {
+      "main": [
+        [
+          {
+            "node": "empty out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Return Meregd Texts": {
+      "main": [
+        [
+          {
+            "node": "Write Text File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Return Binary With New Text": {
+      "main": [
+        [
+          {
+            "node": "Write Text File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read TXT File": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "filePath": "C:/Users/V/Desktop/Channels/WgladWPrzeszlosc/VIDEOS/2026-02-08_VySCN/TEXTS/2026-02-08_VySCN.txt",
+          "fileAction": "append",
+          "text": "[narration] Ludzie to jeden z gatunków rodziny hominidów, rzędu naczelnych, gromady ssaków. Jednakże, pomimo oczywistego dla każdego biologa pokrewieństwa z innymi zwierzętami, człowiek posiada cechy, które go wyróżniają. I wcale nie chodzi tu o postawę wyprostowaną czy mózg, który, choć ma całkiem pokaźne rozmiary, nie jest niczym naprawdę niezwykłym, ponieważ jego budowa opiera się na tych samych zasadach, co u innych zwierząt.\n\n[narration] Główną cechą naszego gatunku stało się samo podejście do organizacji życia, aktywne wykorzystanie narzędzi, które pozwoliło całkowicie zmienić zasady gry. [pause 2s] Odtąd bowiem przetrwanie zależało już nie tylko od zestawu genów, przydatnych w określonych warunkach, ale od posiadania niezbędnych instrumentów, pozwalających chronić się przed zmieniającymi się warunkami klimatycznymi, zdobywać najróżniejsze zasoby biologiczne, a nawet radzić sobie z chorobami.\n\n[narration] W gruncie rzeczy, wraz z pojawieniem się człowieka, życie zyskało zdolność do niezwykle szybkiego przystosowywania się, a nawet przekształcania otaczającego świata, nie polegając wyłącznie na doborze naturalnym i zmianach w genomie, które wymagały setek pokoleń.\n\n[pensive] Jak jednak wiadomo, za wszystko trzeba zapłacić. Rozwój mózgu, podobnie jak używanie narzędzi, nie jest tu wyjątkiem.\n\n[narration] Od lat dwudziestych dwudziestego wieku krążył pewien mit o nadludzkiej sile małp. Według niego szympansy czy inni nasi włochaci krewni wielokrotnie przewyższają człowieka siłą i rzekomo mogą odrywać ludziom ręce i nogi, będąc w zasadzie miniaturowymi wersjami Hulka. [pause 2s] Jednak Brian Umberger z Uniwersytetu Massachusetts wraz z kolegami z kilku amerykańskich ośrodków naukowych przeanalizował dane na ten temat. I co się okazało? Okazało się, że szympans jest silniejszy od człowieka w najlepszym wypadku zaledwie półtora raza. Średnio zaś mięśnie szympansa przewyższają ludzkie pod względem maksymalnej siły dynamicznej i mocy o około jeden i trzydzieści pięć setnych raza.\n\n[narration] Oznacza to, że przy równej masie ciała małpa będzie silniejsza od człowieka o trzydzieści pięć do pięćdziesięciu procent. Co więcej, jeśli człowiek w wyniku swojego trybu życia zdobędzie większą ogólną masę mięśniową niż szympans, może go dogonić, a nawet przewyższyć pod względem parametrów fizycznych."
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "2668ed86-2147-4040-bafa-6c5d8cbb8097",
+  "activeVersionId": "2668ed86-2147-4040-bafa-6c5d8cbb8097",
+  "versionCounter": 111,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-04T02:28:54.068Z",
+      "createdAt": "2026-02-04T02:28:54.068Z",
+      "role": "workflow:owner",
+      "workflowId": "jN0HNmDZY1IKD2vM-oIO3",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

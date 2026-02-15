@@ -1,0 +1,282 @@
+{
+  "updatedAt": "2026-02-14T23:05:54.194Z",
+  "createdAt": "2026-02-04T17:21:30.069Z",
+  "id": "ljH0uamrMfc4IBJx",
+  "name": "http works",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"method\": \"\",\n  \"route\": \"\",\n  \"headers\": {},\n  \"body\": {}\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "method": "={{ $('Start').first().json.method }}",
+        "url": "={{ $('Start').first().json.route }}",
+        "sendHeaders": true,
+        "specifyHeaders": "json",
+        "jsonHeaders": "={{ $('Start').first().json.headers.toJsonString() }}",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $('Start').first().json.body.toJsonString() }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        544,
+        352
+      ],
+      "id": "beb18e79-eec4-4f77-8fc8-7fb0200ef8cf",
+      "name": "HTTP Request",
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://37.114.53.126:8001/elevenlabs/refresh-quotas",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "quota_below",
+              "value": "1"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        608,
+        -16
+      ],
+      "id": "c3b700af-3b19-4c94-b85d-54a9688d5fa4",
+      "name": "HTTP Request1"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://37.114.53.126:8001/elevenlabs/check-signin",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "text",
+              "value": "a"
+            },
+            {
+              "name": "max_workers",
+              "value": "5"
+            },
+            {
+              "name": "model_id",
+              "value": "eleven_v3"
+            },
+            {
+              "name": "voice_id",
+              "value": "TX3LPaxmHKxFdv7VOQHJ"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        768,
+        -16
+      ],
+      "id": "d895b58a-ae81-411e-a40b-622df40779ea",
+      "name": "HTTP Request2"
+    },
+    {
+      "parameters": {
+        "url": "https://s3api-eu-ro-1",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "aws",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        944,
+        -16
+      ],
+      "id": "db25ded4-73f2-4531-9119-3d6a95b83268",
+      "name": "HTTP Request3",
+      "credentials": {
+        "aws": {
+          "id": "uxVDU8M3YnOoPh9q",
+          "name": "AWS (IAM) account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://37.114.53.126:8001/request-cache/cleanup",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ {\n  \"after\": $now.minus({ hours: 1 }).toUnixInteger(),\n  \"before\": $now.toUnixInteger()\n} }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        432,
+        512
+      ],
+      "id": "99f3d102-aa02-4458-9cba-80db0b089b6e",
+      "name": "clear last 60 min db"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://37.114.53.126:8001/runpod/statistics",
+        "sendBody": true,
+        "specifyBody": "=json",
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "jsonBody": "={\n  \"method\": \"getSummary\",\n  \"filters\": {\n    \"service\": \"comfyui\",\n    \"workloadKey\": \"ltx-2-19b-distilled-lora-384\",\n    \"gpuTypeId\": \"NVIDIA RTX PRO 6000 Blackwell Workstation Edition\"\n  },\n  \"groupBy\": [\"workloadKey\"]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        944,
+        144
+      ],
+      "id": "a608294a-c6aa-4f9f-97cb-2c9657fb5937",
+      "name": "get comfy stats"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "414e54bc-2fd6-4e84-90f3-4cf259ecfe32",
+              "name": "rows[0].avgCostTotalPerFrameUsd",
+              "value": "=",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1136,
+        144
+      ],
+      "id": "320d96c4-8885-4d4f-aa85-41080b622fb0",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        704,
+        448
+      ],
+      "id": "c45988d1-cad2-4d65-9975-251ef20af628",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://37.114.53.126:8001/request-cache/stats?route=/proxy-google-responses&start=2026-02-14T00:00:00Z&end=2026-02-14T23:59:59Z&statuses=200,429&includeByModel=1&limit=20000",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"routes\": [\"/proxy-google-responses\"],\n  \"start\": \"{{$now.minus({ hours: 48 }).toUnixInteger()}}\",\n  \"end\": \"{{$now.toUnixInteger()}}\",\n  \"statuses\": [200, 429],\n  \"includeByModel\": true,\n  \"limit\": 20000\n}\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        992,
+        480
+      ],
+      "id": "b6bdd4c1-a36c-4da4-886e-5c1fd65b1374",
+      "name": "get request stats"
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get comfy stats": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "d9413be7-12a8-4408-8902-3e4c15950b21",
+  "activeVersionId": "89dba45f-9862-4075-901c-ec4dc8dbce89",
+  "versionCounter": 759,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-04T17:21:30.073Z",
+      "createdAt": "2026-02-04T17:21:30.073Z",
+      "role": "workflow:owner",
+      "workflowId": "ljH0uamrMfc4IBJx",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

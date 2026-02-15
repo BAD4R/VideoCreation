@@ -1,0 +1,791 @@
+{
+  "updatedAt": "2026-02-08T22:18:24.827Z",
+  "createdAt": "2026-02-08T19:13:00.956Z",
+  "id": "kKmd8t319SS1mBE7",
+  "name": "Chrome Works",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"chromeExePath\":\"\",\n  \"userDataPath\":\"\",\n  \"address\":\"\",\n  \"port\":0,\n  \"params\":{},\n  \"browserMethod\":\"\"\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        240,
+        448
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Start').first().json.browserMethod == \"startBrowser\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "e5fa991d-293f-440d-ab19-9666fbce957c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "start chrome"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "bf5a31a1-7bb6-450a-9510-32f6b3211a74",
+                    "leftValue": "={{ $('Start').first().json.browserMethod == \"Browser\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "kill browser"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        448,
+        448
+      ],
+      "id": "c1300086-ce41-406d-8deb-caca43e870c8",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "headers": "={{ {} }}",
+            "body": "={{ {} }}",
+            "method": "GET",
+            "route": "=http://{{ $('Start').item.json.address }}:{{ $('Start').item.json.port }}/json/version"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object"
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        800,
+        336
+      ],
+      "id": "cbcd991b-c016-45ac-8878-a879594d3964",
+      "name": "is browser up?"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "912d961b-9af4-45a9-81d5-19214bad0147",
+                    "leftValue": "={{ !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "up"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') && $json.error.code == \"ECONNREFUSED\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "6cfceb51-1fd6-49a6-b3bf-ed16d7f77ed3"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not up"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1008,
+        336
+      ],
+      "id": "8a30a274-2296-4d1d-95c7-a7f9f3b7ef6a",
+      "name": "browser up?"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1504,
+        448
+      ],
+      "id": "961ef97a-fd0c-4b5a-9e41-06049625ee00",
+      "name": "Wait",
+      "webhookId": "613ed921-627a-4b24-b590-32c184eb3ba4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c06a22ed-48c7-42de-ba5c-df5d90c9dc9f",
+              "name": "=browserStatus",
+              "value": "={{ \"running\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1216,
+        240
+      ],
+      "id": "7353268d-265d-41cb-a80d-b57a08075ac2",
+      "name": "output borwserStatus running"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Grkg9t9XC9y7v5Se",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Grkg9t9XC9y7v5Se",
+          "cachedResultName": "execute command works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "command": "=powershell -NoProfile -ExecutionPolicy Bypass -Command \"Start-Process -FilePath '{{ $('Start').first().json.chromeExePath }}' -ArgumentList '--remote-debugging-port={{ $('Start').first().json.port }}','--remote-debugging-address={{ $('Start').first().json.address }}','--user-data-dir={{ $('Start').item.json.userDataPath }}'{{ (()=>{\nconst inputParams = $('Start').first().json.params\nlet params = \"\"\n\nif (inputParams.keys().length > 0){\nparams += \",\"\n\nfor (p in inputParams){\nif (typeof inputParams[p] === \"string\" && inputParams[p] == \"\"){\nparams += \"'--\"+p+ \"',\"\n}\nelse if (typeof inputParams[p] === \"string\"){\nparams += \"'--\"+p+\"=\"+inputParams[p]+\"',\"\n}\nelse if (typeof inputParams[p] === \"number\"){\nparams += \"'--\"+p+\"=\"+inputParams[p].toString()+\"',\"\n}\n}\n\nparams = params.slice(0,-1)\n}\n\nreturn params\n})() }}\""
+          },
+          "matchingColumns": [
+            "command"
+          ],
+          "schema": [
+            {
+              "id": "command",
+              "displayName": "command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1360,
+        384
+      ],
+      "id": "96455062-c0af-44c2-9166-baef56e16dee",
+      "name": "start chrome command"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b6766db9-bfb7-49f3-a7ab-d501f311855e",
+              "leftValue": "={{ $runIndex == 0 }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1216,
+        432
+      ],
+      "id": "195f6e91-0582-4e42-8a86-0c31cb6a0642",
+      "name": "If first node call"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "headers": "={{ {} }}",
+            "body": "={{ {} }}",
+            "method": "GET",
+            "route": "=http://{{ $('Start').item.json.address }}:{{ $('Start').item.json.port }}/json/version"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object"
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        800,
+        672
+      ],
+      "id": "48305007-d03f-480e-ab73-aa75faa6aa74",
+      "name": "is browser up?1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "912d961b-9af4-45a9-81d5-19214bad0147",
+                    "leftValue": "={{ !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "up"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') && $json.error.code == \"ECONNREFUSED\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "6cfceb51-1fd6-49a6-b3bf-ed16d7f77ed3"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not up"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1008,
+        672
+      ],
+      "id": "dc711414-ae2f-4cdd-9f4f-4ce3609a0272",
+      "name": "browser up?1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c06a22ed-48c7-42de-ba5c-df5d90c9dc9f",
+              "name": "=browserStatus",
+              "value": "={{ \"stopped\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1648,
+        688
+      ],
+      "id": "8fc6c1af-d075-43d8-9c6b-bb6e9f34c398",
+      "name": "output borwserStatus stopped"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Grkg9t9XC9y7v5Se",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Grkg9t9XC9y7v5Se",
+          "cachedResultName": "execute command works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "command": "=netstat -ano | findstr \":{{ $('Start').first().json.port }}\""
+          },
+          "matchingColumns": [
+            "command"
+          ],
+          "schema": [
+            {
+              "id": "command",
+              "displayName": "command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1264,
+        608
+      ],
+      "id": "abfc8272-82cc-49c2-bf1d-6a9eead3ed09",
+      "name": "get listening port apps"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Grkg9t9XC9y7v5Se",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Grkg9t9XC9y7v5Se",
+          "cachedResultName": "execute command works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "command": "=taskkill /PID {{ $json.stdout.split('\\n').filter(item => item.includes('LISTENING')).first().split(' ').last() }} /T /F"
+          },
+          "matchingColumns": [
+            "command"
+          ],
+          "schema": [
+            {
+              "id": "command",
+              "displayName": "command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1440,
+        608
+      ],
+      "id": "25af7e85-9a14-4390-959f-a9039f207067",
+      "name": "kill process command"
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "is browser up?",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "is browser up?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "is browser up?": {
+      "main": [
+        [
+          {
+            "node": "browser up?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "browser up?": {
+      "main": [
+        [
+          {
+            "node": "output borwserStatus running",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If first node call",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "is browser up?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "start chrome command": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If first node call": {
+      "main": [
+        [
+          {
+            "node": "start chrome command",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "is browser up?1": {
+      "main": [
+        [
+          {
+            "node": "browser up?1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "browser up?1": {
+      "main": [
+        [
+          {
+            "node": "get listening port apps",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "output borwserStatus stopped",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get listening port apps": {
+      "main": [
+        [
+          {
+            "node": "kill process command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "kill process command": {
+      "main": [
+        [
+          {
+            "node": "output borwserStatus stopped",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "chromeExePath": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+          "userDataPath": "C:\\Users\\V\\AppData\\Local\\Google\\Chrome\\RemoteControl",
+          "address": "127.0.0.1",
+          "port": 9333,
+          "params": {
+            "profile-directory": "Default",
+            "start-maximized": "",
+            "window-size": "1920,1080"
+          },
+          "browserMethod": "startBrowser"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "3b5522e9-b8d2-4700-833f-568d0ebce6df",
+  "activeVersionId": "3b5522e9-b8d2-4700-833f-568d0ebce6df",
+  "versionCounter": 444,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-08T19:13:00.958Z",
+      "createdAt": "2026-02-08T19:13:00.958Z",
+      "role": "workflow:owner",
+      "workflowId": "kKmd8t319SS1mBE7",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

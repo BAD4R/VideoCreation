@@ -1,0 +1,354 @@
+{
+  "updatedAt": "2026-02-09T14:00:02.247Z",
+  "createdAt": "2026-02-04T22:33:38.505Z",
+  "id": "N2bXusYBgofvRBlH",
+  "name": "check files quantity in directory",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"directoryPath\": \"\",\n  \"fileExtentionToSearch\": \"\",\n  \"fileNameToSearch\": \"\",\n  \"expectedFilesCount\": 0\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.fileExtentionToSearch != null }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "1bcf0875-b0e2-43f2-a602-5bb79e7a433b"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "file ext"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c2dc8fea-2566-4bc3-967d-783ad71bb10f",
+                    "leftValue": "={{ $json.fileNameToSearch != null }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "file name"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "3bb3b47e-64f1-4571-b2d3-bb748ac43007",
+                    "leftValue": "={{ $json.fileExtentionToSearch != null && $json.fileNameToSearch != null }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "both"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        480,
+        336
+      ],
+      "id": "f845b48e-6fb8-43b5-b3f9-336e01ea5392",
+      "name": "Switch Search Type"
+    },
+    {
+      "parameters": {
+        "command": "=powershell -NoProfile -Command \"(Get-ChildItem -Path \"{{ $('Start').first().json.directoryPath }}\" -File -Filter \"*{{ $('Start').first().json.fileExtentionToSearch }}\").Name\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        720,
+        208
+      ],
+      "id": "7d7db102-4ead-445d-bc06-ddb58f57fe71",
+      "name": "Search By Extention"
+    },
+    {
+      "parameters": {
+        "command": "=powershell -NoProfile -Command \"(Get-ChildItem -Path \"{{ $('Start').first().json.directoryPath }}\" -File | Where-Object { $_.Name -like \"*{{ $('Start').first().json.fileNameToSearch }}*\" }).Name\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        720,
+        352
+      ],
+      "id": "c67de57d-aa74-4d62-a595-1bb09401060c",
+      "name": "Search By Extention1"
+    },
+    {
+      "parameters": {
+        "command": "=powershell -NoProfile -Command \"(Get-ChildItem -Path \"{{ $('Start').first().json.directoryPath }}\" -File -Filter \"*{{ $('Start').first().json.fileExtentionToSearch }}\" | Where-Object { $_.Name -like \"*{{ $('Start').first().json.fileNameToSearch }}*\" }).Name\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        720,
+        496
+      ],
+      "id": "3514db0e-cadc-4ac9-8541-e97283002780",
+      "name": "Search By Both"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "4c54797e-06d1-43a9-bbc0-5f6d27f95308",
+              "leftValue": "={{ $json.stdout.split(\"\\r\\n\").length == $('Start').first().json.expectedFilesCount }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        992,
+        352
+      ],
+      "id": "827712ac-093e-4eb4-b219-f70b6c115c10",
+      "name": "If All Files Done"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $('Start').first().json.expectedFilesCount > -1 ?\n  {\n    \"filesReady\": true,\n    \"currentFilesCount\":  $json.stdout.isEmpty() ? 0 : $json.stdout.split(\"\\r\\n\").length,\n    \"expectedFilesCount\": $('Start').first().json.expectedFilesCount,\n    \"existingFilesNames\": $json.stdout.length() > 0 ? $json.stdout.split(\"\\r\\n\").sort() : []\n  }:\n  {\n    \"existingFilesNames\": $json.stdout.length() > 0 ? $json.stdout.split(\"\\r\\n\").sort() : []\n  }\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1168,
+        288
+      ],
+      "id": "8c300cad-b238-47ed-8d62-3e410b3687d0",
+      "name": "Return Files Ready"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ $('Start').first().json.expectedFilesCount > -1 ?\n  {\n    \"filesReady\": false,\n    \"currentFilesCount\":  $json.stdout.isEmpty() ? 0 : $json.stdout.split(\"\\r\\n\").length,\n    \"expectedFilesCount\": $('Start').first().json.expectedFilesCount,\n    \"existingFilesNames\": $json.stdout.length() > 0 ? $json.stdout.split(\"\\r\\n\").sort() : []\n  }:\n  {\n    \"existingFilesNames\": $json.stdout.length() > 0 ? $json.stdout.split(\"\\r\\n\").sort() : []\n  }\n}}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1168,
+        448
+      ],
+      "id": "c217c50b-4792-4fcf-abbb-5a5c05aef6a1",
+      "name": "Return Files NOT Ready"
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Switch Search Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Search Type": {
+      "main": [
+        [
+          {
+            "node": "Search By Extention",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Search By Extention1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Search By Both",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search By Extention": {
+      "main": [
+        [
+          {
+            "node": "If All Files Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search By Extention1": {
+      "main": [
+        [
+          {
+            "node": "If All Files Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search By Both": {
+      "main": [
+        [
+          {
+            "node": "If All Files Done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If All Files Done": {
+      "main": [
+        [
+          {
+            "node": "Return Files Ready",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Return Files NOT Ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "directoryPath": "C:/Users/V/Desktop/Channels/WgladWPrzeszlosc/VIDEOS/2026-02-08_VySCN",
+          "fileExtentionToSearch": ".png",
+          "fileNameToSearch": "prev",
+          "expectedFilesCount": 3
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "99238c3f-26fd-40c6-ad91-ca326fa133fb",
+  "activeVersionId": "99238c3f-26fd-40c6-ad91-ca326fa133fb",
+  "versionCounter": 276,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-04T22:33:38.508Z",
+      "createdAt": "2026-02-04T22:33:38.508Z",
+      "role": "workflow:owner",
+      "workflowId": "N2bXusYBgofvRBlH",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

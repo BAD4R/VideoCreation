@@ -1,0 +1,426 @@
+{
+  "updatedAt": "2026-02-15T16:55:35.031Z",
+  "createdAt": "2026-02-14T16:04:49.373Z",
+  "id": "Hv3TRUmmWscgeCh9",
+  "name": "Deploy, Update, Upload",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "e5137123-79f8-45b5-95ae-5c1518d81f25",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ba14fccf-2dbe-470d-99eb-c3bfff9a377c",
+              "name": "mode",
+              "value": "={{ (()=>{\nconst mode = \"upload\" //Possible: deploy, update, upload\n\nreturn mode\n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "075c95d9-18bb-4a93-8142-e11b2e8c9cf7",
+              "name": "projectFolderPath",
+              "value": "C:\\Users\\V\\Desktop\\Projects",
+              "type": "string"
+            },
+            {
+              "id": "aa0d7cf2-0178-47b4-954e-443e6dfa739a",
+              "name": "mainFolderPath",
+              "value": "C:\\Users\\V\\Desktop\\Channels",
+              "type": "string"
+            },
+            {
+              "id": "0ca219f1-d63b-4a8b-92b4-bbc72b8a6ff9",
+              "name": "operationalSystem",
+              "value": "={{ (()=>{\nconst operationalSystem = \"windows\" //Possible: macos, windows\n\nreturn operationalSystem\n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "b5a5931e-a6f6-407d-9734-e19b9c3c1d24",
+              "name": "=systemDevice",
+              "value": "={{ (()=>{\nconst systemDevice = \"cuda\" //Possible: cuda, cpu\n\nreturn systemDevice\n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "598640b9-5383-42ca-beb3-5bcee1ddcbde",
+              "name": "gitRepository",
+              "value": "https://github.com/BAD4R/VideoCreation.git",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "10b1444c-d9d3-4efd-a1fb-86887ba6af3a",
+      "name": "Base Settings"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.mode == \"upload\" }}",
+                    "rightValue": "={{ $json.mode }}",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "55989526-03c0-47f2-add7-efc320e59762"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "upload"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a7d6c3c3-e5d8-4543-8103-edc41f942b0a",
+                    "leftValue": "={{ $json.mode == \"deploy\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "deploy"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a4008e7a-f969-421f-8b30-737c84e83913",
+                    "leftValue": "={{ $json.mode == \"update\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "update"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        416,
+        -16
+      ],
+      "id": "28c7c654-77f8-44e3-8581-89f2e14ce213",
+      "name": "mode"
+    },
+    {
+      "parameters": {
+        "command": "=powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"& { $ErrorActionPreference='Stop'; $n8n = Join-Path $env:APPDATA 'npm\\n8n.cmd'; & $n8n --version; & $n8n export:workflow --all --separate --pretty --output '{{$('Base Settings').first().json.projectFolderPath}}\\VideoCreation\\N8N_WORKFLOWS' }\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        624,
+        -128
+      ],
+      "id": "b60fe862-96b1-48e9-ad91-96da03808cb1",
+      "name": "export all workflows"
+    },
+    {
+      "parameters": {
+        "command": "=cd \"{{ $('Base Settings').first().json.projectFolderPath }}\\VideoCreation\"\ngit add -A\ngit commit -m \"update\"\ngit push\n"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        800,
+        -128
+      ],
+      "id": "503b6545-1c6c-41d7-b983-bd80a1a9d492",
+      "name": "git add, commit, push"
+    },
+    {
+      "parameters": {
+        "command": "=powershell -NoProfile -Command \"$repo='{{$('Base Settings').first().json.gitRepository}}'; $target='{{$('Base Settings').item.json.projectFolderPath}}\\VideoCreation'; if (Test-Path \\\"$target\\.git\\\") { Write-Output 'REPO_EXISTS' } else { git clone \\\"$repo\\\" \\\"$target\\\"; if ($LASTEXITCODE -eq 0) { Write-Output 'CLONED' } else { Write-Output 'CLONE_FAILED'; exit 1 } }\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        624,
+        0
+      ],
+      "id": "33106a4a-ce7a-4612-9f28-cbc4609f3c95",
+      "name": "git clone"
+    },
+    {
+      "parameters": {
+        "content": "Before doing anything, put '.env' file into your user directory with the following contents (or add new lines if file is not empty):\n\nFor Windows\n```NODES_EXCLUDE=\"[]\"\nN8N_BLOCK_FILE_ACCESS_TO_N8N_FILES=false\nN8N_RESTRICT_FILE_ACCESS_TO=\"C:\"\n```\nFor macOS:\n```NODES_EXCLUDE=\"[]\"\nN8N_BLOCK_FILE_ACCESS_TO_N8N_FILES=false\nN8N_RESTRICT_FILE_ACCESS_TO=\"/\"\n```\n",
+        "height": 288,
+        "width": 432,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        -352
+      ],
+      "id": "7d6b0349-ca71-48e1-9fff-1765ce9645dd",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Specify parameters in 'Base Settings' node:\n\nmode: deploy/update\n\nprojectFolderPath: path to a folder where the git repo will be clonned\n\nmainFolderPath: path to a folder where the workflows, scrips, channels will be stored\n\noperationalSystem: windows (preffered!)/macos\n\nsystemDevice: cuda (if you are running an NVIDIA gpu)/cpu (if you don't have an NVIDIA gpu)(AMD cards not supported)\n\ngitRepository: a git repo link (leave a default value)",
+        "height": 320,
+        "width": 432,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -512,
+        -48
+      ],
+      "id": "da71069c-b320-40c6-b5d8-8c822e18206c",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "command": "=powershell -ExecutionPolicy Bypass -File \"{{ $('Base Settings').item.json.projectFolderPath}}\\VideoCreation\\SCRIPTS\\AudioScripts\\Transcriber\\scripts\\setup_transcriber_windows.ps1\" -Device {{ $('Base Settings').item.json.systemDevice }}"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        800,
+        0
+      ],
+      "id": "41b95c4f-b006-4b66-a58e-0915cdac6cba",
+      "name": "install Transcriber dependencies script"
+    },
+    {
+      "parameters": {
+        "command": "=powershell -NoProfile -Command \"$repo='{{$('Base Settings').first().json.gitRepository}}'; $target='{{$('Base Settings').item.json.projectFolderPath}}\\VideoCreation'; if (Test-Path \\\"$target\\.git\\\") { git -C \\\"$target\\\" pull --ff-only; if ($LASTEXITCODE -eq 0) { Write-Output 'PULLED' } else { Write-Output 'PULL_FAILED'; exit 1 } } elseif (Test-Path \\\"$target\\\") { Write-Output 'FOLDER_EXISTS_NOT_REPO'; exit 1 } else { git clone \\\"$repo\\\" \\\"$target\\\"; if ($LASTEXITCODE -eq 0) { Write-Output 'CLONED' } else { Write-Output 'CLONE_FAILED'; exit 1 } }\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        624,
+        144
+      ],
+      "id": "ec844a88-fb03-4d02-9767-88342c670640",
+      "name": "git pull"
+    },
+    {
+      "parameters": {
+        "command": "=$n8n=\"$env:APPDATA\\npm\\n8n.cmd\"; & $n8n import:workflow --separate --input \"{{$('Base Settings').item.json.projectFolderPath}}\\VideoCreation\"\n"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1008,
+        144
+      ],
+      "id": "a762de25-b84e-463c-9c54-d730dbf137d2",
+      "name": "import workflows to n8n"
+    },
+    {
+      "parameters": {
+        "command": "=$n8n=\"$env:APPDATA\\npm\\n8n.cmd\"; & $n8n list:workflow --onlyId | ForEach-Object { $id=$_.Trim(); if($id){ & $n8n publish:workflow --id $id } }"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        144
+      ],
+      "id": "e2afc095-24e3-4795-a6f7-7cdc0a9fd026",
+      "name": "publish all workflows"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Base Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base Settings": {
+      "main": [
+        [
+          {
+            "node": "mode",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "mode": {
+      "main": [
+        [
+          {
+            "node": "export all workflows",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "git clone",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "git pull",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "export all workflows": {
+      "main": [
+        [
+          {
+            "node": "git add, commit, push",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "git clone": {
+      "main": [
+        [
+          {
+            "node": "install Transcriber dependencies script",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "git pull": {
+      "main": [
+        [
+          {
+            "node": "import workflows to n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "install Transcriber dependencies script": {
+      "main": [
+        [
+          {
+            "node": "import workflows to n8n",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "import workflows to n8n": {
+      "main": [
+        [
+          {
+            "node": "publish all workflows",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "ae89af75-1808-47c4-b9b0-e1d139d5c681",
+  "activeVersionId": null,
+  "versionCounter": 447,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-14T16:04:49.388Z",
+      "createdAt": "2026-02-14T16:04:49.388Z",
+      "role": "workflow:owner",
+      "workflowId": "Hv3TRUmmWscgeCh9",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

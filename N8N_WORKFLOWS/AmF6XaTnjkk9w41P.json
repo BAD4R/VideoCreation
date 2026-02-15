@@ -1,0 +1,3328 @@
+{
+  "updatedAt": "2026-02-13T19:55:30.096Z",
+  "createdAt": "2026-02-03T20:08:34.562Z",
+  "id": "AmF6XaTnjkk9w41P",
+  "name": "Main",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        144,
+        0
+      ],
+      "id": "b1249053-d956-414b-a9c2-8ffcb3299a30",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={\n  \"channelsFolderPath\": \"C:/Users/V/Desktop/Channels\",\n  \"channelName\": \"{{ $json.hasField('channelName') ? $json.channelName : \"dsaq\" }}\",\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        320,
+        0
+      ],
+      "id": "1bf27e09-cd02-414e-bdb5-a0c624452e37",
+      "name": "Base Settings"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/videoStatus.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2240,
+        0
+      ],
+      "name": "read video status",
+      "id": "809f6314-19e6-4c34-912b-aa8be770d4fc"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "aa198f76-6b57-4213-9a8f-5e79ca261f9e",
+              "leftValue": "={{ $json.stdout.length > 0 }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1744,
+        0
+      ],
+      "id": "14540777-5f29-48a3-8bd9-c8142ab91d7a",
+      "name": "If Video Folders Exist"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "23ca7c94-f6e6-4ef9-b602-40530a058226",
+              "leftValue": "={{ !$('read video status').last().json.isEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2432,
+        0
+      ],
+      "id": "1cac19c7-9c5b-4fe5-95d2-0e65c4cdcca5",
+      "name": "If Video Status Exist"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/videoStatus.json",
+            "keysToReturn": "={{ [] }}",
+            "fileAction": "write",
+            "keysToWrite": "={{ \n  {\n    'textReady':false,\n    'metaReady':false,\n    'voiceoverReady':false,\n    'musicReady':false,\n    'sfxReady':false,\n    'transcriptReady':false,\n\n    'imagesPromptsReady':false,\n    'imagesReady':false,\n\n    'startFramesPromptsReady':false,\n    'startFramesReady':false,\n\n    'clipsPromptsReady':false,\n    'clipsReady':false,\n\n    'renderReady':false,\n    'videoPublished':false\n  } \n}}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2528,
+        96
+      ],
+      "name": "create video Status json",
+      "id": "20447025-4579-4593-a891-0d2fe97bce82"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2720,
+        0
+      ],
+      "name": "read session lock",
+      "id": "c628e075-4db8-4ee6-b462-8c25f2514445"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "keysToReturn": "={{ [] }}",
+            "fileAction": "write",
+            "keysToWrite": "={{ \n  {\n    'textLock':false,\n    'metaLock':false,\n    'voiceoverLock':false,\n    'sfxLock':false,\n    'musicLock':false,\n    'transcriptLock':false,\n\n    'imagesPromptsLock':false,\n    'imagesLock':false,\n\n    'startFramesPromptsLock':false,\n    'startFramesLock':false,\n\n    'clipsPromptsLock':false,\n    'clipsLock':false,\n\n    'renderLock':false,\n    'videoPublishLock':false\n  } \n}}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3216,
+        96
+      ],
+      "name": "create session lock json",
+      "id": "076333a1-f75e-4e6c-b4ef-fbb94b1b5df7"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireText ?\n  !st.textReady &&\n  !lo.textLock : true\n)\n\n  return condition\n})()}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "6728e2f8-d94e-40fe-88bc-7c180bb251cd"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text gen"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a01af5bf-98e3-4e16-a264-0ecda04605b1",
+                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireMeta ?\n  (re.baseMetaOnText ? st.textReady : true) &&\n  !st.metaReady &&\n  !lo.metaLock\n  : false\n)\n\n  return condition\n})()}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "meta gen"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "101255e0-b42a-4fce-bd66-c82c32b761cd",
+                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireVoiceover ?\n  st.textReady &&\n  !st.voiceoverReady &&\n  !lo.voiceoverLock\n  : false\n)\n\n  return condition\n})()}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "voiceover gen"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c71faaf4-6d3d-4638-b2db-3ef79e435caf",
+                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireTranscibeAudio ?\n  (re.requireVoiceover ? st.voiceoverReady : false) &&\n  !st.transcriptReady &&\n  !lo.transcriptLock\n  : false\n)\n\n  return condition\n})()}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "transcribe voiceover"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "08adea74-a898-4f7a-80ec-a5abac6b098c",
+                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireImages ?\n  st.transcriptReady &&\n  !st.imagesPromptsReady &&\n  !lo.imagesPromptsLock\n  : false\n)\n\n  return condition\n})()}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "images prompts gen"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a741346a-1a8e-4f40-8b4b-cca155cefbe7",
+                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireImages ?\n  st.imagesPromptsReady &&\n  !st.imagesReady &&\n  !lo.imagesLock\n  : false\n)\n\n  return condition\n})()}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "images gen"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "06c4df7c-15d0-4144-8477-81c94909ad06",
+                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( \n  re.requireStartFrames ?\n  re.requireClips ?\n  transcriptReady &&\n  !st.startFramesPromptsReady &&\n  !lo.startFramesPromptsLock\n  : false\n  : false\n)\n\n  return condition\n})()}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "start frames prompts gen"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c67db705-857a-4280-a5b8-85b24b13ac03",
+                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireStartFrames ?\n  st.startFramesPromptsReady ?\n  !st.startFramesReady &&\n  !lo.startFramesLock\n  : false\n  : false\n)\n\n  return condition\n})()}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "start frames gen"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f22867e1-09cc-42ed-a7fe-53c152cb5bc7",
+                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireClips ?\n  st.transcriptReady &&\n  !st.clipsPromptsReady &&\n  !lo.clipsPromptsLock\n  : false\n)\n\n  return condition\n})()}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "clips prompts gen"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "e8462902-8727-4d9a-be95-0acac3607499",
+                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireClips ?\n  st.clipsPromptsReady &&\n  !st.clipsReady &&\n  !lo.clipsLock\n  : false\n)\n\n  return condition\n})()}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "clips gen"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "4ae666cc-d581-4cca-b244-fce3c73cbf28",
+                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n(\n  re.requireText ? st.textReady : true &&\n  re.requireVoiceover ? st.voiceoverReady : true &&\n  re.requireSfx ? st.sfxReady : true &&\n  re.requireMusic ? st.musicReady : true &&\n  re.requireImages ? st.imagesReady : true &&\n  re.requireClips ? st.clipsReady : true\n)\n\n  return condition\n})()}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "combine video"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3584,
+        -160
+      ],
+      "id": "e38a43b4-0e71-4cc2-8867-a45811e6b1c5",
+      "name": "Switch by Video Status"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5505f09e-62e2-462a-93b1-46e9c95b3412",
+              "leftValue": "={{ $json.stdout }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        864,
+        0
+      ],
+      "id": "9c632103-b54d-4f22-b4d8-7150d5268a2d",
+      "name": "If Channel Exists"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        4624,
+        352
+      ],
+      "id": "557fe5b3-f52b-4790-b852-3a0067c39f19",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1152,
+        0
+      ],
+      "name": "read channel settings",
+      "id": "57cc768a-b361-49c4-8c26-2753a195ed5e"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ (()=>{\n  const set = $('read channel settings').first().json;\n\n  return {\n    requireText: true,\n    requireMeta: set.generateMeta,\n    baseMetaOnText: set.baseMetaOnVideoText,\n    requireVoiceover: true,\n    requireSFX: false,\n    requireMusic: false,\n    requireTranscibeAudio: true,\n    requireImages: set.generateSuitingImages,\n    requireStartFrames: set.generateSuitingClips && set.clipGenType === \"imagetovideo\",\n    requireClips: set.generateSuitingClips,\n    requireCombineVideo: true,\n  };\n})() }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1360,
+        0
+      ],
+      "id": "61cf50a0-4c3c-4e7b-86ad-dcddc2a70ba7",
+      "name": "Set Video Requirements"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "0OFd1hjz5qxMmwa1",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/0OFd1hjz5qxMmwa1",
+          "cachedResultName": "generate video text"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Base Settings').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Base Settings').first().json.channelName }}",
+            "videoFolderName": "={{ $('Set Video Folder Name').first().json.videoFolderName }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4048,
+        -512
+      ],
+      "id": "12ee0e7f-401d-4d4d-8388-917172e02812",
+      "name": "generate text"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "521fe7ff-7a60-401f-807d-6b7f5c8af087",
+              "name": "videoFolderName",
+              "value": "={{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2016,
+        0
+      ],
+      "id": "ea4586ec-9f47-4e90-8f23-8303e16f430a",
+      "name": "Set Video Folder Name"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"textLock\":false\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4272,
+        -512
+      ],
+      "name": "unlock texts",
+      "id": "6dd74862-424a-43dd-a4f0-24ceede63401"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"textLock\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3840,
+        -512
+      ],
+      "name": "lock texts",
+      "id": "db097e9b-86d3-4bab-adf6-d497475bec57"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "CEAr7nSqMwURqKDg",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/CEAr7nSqMwURqKDg",
+          "cachedResultName": "generate video meta"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "videoFolderName": "={{ $('Set Video Folder Name').first().json.videoFolderName }}",
+            "channelName": "={{ $('Base Settings').first().json.channelName }}",
+            "channelsFolderPath": "={{ $('Base Settings').first().json.channelsFolderPath }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4048,
+        -400
+      ],
+      "id": "41fecf7c-2352-45eb-9a1e-bd9f5f721f28",
+      "name": "generate meta"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "du4UzkaJt01yiEEG",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/du4UzkaJt01yiEEG",
+          "cachedResultName": "generate voiceover"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Base Settings').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Base Settings').first().json.channelName }}",
+            "videoFolderName": "={{ $('Set Video Folder Name').first().json.videoFolderName }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4048,
+        -272
+      ],
+      "id": "cb327b9e-c506-4b7b-8e89-03011d3b35cf",
+      "name": "generate voiceover"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "fZMsHTY8ISXnudQj",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/fZMsHTY8ISXnudQj",
+          "cachedResultName": "transcribe voiceover"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Base Settings').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Base Settings').first().json.channelName }}",
+            "videoFolderName": "={{ $('Set Video Folder Name').first().json.videoFolderName }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4048,
+        -128
+      ],
+      "id": "39fa7b81-a9b3-42f6-aba3-19f4e9a0cea9",
+      "name": "transcribe audio"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "C4PCujSuMWddLkKC",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/C4PCujSuMWddLkKC",
+          "cachedResultName": "generate clips prompts"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Base Settings').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Base Settings').first().json.channelName }}",
+            "videoFolderName": "={{ $('Set Video Folder Name').first().json.videoFolderName }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4048,
+        16
+      ],
+      "id": "ef21ed90-9f39-4502-9d59-3c9867ca46ac",
+      "name": "generate clips prompts"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "l0p4y5gFr4cklXjY",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/l0p4y5gFr4cklXjY",
+          "cachedResultName": "generate clips"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "videoFolderName": "={{ $('Set Video Folder Name').first().json.videoFolderName }}",
+            "channelName": "={{ $('Base Settings').first().json.channelName }}",
+            "channelsFolderPath": "={{ $('Base Settings').first().json.channelsFolderPath }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4048,
+        160
+      ],
+      "id": "9aed98e3-a7fa-4a4e-8154-404f1acf3591",
+      "name": "generate clips"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"metaLock\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3840,
+        -400
+      ],
+      "name": "lock meta",
+      "id": "d1f02235-a7d9-4f11-a97a-35105d975513"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"metaLock\":false\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4272,
+        -400
+      ],
+      "name": "unlock meta",
+      "id": "1b31eb98-22ff-4023-b64d-587c81025237"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"voiceoverLock\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3840,
+        -272
+      ],
+      "name": "lock voiceover",
+      "id": "62c980b7-a22a-4741-97a5-7c032335c54b"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"voiceoverLock\":false\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4272,
+        -272
+      ],
+      "name": "unlock voiceover",
+      "id": "f718e431-ef04-4b7a-9821-6076e91855db"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"transcriptLock\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3840,
+        -128
+      ],
+      "name": "lock transcription",
+      "id": "8ac1ef97-4c3a-4c06-a122-952252b8da95"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"transcriptLock\":false\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4272,
+        -128
+      ],
+      "name": "unlock transcription",
+      "id": "ca091cdc-38ac-4dbd-8e68-70c05ee39cbd"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"clipsPromptsLock\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3840,
+        16
+      ],
+      "name": "lock clip prompts",
+      "id": "58dad8a1-577b-487c-abcd-7a997f90f86f"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"clipsPromptsLock\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4272,
+        16
+      ],
+      "name": "unlock clip prompts",
+      "id": "14d3424f-2374-4c52-a151-11b0b2a3f1fb"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"textLock\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3840,
+        160
+      ],
+      "name": "lock clips",
+      "id": "3c4f25b1-52d9-4007-8d9b-05993c3fe5a8"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"clipsLock\":false\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4272,
+        160
+      ],
+      "name": "unlock clips",
+      "id": "62d672db-37a7-4ba2-b58a-5c43072a1474"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "23ca7c94-f6e6-4ef9-b602-40530a058226",
+              "leftValue": "={{ !$('read session lock').last().json.isEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2912,
+        0
+      ],
+      "id": "089df29c-13c9-49dd-9ba2-dfeb1618d82e",
+      "name": "If Session Lock Exist"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"renderLock\":false\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4272,
+        304
+      ],
+      "name": "unlock render",
+      "id": "a4f2d4a3-e4c6-41ad-a6eb-56324da74c0b"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"renderLock\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3840,
+        304
+      ],
+      "name": "lock render",
+      "id": "4f193446-716d-4b17-995c-16bc7bdff90f"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "bDIsAKYoQqFa5a8N",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/bDIsAKYoQqFa5a8N",
+          "cachedResultName": "combine video"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "videoFolderName": "={{ $('Set Video Folder Name').first().json.videoFolderName }}",
+            "channelName": "={{ $('Base Settings').first().json.channelName }}",
+            "channelsFolderPath": "={{ $('Base Settings').first().json.channelsFolderPath }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4048,
+        304
+      ],
+      "id": "4552a02b-2237-4549-8121-f8281689a8ea",
+      "name": "combine video"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Grkg9t9XC9y7v5Se",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Grkg9t9XC9y7v5Se",
+          "cachedResultName": "execute command works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "command": "=powershell -NoProfile -Command \"if (Test-Path -LiteralPath '{{ $('Base Settings').first().json.channelsFolderPath + \"/\" + $('Base Settings').first().json.channelName }}' -PathType Container) { 'true' } else { 'false' }\""
+          },
+          "matchingColumns": [
+            "command"
+          ],
+          "schema": [
+            {
+              "id": "command",
+              "displayName": "command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        528,
+        0
+      ],
+      "id": "9dbfba19-08e8-4835-a20f-141ee09db7e8",
+      "name": "Get Channel Folder"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Grkg9t9XC9y7v5Se",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Grkg9t9XC9y7v5Se",
+          "cachedResultName": "execute command works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "command": "=powershell -NoProfile -ExecutionPolicy Bypass -Command \"$paths = @({{ (()=>{\n\n  // --- базовый путь видео-папки ---\n  const baseSettings = $('Base Settings').item.json;\n  const root = `${baseSettings.channelsFolderPath}/${baseSettings.channelName}`;\n\n  // --- дерево папок ---\n  const tree = {\n    \"RUNPOD\":  [\"runpodRequests\"],\n    \"VIDEOS\":  [\"\"],\n    \"LOGS\":  [\"\"],\n  };\n\n  // --- разворачиваем в полный список путей ---\n  const paths = [root];\n\n  for (const [main, subs] of Object.entries(tree)) {\n    const mainPath = `${root}/${main}`;\n    paths.push(mainPath);\n\n    for (const sub of subs) {\n      if (!sub) continue; // пропускаем пустые\n      paths.push(`${mainPath}/${sub}`);\n    }\n  }\n\n  // Если тебе нужны PowerShell-литералы строк (в одинарных кавычках):\n  // return paths.map(p => `'${p.replace(/'/g, \"''\")}'`);\n\n  // Если нужен просто массив путей (лучше для дальнейшей обработки):\n  return paths.map(i=>\"'\"+i+\"'\");\n})() }}); foreach($p in $paths){ New-Item -ItemType Directory -Path $p -Force | Out-Null}\""
+          },
+          "matchingColumns": [
+            "command"
+          ],
+          "schema": [
+            {
+              "id": "command",
+              "displayName": "command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        960,
+        96
+      ],
+      "id": "6359fdba-43f0-4614-bf92-38ae4bb3c6e6",
+      "name": "Create Channel Whole Directory"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Grkg9t9XC9y7v5Se",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Grkg9t9XC9y7v5Se",
+          "cachedResultName": "execute command works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "command": "=powershell -NoProfile -ExecutionPolicy Bypass -Command \"$PATH_TO_DIR='{{$('Base Settings').first().json.channelsFolderPath + '/' + $('Base Settings').first().json.channelName + '/VIDEOS' }}'; $EXCLUDE=@('{{'used'}}'); Get-ChildItem -LiteralPath $PATH_TO_DIR -Directory | ? { $EXCLUDE -notcontains $_.Name } | % { $folder=$_; $latest=Get-ChildItem -LiteralPath $folder.FullName -Recurse -Force -ErrorAction SilentlyContinue | Sort-Object LastWriteTime -Descending | Select-Object -First 1 -ExpandProperty LastWriteTime; if(-not $latest){$latest=$folder.LastWriteTime}; [pscustomobject]@{Name=$folder.Name;Latest=$latest} } | Sort-Object Latest | Select-Object -ExpandProperty Name\""
+          },
+          "matchingColumns": [
+            "command"
+          ],
+          "schema": [
+            {
+              "id": "command",
+              "displayName": "command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1568,
+        0
+      ],
+      "id": "a02bbdb8-5295-4254-ad09-37d329e2871a",
+      "name": "Read Existing Videos Folders"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Grkg9t9XC9y7v5Se",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Grkg9t9XC9y7v5Se",
+          "cachedResultName": "execute command works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "command": "=powershell -NoProfile -ExecutionPolicy Bypass -Command \"$paths = @({{ (()=>{\n  // --- 5-символьный id из timestamp ($now) ---\n  const alphabet = \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\";\n  let n = Math.floor(Date.parse($now)); // ms\n  let randId = \"\";\n  for (let i = 0; i < 5; i++) {\n    randId = alphabet[n % 52] + randId;\n    n = Math.floor(n / 52);\n  }\n\n  // --- базовый путь видео-папки ---\n  const baseSettings = $('Base Settings').item.json;\n  const root = `${baseSettings.channelsFolderPath}/${baseSettings.channelName}/VIDEOS/${$now.format('yyyy-MM-dd')}_${randId}`;\n\n  // --- дерево папок ---\n  const tree = {\n    \"TEXTS\":  [\"\"],\n    \"VOICE\":  [\"audioData\", \"transcript\"],\n    \"SFX\":  [\"\"],\n    \"IMAGES\": [\"imagePrompts\", \"images\", \"textParts\"],\n    \"CLIPS\":  [\"startFramePrompts\", \"startFrames\", \"videoClipPrompts\", \"videoClips\"],\n    \"MUSIC\":  [\"\"],\n  };\n\n  // --- разворачиваем в полный список путей ---\n  const paths = [root];\n\n  for (const [main, subs] of Object.entries(tree)) {\n    const mainPath = `${root}/${main}`;\n    paths.push(mainPath);\n\n    for (const sub of subs) {\n      if (!sub) continue; // пропускаем пустые\n      paths.push(`${mainPath}/${sub}`);\n    }\n  }\n\n  // Если тебе нужны PowerShell-литералы строк (в одинарных кавычках):\n  // return paths.map(p => `'${p.replace(/'/g, \"''\")}'`);\n\n  // Если нужен просто массив путей (лучше для дальнейшей обработки):\n  return paths.map(i=>\"'\"+i+\"'\");\n})() }}); foreach($p in $paths){ New-Item -ItemType Directory -Path $p -Force | Out-Null}\""
+          },
+          "matchingColumns": [
+            "command"
+          ],
+          "schema": [
+            {
+              "id": "command",
+              "displayName": "command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1840,
+        96
+      ],
+      "id": "39def605-1371-45bd-868a-94c3a7577fd7",
+      "name": "Create Video Whole Directory"
+    }
+  ],
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Base Settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Base Settings": {
+      "main": [
+        [
+          {
+            "node": "Get Channel Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Video Folders Exist": {
+      "main": [
+        [
+          {
+            "node": "Set Video Folder Name",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Video Whole Directory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read video status": {
+      "main": [
+        [
+          {
+            "node": "If Video Status Exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Video Status Exist": {
+      "main": [
+        [
+          {
+            "node": "read session lock",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "create video Status json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create video Status json": {
+      "main": [
+        [
+          {
+            "node": "read video status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read session lock": {
+      "main": [
+        [
+          {
+            "node": "If Session Lock Exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "create session lock json": {
+      "main": [
+        [
+          {
+            "node": "read session lock",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Channel Exists": {
+      "main": [
+        [
+          {
+            "node": "read channel settings",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Channel Whole Directory",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch by Video Status": {
+      "main": [
+        [
+          {
+            "node": "lock texts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "lock meta",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "lock voiceover",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "lock transcription",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [],
+        [],
+        [],
+        [],
+        [
+          {
+            "node": "lock clip prompts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "lock clips",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "lock render",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        [
+          {
+            "node": "read video status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read channel settings": {
+      "main": [
+        [
+          {
+            "node": "Set Video Requirements",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Video Requirements": {
+      "main": [
+        [
+          {
+            "node": "Read Existing Videos Folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Video Folder Name": {
+      "main": [
+        [
+          {
+            "node": "read video status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate text": {
+      "main": [
+        [
+          {
+            "node": "unlock texts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lock texts": {
+      "main": [
+        [
+          {
+            "node": "generate text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "unlock texts": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate meta": {
+      "main": [
+        [
+          {
+            "node": "unlock meta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate voiceover": {
+      "main": [
+        [
+          {
+            "node": "unlock voiceover",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "transcribe audio": {
+      "main": [
+        [
+          {
+            "node": "unlock transcription",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate clips prompts": {
+      "main": [
+        [
+          {
+            "node": "unlock clip prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate clips": {
+      "main": [
+        [
+          {
+            "node": "unlock clips",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lock meta": {
+      "main": [
+        [
+          {
+            "node": "generate meta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lock voiceover": {
+      "main": [
+        [
+          {
+            "node": "generate voiceover",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lock transcription": {
+      "main": [
+        [
+          {
+            "node": "transcribe audio",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lock clip prompts": {
+      "main": [
+        [
+          {
+            "node": "generate clips prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lock clips": {
+      "main": [
+        [
+          {
+            "node": "generate clips",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "unlock meta": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "unlock voiceover": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "unlock transcription": {
+      "main": [
+        []
+      ]
+    },
+    "unlock clip prompts": {
+      "main": [
+        []
+      ]
+    },
+    "unlock clips": {
+      "main": [
+        []
+      ]
+    },
+    "If Session Lock Exist": {
+      "main": [
+        [
+          {
+            "node": "Switch by Video Status",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "create session lock json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "unlock render": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lock render": {
+      "main": [
+        [
+          {
+            "node": "combine video",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "combine video": {
+      "main": [
+        [
+          {
+            "node": "unlock render",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Channel Folder": {
+      "main": [
+        [
+          {
+            "node": "If Channel Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Channel Whole Directory": {
+      "main": [
+        [
+          {
+            "node": "Get Channel Folder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Existing Videos Folders": {
+      "main": [
+        [
+          {
+            "node": "If Video Folders Exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Video Whole Directory": {
+      "main": [
+        [
+          {
+            "node": "Read Existing Videos Folders",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "c2f61069-4d4d-400a-a0e4-9d298c357be8",
+  "activeVersionId": null,
+  "versionCounter": 347,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-03T20:08:34.566Z",
+      "createdAt": "2026-02-03T20:08:34.566Z",
+      "role": "workflow:owner",
+      "workflowId": "AmF6XaTnjkk9w41P",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

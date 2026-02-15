@@ -1,0 +1,670 @@
+{
+  "updatedAt": "2026-02-14T22:02:39.708Z",
+  "createdAt": "2026-02-13T19:12:48.945Z",
+  "id": "09l1miq7xXrFwLCp",
+  "name": "LoRA Works",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "fieldToSplitOut": "prompt",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -32,
+        -160
+      ],
+      "id": "50830d3f-dba0-4bb5-b7d8-d8945b8892e1",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n\"3\",\n$json['0']\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        128,
+        -160
+      ],
+      "id": "060d866b-9ed4-40e0-9d92-dadd47daa403",
+      "name": "get random ID1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "73212f36-7d9d-429c-b427-2e748aac07e2",
+              "name": "prompt",
+              "value": "={{ (()=>{\nconst promptsArray = [\"Eye-level symmetrical wide shot inside a grand theater lobby: dominant is an elegantly dressed couple centered under chandeliers; secondary is guests arranged on both sides; background shows columns, mirrors, velvet ropes, and marble floor reflections; no frame, no vignette, no text, no numbers, no subtitles, no watermarks, no ui, no icons, no blur, all in focus.\",\n\"Through-window framing of a café on a winter evening: dominant is a tired paramedic warming hands on a mug; secondary is a colleague cleaning a blood-specked glove; background includes tables, coats, street outside, and glass reflections; no frame, no vignette, no text, no numbers, no subtitles, no watermarks, no ui, no icons, no blur, all in focus.\",\n\"Low-angle shot under a lifted car in an auto garage: dominant is a mechanic tightening bolts; secondary is a scraped forearm with a small blood line; background shows tool racks, tires, and oil-stained floor; no frame, no vignette, no text, no numbers, no subtitles, no watermarks, no ui, no icons, no blur, all in focus.\",\n\"Low-angle wide shot on a misty forest floor at dawn: dominant is a stag stepping over mossy roots; secondary is mist layers and rocks; background shows trunks, ferns, and wet leaf litter; no frame, no vignette, no text, no numbers, no subtitles, no watermarks, no ui, no icons, no blur, all in focus.\",\n\"Split-level half-above half-below water shot at a rocky shoreline surf zone: dominant is a swimmer’s face above the waterline; secondary is fish and stones below; background shows cliffs, foam, and surface ripples; no frame, no vignette, no text, no numbers, no subtitles, no watermarks, no ui, no icons, no blur, all in focus.\"]\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nconst loraTrainArray =[].map(i=>i.toLowerCase())\n\nconst loraTriggerWord = \"gemini3procimicsstyle\"\n\nconst prefix = $json.style\nconst stylePromptsArray = promptsArray.map(p=>prefix+p)\n\nconst combined = []\n\nconst loraArrayWithTriggerWord = loraTrainArray.map(i=>loraTriggerWord+\", \"+i)\n\nfor (i in stylePromptsArray){\ncombined.push([stylePromptsArray[i],loraArrayWithTriggerWord[i],promptsArray[i],prefix,i])\n}\n\nreturn combined\n})() }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -192,
+        -160
+      ],
+      "id": "4fe6b0da-cfe7-4446-a026-480587149ac1",
+      "name": "set prompts"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9cf17083-3712-4cd7-a753-864671d4d9bb",
+              "name": "method",
+              "value": "POST",
+              "type": "string"
+            },
+            {
+              "id": "b73be660-6644-48c9-9b0a-edae0ca9ed9e",
+              "name": "headers",
+              "value": "={{ { \"X-Request-ID\": $json.id, \"x-goog-api-key\":\"AIzaSyC5x8ju0Z8gcYNrbW94E4gk1YdTQLa3OlM\" } }}",
+              "type": "object"
+            },
+            {
+              "id": "1a811bf5-5cc7-486b-ad9c-1d22b8a88406",
+              "name": "body",
+              "value": "={{ \n{\n\"model\": \"gemini-3-pro-image-preview\",\n\"version\": \"v1beta\",\n\"operation\": \"generateContent\",\n\"contents\": [\n  {\n    \"parts\": [\n      { \"text\": $('Split Out').item.json['0']}\n    ]\n  }\n],\n\"generationConfig\": {\n  \"responseModalities\": [\"IMAGE\"],\n  \"imageConfig\": {\n    \"aspectRatio\": \"16:9\",\n    \"imageSize\": \"2K\"\n    }\n  }\n}\n}}",
+              "type": "object"
+            },
+            {
+              "id": "e687e274-24b7-4282-82f6-09a7ba011183",
+              "name": "index",
+              "value": "={{$('Split Out').item.json['4']}}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        288,
+        -160
+      ],
+      "id": "b00b64a2-d88d-4fd0-9e1c-795e96f59b9a",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "41b7da76-505a-4c00-82fd-bf049401b550",
+              "name": "style",
+              "value": "Modern gritty graphic-novel illustration, bold black ink lineart with varied line weight, crisp outlines, controlled cross-hatching, cel-shaded shadows, muted/desaturated palette, cinematic lighting, high contrast, semi-cartoon proportions (slightly larger eyes/hands), simplified midtones, expressive character acting.",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -352,
+        -160
+      ],
+      "id": "3b535f88-55df-46af-9010-e146e6c8cb64",
+      "name": "set style"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "rFwvPFvSZOWxetnK",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/rFwvPFvSZOWxetnK",
+          "cachedResultName": "LoRA Works - paralleling"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "headers": "={{ $('Edit Fields2').item.json.headers }}",
+            "body": "={{ $('Edit Fields2').item.json.body }}",
+            "path": "=C:/Users/V/Downloads/gemini_image_gen_test/{{ $('Split Out').item.json['2'].split(' ').slice(0,3).join('_').replaceAll('/','').replaceAll('\\n','').replaceAll('/').replaceAll(':','').replaceAll('*','').replaceAll('<','').replaceAll('>','').replaceAll('?','').replaceAll('|','') }}",
+            "index": "={{ $json.index }}",
+            "stylePromptsArray": "={{$('Split Out').item.json['0']}}",
+            "loraTrainArray": "={{$('Split Out').item.json['2']}}",
+            "promptsArray": "={{$('Split Out').item.json['1']}}",
+            "prefix": "={{$('Split Out').item.json['3']}}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "stylePromptsArray",
+              "displayName": "stylePromptsArray",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "loraTrainArray",
+              "displayName": "loraTrainArray",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "promptsArray",
+              "displayName": "promptsArray",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "prefix",
+              "displayName": "prefix",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "path",
+              "displayName": "path",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        816,
+        -160
+      ],
+      "id": "bc4e6203-a29c-4de9-94bd-2dfab7dadca3",
+      "name": "Call 'My Sub-workflow'"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        64,
+        -304
+      ],
+      "id": "99aa588f-492b-41b0-8c9b-85fe7a558f9b",
+      "name": "Limit"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -672,
+        -160
+      ],
+      "id": "97e4552f-22b7-4e4e-861e-6a42decaa906",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "command": "=powershell -NoProfile -ExecutionPolicy Bypass -Command \"\\$paths = @('/Users/varvarahanma/Documents/videos/main/gemini_dataset_for_lora'); foreach(\\$p in \\$paths){ New-Item -ItemType Directory -Path \\$p -Force | Out-Null}\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        208,
+        -304
+      ],
+      "id": "d700d416-77c3-4ca9-be95-803b177fd610",
+      "name": "create dir"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "rFwvPFvSZOWxetnK",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/rFwvPFvSZOWxetnK",
+          "cachedResultName": "LoRA Works - paralleling"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "headers": "={{ $('Edit Fields2').item.json.headers }}",
+            "body": "={{ $('Edit Fields2').item.json.body }}",
+            "item0": "={{$('Split Out').item.json['0']}}",
+            "item1": "={{$('Split Out').item.json['1']}}",
+            "item2": "={{$('Split Out').item.json['2']}}",
+            "path": "=C:/Users/V/Downloads/gemini_image_gen_test/{{ $('Split Out').item.json['2'].split(' ').slice(0,3).join('_').replaceAll('/','').replaceAll('\\n','').replaceAll('/').replaceAll(':','').replaceAll('*','').replaceAll('<','').replaceAll('>','').replaceAll('?','').replaceAll('|','') }}",
+            "index": "={{ $json.index }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "item0",
+              "displayName": "item0",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "item1",
+              "displayName": "item1",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "item2",
+              "displayName": "item2",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "path",
+              "displayName": "path",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        560,
+        -352
+      ],
+      "id": "21bb6e26-8a6d-42a8-b054-8bcc7d303bf7",
+      "name": "Call 'My Sub-workflow'1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "N2bXusYBgofvRBlH",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/N2bXusYBgofvRBlH",
+          "cachedResultName": "check files quantity in directory"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "directoryPath": "/Users/varvarahanma/Documents/videos/main/gemini_dataset_for_lora",
+            "fileExtentionToSearch": ".png",
+            "expectedFilesCount": 100
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "directoryPath",
+              "displayName": "directoryPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileExtentionToSearch",
+              "displayName": "fileExtentionToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileNameToSearch",
+              "displayName": "fileNameToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "expectedFilesCount",
+              "displayName": "expectedFilesCount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        -544,
+        -160
+      ],
+      "id": "e8de959c-1d73-4922-8ba6-797d7178734f",
+      "name": "Call 'check files quantity in directory'"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "00dc49e8-170e-455a-b7a4-562d8c634672",
+              "leftValue": "={{ !$('Call \\'check files quantity in directory\\'').item.json.existingFilesNames.map(item => item.slice(0,-4).toNumber()).includes($json.index) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        640,
+        -160
+      ],
+      "id": "05c52828-c9a5-4bfe-bd49-5e936b63a9d9",
+      "name": "Filter",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "maxItems": 4
+      },
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        496,
+        -160
+      ],
+      "id": "8fb11039-807c-436f-be28-cbef94cef8c0",
+      "name": "Limit1"
+    }
+  ],
+  "connections": {
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "get random ID1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set prompts": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "create dir",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields2": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set style": {
+      "main": [
+        [
+          {
+            "node": "set prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Call 'check files quantity in directory'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call 'check files quantity in directory'": {
+      "main": [
+        [
+          {
+            "node": "set style",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter": {
+      "main": [
+        [
+          {
+            "node": "Call 'My Sub-workflow'",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit1": {
+      "main": [
+        [
+          {
+            "node": "Filter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "dc7bb41e-9e9f-435c-b560-093eacf0f100",
+  "activeVersionId": "83a4a667-2923-4cf5-b183-ac768d98c863",
+  "versionCounter": 25,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-13T19:12:48.947Z",
+      "createdAt": "2026-02-13T19:12:48.947Z",
+      "role": "workflow:owner",
+      "workflowId": "09l1miq7xXrFwLCp",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

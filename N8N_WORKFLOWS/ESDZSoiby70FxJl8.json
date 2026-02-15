@@ -1,0 +1,207 @@
+{
+  "updatedAt": "2026-02-10T02:20:39.502Z",
+  "createdAt": "2026-02-10T01:57:13.819Z",
+  "id": "ESDZSoiby70FxJl8",
+  "name": "draw image works",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "draw",
+        "startPositionX": 0,
+        "startPositionY": 0,
+        "endPositionX": "={{ $('Start').first().json.imageWidth * $('Start').first().json.progressCurrent/$('Start').first().json.progressTarget }}",
+        "endPositionY": "={{ $('Start').first().json.imageHeight }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.editImage",
+      "typeVersion": 1,
+      "position": [
+        848,
+        -16
+      ],
+      "id": "79caa746-1fa0-4a13-82ed-8bcd491ff6a3",
+      "name": "Edit Image"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ============================\n// n8n Code Node: Generate blank BMP -> output as binary (NO require/zlib)\n// ============================\n\n// ---------- SETTINGS ----------\nconst WIDTH = $('Start').first().json.imageWidth;\nconst HEIGHT = $('Start').first().json.imageHeight;\nconst FILE_NAME = `blank_${WIDTH}x${HEIGHT}.png`;\nconst OUTPUT_BIN_KEY = \"data\";\n\n// Цвет фона (RGB) — BMP без прозрачности\n// белый: [255,255,255], чёрный: [0,0,0], серый: [128,128,128]\nconst RGB = [255, 255, 255];\n\n// ---------- BMP GENERATOR (24-bit) ----------\nfunction u16le(n) {\n  const b = Buffer.alloc(2);\n  b.writeUInt16LE(n & 0xffff, 0);\n  return b;\n}\n\nfunction u32le(n) {\n  const b = Buffer.alloc(4);\n  b.writeUInt32LE(n >>> 0, 0);\n  return b;\n}\n\nfunction i32le(n) {\n  const b = Buffer.alloc(4);\n  b.writeInt32LE(n | 0, 0);\n  return b;\n}\n\nfunction makeBlankBmp24(width, height, rgb) {\n  if (!Number.isInteger(width) || !Number.isInteger(height) || width <= 0 || height <= 0) {\n    throw new Error(`Invalid size: ${width}x${height}`);\n  }\n  if (!Array.isArray(rgb) || rgb.length !== 3) {\n    throw new Error(`RGB must be [r,g,b]`);\n  }\n\n  const r = Math.max(0, Math.min(255, rgb[0] | 0));\n  const g = Math.max(0, Math.min(255, rgb[1] | 0));\n  const b = Math.max(0, Math.min(255, rgb[2] | 0));\n\n  // 24-bit BMP: each row padded to 4 bytes\n  const rowSize = (width * 3 + 3) & ~3; // align to 4\n  const pixelDataSize = rowSize * height;\n\n  const fileHeaderSize = 14;\n  const dibHeaderSize = 40; // BITMAPINFOHEADER\n  const pixelDataOffset = fileHeaderSize + dibHeaderSize;\n  const fileSize = pixelDataOffset + pixelDataSize;\n\n  // --- FILE HEADER (14 bytes) ---\n  // Signature 'BM' (2), fileSize (4), reserved (4), offset (4)\n  const fileHeader = Buffer.concat([\n    Buffer.from(\"BM\", \"ascii\"),\n    u32le(fileSize),\n    u16le(0),\n    u16le(0),\n    u32le(pixelDataOffset),\n  ]);\n\n  // --- DIB HEADER (40 bytes) ---\n  const dibHeader = Buffer.concat([\n    u32le(dibHeaderSize),  // header size\n    i32le(width),          // width\n    i32le(height),         // height (positive = bottom-up)\n    u16le(1),              // planes\n    u16le(24),             // bits per pixel\n    u32le(0),              // compression (BI_RGB)\n    u32le(pixelDataSize),  // image size\n    i32le(0),              // x pixels per meter\n    i32le(0),              // y pixels per meter\n    u32le(0),              // colors used\n    u32le(0),              // important colors\n  ]);\n\n  // --- PIXEL DATA ---\n  // Bottom-up: first row in file is bottom row.\n  const row = Buffer.alloc(rowSize, 0);\n  for (let x = 0; x < width; x++) {\n    const p = x * 3;\n    row[p + 0] = b; // BMP stores B,G,R\n    row[p + 1] = g;\n    row[p + 2] = r;\n  }\n\n  const pixels = Buffer.alloc(pixelDataSize);\n  for (let y = 0; y < height; y++) {\n    row.copy(pixels, y * rowSize);\n  }\n\n  return Buffer.concat([fileHeader, dibHeader, pixels]);\n}\n\n// ---------- RETURN ITEMS ----------\nconst inputItems = $input.all();\nconst baseItems = inputItems.length ? inputItems : [{ json: {} }];\n\nreturn baseItems.map((it) => {\n  const bmpBuffer = makeBlankBmp24(WIDTH, HEIGHT, RGB);\n\n  return {\n    json: {\n      ...(it.json || {}),\n      generatedImage: {\n        fileName: FILE_NAME,\n        width: WIDTH,\n        height: HEIGHT,\n        mimeType: \"image/bmp\",\n        rgb: RGB,\n        note: \"BMP is used because zlib/PNG compression is disallowed in n8n Code node.\",\n      },\n    },\n    binary: {\n      ...(it.binary || {}),\n      [OUTPUT_BIN_KEY]: {\n        data: bmpBuffer.toString(\"base64\"),\n        mimeType: \"image/bmp\",\n        fileName: FILE_NAME,\n      },\n    },\n  };\n});\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        656,
+        -16
+      ],
+      "id": "53bb7a07-2c94-437a-9e3a-8170fe765ab0",
+      "name": "Generate blank image"
+    },
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"imageWidth\":0,\n  \"imageHeight\":0,\n  \"progressCurrent\":0,\n  \"progressTarget\":0\n}"
+      },
+      "id": "ea79d7db-d37c-4c60-9f80-90c0d401a3d6",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        256,
+        -16
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "text": "SSAA",
+        "fontColor": "#0040FF",
+        "positionX": "={{ $('Start').first().json.imageWidth * $('Start').first().json.progressCurrent/$('Start').first().json.progressTarget }}",
+        "positionY": "={{ $('Start').item.json.imageHeight/2 }}",
+        "options": {
+          "font": "C:\\WINDOWS\\Fonts\\AGENCYB.TTF"
+        }
+      },
+      "type": "n8n-nodes-base.editImage",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        -16
+      ],
+      "id": "85c0d4ef-9504-4dc5-85df-f5a9610ed0fb",
+      "name": "Edit Image1"
+    },
+    {
+      "parameters": {
+        "operation": "transparent",
+        "color": "#FFFFFF",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.editImage",
+      "typeVersion": 1,
+      "position": [
+        1392,
+        -16
+      ],
+      "id": "c7b4698a-8f0b-4ff6-b456-0867f712b4ee",
+      "name": "Edit Image2"
+    },
+    {
+      "parameters": {
+        "borderWidth": 5,
+        "borderHeight": 5,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.editImage",
+      "typeVersion": 1,
+      "position": [
+        1200,
+        -16
+      ],
+      "id": "b5a1acd2-d263-448b-ae92-5721d79fcdd2",
+      "name": "Edit Image3"
+    }
+  ],
+  "connections": {
+    "Generate blank image": {
+      "main": [
+        [
+          {
+            "node": "Edit Image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "Generate blank image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Image": {
+      "main": [
+        [
+          {
+            "node": "Edit Image1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Image1": {
+      "main": [
+        [
+          {
+            "node": "Edit Image3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Image3": {
+      "main": [
+        [
+          {
+            "node": "Edit Image2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "imageWidth": 1000,
+          "imageHeight": 30,
+          "progressCurrent": 32,
+          "progressTarget": 256
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "a5b12424-0910-46ce-aabd-c576a038c3f3",
+  "activeVersionId": "a5b12424-0910-46ce-aabd-c576a038c3f3",
+  "versionCounter": 142,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-10T01:57:13.824Z",
+      "createdAt": "2026-02-10T01:57:13.824Z",
+      "role": "workflow:owner",
+      "workflowId": "ESDZSoiby70FxJl8",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

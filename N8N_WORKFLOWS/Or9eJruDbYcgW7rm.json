@@ -1,0 +1,1582 @@
+{
+  "updatedAt": "2026-02-11T12:56:27.004Z",
+  "createdAt": "2026-02-06T02:56:56.529Z",
+  "id": "Or9eJruDbYcgW7rm",
+  "name": "runpod generations manager",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n\n  \"comfyUiRequest\":{},\n\n  \"runpodTemplateId\":\"\",\n\n  \"index\":0\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.state == \"success\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "cc9aa54f-ccad-4c1b-8e69-eec6c9515413"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "fcc74db6-6c82-4924-88bb-a74f29611114",
+                    "leftValue": "={{ $json.state == \"queued\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "queued"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ea668df9-a20c-4c31-b8f4-4805a6112f9c",
+                    "leftValue": "={{ $json.state == \"generating\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "generating"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "093d07c3-30bb-4f6a-94c2-69b7da82513d",
+                    "leftValue": "={{ $json.state == \"fail\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "fail"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        320
+      ],
+      "id": "637f1ca4-dbeb-4884-9c36-298fabb567c6",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        480
+      ],
+      "id": "40be4a3e-c256-4c3a-9496-76b8d27d74ef",
+      "name": "Wait",
+      "webhookId": "71a029d1-a625-4783-9978-789c8075a784"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Generation failed"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        496
+      ],
+      "id": "073f5639-c1d9-43dd-aa1d-1fa9b628f28c",
+      "name": "Stop and Error"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "checkComfyUiGenerationStatus",
+            "runpodUseVolume": "={{ false }}",
+            "runpodTemplateId": "={{ $('Start').first().json.runpodTemplateId }}",
+            "runpodVolumeId": "={{ \"\" }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "runpodContainerDiskInGb": "={{0}}",
+            "runpodVolumeInGb": "={{0}}",
+            "comfyUiRequest": "={{ $('Start').first().json.comfyUiRequest }}",
+            "index": "={{ $('Start').first().json.index }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodUseVolume",
+              "displayName": "runpodUseVolume",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "boolean",
+              "removed": false
+            },
+            {
+              "id": "runpodVolumeId",
+              "displayName": "runpodVolumeId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodContainerDiskInGb",
+              "displayName": "runpodContainerDiskInGb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "runpodVolumeInGb",
+              "displayName": "runpodVolumeInGb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        496,
+        352
+      ],
+      "id": "2cd61cd5-a135-470f-b348-f65b6b7b4ae3",
+      "name": "check runpod gen status",
+      "notesInFlow": false
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.state == \"success\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "cc9aa54f-ccad-4c1b-8e69-eec6c9515413"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "fcc74db6-6c82-4924-88bb-a74f29611114",
+                    "leftValue": "={{ $json.state == \"queued\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "queued"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ea668df9-a20c-4c31-b8f4-4805a6112f9c",
+                    "leftValue": "={{ $json.state == \"generating\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "generating"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "093d07c3-30bb-4f6a-94c2-69b7da82513d",
+                    "leftValue": "={{ $json.state == \"fail\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "fail"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        704,
+        672
+      ],
+      "id": "01383cfb-d08f-40c7-825a-6bd59189196c",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "getGenerationResult",
+            "runpodUseVolume": "={{ false }}",
+            "runpodTemplateId": "={{ $('Start').first().json.runpodTemplateId }}",
+            "runpodVolumeId": "={{ \"\" }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "runpodContainerDiskInGb": "={{0}}",
+            "runpodVolumeInGb": "={{0}}",
+            "comfyUiRequest": "={{ $('Start').first().json.comfyUiRequest }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodUseVolume",
+              "displayName": "runpodUseVolume",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "boolean",
+              "removed": false
+            },
+            {
+              "id": "runpodVolumeId",
+              "displayName": "runpodVolumeId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodContainerDiskInGb",
+              "displayName": "runpodContainerDiskInGb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "runpodVolumeInGb",
+              "displayName": "runpodVolumeInGb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1024,
+        720
+      ],
+      "id": "cbd8f178-4791-4465-ae7f-09527ec12486",
+      "name": "get generation result1"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        832
+      ],
+      "id": "658d781c-2403-408f-b79c-3d834348816f",
+      "name": "Wait1",
+      "webhookId": "71a029d1-a625-4783-9978-789c8075a784"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "3OssCFgf2vTy8hKq",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/3OssCFgf2vTy8hKq",
+          "cachedResultName": "Media File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClips/{{ $('Start').first().json.videoFolderName.split('_').last() }}_{{ ($('Start').first().json.index).toString().padStart(5,'0') }}.mp4",
+            "fileAction": "write"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1232,
+        720
+      ],
+      "id": "828b51c2-a10d-4c9d-8061-dc799cd9f1db",
+      "name": "write media file1"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Generation failed"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        848
+      ],
+      "id": "d9ce3038-0945-4cf6-98d1-1b190f6f53ca",
+      "name": "Stop and Error1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "checkGenerationStatus",
+            "runpodUseVolume": "={{ false }}",
+            "runpodTemplateId": "={{ $('Start').first().json.runpodTemplateId }}",
+            "runpodVolumeId": "={{ \"\" }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "runpodContainerDiskInGb": "={{0}}",
+            "runpodVolumeInGb": "={{0}}",
+            "comfyUiRequest": "={{ $('Start').first().json.comfyUiRequest }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodUseVolume",
+              "displayName": "runpodUseVolume",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "boolean",
+              "removed": false
+            },
+            {
+              "id": "runpodVolumeId",
+              "displayName": "runpodVolumeId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodContainerDiskInGb",
+              "displayName": "runpodContainerDiskInGb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "runpodVolumeInGb",
+              "displayName": "runpodVolumeInGb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        496,
+        704
+      ],
+      "id": "a7cd1946-11a0-483e-8108-276d7548f717",
+      "name": "check runpod gen status1",
+      "notesInFlow": false
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "check runpod gen status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "check runpod gen status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check runpod gen status": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "get generation result1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get generation result1": {
+      "main": [
+        [
+          {
+            "node": "write media file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "check runpod gen status1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check runpod gen status1": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "channelsFolderPath": "C:/Users/V/Desktop/Channels",
+          "channelName": "WgladWPrzeszlosc",
+          "videoFolderName": "2026-02-08_VySCN",
+          "comfyUiRequest": {
+            "client_id": "x",
+            "prompt": {
+              "75": {
+                "inputs": {
+                  "filename_prefix": "video/LTX-2",
+                  "format": "mp4",
+                  "codec": "auto",
+                  "video": [
+                    "121",
+                    0
+                  ]
+                },
+                "class_type": "SaveVideo",
+                "_meta": {
+                  "title": "Save Video"
+                }
+              },
+              "98": {
+                "inputs": {
+                  "steps": 20,
+                  "max_shift": 2.05,
+                  "base_shift": 0.95,
+                  "stretch": true,
+                  "terminal": 0.1,
+                  "latent": [
+                    "108",
+                    0
+                  ]
+                },
+                "class_type": "LTXVScheduler",
+                "_meta": {
+                  "title": "LTXVScheduler"
+                }
+              },
+              "99": {
+                "inputs": {
+                  "sigmas": "0.909375, 0.725, 0.421875, 0.0"
+                },
+                "class_type": "ManualSigmas",
+                "_meta": {
+                  "title": "ManualSigmas"
+                }
+              },
+              "100": {
+                "inputs": {
+                  "model_name": "ltx-2-spatial-upscaler-x2-1.0.safetensors"
+                },
+                "class_type": "LatentUpscaleModelLoader",
+                "_meta": {
+                  "title": "Load Latent Upscale Model"
+                }
+              },
+              "101": {
+                "inputs": {
+                  "positive": [
+                    "106",
+                    0
+                  ],
+                  "negative": [
+                    "106",
+                    1
+                  ],
+                  "latent": [
+                    "115",
+                    0
+                  ]
+                },
+                "class_type": "LTXVCropGuides",
+                "_meta": {
+                  "title": "LTXVCropGuides"
+                }
+              },
+              "102": {
+                "inputs": {
+                  "cfg": 1,
+                  "model": [
+                    "132",
+                    0
+                  ],
+                  "positive": [
+                    "101",
+                    0
+                  ],
+                  "negative": [
+                    "101",
+                    1
+                  ]
+                },
+                "class_type": "CFGGuider",
+                "_meta": {
+                  "title": "CFGGuider"
+                }
+              },
+              "103": {
+                "inputs": {
+                  "upscale_method": "lanczos",
+                  "scale_by": 0.5,
+                  "image": [
+                    "110",
+                    0
+                  ]
+                },
+                "class_type": "ImageScaleBy",
+                "_meta": {
+                  "title": "Upscale Image By"
+                }
+              },
+              "104": {
+                "inputs": {
+                  "image": [
+                    "103",
+                    0
+                  ]
+                },
+                "class_type": "GetImageSize",
+                "_meta": {
+                  "title": "Get Image Size"
+                }
+              },
+              "105": {
+                "inputs": {
+                  "frames_number": [
+                    "111",
+                    0
+                  ],
+                  "frame_rate": [
+                    "129",
+                    0
+                  ],
+                  "batch_size": 1,
+                  "audio_vae": [
+                    "122",
+                    0
+                  ]
+                },
+                "class_type": "LTXVEmptyLatentAudio",
+                "_meta": {
+                  "title": "LTXV Empty Latent Audio"
+                }
+              },
+              "106": {
+                "inputs": {
+                  "frame_rate": [
+                    "128",
+                    0
+                  ],
+                  "positive": [
+                    "120",
+                    0
+                  ],
+                  "negative": [
+                    "109",
+                    0
+                  ]
+                },
+                "class_type": "LTXVConditioning",
+                "_meta": {
+                  "title": "LTXVConditioning"
+                }
+              },
+              "107": {
+                "inputs": {
+                  "width": [
+                    "104",
+                    0
+                  ],
+                  "height": [
+                    "104",
+                    1
+                  ],
+                  "length": [
+                    "111",
+                    0
+                  ],
+                  "batch_size": 1
+                },
+                "class_type": "EmptyLTXVLatentVideo",
+                "_meta": {
+                  "title": "EmptyLTXVLatentVideo"
+                }
+              },
+              "108": {
+                "inputs": {
+                  "video_latent": [
+                    "107",
+                    0
+                  ],
+                  "audio_latent": [
+                    "105",
+                    0
+                  ]
+                },
+                "class_type": "LTXVConcatAVLatent",
+                "_meta": {
+                  "title": "LTXVConcatAVLatent"
+                }
+              },
+              "109": {
+                "inputs": {
+                  "text": "blurry, out of focus, overexposed, underexposed, low contrast, washed out colors, excessive noise, grainy texture, poor lighting, flickering, motion blur, distorted proportions, unnatural skin tones, deformed facial features, asymmetrical face, missing facial features, extra limbs, disfigured hands, wrong hand count, artifacts around text, unreadable text on shirt or hat, incorrect lettering on cap (“PNTR”), incorrect t-shirt slogan (“JUST DO IT”), missing microphone, misplaced microphone, inconsistent perspective, camera shake, incorrect depth of field, background too sharp, background clutter, distracting reflections, harsh shadows, inconsistent lighting direction, color banding, cartoonish rendering, 3D CGI look, unrealistic materials, uncanny valley effect, incorrect ethnicity, wrong gender, exaggerated expressions, smiling, laughing, exaggerated sadness, wrong gaze direction, eyes looking at camera, mismatched lip sync, silent or muted audio, distorted voice, robotic voice, echo, background noise, off-sync audio, missing sniff sounds, incorrect dialogue, added dialogue, repetitive speech, jittery movement, awkward pauses, incorrect timing, unnatural transitions, inconsistent framing, tilted camera, missing door or shelves, missing shallow depth of field, flat lighting, inconsistent tone, cinematic oversaturation, stylized filters, or AI artifacts.",
+                  "clip": [
+                    "139",
+                    0
+                  ]
+                },
+                "class_type": "CLIPTextEncode",
+                "_meta": {
+                  "title": "clip_negative_prompt"
+                }
+              },
+              "110": {
+                "inputs": {
+                  "width": 1280,
+                  "height": 720,
+                  "batch_size": 1,
+                  "color": 0
+                },
+                "class_type": "EmptyImage",
+                "_meta": {
+                  "title": "clip_frame_size"
+                }
+              },
+              "111": {
+                "inputs": {
+                  "value": 130
+                },
+                "class_type": "PrimitiveInt",
+                "_meta": {
+                  "title": "clip_frame_count"
+                }
+              },
+              "112": {
+                "inputs": {
+                  "noise": [
+                    "114",
+                    0
+                  ],
+                  "guider": [
+                    "127",
+                    0
+                  ],
+                  "sampler": [
+                    "135",
+                    0
+                  ],
+                  "sigmas": [
+                    "98",
+                    0
+                  ],
+                  "latent_image": [
+                    "108",
+                    0
+                  ]
+                },
+                "class_type": "SamplerCustomAdvanced",
+                "_meta": {
+                  "title": "SamplerCustomAdvanced"
+                }
+              },
+              "113": {
+                "inputs": {
+                  "noise_seed": 0
+                },
+                "class_type": "RandomNoise",
+                "_meta": {
+                  "title": "RandomNoise"
+                }
+              },
+              "114": {
+                "inputs": {
+                  "noise_seed": 1
+                },
+                "class_type": "RandomNoise",
+                "_meta": {
+                  "title": "RandomNoise"
+                }
+              },
+              "115": {
+                "inputs": {
+                  "av_latent": [
+                    "112",
+                    0
+                  ]
+                },
+                "class_type": "LTXVSeparateAVLatent",
+                "_meta": {
+                  "title": "LTXVSeparateAVLatent"
+                }
+              },
+              "116": {
+                "inputs": {
+                  "video_latent": [
+                    "117",
+                    0
+                  ],
+                  "audio_latent": [
+                    "115",
+                    1
+                  ]
+                },
+                "class_type": "LTXVConcatAVLatent",
+                "_meta": {
+                  "title": "LTXVConcatAVLatent"
+                }
+              },
+              "117": {
+                "inputs": {
+                  "samples": [
+                    "101",
+                    2
+                  ],
+                  "upscale_model": [
+                    "100",
+                    0
+                  ],
+                  "vae": [
+                    "131",
+                    2
+                  ]
+                },
+                "class_type": "LTXVLatentUpsampler",
+                "_meta": {
+                  "title": "spatial"
+                }
+              },
+              "118": {
+                "inputs": {
+                  "noise": [
+                    "113",
+                    0
+                  ],
+                  "guider": [
+                    "102",
+                    0
+                  ],
+                  "sampler": [
+                    "136",
+                    0
+                  ],
+                  "sigmas": [
+                    "99",
+                    0
+                  ],
+                  "latent_image": [
+                    "116",
+                    0
+                  ]
+                },
+                "class_type": "SamplerCustomAdvanced",
+                "_meta": {
+                  "title": "SamplerCustomAdvanced"
+                }
+              },
+              "120": {
+                "inputs": {
+                  "text": "A professional, cinematic motion graphic sequence for a science documentary. The shot opens on a medium view of a stylized, animated evolutionary tree of life, set against a dark, clean background. The tree branches glow with a soft, warm light. The camera slowly and smoothly dollies in, tracking the specific branch for Primates, then narrowing down to the Hominidae family. As the camera moves, the scientific labels for each classification subtly light up. The shot concludes with a close-up on the final branch labeled 'Homo sapiens'. Sound design includes a faint, ambient electronic hum and a soft whooshing sound effect that follows the camera's movement. Maintain a high-quality, minimalist aesthetic throughout. No extra characters or objects, no watermarks, animation must be smooth.",
+                  "clip": [
+                    "139",
+                    0
+                  ]
+                },
+                "class_type": "CLIPTextEncode",
+                "_meta": {
+                  "title": "clip_positive_prompt"
+                }
+              },
+              "121": {
+                "inputs": {
+                  "fps": [
+                    "128",
+                    0
+                  ],
+                  "images": [
+                    "125",
+                    0
+                  ],
+                  "audio": [
+                    "126",
+                    0
+                  ]
+                },
+                "class_type": "CreateVideo",
+                "_meta": {
+                  "title": "Create Video"
+                }
+              },
+              "122": {
+                "inputs": {
+                  "ckpt_name": "ltx-2-19b-dev.safetensors"
+                },
+                "class_type": "LTXVAudioVAELoader",
+                "_meta": {
+                  "title": "LTXV Audio VAE Loader"
+                }
+              },
+              "123": {
+                "inputs": {
+                  "av_latent": [
+                    "118",
+                    1
+                  ]
+                },
+                "class_type": "LTXVSeparateAVLatent",
+                "_meta": {
+                  "title": "LTXVSeparateAVLatent"
+                }
+              },
+              "125": {
+                "inputs": {
+                  "tile_size": 512,
+                  "overlap": 64,
+                  "temporal_size": 4096,
+                  "temporal_overlap": 8,
+                  "samples": [
+                    "123",
+                    0
+                  ],
+                  "vae": [
+                    "131",
+                    2
+                  ]
+                },
+                "class_type": "VAEDecodeTiled",
+                "_meta": {
+                  "title": "VAE Decode (Tiled)"
+                }
+              },
+              "126": {
+                "inputs": {
+                  "samples": [
+                    "123",
+                    1
+                  ],
+                  "audio_vae": [
+                    "122",
+                    0
+                  ]
+                },
+                "class_type": "LTXVAudioVAEDecode",
+                "_meta": {
+                  "title": "LTXV Audio VAE Decode"
+                }
+              },
+              "127": {
+                "inputs": {
+                  "cfg": 4,
+                  "model": [
+                    "131",
+                    0
+                  ],
+                  "positive": [
+                    "106",
+                    0
+                  ],
+                  "negative": [
+                    "106",
+                    1
+                  ]
+                },
+                "class_type": "CFGGuider",
+                "_meta": {
+                  "title": "CFGGuider"
+                }
+              },
+              "128": {
+                "inputs": {
+                  "value": 24
+                },
+                "class_type": "PrimitiveFloat",
+                "_meta": {
+                  "title": "clip_frame_rate_float"
+                }
+              },
+              "129": {
+                "inputs": {
+                  "value": 24
+                },
+                "class_type": "PrimitiveInt",
+                "_meta": {
+                  "title": "clip_frame_rate_int"
+                }
+              },
+              "131": {
+                "inputs": {
+                  "ckpt_name": "ltx-2-19b-dev.safetensors"
+                },
+                "class_type": "CheckpointLoaderSimple",
+                "_meta": {
+                  "title": "Load Checkpoint"
+                }
+              },
+              "132": {
+                "inputs": {
+                  "lora_name": "ltx-2-19b-distilled-lora-384.safetensors",
+                  "strength_model": 1,
+                  "model": [
+                    "131",
+                    0
+                  ]
+                },
+                "class_type": "LoraLoaderModelOnly",
+                "_meta": {
+                  "title": "Load LoRA"
+                }
+              },
+              "135": {
+                "inputs": {
+                  "sampler_name": "euler_ancestral"
+                },
+                "class_type": "KSamplerSelect",
+                "_meta": {
+                  "title": "KSamplerSelect"
+                }
+              },
+              "136": {
+                "inputs": {
+                  "sampler_name": "euler_ancestral"
+                },
+                "class_type": "KSamplerSelect",
+                "_meta": {
+                  "title": "KSamplerSelect"
+                }
+              },
+              "139": {
+                "inputs": {
+                  "text_encoder": "gemma_3_12B_it.safetensors",
+                  "ckpt_name": "ltx-2-19b-dev.safetensors",
+                  "device": "default"
+                },
+                "class_type": "LTXAVTextEncoderLoader",
+                "_meta": {
+                  "title": "LTXV Audio Text Encoder Loader"
+                }
+              }
+            }
+          },
+          "runpodTemplateId": "edk2i1wn89",
+          "index": 0
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "ecc55ff0-4c76-470b-ba45-6378b3d1ffbe",
+  "activeVersionId": "ecc55ff0-4c76-470b-ba45-6378b3d1ffbe",
+  "versionCounter": 178,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-06T02:56:56.533Z",
+      "createdAt": "2026-02-06T02:56:56.533Z",
+      "role": "workflow:owner",
+      "workflowId": "Or9eJruDbYcgW7rm",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

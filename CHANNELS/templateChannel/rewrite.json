@@ -1,0 +1,8 @@
+{
+  "toRewriteLinks": [
+    "REPLACE ME. This is a list of links to videos you want to rewrite. First element of this array will be used in workflow and will be moved to used links array",
+    "https://www.youtube.com/watch?v=XXXXXXXXXXX",
+    "https://www.youtube.com/watch?v=YYYYYYYYYYY"
+  ],
+  "rewritedLinks": []
+}
