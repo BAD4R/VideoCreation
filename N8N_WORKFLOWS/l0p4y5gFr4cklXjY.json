@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-11T12:57:17.129Z",
+  "updatedAt": "2026-02-16T17:00:32.239Z",
   "createdAt": "2026-02-05T15:40:02.769Z",
   "id": "l0p4y5gFr4cklXjY",
   "name": "generate clips",
@@ -1770,171 +1770,6 @@
       "name": "filter done parts"
     },
     {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "o5B3Nkoco1rF2d1h",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
-          "cachedResultName": "runpod works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
-            "channelName": "={{ $('Start').first().json.channelName }}",
-            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
-            "method": "sendGenerationRequest",
-            "runpodUseVolume": "={{ false }}",
-            "runpodTemplateId": "={{ $('get pod parameters').last().json.runpodVideoGenTemplateId }}",
-            "runpodVolumeId": "={{ \"\" }}",
-            "runpodGpuList": "={{ [] }}",
-            "runpodCountryCodes": "={{ [] }}",
-            "runpodContainerDiskInGb": "={{0}}",
-            "runpodVolumeInGb": "={{0}}",
-            "comfyUiRequest": "={{ $json.request }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "channelsFolderPath",
-              "displayName": "channelsFolderPath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "channelName",
-              "displayName": "channelName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "videoFolderName",
-              "displayName": "videoFolderName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "comfyUiRequest",
-              "displayName": "comfyUiRequest",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "runpodTemplateId",
-              "displayName": "runpodTemplateId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodUseVolume",
-              "displayName": "runpodUseVolume",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "boolean",
-              "removed": false
-            },
-            {
-              "id": "runpodVolumeId",
-              "displayName": "runpodVolumeId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodContainerDiskInGb",
-              "displayName": "runpodContainerDiskInGb",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
-              "removed": false
-            },
-            {
-              "id": "runpodVolumeInGb",
-              "displayName": "runpodVolumeInGb",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
-              "removed": false
-            },
-            {
-              "id": "runpodGpuList",
-              "displayName": "runpodGpuList",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "runpodCountryCodes",
-              "displayName": "runpodCountryCodes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": false
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        3936,
-        -160
-      ],
-      "id": "f6238978-e2f3-4a38-9afb-3bdf76e8d48e",
-      "name": "check generation status"
-    },
-    {
       "parameters": {},
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
@@ -2260,9 +2095,9 @@
       }
     ]
   },
-  "versionId": "1a17091a-3990-4828-b048-bd1618afe022",
-  "activeVersionId": "1a17091a-3990-4828-b048-bd1618afe022",
-  "versionCounter": 822,
+  "versionId": "3e64e6ad-8499-4403-8aac-1220d45838b9",
+  "activeVersionId": "3e64e6ad-8499-4403-8aac-1220d45838b9",
+  "versionCounter": 825,
   "triggerCount": 0,
   "tags": [],
   "shared": [

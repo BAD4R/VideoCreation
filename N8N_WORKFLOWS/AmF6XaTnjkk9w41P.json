@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-13T19:55:30.096Z",
+  "updatedAt": "2026-02-16T17:01:33.199Z",
   "createdAt": "2026-02-03T20:08:34.562Z",
   "id": "AmF6XaTnjkk9w41P",
   "name": "Main",
@@ -21,7 +21,7 @@
     {
       "parameters": {
         "mode": "raw",
-        "jsonOutput": "={\n  \"channelsFolderPath\": \"C:/Users/V/Desktop/Channels\",\n  \"channelName\": \"{{ $json.hasField('channelName') ? $json.channelName : \"dsaq\" }}\",\n}",
+        "jsonOutput": "={\n  \"channelsFolderPath\": \"C:/Users/V/Desktop/Channels\",\n  \"channelName\": \"{{ $json.hasField('channelName') ? $json.channelName : \"CHANNEL NAME HERE\" }}\",\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
@@ -952,7 +952,7 @@
       "typeVersion": 1.3,
       "position": [
         4048,
-        -512
+        -528
       ],
       "id": "12ee0e7f-401d-4d4d-8388-917172e02812",
       "name": "generate text"
@@ -1063,7 +1063,7 @@
       "typeVersion": 1.2,
       "position": [
         4272,
-        -512
+        -528
       ],
       "name": "unlock texts",
       "id": "6dd74862-424a-43dd-a4f0-24ceede63401"
@@ -1151,7 +1151,7 @@
       "typeVersion": 1.2,
       "position": [
         3840,
-        -512
+        -528
       ],
       "name": "lock texts",
       "id": "db097e9b-86d3-4bab-adf6-d497475bec57"
@@ -3043,13 +3043,7 @@
     },
     "unlock texts": {
       "main": [
-        [
-          {
-            "node": "No Operation, do nothing",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "generate meta": {
@@ -3164,24 +3158,12 @@
     },
     "unlock meta": {
       "main": [
-        [
-          {
-            "node": "No Operation, do nothing",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "unlock voiceover": {
       "main": [
-        [
-          {
-            "node": "No Operation, do nothing",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "unlock transcription": {
@@ -3301,9 +3283,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "c2f61069-4d4d-400a-a0e4-9d298c357be8",
+  "versionId": "a9e9f0be-8f70-4a5e-bc2f-c036b60684bf",
   "activeVersionId": null,
-  "versionCounter": 347,
+  "versionCounter": 356,
   "triggerCount": 0,
   "tags": [],
   "shared": [

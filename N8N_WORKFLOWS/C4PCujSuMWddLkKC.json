@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-11T00:30:32.072Z",
+  "updatedAt": "2026-02-16T17:00:21.587Z",
   "createdAt": "2026-02-05T01:25:42.639Z",
   "id": "C4PCujSuMWddLkKC",
   "name": "generate clips prompts",
@@ -115,106 +115,6 @@
     },
     {
       "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
-            "fileAction": "read",
-            "keysToEdit": "={{ {} }}",
-            "keysToAdd": "={{ {} }}",
-            "keysToReturn": "={{ [\"proxyServerIP\", \"proxyServerPort\", \"geminiAiResponsesRoute\", \"googleApiKey\", \"textGenModel\", \"textToVideoPromptGenerationPrompt\", \"textToVideoBase\", \"clipFps\"] }}",
-            "keysToRemove": "={{ {} }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToAdd",
-              "displayName": "keysToAdd",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToEdit",
-              "displayName": "keysToEdit",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToRemove",
-              "displayName": "keysToRemove",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        1344,
-        416
-      ],
-      "name": "get gemini req params",
-      "id": "a227556e-fd6b-44b5-8dce-06dec0fba4e9",
-      "disabled": true
-    },
-    {
-      "parameters": {
         "fieldToSplitOut": "parts",
         "options": {}
       },
@@ -226,106 +126,6 @@
       ],
       "id": "1536454c-c9a1-4245-9904-48c4bffebc85",
       "name": "Split Out"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoMeta.json",
-            "fileAction": "read",
-            "keysToEdit": "={{ {} }}",
-            "keysToAdd": "={{ {} }}",
-            "keysToReturn": "={{ [] }}",
-            "keysToRemove": "={{ {} }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToAdd",
-              "displayName": "keysToAdd",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToEdit",
-              "displayName": "keysToEdit",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToRemove",
-              "displayName": "keysToRemove",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        1520,
-        496
-      ],
-      "name": "get video meta",
-      "id": "98990c38-a795-48cd-bc76-862a1548a25c",
-      "disabled": true
     },
     {
       "parameters": {
@@ -997,7 +797,7 @@
       "typeVersion": 3.4,
       "position": [
         1744,
-        50.284483148532296
+        64
       ],
       "id": "3fbc42b4-6772-43b5-a5e1-7e755c6a2c71",
       "name": "Edit Fields"
@@ -1013,11 +813,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "get gemini req params": {
-      "main": [
-        []
       ]
     },
     "Switch Text Gen Service": {
@@ -1040,11 +835,6 @@
             "index": 0
           }
         ]
-      ]
-    },
-    "get video meta": {
-      "main": [
-        []
       ]
     },
     "Filter": {
@@ -1183,9 +973,9 @@
       }
     ]
   },
-  "versionId": "66587adb-f8e5-4cd5-a2e0-71dc8008b6a5",
-  "activeVersionId": "66587adb-f8e5-4cd5-a2e0-71dc8008b6a5",
-  "versionCounter": 452,
+  "versionId": "e818fda5-da37-4e9d-9b5c-fdccb953da82",
+  "activeVersionId": "e818fda5-da37-4e9d-9b5c-fdccb953da82",
+  "versionCounter": 455,
   "triggerCount": 0,
   "tags": [],
   "shared": [

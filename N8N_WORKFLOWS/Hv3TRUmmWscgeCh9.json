@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-15T16:55:35.031Z",
+  "updatedAt": "2026-02-16T17:05:20.710Z",
   "createdAt": "2026-02-14T16:04:49.373Z",
   "id": "Hv3TRUmmWscgeCh9",
   "name": "Deploy, Update, Upload",
@@ -262,7 +262,7 @@
     },
     {
       "parameters": {
-        "command": "=$n8n=\"$env:APPDATA\\npm\\n8n.cmd\"; & $n8n import:workflow --separate --input \"{{$('Base Settings').item.json.projectFolderPath}}\\VideoCreation\"\n"
+        "command": "=npx n8n import:workflow --separate --input \"{{$('Base Settings').item.json.projectFolderPath}}\\VideoCreation\""
       },
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
@@ -275,7 +275,7 @@
     },
     {
       "parameters": {
-        "command": "=$n8n=\"$env:APPDATA\\npm\\n8n.cmd\"; & $n8n list:workflow --onlyId | ForEach-Object { $id=$_.Trim(); if($id){ & $n8n publish:workflow --id $id } }"
+        "command": "=npx n8n list:workflow --onlyId |\n  ForEach-Object {\n    $id = $_.Trim()\n    if ($id) { npx n8n publish:workflow --id $id }\n  }"
       },
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
@@ -399,9 +399,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "ae89af75-1808-47c4-b9b0-e1d139d5c681",
+  "versionId": "807de279-b580-4ed6-9d87-cc911aa5dfe0",
   "activeVersionId": null,
-  "versionCounter": 447,
+  "versionCounter": 458,
   "triggerCount": 0,
   "tags": [],
   "shared": [

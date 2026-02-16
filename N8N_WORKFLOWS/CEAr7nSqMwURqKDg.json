@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-13T00:49:35.962Z",
+  "updatedAt": "2026-02-16T16:59:29.554Z",
   "createdAt": "2026-02-04T18:29:54.759Z",
   "id": "CEAr7nSqMwURqKDg",
   "name": "generate video meta",
@@ -12,13 +12,13 @@
         "inputSource": "jsonExample",
         "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\"\n}"
       },
-      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "id": "e66558b1-bc88-4047-931c-d88160c24000",
       "typeVersion": 1.1,
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        -240,
-        448
+        -3952,
+        -160
       ]
     },
     {
@@ -103,11 +103,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        208,
-        448
+        -3568,
+        -160
       ],
       "name": "read meta file",
-      "id": "d3566f0a-c905-4abc-9f83-d8500785dac4"
+      "id": "98074d62-5219-4e7a-ab08-46a6efe4e1f7"
     },
     {
       "parameters": {
@@ -195,10 +195,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        1760,
-        192
+        -2368,
+        -416
       ],
-      "id": "ee8477de-ff62-41f1-8a7f-7d3f843e30f5",
+      "id": "612e29df-5a7c-4f71-8f58-ba8b500b25c6",
       "name": "Switch Text Gen Service"
     },
     {
@@ -218,10 +218,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2176,
-        208
+        -2160,
+        -544
       ],
-      "id": "db6badc5-0919-4a09-92b9-888ee6b53cc2",
+      "id": "04204c8f-d139-4663-bce9-e4cdfa0e9012",
       "name": "get random ID"
     },
     {
@@ -243,7 +243,7 @@
             {
               "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
               "name": "body",
-              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.textGenModel,\n  \"contents\": [\n    {\n      \"role\": \"model\",\n      \"parts\": [\n        { \"text\": $('get all workflow params').first().json.metaDataSystemPrompt }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": \"Full video text: \" + $('Switch Text Gen Service').first().json.normalizedFullText },\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseJsonSchema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"previewText\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"videoTitle\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"videoDescription\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } }\n      },\n      \"required\": [\"previewText\", \"videoTitle\", \"videoDescription\"]\n    }\n  }\n} }}",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.textGenModel,\n    \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"OFF\" }\n  ],\n  \"contents\": [\n    {\n      \"role\": \"model\",\n      \"parts\": [\n        { \"text\": $('get all workflow params').first().json.metaDataSystemPrompt }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": \"Full video text: \" + $('Switch Text Gen Service').first().json.normalizedFullText },\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseJsonSchema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"previewText\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"videoTitle\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"videoDescription\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } }\n      },\n      \"required\": [\"previewText\", \"videoTitle\", \"videoDescription\"]\n    }\n  }\n} }}",
               "type": "object"
             }
           ]
@@ -253,10 +253,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2368,
-        208
+        -1952,
+        -544
       ],
-      "id": "5f4f7ecc-6c71-4d03-9da4-be6804334602",
+      "id": "ccb4641a-0357-47c3-b967-e0ce0789cbe3",
       "name": "form request"
     },
     {
@@ -276,10 +276,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2784,
-        208
+        -1536,
+        -544
       ],
-      "id": "757bc66d-2b7c-420d-9b43-93c5ecc20bfa",
+      "id": "90af19ec-687e-401c-becb-4299d068afbb",
       "name": "Parse Json From Answer"
     },
     {
@@ -364,11 +364,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        2992,
-        208
+        -1328,
+        -544
       ],
       "name": "edit meta file",
-      "id": "602c98eb-b336-4b58-aa4b-bbbd5454672a"
+      "id": "5e7b628b-4bac-462f-bd8e-c2e2ed25def8"
     },
     {
       "parameters": {
@@ -438,10 +438,10 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        2576,
-        208
+        -1744,
+        -544
       ],
-      "id": "8c79855f-86ec-4593-ada2-3bc3f620b3c1",
+      "id": "7b4f3af0-60b3-4c80-9ef5-17fb01958c5c",
       "name": "Send HTTP Request"
     },
     {
@@ -530,10 +530,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        960,
-        336
+        -2752,
+        -288
       ],
-      "id": "f60b0e53-fb2c-45b5-a2a5-630d41bad47a",
+      "id": "308757fe-11a8-4a28-8ae0-853275530ce2",
       "name": "Switch by Video Gen Type"
     },
     {
@@ -564,10 +564,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1184,
-        352
+        -2560,
+        -272
       ],
-      "id": "a3232cb6-43f6-46db-8401-d95362d3c0b7",
+      "id": "8fdc76ef-1157-4ad7-b96b-44c76791b701",
       "name": "If base meta on video text"
     },
     {
@@ -652,11 +652,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        11008,
-        752
+        5648,
+        176
       ],
       "name": "set meta ready",
-      "id": "6818f3e4-5a3e-4f7c-893b-417411d43dba"
+      "id": "ebab68d4-f09a-42f1-b16a-e8e5c7d401c6"
     },
     {
       "parameters": {
@@ -686,10 +686,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        3392,
-        368
+        -1216,
+        -160
       ],
-      "id": "32a10e4a-aab3-42b3-a480-c6f33babff1e",
+      "id": "fe4ee8d5-a158-45e7-9d7a-2b7a45fc0575",
       "name": "If generate thumbnail"
     },
     {
@@ -720,103 +720,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        4416,
-        224
+        -624,
+        -528
       ],
-      "id": "d4592e15-2450-4bf9-8c3c-bc5f9f690c4a",
+      "id": "1d9ffa0d-58a9-4574-b288-f3ad58459af0",
       "name": "If base on original thumb"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $('get all workflow params').item.json.thumbnailGenerationService == \"openai\" }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "83a26520-0567-4bc0-bc04-b49615dc071c"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "openai"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "ab5096bb-efa3-4287-b493-45cee392f8fd",
-                    "leftValue": "={{ $('get all workflow params').item.json.thumbnailGenerationService == \"gemini\" }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "gemini"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "1d5a5f77-e557-4346-b682-d4442fada8b1",
-                    "leftValue": "={{ $('get all workflow params').item.json.thumbnailGenerationService == \"runpod\" }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "runpod"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        5328,
-        816
-      ],
-      "id": "f5499c81-cafd-4fe1-858f-b134dd47b79e",
-      "name": "thumbnail gen service"
     },
     {
       "parameters": {
@@ -879,10 +787,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        768,
-        448
+        -2992,
+        -160
       ],
-      "id": "563d2ed3-d06f-4ad5-8741-b5e071056110",
+      "id": "5befe64c-ca7c-4580-89f6-d8be764b693f",
       "name": "meta ready"
     },
     {
@@ -953,10 +861,10 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        3600,
-        272
+        -1024,
+        -416
       ],
-      "id": "884f824d-043d-4135-9a0d-f50bb9459cb0",
+      "id": "5b658f7d-aef1-477e-94e9-c445cbb910d4",
       "name": "check if all thumbnails ready"
     },
     {
@@ -1020,10 +928,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        3792,
-        272
+        -816,
+        -416
       ],
-      "id": "03280f33-41a3-461c-a3e4-798b9607fa56",
+      "id": "585bb0b5-2b8a-4949-adb4-513cc9bd7f5e",
       "name": "if all thumbs ready"
     },
     {
@@ -1095,10 +1003,10 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        6608,
-        160
+        1440,
+        -560
       ],
-      "id": "7d7d2f50-5896-459f-91dc-4307fd63d1f3",
+      "id": "33b894d1-a5ba-4671-b8e8-13da00eb1ee2",
       "name": "Send HTTP Request1"
     },
     {
@@ -1115,7 +1023,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\n\"videoCreationMode\",\n\n\"openAIApiKey\",\n\"googleApiKey\",\n\"proxyServerIP\",\n\"proxyServerPort\",\n\n\"openAiResponsesRoute\",\n\"openAiImagesRoute\",\n\"geminiAiResponsesRoute\",\n\n\"textGenService\",\n\"textGenModel\",\n\"baseMetaOnVideoText\",\n\n\"generateThumbnail\",\n\"baseNewThumbnailOnOriginal\",\n\n\"imageGenerationService\",\n\"imageBase\",\n\"imagePromptGenerationPrompt\",\n\n\"thumbnailGenerationService\",\n\"thumbnailBase\",\n\"thumbnailPromptGenerationPrompt\",\n\"thumbnailPromptRegenerationPromps\",\n\n\"openaiThumbnailModel\",\n\"thumbnailOpenaiSize\",\n\"thumbnailOpenaiQuality\"\n] }}",
+            "keysToReturn": "={{ [\n\"videoCreationMode\",\n\n\"openAIApiKey\",\n\"googleApiKey\",\n\"proxyServerIP\",\n\"proxyServerPort\",\n\n\"openAiResponsesRoute\",\n\"openAiImagesRoute\",\n\"geminiAiResponsesRoute\",\n\n\"textGenService\",\n\"textGenModel\",\n\"baseMetaOnVideoText\",\n\n\"generateThumbnail\",\n\"baseNewThumbnailOnOriginal\",\n\n\"imageGenerationService\",\n\"imageBase\",\n\"imagePromptGenerationPrompt\",\n\n\"thumbnailGenerationService\",\n\"thumbnailBase\",\n\"thumbnailPromptGenerationPrompt\",\n\"thumbnailPromptRegenerationPromps\",\n\n\"openaiThumbnailModel\",\n\"thumbnailOpenaiSize\",\n\"thumbnailOpenaiQuality\",\n\n\"metaDataSystemPrompt\"\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -1183,11 +1091,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -16,
-        448
+        -3760,
+        -160
       ],
       "name": "get all workflow params",
-      "id": "21d5be67-4c09-40aa-ad4a-e392ee91d60d"
+      "id": "78696e1a-14c1-4b3c-bec0-63eeb9ff39c1"
     },
     {
       "parameters": {
@@ -1275,10 +1183,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        5680,
-        144
+        576,
+        -576
       ],
-      "id": "179a3d0c-3672-415d-8e45-5e98c97a1dcc",
+      "id": "e0cee540-c75b-4567-bc7e-787edbd49a05",
       "name": "text gen service1"
     },
     {
@@ -1337,11 +1245,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        400,
-        448
+        -3376,
+        -160
       ],
       "name": "get whole text file",
-      "id": "f2d801a0-de66-4738-9aa2-544b79d2008d"
+      "id": "809c3aa7-51e9-4fc9-8ef8-a6dc5e8cb730"
     },
     {
       "parameters": {
@@ -1360,10 +1268,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        544,
-        448
+        -3184,
+        -160
       ],
-      "id": "faab1129-e9c7-4549-9b90-947959ab32e5",
+      "id": "9ed56628-39ca-4175-b235-b460c227a0a1",
       "name": "Normalize Full Text"
     },
     {
@@ -1395,10 +1303,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        6400,
-        160
+        1216,
+        -560
       ],
-      "id": "62589df4-4240-4abd-b575-9e639dbe00c6",
+      "id": "8196194f-5505-4e74-9b8b-44435bbf3c1c",
       "name": "form gemini thumbnail prompt req"
     },
     {
@@ -1409,10 +1317,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        5056,
-        288
+        -64,
+        -416
       ],
-      "id": "129e5bbb-bd8b-44f4-97a2-c0b4574043f0",
+      "id": "89040ad0-bab1-4b1b-b768-7901e8416cad",
       "name": "split metas"
     },
     {
@@ -1432,10 +1340,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4880,
-        288
+        -240,
+        -416
       ],
-      "id": "45536e7f-ba80-48e0-a984-b7cb2b49d9e4",
+      "id": "da4f2bc7-a36e-4763-af00-2673124912e6",
       "name": "combine metas"
     },
     {
@@ -1520,11 +1428,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4704,
-        288
+        -416,
+        -416
       ],
       "name": "read meta file2",
-      "id": "cb29de56-9807-4520-9b17-7e5d166d6f69"
+      "id": "54212d6d-0026-4100-9904-05c80fdaa14f"
     },
     {
       "parameters": {
@@ -1554,10 +1462,10 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
       "position": [
-        8000,
-        288
+        2624,
+        -416
       ],
-      "id": "719e3d14-5190-43ad-a1e2-ece2c3023398",
+      "id": "58173026-ee10-4cd1-91f1-c5f3017d267b",
       "name": "Filter ready thumbs1"
     },
     {
@@ -1568,10 +1476,10 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        7792,
-        288
+        2432,
+        -416
       ],
-      "id": "0a09936a-ac2b-4133-8e22-9f987676bd2d",
+      "id": "62e1042f-577c-464f-ba00-d1569d961b3d",
       "name": "split metas1"
     },
     {
@@ -1591,10 +1499,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        7616,
-        288
+        2240,
+        -416
       ],
-      "id": "dec3ce8d-760d-4f0e-bd32-395cc0784d53",
+      "id": "1919e997-9d5c-442c-b010-6a6a5fe20912",
       "name": "combine metas1"
     },
     {
@@ -1679,11 +1587,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        7440,
-        288
+        2048,
+        -416
       ],
       "name": "read meta file3",
-      "id": "926ff6bc-7fac-46b2-88a3-5a02e53d8c89"
+      "id": "276322ad-d1d0-4b54-8f5c-09a9f60992b4"
     },
     {
       "parameters": {
@@ -1713,10 +1621,10 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
       "position": [
-        5264,
-        288
+        144,
+        -416
       ],
-      "id": "72f0070e-f074-4ed9-a101-9687131c653f",
+      "id": "d61bdd1f-2a68-401c-be7d-88a47f1aa9f6",
       "name": "Filter ready thumb prompts",
       "alwaysOutputData": true
     },
@@ -1748,69 +1656,11 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        5472,
-        288
+        352,
+        -416
       ],
-      "id": "a2cd03ea-e74d-4f7f-82f5-1f281adb8ed5",
+      "id": "d8576372-cb99-422a-a149-edeb7a361bc7",
       "name": "If not all prompts ready"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
-              "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.geminiAiResponsesRoute }}",
-              "type": "string"
-            },
-            {
-              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
-              "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').last().json.openAIApiKey,\n\"X-Request-ID\": $json.id\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
-              "name": "body",
-              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.textGenModel,\n  \"input\": [\n    { \"role\": \"system\", \"content\": $('get all workflow params').first().json.thumbnailPromptGenerationPrompt},\n    { \"role\": \"user\", \"content\": $('get all workflow params').first().json.thumbnailBase},\n    { \"role\": \"user\", \"content\": \"Video title: \"+ $('split metas').first().json.videoTitle + \" Video description: \" + $('split metas').first().json.videoDescription},\n    { \"role\": \"user\", \"content\": $('Normalize Full Text').first().json.normalizedFullText},\n  ]\n} }}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        6176,
-        -128
-      ],
-      "id": "b39f9ecb-6373-4404-bb4c-0ebbd6ea8a1f",
-      "name": "form gemini thumbnail prompt req1"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
-              "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.textGenService,\n    $('get all workflow params').first().json.textGenModel,\n\n    $('get all workflow params').first().json.tumbnailBase,\n    $('get all workflow params').first().json.thumbnailPromptGenerationPrompt,\n\n\n    $('Filter ready thumb prompts').item.json.previewText,\n    $('Filter ready thumb prompts').item.json.videoTitle,\n    $('Filter ready thumb prompts').item.json.videoDescription\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        5968,
-        -128
-      ],
-      "id": "f4c566ce-06ff-492c-96ee-4e4cc3486f42",
-      "name": "get random ID for openai thumbnail prompt1"
     },
     {
       "parameters": {
@@ -1829,10 +1679,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        6192,
-        160
+        1008,
+        -560
       ],
-      "id": "e2786c8d-dbad-443d-adc0-adf6aacd5067",
+      "id": "cdd881e1-386c-4c50-9026-6ff7ea77f3c7",
       "name": "get random ID for gemini thumbnail prompt"
     },
     {
@@ -1917,11 +1767,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        7008,
-        160
+        1840,
+        -560
       ],
       "name": "write prompts to meta file",
-      "id": "9e790a9d-af44-4302-9435-b725277c0018"
+      "id": "b5818b5b-556f-4f04-a0e7-f3db537c8f56"
     },
     {
       "parameters": {
@@ -1940,10 +1790,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        6816,
-        160
+        1648,
+        -560
       ],
-      "id": "c484b5d6-44e6-42eb-ab04-e707b1c5452a",
+      "id": "822e2de7-a11a-4e29-9682-b8e04afb954a",
       "name": "set prompt text and index"
     },
     {
@@ -2032,10 +1882,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        8224,
-        144
+        2832,
+        -432
       ],
-      "id": "6725b9c6-45f0-4ed9-85b4-3e9bd468fc43",
+      "id": "b66ffedc-70e5-4ac0-9276-0de92446ad2e",
       "name": "thumbnail gen service1"
     },
     {
@@ -2067,10 +1917,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        8624,
-        144
+        3232,
+        -528
       ],
-      "id": "6f46c103-7048-4b5e-b72d-740303cf2e28",
+      "id": "ae507254-45ac-4eba-92d7-9da0424287a2",
       "name": "form openai thumbnail gen req"
     },
     {
@@ -2144,10 +1994,10 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        8816,
-        144
+        3424,
+        -528
       ],
-      "id": "0e8e206d-b2a7-4779-8b8d-fcc81da0f99a",
+      "id": "5b6acfac-f0bf-47cb-93e1-3b41b896b10f",
       "name": "send HTTP openai thumbnail gen req"
     },
     {
@@ -2167,10 +2017,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        8432,
-        144
+        3040,
+        -528
       ],
-      "id": "4e82a859-2f43-43d4-9a75-af1ce5d93e2d",
+      "id": "d7ad4de2-e44c-436d-9161-444f3d2f2a6a",
       "name": "get random ID for openai thumbnail gen req1"
     },
     {
@@ -2182,10 +2032,10 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        5952,
-        160
+        800,
+        -560
       ],
-      "id": "3cfd3eb5-0c91-437f-b85e-5892fc1c1f03",
+      "id": "c453f5cc-8cdf-4d1e-9360-1425ba50ed37",
       "name": "Aggregate"
     },
     {
@@ -2235,10 +2085,10 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        9216,
-        144
+        3904,
+        -528
       ],
-      "id": "25970a47-0225-4ccb-a9eb-6e8ddca8386e",
+      "id": "ce8cd3c6-0757-467a-81ed-dbe48765b294",
       "name": "write thumbnail"
     },
     {
@@ -2302,10 +2152,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        9024,
-        144
+        3616,
+        -464
       ],
-      "id": "666f2aa4-9b22-4bf8-bbe0-0b4646557352",
+      "id": "b404f94c-c741-475a-b91c-da9db33d94a5",
       "name": "Switch"
     },
     {
@@ -2377,10 +2227,10 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        9840,
-        288
+        4528,
+        -384
       ],
-      "id": "2d2f448e-36e9-4b4b-9322-160e553dec26",
+      "id": "f496b8bf-5289-44f6-a40d-9c1553d635c2",
       "name": "Send HTTP Request2"
     },
     {
@@ -2469,10 +2319,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        9216,
-        272
+        3904,
+        -400
       ],
-      "id": "f21df14c-593c-46c4-9ebd-e6db3e23cc5d",
+      "id": "6a5bfdf9-924e-45b5-ab11-9b86cde150e4",
       "name": "text gen service"
     },
     {
@@ -2504,10 +2354,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        9632,
-        288
+        4320,
+        -384
       ],
-      "id": "cad446db-f5eb-42b0-aa96-a132dc4af2a1",
+      "id": "1484060d-8fc7-4f78-8463-cf4a00a3c576",
       "name": "form gemini thumbnail prompt req2"
     },
     {
@@ -2592,11 +2442,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        10256,
-        288
+        4944,
+        -384
       ],
       "name": "write prompts to meta file1",
-      "id": "13c0e070-41d7-4940-a7c7-0fa042ce2307"
+      "id": "ae302547-0e95-4c9a-8b0c-65a7f07eaa28"
     },
     {
       "parameters": {
@@ -2615,10 +2465,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        10048,
-        288
+        4736,
+        -384
       ],
-      "id": "63b52069-7751-4169-91dc-d24e0d5cdbd5",
+      "id": "be2d64ca-4bbf-40c3-b59e-71d8ab9dbf7d",
       "name": "set prompt text and index1"
     },
     {
@@ -2638,10 +2488,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        9424,
-        288
+        4112,
+        -384
       ],
-      "id": "b4d42f68-8dcd-430d-ae68-c83357971006",
+      "id": "7bafec09-2612-4260-b7ac-8a9b529c1a14",
       "name": "get random ID for gemini thumbnail regen prompt"
     },
     {
@@ -2705,10 +2555,10 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        10256,
-        144
+        4944,
+        -528
       ],
-      "id": "5f752d6f-7d9a-48c0-bc32-c7ced96eb0f4",
+      "id": "28119858-c178-4a1c-94f6-7f80709fd761",
       "name": "last image"
     },
     {
@@ -2779,11 +2629,59 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        10048,
-        144
+        4736,
+        -528
       ],
-      "id": "c1ca5d9e-12dc-4ce5-b835-49c6281e11fc",
+      "id": "a2c82cde-7f4a-4666-a055-cc8854084723",
       "name": "check if all thumbnails ready1"
+    },
+    {
+      "parameters": {
+        "content": "## Titles, descriptions, texts to place on thumbnails Generation",
+        "height": 384,
+        "width": 1312,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2416,
+        -624
+      ],
+      "id": "23afc062-0517-4353-b3f7-9b9d0f269536",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Thumbnails prompts geenration",
+        "height": 272,
+        "width": 1408,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        560,
+        -656
+      ],
+      "id": "242b14c0-17df-40ee-a879-79d84dbee636",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Thumbnails images generation",
+        "height": 352,
+        "width": 976,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2800,
+        -592
+      ],
+      "id": "db129e24-d27a-4247-afe7-aab2ac41576b",
+      "name": "Sticky Note2"
     }
   ],
   "connections": {
@@ -2934,11 +2832,6 @@
         ]
       ]
     },
-    "thumbnail gen service": {
-      "main": [
-        []
-      ]
-    },
     "meta ready": {
       "main": [
         [
@@ -2999,13 +2892,7 @@
     },
     "text gen service1": {
       "main": [
-        [
-          {
-            "node": "get random ID for openai thumbnail prompt1",
-            "type": "main",
-            "index": 0
-          }
-        ],
+        [],
         [
           {
             "node": "Aggregate",
@@ -3143,17 +3030,6 @@
         ]
       ]
     },
-    "get random ID for openai thumbnail prompt1": {
-      "main": [
-        [
-          {
-            "node": "form gemini thumbnail prompt req1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "get random ID for gemini thumbnail prompt": {
       "main": [
         [
@@ -3217,8 +3093,7 @@
             "type": "main",
             "index": 0
           }
-        ],
-        []
+        ]
       ]
     },
     "form openai thumbnail gen req": {
@@ -3393,9 +3268,9 @@
     "Start": [
       {
         "json": {
-          "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-02-12_TBoTY"
+          "channelsFolderPath": "/Users/varvarahanma/Documents/videos/main",
+          "channelName": "WhispersOfEastAsia",
+          "videoFolderName": "2026-02-14_nQoYJ"
         },
         "pairedItem": {
           "item": 0
@@ -3403,9 +3278,9 @@
       }
     ]
   },
-  "versionId": "ec33a01d-5c40-47fe-9d20-055077985df7",
-  "activeVersionId": "ec33a01d-5c40-47fe-9d20-055077985df7",
-  "versionCounter": 1397,
+  "versionId": "cdca98a1-ac20-4397-ab6d-98bb5bcb143f",
+  "activeVersionId": "cdca98a1-ac20-4397-ab6d-98bb5bcb143f",
+  "versionCounter": 1484,
   "triggerCount": 0,
   "tags": [],
   "shared": [
