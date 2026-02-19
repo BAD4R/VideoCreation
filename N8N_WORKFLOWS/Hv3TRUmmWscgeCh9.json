@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-16T17:05:20.710Z",
+  "updatedAt": "2026-02-16T17:06:59.185Z",
   "createdAt": "2026-02-14T16:04:49.373Z",
   "id": "Hv3TRUmmWscgeCh9",
   "name": "Deploy, Update, Upload",
@@ -178,7 +178,7 @@
     },
     {
       "parameters": {
-        "command": "=cd \"{{ $('Base Settings').first().json.projectFolderPath }}\\VideoCreation\"\ngit add -A\ngit commit -m \"update\"\ngit push\n"
+        "command": "=powershell -NoProfile -ExecutionPolicy Bypass -Command \"cd '{{ $('Base Settings').first().json.projectFolderPath }}\\VideoCreation'; git add -A; git commit -m 'update'; git push\""
       },
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
@@ -399,9 +399,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "807de279-b580-4ed6-9d87-cc911aa5dfe0",
+  "versionId": "e54c86f1-116c-4124-831a-ee68f3e600ed",
   "activeVersionId": null,
-  "versionCounter": 458,
+  "versionCounter": 460,
   "triggerCount": 0,
   "tags": [],
   "shared": [
