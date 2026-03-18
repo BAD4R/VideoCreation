@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-08T19:08:31.619Z",
+  "updatedAt": "2026-03-17T21:31:20.933Z",
   "createdAt": "2026-02-05T00:33:05.372Z",
   "id": "fZMsHTY8ISXnudQj",
   "name": "transcribe voiceover",
@@ -460,6 +460,20 @@
       ],
       "name": "set voiceover ready",
       "id": "b1cb5b2f-5ee5-44ac-927c-ea720dd242bb"
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        704,
+        528
+      ],
+      "id": "f2c3afcf-ff72-4d5e-b6e5-8d1dcc04141d",
+      "name": "Wait1",
+      "webhookId": "a072c55a-2b26-4063-949e-02226320abf6"
     }
   ],
   "connections": {
@@ -478,12 +492,12 @@
       "main": [
         [
           {
-            "node": "execute command works",
+            "node": "Wait1",
             "type": "main",
             "index": 0
           },
           {
-            "node": "read ready transcript",
+            "node": "execute command works",
             "type": "main",
             "index": 0
           }
@@ -537,6 +551,17 @@
           }
         ]
       ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "read ready transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -549,8 +574,8 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-02-03_RBsqa"
+          "channelName": "NewChannel",
+          "videoFolderName": "2026-03-17_pWLve"
         },
         "pairedItem": {
           "item": 0
@@ -558,9 +583,9 @@
       }
     ]
   },
-  "versionId": "d3b703ed-bfe5-46ef-bbc7-4ce38f538093",
-  "activeVersionId": "d3b703ed-bfe5-46ef-bbc7-4ce38f538093",
-  "versionCounter": 232,
+  "versionId": "43a86ee0-d05a-4b18-8e75-588dc70afcce",
+  "activeVersionId": "43a86ee0-d05a-4b18-8e75-588dc70afcce",
+  "versionCounter": 255,
   "triggerCount": 0,
   "tags": [],
   "shared": [

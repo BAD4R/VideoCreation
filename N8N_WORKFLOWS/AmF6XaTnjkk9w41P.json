@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-16T17:01:33.199Z",
+  "updatedAt": "2026-03-17T22:40:26.873Z",
   "createdAt": "2026-02-03T20:08:34.562Z",
   "id": "AmF6XaTnjkk9w41P",
   "name": "Main",
@@ -12,7 +12,7 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        144,
+        288,
         0
       ],
       "id": "b1249053-d956-414b-a9c2-8ffcb3299a30",
@@ -21,13 +21,13 @@
     {
       "parameters": {
         "mode": "raw",
-        "jsonOutput": "={\n  \"channelsFolderPath\": \"C:/Users/V/Desktop/Channels\",\n  \"channelName\": \"{{ $json.hasField('channelName') ? $json.channelName : \"CHANNEL NAME HERE\" }}\",\n}",
+        "jsonOutput": "={\n  \"channelsFolderPath\": \"C:/Users/V/Desktop/Channels\",\n  \"channelName\": \"NewChannel\",\n}",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        320,
+        464,
         0
       ],
       "id": "1bf27e09-cd02-414e-bdb5-a0c624452e37",
@@ -115,11 +115,12 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        2240,
-        0
+        672,
+        1376
       ],
       "name": "read video status",
-      "id": "809f6314-19e6-4c34-912b-aa8be770d4fc"
+      "id": "809f6314-19e6-4c34-912b-aa8be770d4fc",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -149,8 +150,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1744,
-        0
+        864,
+        1104
       ],
       "id": "14540777-5f29-48a3-8bd9-c8142ab91d7a",
       "name": "If Video Folders Exist"
@@ -183,8 +184,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2432,
-        0
+        880,
+        1376
       ],
       "id": "1cac19c7-9c5b-4fe5-95d2-0e65c4cdcca5",
       "name": "If Video Status Exist"
@@ -204,7 +205,7 @@
             "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/videoStatus.json",
             "keysToReturn": "={{ [] }}",
             "fileAction": "write",
-            "keysToWrite": "={{ \n  {\n    'textReady':false,\n    'metaReady':false,\n    'voiceoverReady':false,\n    'musicReady':false,\n    'sfxReady':false,\n    'transcriptReady':false,\n\n    'imagesPromptsReady':false,\n    'imagesReady':false,\n\n    'startFramesPromptsReady':false,\n    'startFramesReady':false,\n\n    'clipsPromptsReady':false,\n    'clipsReady':false,\n\n    'renderReady':false,\n    'videoPublished':false\n  } \n}}",
+            "keysToWrite": "={{ \n  {\n    'textReady':false,\n    'metaReady':false,\n    'voiceoverReady':false,\n    'transcriptReady':false,\n\n    'imagesReady':false,\n\n    'startFramesClipsPromptsReady':false,\n\n    'startFramesReady':false,\n    'clipsReady':false,\n\n    'renderReady':false,\n    'videoPublished':false\n  } \n}}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -271,8 +272,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        2528,
-        96
+        976,
+        1472
       ],
       "name": "create video Status json",
       "id": "20447025-4579-4593-a891-0d2fe97bce82"
@@ -359,11 +360,12 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        2720,
-        0
+        672,
+        1648
       ],
       "name": "read session lock",
-      "id": "c628e075-4db8-4ee6-b462-8c25f2514445"
+      "id": "c628e075-4db8-4ee6-b462-8c25f2514445",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -380,7 +382,7 @@
             "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
             "keysToReturn": "={{ [] }}",
             "fileAction": "write",
-            "keysToWrite": "={{ \n  {\n    'textLock':false,\n    'metaLock':false,\n    'voiceoverLock':false,\n    'sfxLock':false,\n    'musicLock':false,\n    'transcriptLock':false,\n\n    'imagesPromptsLock':false,\n    'imagesLock':false,\n\n    'startFramesPromptsLock':false,\n    'startFramesLock':false,\n\n    'clipsPromptsLock':false,\n    'clipsLock':false,\n\n    'renderLock':false,\n    'videoPublishLock':false\n  } \n}}",
+            "keysToWrite": "={{ \n  {\n    'textLock':false,\n    'metaLock':false,\n    'voiceoverLock':false,\n    'transcriptLock':false,\n\n    'imagesLock':false,\n\n    'startFramesClipsPromptsLock':false,\n\n    'startFramesLock':false,\n    'clipsLock':false,\n\n    'renderLock':false,\n    'videoPublishLock':false\n  } \n}}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -447,8 +449,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3216,
-        96
+        976,
+        1744
       ],
       "name": "create session lock json",
       "id": "076333a1-f75e-4e6c-b4ef-fbb94b1b5df7"
@@ -617,8 +619,8 @@
                 },
                 "conditions": [
                   {
-                    "id": "06c4df7c-15d0-4144-8477-81c94909ad06",
-                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( \n  re.requireStartFrames ?\n  re.requireClips ?\n  transcriptReady &&\n  !st.startFramesPromptsReady &&\n  !lo.startFramesPromptsLock\n  : false\n  : false\n)\n\n  return condition\n})()}}",
+                    "id": "f22867e1-09cc-42ed-a7fe-53c152cb5bc7",
+                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireClips ?\n  st.transcriptReady &&\n  !st.startFramesClipsPromptsReady &&\n  !lo.startFramesClipsPromptsReady\n\n  : false\n)\n\n  return condition\n})()}}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -630,7 +632,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "start frames prompts gen"
+              "outputKey": "start frames clips prompts gen"
             },
             {
               "conditions": {
@@ -643,7 +645,7 @@
                 "conditions": [
                   {
                     "id": "c67db705-857a-4280-a5b8-85b24b13ac03",
-                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireStartFrames ?\n  st.startFramesPromptsReady ?\n  !st.startFramesReady &&\n  !lo.startFramesLock\n  : false\n  : false\n)\n\n  return condition\n})()}}",
+                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireStartFrames ?\n  st.startFramesClipsPromptsReady &&\n  !st.startFramesReady &&\n  !lo.startFramesLock\n\n  :false\n)\n\n  return condition.toBoolean()\n})()}}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -667,33 +669,8 @@
                 },
                 "conditions": [
                   {
-                    "id": "f22867e1-09cc-42ed-a7fe-53c152cb5bc7",
-                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireClips ?\n  st.transcriptReady &&\n  !st.clipsPromptsReady &&\n  !lo.clipsPromptsLock\n  : false\n)\n\n  return condition\n})()}}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "clips prompts gen"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
                     "id": "e8462902-8727-4d9a-be95-0acac3607499",
-                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireClips ?\n  st.clipsPromptsReady &&\n  !st.clipsReady &&\n  !lo.clipsLock\n  : false\n)\n\n  return condition\n})()}}",
+                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n( re.requireClips && re.requireStartFrames ?\n  st.startFramesClipsPromptsReady &&\n  st.startFramesReady &&\n  !st.clipsReady &&\n  !lo.clipsLock\n  \n  : re.requireClips && !re.requireStartFrames ?\n  st.startFramesClipsPromptsReady &&\n  !st.clipsReady &&\n  !lo.clipsLock\n\n  : false\n)\n\n  return condition\n})()}}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -718,7 +695,7 @@
                 "conditions": [
                   {
                     "id": "4ae666cc-d581-4cca-b244-fce3c73cbf28",
-                    "leftValue": "={{(()=>{\n  const st = $('read video status').last().json\n  const lo = $('read session lock').last().json\n  const re = $('Set Video Requirements').last().json\n\n  const condition =\n(\n  re.requireText ? st.textReady : true &&\n  re.requireVoiceover ? st.voiceoverReady : true &&\n  re.requireSfx ? st.sfxReady : true &&\n  re.requireMusic ? st.musicReady : true &&\n  re.requireImages ? st.imagesReady : true &&\n  re.requireClips ? st.clipsReady : true\n)\n\n  return condition\n})()}}",
+                    "leftValue": "={{ false }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -739,8 +716,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        3584,
-        -160
+        1440,
+        512
       ],
       "id": "e38a43b4-0e71-4cc2-8867-a45811e6b1c5",
       "name": "Switch by Video Status"
@@ -785,8 +762,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        4624,
-        352
+        2912,
+        1760
       ],
       "id": "557fe5b3-f52b-4790-b852-3a0067c39f19",
       "name": "No Operation, do nothing"
@@ -803,7 +780,7 @@
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/settings.json",
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/settings.json ",
             "fileAction": "read",
             "keysToReturn": "={{ [] }}",
             "keysToWrite": "={{ {} }}",
@@ -873,23 +850,24 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1152,
-        0
+        672,
+        272
       ],
       "name": "read channel settings",
-      "id": "57cc768a-b361-49c4-8c26-2753a195ed5e"
+      "id": "57cc768a-b361-49c4-8c26-2753a195ed5e",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
         "mode": "raw",
-        "jsonOutput": "={{ (()=>{\n  const set = $('read channel settings').first().json;\n\n  return {\n    requireText: true,\n    requireMeta: set.generateMeta,\n    baseMetaOnText: set.baseMetaOnVideoText,\n    requireVoiceover: true,\n    requireSFX: false,\n    requireMusic: false,\n    requireTranscibeAudio: true,\n    requireImages: set.generateSuitingImages,\n    requireStartFrames: set.generateSuitingClips && set.clipGenType === \"imagetovideo\",\n    requireClips: set.generateSuitingClips,\n    requireCombineVideo: true,\n  };\n})() }}",
+        "jsonOutput": "={{ (()=>{\n  const settings = $('read channel settings').first().json;\n\n  return {\n    requireText: true,\n\n    requireMeta: settings.generateMeta,\n\n    baseMetaOnText: settings.baseMetaOnVideoText,\n\n    requireVoiceover: true,\n    requireSFX: false,\n    requireMusic: false,\n    requireTranscibeAudio: true,\n\n    requireImages: settings.generateSuitingImages,\n\n    requireStartFrames: settings.generateSuitingClips && settings.clipGenType === \"imagetovideo\",\n    requireClips: settings.generateSuitingClips,\n\n    requireCombineVideo: true,\n  };\n})() }}",
         "options": {}
       },
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1360,
-        0
+        1056,
+        832
       ],
       "id": "61cf50a0-4c3c-4e7b-86ad-dcddc2a70ba7",
       "name": "Set Video Requirements"
@@ -951,8 +929,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        4048,
-        -528
+        2080,
+        48
       ],
       "id": "12ee0e7f-401d-4d4d-8388-917172e02812",
       "name": "generate text"
@@ -974,8 +952,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2016,
-        0
+        1056,
+        1104
       ],
       "id": "ea4586ec-9f47-4e90-8f23-8303e16f430a",
       "name": "Set Video Folder Name"
@@ -1062,8 +1040,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4272,
-        -528
+        2304,
+        48
       ],
       "name": "unlock texts",
       "id": "6dd74862-424a-43dd-a4f0-24ceede63401"
@@ -1150,8 +1128,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3840,
-        -528
+        1872,
+        48
       ],
       "name": "lock texts",
       "id": "db097e9b-86d3-4bab-adf6-d497475bec57"
@@ -1213,8 +1191,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        4048,
-        -400
+        2080,
+        176
       ],
       "id": "41fecf7c-2352-45eb-9a1e-bd9f5f721f28",
       "name": "generate meta"
@@ -1276,8 +1254,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        4048,
-        -272
+        2080,
+        400
       ],
       "id": "cb327b9e-c506-4b7b-8e89-03011d3b35cf",
       "name": "generate voiceover"
@@ -1339,137 +1317,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        4048,
-        -128
+        2080,
+        544
       ],
       "id": "39fa7b81-a9b3-42f6-aba3-19f4e9a0cea9",
       "name": "transcribe audio"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "C4PCujSuMWddLkKC",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/C4PCujSuMWddLkKC",
-          "cachedResultName": "generate clips prompts"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "channelsFolderPath": "={{ $('Base Settings').first().json.channelsFolderPath }}",
-            "channelName": "={{ $('Base Settings').first().json.channelName }}",
-            "videoFolderName": "={{ $('Set Video Folder Name').first().json.videoFolderName }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "channelsFolderPath",
-              "displayName": "channelsFolderPath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "channelName",
-              "displayName": "channelName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "videoFolderName",
-              "displayName": "videoFolderName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        4048,
-        16
-      ],
-      "id": "ef21ed90-9f39-4502-9d59-3c9867ca46ac",
-      "name": "generate clips prompts"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "l0p4y5gFr4cklXjY",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/l0p4y5gFr4cklXjY",
-          "cachedResultName": "generate clips"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "videoFolderName": "={{ $('Set Video Folder Name').first().json.videoFolderName }}",
-            "channelName": "={{ $('Base Settings').first().json.channelName }}",
-            "channelsFolderPath": "={{ $('Base Settings').first().json.channelsFolderPath }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "channelsFolderPath",
-              "displayName": "channelsFolderPath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "channelName",
-              "displayName": "channelName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "videoFolderName",
-              "displayName": "videoFolderName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        4048,
-        160
-      ],
-      "id": "9aed98e3-a7fa-4a4e-8154-404f1acf3591",
-      "name": "generate clips"
     },
     {
       "parameters": {
@@ -1553,8 +1405,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3840,
-        -400
+        1872,
+        176
       ],
       "name": "lock meta",
       "id": "d1f02235-a7d9-4f11-a97a-35105d975513"
@@ -1641,8 +1493,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4272,
-        -400
+        2304,
+        176
       ],
       "name": "unlock meta",
       "id": "1b31eb98-22ff-4023-b64d-587c81025237"
@@ -1729,99 +1581,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3840,
-        -272
+        1872,
+        400
       ],
       "name": "lock voiceover",
       "id": "62c980b7-a22a-4741-97a5-7c032335c54b"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
-            "fileAction": "write",
-            "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {\n\"voiceoverLock\":false\n} }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        4272,
-        -272
-      ],
-      "name": "unlock voiceover",
-      "id": "f718e431-ef04-4b7a-9821-6076e91855db"
     },
     {
       "parameters": {
@@ -1905,8 +1669,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3840,
-        -128
+        1872,
+        544
       ],
       "name": "lock transcription",
       "id": "8ac1ef97-4c3a-4c06-a122-952252b8da95"
@@ -1993,8 +1757,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4272,
-        -128
+        2304,
+        544
       ],
       "name": "unlock transcription",
       "id": "ca091cdc-38ac-4dbd-8e68-70c05ee39cbd"
@@ -2014,7 +1778,7 @@
             "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
             "fileAction": "write",
             "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {\n\"clipsPromptsLock\":true\n} }}",
+            "keysToWrite": "={{ {\n\"clipsLock\":true\n} }}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -2081,184 +1845,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3840,
-        16
-      ],
-      "name": "lock clip prompts",
-      "id": "58dad8a1-577b-487c-abcd-7a997f90f86f"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
-            "fileAction": "write",
-            "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {\n\"clipsPromptsLock\":true\n} }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        4272,
-        16
-      ],
-      "name": "unlock clip prompts",
-      "id": "14d3424f-2374-4c52-a151-11b0b2a3f1fb"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
-            "fileAction": "write",
-            "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {\n\"textLock\":true\n} }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        3840,
-        160
+        1872,
+        1056
       ],
       "name": "lock clips",
       "id": "3c4f25b1-52d9-4007-8d9b-05993c3fe5a8"
@@ -2345,8 +1933,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4272,
-        160
+        2304,
+        1056
       ],
       "name": "unlock clips",
       "id": "62d672db-37a7-4ba2-b58a-5c43072a1474"
@@ -2379,8 +1967,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2912,
-        0
+        880,
+        1648
       ],
       "id": "089df29c-13c9-49dd-9ba2-dfeb1618d82e",
       "name": "If Session Lock Exist"
@@ -2467,8 +2055,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4272,
-        304
+        2304,
+        1296
       ],
       "name": "unlock render",
       "id": "a4f2d4a3-e4c6-41ad-a6eb-56324da74c0b"
@@ -2555,8 +2143,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3840,
-        304
+        1872,
+        1296
       ],
       "name": "lock render",
       "id": "4f193446-716d-4b17-995c-16bc7bdff90f"
@@ -2618,8 +2206,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        4048,
-        304
+        2080,
+        1296
       ],
       "id": "4552a02b-2237-4549-8121-f8281689a8ea",
       "name": "combine video"
@@ -2661,7 +2249,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        528,
+        672,
         0
       ],
       "id": "9dbfba19-08e8-4835-a20f-141ee09db7e8",
@@ -2679,7 +2267,7 @@
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "command": "=powershell -NoProfile -ExecutionPolicy Bypass -Command \"$paths = @({{ (()=>{\n\n  // --- базовый путь видео-папки ---\n  const baseSettings = $('Base Settings').item.json;\n  const root = `${baseSettings.channelsFolderPath}/${baseSettings.channelName}`;\n\n  // --- дерево папок ---\n  const tree = {\n    \"RUNPOD\":  [\"runpodRequests\"],\n    \"VIDEOS\":  [\"\"],\n    \"LOGS\":  [\"\"],\n  };\n\n  // --- разворачиваем в полный список путей ---\n  const paths = [root];\n\n  for (const [main, subs] of Object.entries(tree)) {\n    const mainPath = `${root}/${main}`;\n    paths.push(mainPath);\n\n    for (const sub of subs) {\n      if (!sub) continue; // пропускаем пустые\n      paths.push(`${mainPath}/${sub}`);\n    }\n  }\n\n  // Если тебе нужны PowerShell-литералы строк (в одинарных кавычках):\n  // return paths.map(p => `'${p.replace(/'/g, \"''\")}'`);\n\n  // Если нужен просто массив путей (лучше для дальнейшей обработки):\n  return paths.map(i=>\"'\"+i+\"'\");\n})() }}); foreach($p in $paths){ New-Item -ItemType Directory -Path $p -Force | Out-Null}\""
+            "command": "=powershell -NoProfile -ExecutionPolicy Bypass -Command \"$paths = @({{ (()=>{\n\n  // --- базовый путь видео-папки ---\n  const baseSettings = $('Base Settings').item.json;\n  const root = `${baseSettings.channelsFolderPath}/${baseSettings.channelName}`;\n\n  // --- дерево папок ---\n  const tree = {\n    \"RUNPOD\":  [\"runpodRequests\"],\n    \"VIDEOS\":  [\"\"],\n  };\n\n  // --- разворачиваем в полный список путей ---\n  const paths = [root];\n\n  for (const [main, subs] of Object.entries(tree)) {\n    const mainPath = `${root}/${main}`;\n    paths.push(mainPath);\n\n    for (const sub of subs) {\n      if (!sub) continue; // пропускаем пустые\n      paths.push(`${mainPath}/${sub}`);\n    }\n  }\n\n  // Если тебе нужны PowerShell-литералы строк (в одинарных кавычках):\n  // return paths.map(p => `'${p.replace(/'/g, \"''\")}'`);\n\n  // Если нужен просто массив путей (лучше для дальнейшей обработки):\n  return paths.map(i=>\"'\"+i+\"'\");\n})() }}); foreach($p in $paths){ New-Item -ItemType Directory -Path $p -Force | Out-Null}\""
           },
           "matchingColumns": [
             "command"
@@ -2704,7 +2292,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        960,
+        1056,
         96
       ],
       "id": "6359fdba-43f0-4614-bf92-38ae4bb3c6e6",
@@ -2747,8 +2335,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1568,
-        0
+        672,
+        1104
       ],
       "id": "a02bbdb8-5295-4254-ad09-37d329e2871a",
       "name": "Read Existing Videos Folders"
@@ -2765,7 +2353,7 @@
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "command": "=powershell -NoProfile -ExecutionPolicy Bypass -Command \"$paths = @({{ (()=>{\n  // --- 5-символьный id из timestamp ($now) ---\n  const alphabet = \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\";\n  let n = Math.floor(Date.parse($now)); // ms\n  let randId = \"\";\n  for (let i = 0; i < 5; i++) {\n    randId = alphabet[n % 52] + randId;\n    n = Math.floor(n / 52);\n  }\n\n  // --- базовый путь видео-папки ---\n  const baseSettings = $('Base Settings').item.json;\n  const root = `${baseSettings.channelsFolderPath}/${baseSettings.channelName}/VIDEOS/${$now.format('yyyy-MM-dd')}_${randId}`;\n\n  // --- дерево папок ---\n  const tree = {\n    \"TEXTS\":  [\"\"],\n    \"VOICE\":  [\"audioData\", \"transcript\"],\n    \"SFX\":  [\"\"],\n    \"IMAGES\": [\"imagePrompts\", \"images\", \"textParts\"],\n    \"CLIPS\":  [\"startFramePrompts\", \"startFrames\", \"videoClipPrompts\", \"videoClips\"],\n    \"MUSIC\":  [\"\"],\n  };\n\n  // --- разворачиваем в полный список путей ---\n  const paths = [root];\n\n  for (const [main, subs] of Object.entries(tree)) {\n    const mainPath = `${root}/${main}`;\n    paths.push(mainPath);\n\n    for (const sub of subs) {\n      if (!sub) continue; // пропускаем пустые\n      paths.push(`${mainPath}/${sub}`);\n    }\n  }\n\n  // Если тебе нужны PowerShell-литералы строк (в одинарных кавычках):\n  // return paths.map(p => `'${p.replace(/'/g, \"''\")}'`);\n\n  // Если нужен просто массив путей (лучше для дальнейшей обработки):\n  return paths.map(i=>\"'\"+i+\"'\");\n})() }}); foreach($p in $paths){ New-Item -ItemType Directory -Path $p -Force | Out-Null}\""
+            "command": "=powershell -NoProfile -ExecutionPolicy Bypass -Command \"$paths = @({{ (()=>{\n  // --- 5-символьный id из timestamp ($now) ---\n  const alphabet = \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\";\n  let n = Math.floor(Date.parse($now)); // ms\n  let randId = \"\";\n  for (let i = 0; i < 5; i++) {\n    randId = alphabet[n % 52] + randId;\n    n = Math.floor(n / 52);\n  }\n\n  // --- базовый путь видео-папки ---\n  const baseSettings = $('Base Settings').item.json;\n  const root = `${baseSettings.channelsFolderPath}/${baseSettings.channelName}/VIDEOS/${$now.format('yyyy-MM-dd')}_${randId}`;\n\n  // --- дерево папок ---\n  const tree = {\n    \"TEXTS\":  [\"\"],\n    \"VOICE\":  [\"audioData\", \"transcript\"],\n    \"IMAGES\": [\"imagePrompts\", \"images\", \"textParts\"],\n    \"CLIPS\":  [\"startFrames\", \"videoClipsAndStartFramesPrompts\", \"videoClips\"],\n  };\n\n  // --- разворачиваем в полный список путей ---\n  const paths = [root];\n\n  for (const [main, subs] of Object.entries(tree)) {\n    const mainPath = `${root}/${main}`;\n    paths.push(mainPath);\n\n    for (const sub of subs) {\n      if (!sub) continue; // пропускаем пустые\n      paths.push(`${mainPath}/${sub}`);\n    }\n  }\n\n  // Если тебе нужны PowerShell-литералы строк (в одинарных кавычках):\n  // return paths.map(p => `'${p.replace(/'/g, \"''\")}'`);\n\n  // Если нужен просто массив путей (лучше для дальнейшей обработки):\n  return paths.map(i=>\"'\"+i+\"'\");\n})() }}); foreach($p in $paths){ New-Item -ItemType Directory -Path $p -Force | Out-Null}\""
           },
           "matchingColumns": [
             "command"
@@ -2790,11 +2378,1545 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1840,
-        96
+        1056,
+        1200
       ],
       "id": "39def605-1371-45bd-868a-94c3a7577fd7",
       "name": "Create Video Whole Directory"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\"productKey\"] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        992,
+        -304
+      ],
+      "name": "get product key",
+      "id": "97cb47c6-47c1-4f21-b4d2-77a8ad96d021"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body_content_type",
+              "displayName": "body_content_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1776,
+        -352
+      ],
+      "id": "27dbe791-64c8-471c-a876-48a3ce51d230",
+      "name": "Send HTTP Request"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\n\"videoCreationMode\",\n\n\"summarizeFullText\",\n\n\"openAIApiKey\",\n\"googleApiKey\",\n\"proxyServerIP\",\n\"proxyServerPort\",\n\n\"openAiResponsesRoute\",\n\"openAiImagesRoute\",\n\"geminiAiResponsesRoute\",\n\n\"textGenService\",\n\"textGenModel\",\n\"baseMetaOnVideoText\",\n\n  \"generateThumbnail\",\n\"baseNewThumbnailOnOriginal\",\n\n\"imageGenerationService\",\n\"imageBase\",\n\"imagePromptGenerationPrompt\",\n\n\"thumbnailGenerationService\",\n\"thumbnailBase\",\n\"thumbnailPromptGenerationPrompt\",\n\"thumbnailPromptRegenerationPromps\",\n\n\"openaiThumbnailModel\",\n\"thumbnailOpenaiSize\",\n\"thumbnailOpenaiQuality\",\n\n\"metaDataSystemPrompt\"\n] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1184,
+        -304
+      ],
+      "name": "get all workflow params",
+      "id": "b8d836d1-1b28-4236-9a93-09e14b13b9c3"
+    },
+    {
+      "parameters": {
+        "content": "## Clears user's cache from DB for last N hours\nmight be used if stuck mid-workflow",
+        "height": 304,
+        "width": 1280,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        672,
+        -384
+      ],
+      "id": "6a411b5f-f063-442c-bc68-fd3e720128ef",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        704,
+        -304
+      ],
+      "id": "b00606bc-f316-4f89-93c6-06b70c1d39cd",
+      "name": "Connect me to next nodes to use"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "C4PCujSuMWddLkKC",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/C4PCujSuMWddLkKC",
+          "cachedResultName": "generate starting frames and clips prompts"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Base Settings').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Base Settings').first().json.channelName }}",
+            "videoFolderName": "={{ $('Set Video Folder Name').first().json.videoFolderName }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2080,
+        768
+      ],
+      "id": "ef21ed90-9f39-4502-9d59-3c9867ca46ac",
+      "name": "generate starting frames and clips prompts"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"startFramesLock\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1872,
+        912
+      ],
+      "name": "lock starting frames",
+      "id": "46fe8391-9863-4932-a16c-7d98374f3c9b"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"startFramesLock\":false\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2304,
+        912
+      ],
+      "name": "unlock start frames",
+      "id": "e1b05ebe-13fc-4e41-af0b-ea5356ce7777"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "FRgyLjNPqMix6o6C",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/FRgyLjNPqMix6o6C",
+          "cachedResultName": "generate starting frames"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Base Settings').first().json.channelsFolderPath }}",
+            "videoFolderName": "={{ $('Set Video Folder Name').first().json.videoFolderName }}",
+            "channelName": "={{ $('Base Settings').first().json.channelName }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2080,
+        912
+      ],
+      "id": "0d45eb34-3396-4d03-82e5-c9bc292268b7",
+      "name": "generate starting frames"
+    },
+    {
+      "parameters": {
+        "content": "## Text and metadata generation",
+        "height": 320,
+        "width": 560,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1856,
+        0
+      ],
+      "id": "afca1835-28a1-41b5-9416-e57d65a32e45",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Voiceover generation and transcription ",
+        "height": 336,
+        "width": 560,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1856,
+        352
+      ],
+      "id": "7d33d350-8462-44d9-9341-80f2d523c6c0",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "## Visuals generation",
+        "height": 480,
+        "width": 560,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1856,
+        720
+      ],
+      "id": "79685682-0a40-4de2-b632-d486d5778d3e",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "## Combining final video",
+        "height": 192,
+        "width": 560
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1856,
+        1248
+      ],
+      "id": "31353743-651a-4000-9bb1-2b63eaa778a0",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"voiceoverLock\":false\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2304,
+        400
+      ],
+      "name": "unlock voiceover",
+      "id": "f718e431-ef04-4b7a-9821-6076e91855db"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/request-cache/cleanup",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n  \"after\": $now.minus({ hours: $json.hours }).toUnixInteger(),\n  \"before\": $now.toUnixInteger()\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1584,
+        -352
+      ],
+      "id": "1bffc076-ae94-412e-a5e5-07c2d3d9e258",
+      "name": "form clear cache request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/runpod/comfyui/jobs/delete",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n  \"after\": $now.minus({ hours: $json.hours }).toUnixInteger(),\n  \"before\": $now.toUnixInteger()\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1584,
+        -256
+      ],
+      "id": "fd09fdcd-cc98-486b-9112-9ef8ba45f65c",
+      "name": "form clear runpod jobs request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cbae57df-33ce-4f18-8f27-a46d854341c5",
+              "name": "hours",
+              "value": 3,
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1392,
+        -304
+      ],
+      "id": "0eacc2fa-3d75-47cd-bdeb-574f1136ed33",
+      "name": "SET Number of Hours to Delete"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body_content_type",
+              "displayName": "body_content_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1776,
+        -256
+      ],
+      "id": "2fc0b719-259c-4d3b-ba59-a1a4929cecab",
+      "name": "Send HTTP Request1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5505f09e-62e2-462a-93b1-46e9c95b3412",
+              "leftValue": "={{ !$json.isEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        864,
+        272
+      ],
+      "id": "893f1dde-251b-4996-9ca5-39b87eed3383",
+      "name": "If Settings Exists"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node\n// В rawText вставляешь РОВНО свой текст как есть.\n// Ничего не парсится, ничего не чистится, комментарии сохраняются.\n// Просто превращаем строку в binary-файл.\n\nconst rawText =\n`{\n    //##################################################################################\n    //0. GENERAL SETTINGS\n\n\n\n    //==================================================================================\n    //0.1 CHANNEL SETTINGS\n    \"channelLanguage\": \"ru\", // (en, ru, de, ...)\n    //==================================================================================\n\n\n    \n    //==================================================================================\n    //0.2 API KEYS SETTINGS\n    \"openAIApiKey\": \"sk-proj-XXXXXX\",\n    \"googleApiKey\": \"XXXXXX\",\n    \"runpodApiKey\": \"rpa_XXXXXX\",\n    \"productKey\": \"pk_live_XXXXXX\",\n    //==================================================================================\n\n\n\n    //==================================================================================\n    //0.3 PROXY SERVER SETTINGS\n    \"proxyServerIP\": \"45.131.109.151\",\n    \"proxyServerPort\": \"8001\",\n    \"statusRoute\": \"status\",\n    \"shutdownRoute\": \"shutdown\",\n    \"comfyUiRoute\": \"runpod/comfyui\",\n    \"openAiResponsesRoute\": \"proxy-responses\",\n    \"openAiImagesRoute\": \"proxy-openai-images\",\n    \"geminiAiResponsesRoute\": \"proxy-google-responses\",\n    \"elevenlabsRoute\": \"proxy-elevenlabs\",\n    //==================================================================================\n\n\n\n    //==================================================================================\n    //0.4 RUNPOD SETTINGS\n    \"runpodTemplateId\": \"ubai7vcm50\",\n    // \"runpodGPUList\": [\"NVIDIA RTX PRO 6000 Blackwell Max-Q Workstation Edition\", \"NVIDIA RTX PRO 6000 Blackwell Server Edition\", \"NVIDIA RTX PRO 6000 Blackwell Workstation Edition\", \"NVIDIA GeForce RTX 5090\"],\n    // \"runpodGPUList\": [\"NVIDIA RTX 2000 Ada Generation\", \"NVIDIA RTX A4500\", \"NVIDIA GeForce RTX 4090\"],\n    \"runpodGPUList\": [\"NVIDIA GeForce RTX 5090\"],\n    // \"runpodCountryCodes\": [\"SE\", \"RO\", \"CZ\", \"IS\", \"US\"],\n    \"ranpodUseVolume\": true,\n    \"runpodVolumeId\": \"\",\n    \"runpodDashboardPort\": 8084,\n\n    \"comfyUiPort\": 3000,\n\n    //===================================RUNPOD STAISRICS============================================\n    //0.5 RUNPOD STATISTICS\n    \"runpodT2TWorkloadKey\":\"\",\n    \"runpodT2IWorkloadKey\":\"flux-2_dev_fp8\",\n    \"runpodT2VWorkloadKey\":\"\",\n    \"runpodT2AWorkloadKey\":\"\",\n    \n    \"runpodI2TWorkloadKey\":\"\",\n    \"runpodI2IWorkloadKey\":\"\",\n    \"runpodI2VWorkloadKey\":\"wan-2_2-i2v_14b_fp9\",\n\n    \"runpodV2AWorkloadKey\":\"\",\n    //==================================================================================\n\n\n\n    //##################################################################################\n\n\n\n\n\n    //##################################################################################\n    //1. VIDEO TEXT GENERATION\n\n\n\n    //==================================================================================\n    //1.1 VIDEO TEXT GENERATION\n    \"videoCreationMode\": \"singlerequest\",\n\n    \"videoTextGenService\": \"gemini\", //gemini, openai\n    \"videoTextGenModel\": \"gemini-3.1-pro-preview\", //gemini-2.5-pro, o3, o4-mini, gpt-4o-mini, etc\n\n    \"wantedTextLength\": 30000, //20000 ~= 8500; 30000 ~= 11000-16000\n    //==================================================================================\n\n\n\n    //==================================================================================\n    //1.2 VIDEO TEXT GENERATION MODES SETTINGS\n    //SINGLEREQUEST\n    \"singleRequestSystemPrompt\": \"Инструкция: Сгенерируй полный текст ролика на основе темы и целевой длины, которые будут переданы в сообщении от роли 'user'. Пиши по-русски естественно и разговорно-нейтрально; сохраняй только реальные факты по теме; проверяй и уточняй детали по достоверным источникам в интернете. Не выдумывай фактов и не подавай неподтвержденные легенды как истину — если упоминаешь легенду или предание, явно пометь это как легенду или слух. Общие понятия и термины переводии по контексту (названия продуктов и моделей, бренды и имена собственные оставляй без изменений; устоявшиеся русские экзонимы используй там, где они приняты). ВАЖНО: все числа и даты — включая римские и арабские — пиши словами и без сокращений (например три, пятьсот, тысяча девятьсот восемьдесят четвертый, двадцатое октября две тысячи двадцать третьего года). Если сгенерировал цифру, вернись и замени ее на словесную форму. Держи длину максимально близкой к указанной (допуск около десяти–пятнадцати процентов). Длина считается по чистому русскому тексту БЕЗ учета тегов в квадратных скобках. Все измерения указывай в метрической системе. Формат подачи держи как подборку интересных фактов: текст состоит из автономных абзацев-микросцен, каждый абзац — один законченный факт с кратким пояснением «зачем/почему это важно» и одной-двумя конкретиками; между абзацами — мягкие смысловые мостики; без нумерации и без маркеров списков; избегай жёстких шаблонов, точных инструкций самому себе и меню вариантов на выбор. Пиши так, чтобы внимание тянулось за интригой без кликбейта: начинай с ясной интриги или парадокса без затянутого вступления, мягко обещай важное раскрытие впереди и веди к нему через меняющийся ритм сцен и фактов. Поддерживай ощущение незавершенности: изредка задавай вопрос, на который ответ появится позже; закрывай его не сразу и открывай новый, но не превращай текст в механический 'вопрос — ответ'. Делай ставки конкретными — связывай факты с последствиями для людей, времени, денег и репутации; показывай цену ошибки и цену выбора. Пиши как для озвучки: короткие и средние фразы, прямой порядок слов 'кто — что делает — с чем', без инверсий и длинных придаточных; если фраза утяжелилась, разбей её. Избегай редкой и книжной лексики, архаизмов и вычурных прилагательных; сложное слово заменяй на пару простых; не используй редкие слова вроде книжных эпитетов — выбирай привычные разговорные эквиваленты. Предпочитай глаголы действия вместо отглагольных существительных. Диалогов по минимуму — допускай редкие короткие реплики только когда это усиливает драму или проясняет мысль. Юмор, ирония и лёгкие 'фу-факторы' должны иногда проскакивать как натуральные штрихи: коротко, к месту и по делу, чтобы усилить контраст и удержание; не повторяй один и тот же приём подряд, не подменяй содержание ради шутки или брезгливой детали, избегай оскорблений и шока ради шока. Держи живой, но ровный темп: чередуй короткие и средние предложения, меняй тональность от вопроса к утверждению и от эмоции к сухому факту; не начинай подряд несколько фраз одним и тем же словом. Образность используй умеренно и только для прояснения смысла, без гротеска. Источники и авторов в тексте не называй; не используй формулы 'учёные считают', 'историк писал', названия институтов и журналов; для общеизвестных вещей допустимы нейтральные обобщения. Анти-калька и чистота речи: избегай бюрократизмов, офисного и псевдонаучного жаргона. Ограничь причастные и деепричастные обороты — лучше вовсе без них; избегай цепочек из нескольких 'что/который'. Каждый абзац — самостоятельная мини-сцена без нумерации и маркеров; не перечисляй возможные ходы и не задавай жёсткий шаблон абзаца. Теги озвучки ElevenLabs v3 (обязательно): используй англоязычные теги эмоций/стиля в квадратных скобках; они НЕ считаются служебным мусором и должны остаться в тексте. Язык текста — русский, язык тегов — английский. Допустимые стиль-теги: [narration], [serious], [tense], [whispering], [soft], [pensive], [fearful], [terrified], [friendly], [surprised], [sad], [angry], [shouting], [laughing], [sigh], [breath]. Паузы: [pause Ns], где N — длительность в миллисекундах ЦИФРАМИ (например: [pause 2s], [pause 3s], [pause 4s], [pause 6s]). Цифры допустимы ТОЛЬКО внутри [pause Ns]. Правила применения тегов: (1) В начале каждого абзаца ставь базовый тег тона — обычно [narration] или [serious]; если абзац более тревожный/напряжённый — [tense] или [pensive]; если абзац с лёгкой иронией/теплотой — [friendly] или [soft]. (2) Внутри одного предложения — не более одного стиль-тега; можно добавить одну паузу [pause Ns] для расстановки акцентов, но не чаще одной паузы на два–три предложения. (3) [breath] — не чаще одного раза на абзац и только перед фразой с повышенной эмоциональной нагрузкой. (4) Не ставь теги внутри слов и внутри цитат. (5) Избегай истерики — не комбинируй [shouting] с тревожной атмосферой без явной необходимости. (6) Вопросы-«мостики» делай нейтральным тоном ([narration]) без усилителей. Техническая гигиена: не используй типографские кавычки и спецсимволы — вместо «» и “” и ’’ используй обычные кавычки, вместо длинных тире — обычный дефис; не вставляй эмодзи и символы вроде ★, ✓, ©, ®, ™; не смешивай латиницу и кириллицу в одном слове. Не оставляй отдельно короткие куски вроде 'Но...' или 'И...'. Не вставляй лишние переводы строк, табы или дополнительные пробелы внутри предложений — используй обычный пробел. Не ставь больше трех точек подряд; для многоточия используй '...'. Не применяй сокращения с точками — пиши словами. Убирай служебный мусор: маркеры списков, технические префиксы, ссылки и URL, таймкоды, подписи спикеров — КРОМЕ тегов озвучки в квадратных скобках, их оставляй. Важно: тема ролика и целевая длина передаются отдельно, итоговый текст обязан им соответствовать.\",\n    //\n\n    //REWRITE\n    // \"rewriteCutOriginalTextChunksLength\": 2000,\n    // \"rewriteSentWithEveryRequestSystemPrompt\": \"\",\n    // \"rewriteMetaSystemPrompt\": \"\",\n\n    // \"getImageDescriptionSystemPrompt\": \"\",\n\n    // \"systemPromptForRandomizingStoryStartingPoint\": \"\",\n    // \"randomizeStoryStartingPointPrompt\": \"\",\n    //\n    //==================================================================================\n\n\n\n    //==================================================================================\n    //1.3 VIDEO TEXT SUMMARIZATION\n    \"summarizeFullText\": true,\n    \"summarizeFullTextSystemPrompt\": \"Ты суммаризируешь тект при этом заменяя части текста, которые могут быть распозданны как prohibited content на нейтральные формулировки. На входе ты получаешь: A) Полный текст ролика. Используй полный текст ролика, чтобы создать его краткое содержание, которое будет включать в себя все основные факты и сюжетные линии. К prohibited content относится следующий список запетов: Упоминание детей в тексте - все упоминания людей до 18 лет заменяй на что-то вроде young person/women/men. Не используй kid/child/teenager. Техническая гигиена: не используй типографские кавычки и спецсимволы — вместо «» и “” и ’’ используй обычные кавычки, вместо длинных тире — обычный дефис; не вставляй эмодзи и символы вроде ★, ✓, ©, ®, ™; не смешивай латиницу и кириллицу в одном слове. Не оставляй отдельно короткие куски вроде 'Но...' или 'И...'. Не вставляй лишние переводы строк, табы или дополнительные пробелы внутри предложений — используй обычный пробел. Не ставь больше трех точек подряд; для многоточия используй '...'. Не применяй сокращения с точками — пиши словами. Убирай служебный мусор: маркеры списков, технические префиксы, ссылки и URL, таймкоды, подписи спикеров теги озвучки в квадратных скобках. Вывод не должен содержать ничего кроме самого резюмированного текста (никаких пометок, пояснений, нумераций, комментариев от тебя)\",\n    //==================================================================================\n\n\n\n    //##################################################################################\n\n\n\n\n    //##################################################################################\n    //2. VIDEO METADATA GENERATION\n    \n\n\n    //==================================================================================\n    //2.1 TITLE, DESCRIPTION SETTINGS\n    \"generateMeta\": true, //generates preview, title, and video description based on final text\n    \"baseMetaOnVideoText\": true,\n    \"readOriginalPreviewText\": false, \n\n    \"metaTextGenService\": \"gemini\", //gemini, openai\n    \"metaTextGenModel\": \"gemini-3.1-pro-preview\", //gemini-2.5-pro, o3, o4-mini, gpt-4o-mini, etc\n    \"metaDataSystemPrompt\": \"Ты генерируешь три тройки метаданных для видео на основе полного текста ролика. Язык метаданных должен совпадать с языком текстом ролика. Каждая из троек должна содержать сочетающиеся, подходящие друг другу, метаданные. Метаданные должы включать в себя текст который нужно написать на превью, название ролика, описание ролика. Каждый элемент троек метаданных кладется в список. Ответь в формате JSON: { 'previewText': ['текст для превью 1', 'текст для превью 2', 'текст для превью 3'], 'videoTitle': ['название ролика 1', 'название ролика 2', 'название ролика 3'], 'videoDescription': ['описание ролика 1', 'описание ролика 2', 'описание ролика 3'] }. Финальная длина каждого названия ролика строго <= 100 символов, но старайся делать 5-7 цепляющих глаз слов. Финальная длина каждого описания ролика строго <= 5000 символов. Вывод не должен содержать ничего кроме JSON (никаких пометок, пояснений, нумераций троек метаданных, комментариев от тебя)\",\n    //==================================================================================\n\n\n\n    //==================================================================================\n    //2.2 THUMBNAIL SETTINGS\n    \"generateThumbnail\": true,\n    \"baseNewThumbnailOnOriginal\": false, //for rewrite mode\n\n    \"thumbnailPromptsGenService\": \"gemini\", //gemini, openai\n    \"thumbnailPromptsGenModel\": \"gemini-3.1-pro-preview\", //gemini-2.5-pro, o3, o4-mini, gpt-4o-mini, etc\n\n    \"thumbnailBase\": \"Без текста. Превю ролика, созданное профессионалом, используя графические редакторы, реальные снимки того, что происходит в ролик. Превют цепляюет взгляд и интригуюет зрителя.\",\n    \"thumbnailPromptGenerationPrompt\": \"Ты генерируешь один текстовый промптов на английском языке, которые будет использованы для генерации превью ролика через OpenAI. Ты получаешь: A) Базу для картинки; B) Набор из метаданные ролика - название и описание ролика; C) Краткий текст ролика. Используя базу для превью ролика (пункт A)) для определения стиля, атмосферы, параметров камеры, и других перечисленных там требований и условий. Используй краткий текст ролика (пункт A)) для определения того, что стоит отобразить на превью, опираясь на метаданные ролика (пункт B)) и то, что звучит в тексте ролика в первую очередь, чтобы ожидания зрителя, сформировавшиеся при чтении названия ролика и увиденного превью, сразу оправдвлись при включении ролика. Каждый промт должен относится к его набору метаданных из пункта B) и учитывать то, что написано в названии и описании в том наборе, к которому относится промпт. В каждом промпте опиши, что должно происходить на картринке, которая будет сгенерирована по предоставленному тобой промпту - кто есть а картинке, что они делают, что на них надето, как они выглядят, какие объекты их окружают и сеттинг сцены. Особое внмание при генерации промпта уделяй деталям/функциям/конструкциям/зданиям/механизмам/структурам, описывая их точно для правдоподобной генерации. Указывай людей (каждого человека) (если уместно), их этничность, позу, эмоции, стиль и цвет волос, акксессуары, действия, внешний вид, возраст, одежду, положение в обществе и положение в кадре. Точно так же детально описывай предметы, с которыми они взаимодействуют и окружение. В ответе дай только текст промпта, без комментариве и объяснений, кода, или слов о том, что ты понял запрос.Составляя промпт ВО ПЕРВЫХ избегай в нем любой то, что может не пройти модерацию и вызвать ошибку PROHIBITED CONTENT - то есть полностью избегай упоминание детей в промпте - остальное не так строго. Во вторых придерживайся следующей структуры: 1) Структура и цель - промт должен придерживаться определенной структуры (фон/сцена -> объект (подлежащее) -> ключевые детали -> ограничения) и включай цель использования будующей картинки (в нашем случае - картинка для превю ролика) чтобы установить 'режим' и уровень детализации. Для сложных промптов используй короткие маркированные сегменты вместо одного длинного предложения; 2) Особенности и подсказики качества - будь максиально конкретынм  в описании материалов, форм, текстур, и визуального стиля (стиль определяешь из пункта A)), и добавляй целевые 'рычаги качества' только если они будут подходить под текущий текст (пункт B)) и не будут противоречить требованиям в пункте A). Если в A) требуется реализм, то стоит указывать такие параметры камеры, как линза, ощущение диафрагмы, освещение, вместо использования примитивных '8K/ultra-detailed'; 3) Композиция - указывай параметры кадрирования и точку обзора (close-up, широкоугольник, вид сверху, и так далее), переспективу/угол (на уровне глаз, вид снизу, и так далее), и освещение/настроение (мягкая картинка, golden hour, высокий контраст, и так далее) чтобы контролировать кадр; 4) Ограничение (что изменить, а что оставить неизменным) - явно указывай исключения и инварианты (например, 'no watermarks', 'no extra text', 'no logos/trademarks', 'preserve identyty/geometry/layout/brand elements', и так далее); 5) Текст на картинке - если решаешь, что на картинке стоит разместить надпись, то текст помещай в скобки или прописывай ЗАГЛАВНЫМИ БУКВАМИ, указывая типографические детали (стиль шрифта, размер, цвет, местоположение) в качестве ограничений. Если текст сложный, например, точное название, то прописывай каждую букву отдельно, чтобы улучшить точность\",\n    \"thumbnailPromptRegenerationPrompt\": \"Ты получаешь текстовый промпт, который использовался для попытки генерации картинки через OpenAI, но был отклонен моделью по причине нарушения правил (content policy violation). Твоя задача перегенерировать этот промпт, стараясь смягчить его, чтобы при следующей генерации промпт прошел модерацию. В ответе дай только текст промпта, без комментариве и объяснений, кода, или слов о том, что ты понял запрос.\",\n    \n    \"thumbnailGenerationService\": \"gemini\", //gemini, openai (recraft, runpod - to be added)\n    \n    \"geminiThumbnailModel\": \"gemini-3.1-flash-image-preview\", //gemini-3.1-flash-image-preview, gemini-3-pro-image-preview\n    \"thumbnailGeminiAspectRatio\": \"16:9\", //1:1, 3:2, 4:3, 5:4, 16:9, 21:9 and opposite\n    \"thumbnailGeminiQuality\": \"2K\",\n    //3.1-flash - 0.5K  - $0.045, 1K - $0.067, 2K - $0.101, 4K - $0.151\n    //3-pro     - 1K-2K - $0.134, 4K - $0.24\n\n    \"openaiThumbnailModel\": \"gpt-image-1.5\", //gpt-image-1.5, gpt-image-1, gpt-image-1-mini\n    \"thumbnailOpenaiSize\": \"1536x1024\", //1024x1024,  1536x1024 and opposite\n    \"thumbnailOpenaiQuality\": \"medium\", //low, medium, high\n    //         quality/1024x1024/1536x1024\n    //1.5 -    low/$0.009/$0.013, medium/$0.034/$0.04, high/$0.133/$0.2\n    //1 -      low/$0.011/$0.016, medium/$0.042/$0.063, high/$0.167/$0.25\n    //1-mini - low/$0.005/$0.006, medium/$0.011/$0.015, high/$0.036/$0.052\n    //==================================================================================\n\n\n\n    //##################################################################################\n\n\n\n\n    //##################################################################################\n    //3. SOUND GENERATION\n\n\n\n    //==================================================================================\n    //3.1 VOICEOVER GENERATION SETTINGS\n    \"textPartsLength\": 1500, //<= 5000\n    \"audioGenService\": \"elevenlabs\", //elevenlabs, openai\n    \"elevenLabsModel\": \"eleven_v3\",\n    \"elevenLabsVoiceId\": \"TX3LPaxmHKxFdv7VOQHJ\", //Liam //VOICES LIST https://elevenlabs.io/app/default-voices \n    //==================================================================================\n\n\n\n    //##################################################################################\n\n\n\n\n    //##################################################################################\n    //4. VOICEOVER TIMINGS EXTRACTION\n    //##################################################################################\n    \n\n\n    \n    //##################################################################################\n    //5. VISUALS GENERATION\n\n\n\n    //==================================================================================\n    //5.1 OVERALL VISUALS SETTINGS\n    \"eachVisualMinScreenTimeMs\": 5000,    \n    \"eachVisualMaxScreenTimeMs\": 15000,\n    //==================================================================================\n\n\n\n    //==================================================================================\n    //5.2 CLIPS GENERATION\n\n    //5.2.1 CHARACTER CONSISTENCY LORA GENERATION SETTINGS\n    //To be added\n\n    //5.2.2 GENERAL CLIP GEN SETTINGS\n    \"generateSuitingClips\": true,\n\n    \"clipGenType\": \"imagetovideo\", //imagetovideo, texttovideo\n    \"clipGenerationService\": \"runpod\", //runpod, (veo3 - to be added)\n\n    //5.2.3 CLIPS AND START FRAMES PROMPTS GENERATION SETTINGS\n    \"clipsPromptsGenService\": \"gemini\", //gemini, openai\n    \"clipsPromptsGenModel\": \"gemini-3.1-pro-preview\", //gemini-2.5-pro, o3, o4-mini, gpt-4o-mini, etc\n\n    \"imageToVideoBase\": \"Картинка в стиле 2D комикс. Генерируя промпт для стартового кадра учитывай, что стиль будет 2D комиксом, но не прописывая сам стиль - стиль будет задан LORA. Генерируя промпт для видео-клипа добейся того, чтобы глубина сцены передавался путем разделения 2D объектов на несколько планов (передний, средний, задний и т.п.). Foreground, midground и background должны вести себя как отдельные слои с разной скоростью и/или амплитудой движения, создавая ощущение parallax depth, но не разрушая 2D illustrated scene\",\n    \"imageToVideoPromptGenerationPrompt\": \"Ты генерируешь текстовые промпты полностью на английском языке. Один промпт нужен для генерации картинки через модель FLUX-2 — эта картинка станет стартовым кадром короткого видео-клипа. Также ты генерируешь ОДИН ИЛИ НЕСКОЛЬКО промптов для генерации видео-клипа Image to Video через модель Wan-2.2 по стартовому кадру, сгенерированному по первому промпту. Количество видео-промптов зависит от длительности финального клипа: максимальная длительность одной генерации через Wan-2.2 составляет 5 секунд, поэтому длинный визуал будет разбит на несколько последовательных клипов, где последний кадр предыдущего клипа становится стартовым кадром следующего. Требуемое количество видео-промптов уже указано в запрашиваемой JSON schema, и ты обязан вернуть ровно это количество элементов в массиве videoClipPrompts. Ты получаешь: A) основу для визуала конечного клипа; B) текущую часть текста; C) предыдущую и следующую части текста, если они есть; D) заголовок и описание ролика, для которого генерируются видео-клипы, для большего контекста; E) длину текущей текстовой части в секундах. Используй A), чтобы определить общие требования к финальному визуалу: ограничения, настроение, особенности сцены и всё остальное, что перечислено в A). Используй B), чтобы определить, что именно должно быть показано в стартовом кадре и в видео: кто находится в сцене, что происходит, как выглядят персонажи, что они делают, как выглядят объекты вокруг них и какова обстановка. Используй C), чтобы поддерживать непрерывность персонажей, объектов, композиции и окружения между соседними клипами. Используй D), чтобы лучше понимать общий контекст ролика. Итоговый визуал должен иллюстрировать именно тот смысл, который озвучивается в текущем фрагменте текста, потому что видео-клип будет показан фоном под голос. Особое внимание при генерации стартового кадра уделяй важным деталям, особенностям, конструкциям, сооружениям, механизмам, объектам и структурам, которые должны быть описаны достаточно точно для корректной генерации изображения. Если в сцене есть люди, и это уместно по смыслу текста, указывай каждого человека отдельно: этническую принадлежность, возрастной диапазон, позу, эмоцию, причёску, цвет волос, одежду, внешний вид, роль в сцене, положение в кадре, ориентацию тела, атрибуты и взаимодействие с окружением. Так же подробно описывай значимые предметы, которые они используют, и окружающую обстановку. startingFramePrompt должен быть написан полностью на английском языке и описывать только статичный стартовый кадр. В нём нельзя описывать развитие действия во времени, движение камеры, поэтапную анимацию или изменение сцены. Не описывай художественный стиль, технику рендера, medium, aesthetic labels, stylistic keywords и любые указания на стиль, потому что стиль стартового кадра будет задан отдельно через LoRA на этапе генерации изображения. Не добавляй списки ограничений, списки запретов, negative prompt и какие-либо дополнительные поля. Сосредоточься только на содержании кадра: кто или что находится в сцене, как это выглядит, какая поза у персонажей, какое у них выражение лица, во что они одеты, какие важные предметы присутствуют, как построена композиция, какие есть планы сцены, какое освещение, время суток, атмосфера и какие ключевые визуальные детали должны перейти в последующую генерацию видео. Не выдумывай узкоспециальные технические названия, конкретные типы оборудования, приборов, инженерных узлов, устройств или промышленных модулей, если они не были явно заданы в A) или B); в таких случаях используй более общий, визуально наблюдаемый уровень описания. Формулируй startingFramePrompt через желаемое присутствие нужных элементов. Он должен быть достаточно конкретным для точной генерации стартового кадра, но без лишней стилистической болтовни. startingFramePrompt служит только визуальной опорой для всей последовательности клипов. Всё движение, временное развитие сцены и кинематографическая динамика должны описываться только внутри массива videoClipPrompts. Сразу после генерации startingFramePrompt приступай к генерации одного или нескольких videoClipPrompts для Wan-2.2. Каждый videoClipPrompt должен быть рассчитан на Image to Video по стартовому кадру текущего клипа. Для первого videoClipPrompt стартовым состоянием обязан быть тот же самый кадр, который описан в startingFramePrompt: та же композиция, тот же угол камеры, та же высота камеры, тот же масштаб сцены и те же ключевые объекты в тех же позициях на момент начала движения. Первый клип не должен пересобирать сцену с другой точки зрения, не должен менять low-angle на eye-level, wide shot на medium-wide или вводить новую стартовую композицию. Он должен начинаться как прямое оживление startingFramePrompt. Если длина текущей текстовой части E) не превышает 5 секунд, верни один video prompt. Если длина текущей текстовой части E) превышает 5 секунд, финальный визуал должен быть разбит на несколько последовательных video prompts, по одному prompt на каждый отдельный клип. Количество video prompts уже задано в response schema, и ты обязан вернуть ровно такое количество элементов в массиве videoClipPrompts. Каждый следующий prompt в массиве должен описывать не перезапуск той же сцены, а естественное продолжение предыдущего клипа, потому что последний кадр предыдущего клипа становится стартовым кадром следующего. Выстраивай prompts как непрерывное развитие одной и той же сцены: clip 1 — начало от стартового кадра; clip 2 — продолжение от конечного состояния clip 1; clip 3 — продолжение от конечного состояния clip 2; и так далее. Не создавай в каждом следующем prompt новую сцену без необходимости и не возвращай персонажей, камеру, позы, композицию или реквизит в исходное положение, если это прямо не требуется по смыслу текста. Если E) больше 5 секунд, распределяй действие между всеми нужными video prompts так, чтобы суммарно они покрывали весь смысл текущей текстовой части B), но при этом каждый отдельный clip prompt описывал только локальный отрезок непрерывного действия длительностью до 5 секунд. Не пытайся уместить весь смысл B) в первый clip prompt. Разделяй сцену на последовательные микро-фазы, например: начало, развитие, продолжение, локальный визуальный акцент — только если это уместно по смыслу текста. Для каждого отдельного video prompt соблюдай следующие правила: 1) каждый prompt должен описывать только один непрерывный короткий отрезок сцены, без резкой смены места, времени суток, состава персонажей или композиции, если это не требуется по тексту; 2) между соседними prompts должны сохраняться одни и те же персонажи, те же лица, та же одежда, тот же реквизит, то же окружение, та же логика освещения и та же логика съёмки, если текст из B), C) явно не требует изменений; 3) каждый следующий prompt должен учитывать, что композиция уже немного продвинулась вперёд, поэтому не описывай сцену так, будто это снова самый первый кадр; 4) если текстовая часть длинная, предпочитай непрерывный живой момент с постепенным развитием, а не набор разрозненных событий; 5) не завершай сцену слишком рано: в первом клипе задавай начало действия, в средних — развитие, в последнем — локальное завершение или визуальный акцент только если это соответствует смыслу текста в B), C); 6) если в тексте нет явного сюжетного развития, строй последовательность вокруг одного основного действия с мягкой эволюцией позы, камеры и вторичных движений, а не придумывай новые события; 7) не добавляй новые важные объекты, детали, эффекты, источники света, элементы окружения или действия, которых не было в B), не было в startingFramePrompt и которые не следуют напрямую из A); если элемент не закреплён в A), B) или startingFramePrompt, не упоминай его вообще; 8) не выдумывай узкоспециальные инженерные существительные и новые технические детали, если они не были явно заданы входными данными; 9) не добавляй новые действия объектов, если эти действия не были уже визуально подготовлены стартовым кадром или не следуют напрямую из текста; 10) если движение камеры представляет собой приближение, используй slow push-in или slow dolly in, а не dolly zoom и не переинтерпретируй исходную точку съёмки; 11) не используй формулировки вроде 'now closer', 'continues from previous clip', 'from the end position of the previous clip', 'growing larger in the frame', 'more visible', 'becoming clearer', 'continues its approach', 'revealing more', 'capturing more of', 'dominating the frame more' и любые иные комментарии о преемственности; вместо этого описывай текущее стартовое состояние именно этого клипа так, будто его первый кадр уже существует. Форматируй каждый video prompt как один естественный английский I2V prompt в одной строке. Сначала коротко и конкретно зафиксируй текущее стартовое состояние кадра именно на момент начала данного clip prompt, затем опиши главное движение в сцене, затем 1–2 вторичных микродвижения, затем движение камеры, затем только самые важные ограничения на непрерывность и читаемость кадра. Не используй placeholder-замены описания сцены вроде 'same as start frame', 'same as first frame', 'same as previous clip', 'same same same' и любые аналогичные сокращения, которые пытаются заменить описание текущего кадра ссылкой на предыдущий кадр вместо нормального описания текущего состояния сцены. Вместо этого коротко опиши текущий кадр как уже существующий: какие объекты и персонажи видны, где они находятся в кадре, какой сейчас ракурс, какие элементы доминируют в foreground, midground и background. Не перегружай prompt длинным повторным описанием мира, потому что стартовый кадр уже задаёт большую часть сцены. Главная задача video prompt для Wan-2.2 I2V — не пересоздать сцену текстом, а задать движение, камеру и контролируемое развитие уже существующего кадра. Основное действие должно быть описано как одно короткое наблюдаемое физическое событие в кадре: кто что делает, как движется камера, какое локальное изменение происходит в композиции. Не используй абстрактные интерпретации, тезисы и смысловые обобщения вместо описания сцены, например 'human resolve', 'symbol of power', 'origin-point industrial extraction', 'heroic impression', 'visual statement', 'monumental feeling' и любые аналогичные формулировки. Предпочитай конкретное визуально наблюдаемое описание кадра. Умеренные mood-слова и кинематографические термины допустимы только если они описывают реальный видимый результат в кадре, например lighting, atmosphere, camera feel or motion quality, а не эмоциональную или символическую трактовку сцены.я Главный акцент делай на движении. Описывай один главный экшен и максимум 1–2 вторичных микродвижения. Не добавляй много независимых движений одновременно. Если в кадре есть несколько персонажей, допускается не более одного заметного телесного изменения суммарно на весь клип, а не по одному изменению на каждого персонажа. Фоновые движения вроде волн, облаков, mist, spray, cable sway, flame flicker могут присутствовать только как поддержка главного движения, а не как отдельные равноправные события. Не строй prompt в основном из фоновых циклов вроде 'clouds drift', 'waves crash', 'light flickers' без локального прогресса внутри данного клипа. В каждом клипе должно быть читаемое развитие основного действия или движения камеры. Если нужны количественные параметры, используй только физические характеристики: дистанцию, градусы, скорость типа slow, medium, fast, количество повторов. Не используй секунды. Движение камеры описывай кратко и практично: текущий стартовый ракурс, тип движения камеры, скорость, амплитуда, конечное состояние кадра и что остаётся в фокусе. Если нужен лёгкий реализм, используй формулировку 'stable with barely perceptible micro jitter'. Так как визуал должен передавать глубину в 2D-сцене, обязательно закладывай layered motion: foreground, midground и background должны вести себя как отдельные слои с разной скоростью и/или амплитудой движения, создавая ощущение parallax depth, но не разрушая 2D illustrated scene. Не превращай сцену в 3D realistic shot. Сохраняй ощущение плоской рисованной сцены с layered motion. Если в кадре есть экраны, панели или мониторы, обязательно включай формулировку 'abstract glow only, no readable text, no letters, no numbers, no symbols'. В конце каждого video prompt коротко, естественным английским текстом, а не отдельной секцией, зафиксируй ключевые continuity constraints без shortcut-фраз вида 'same as ...': keep character identity consistent across clips, keep faces consistent, keep outfits consistent, keep props consistent, keep environment consistent, preserve scene logic across consecutive clips, preserve visual identity across the whole sequence, preserve composition continuity, smooth realistic motion, layered parallax depth, no new important objects unless required by the text, no flicker, no abrupt jumps, no morphing, no readable text, no logos, no watermarks. В video prompts запрещено включать любой читаемый текст внутри сцены: надписи, субтитры, логотипы, водяные знаки, буквы, цифры, символы. На выходе верни результат строго в формате без переносов строк и без каких-либо дополнительных полей, строго по этой структуре: {'startingFramePrompt':'...','videoClipPrompts':['...','...']}.\",\n\n    \"textToVideoPromptGenerationPrompt\": \"Ты генерируешь ОДИН текстовый промпт (полностью на английском языке) для генерации короткого видео-клипа через модель LTX-2 в режиме Text to Video (T2V). Ты получаешь: A) Базу стиля (общая визуальная эстетика/жанр/качество/камера/атмосфера); B) Текущую часть текста, которая озвучивается; C) Предыдущую и следующую части текста (если они есть) для непрерывности; D) Заголовок и описание ролика для дополнительного контекста; E) Длину текущей части в секундах. Используй B) как главный источник того, что должно происходить в кадре. Используй C) чтобы сохранять непрерывность персонажей, одежды, объектов, локации и состояния сцены между соседними клипами (если это один и тот же герой/место — он должен выглядеть одинаково). Используй A) чтобы зафиксировать стиль, качество, тип камеры, свет и настроение. D) используй только чтобы уточнить атмосферу и детали, но не добавляй новых событий, которых нет в B). Важное правило: клип — фон под озвучку текста B), поэтому изображаемая сцена должна иллюстрировать сказанное и не противоречить ему. На выходе верни ТОЛЬКО один готовый текст промпта, без пояснений, комментариев, маркировки, заголовков или JSON. Составляя промпт для LTX-2, думай о нём как о режиссёрском задании для короткого видеошота (и при необходимости — звука): сначала задай цель и тип результата (что это за клип и для чего он нужен), затем последовательно опиши кадр во времени по логике «шот/кадрирование → сцена → персонажи → действие по шагам → движение камеры → аудио → ограничения». Начинай с того, какой это план и “язык кино” (например, wide/medium/close-up, establishing, over-the-shoulder, статичная камера или handheld, и т.д.), потому что это сразу фиксирует композицию и уровень детализации; дальше конкретизируй сцену через место/время, свет и настроение, палитру, материалы и текстуры, атмосферу (например, туман/пыль/дождь/частицы, и т.д.), избегая общих слов вроде “красиво/эпично” и заменяя их наблюдаемыми визуальными признаками. Самое важное — блок действия: описывай происходящее простыми глаголами в настоящем времени и как понятную хронологию (что видно в начале, что происходит затем, чем заканчивается), не пытаясь “втиснуть” слишком много событий в один короткий отрезок — лучше меньше объектов и яснее причинно-следственная последовательность. Если есть персонажи, задавай идентичность через конкретные признаки (например, возраст, волосы, одежда, отличительные черты, и т.д.), а эмоции — не словами “он злится/грустит”, а физическими сигналами, которые камера может увидеть (например, сжатая челюсть, напряжённые плечи, дрожащие руки, улыбка уголком губ, взгляд в сторону, сутулость, и т.д.). Отдельно проговаривай камеру: какой именно тип движения (например, pan/tilt/dolly in/out/tracking/orbit/overhead, и т.д.), когда оно начинается, относительно чего движется, и что должно оказаться в кадре после движения — это помогает модели “довести” траекторию и не потерять главный объект. Звук: обязательно опиши только эмбиент и звуки предметов/объектов (например: ветер, шаги, скрип металла, капли воды, гул двигателя, шелест ткани, треск огня, шум волн, шуршание листвы); НИКОГДА не описывай и не запрашивай речь человека, диалоги, слова, пение или озвученные фразы. В конце обязательно пропиши ограничения и инварианты: что нельзя добавлять и что должно оставаться неизменным (например, no extra characters/objects, no logos/watermarks, текста на экране, сохранить геометрию/композицию/ключевые элементы, единая логика освещения, без хаотичной физики и резких скачков, и т.д.). Старайся максимально избегать текстов и чисел в композиции, так как модель не умеет генерировать разборчивые шрифты. По форме промпта чаще всего лучше работает один связный абзац из примерно 4–8 информативных предложений: достаточно конкретный, но без перегруза; начинать стоит с простого варианта и итеративно наращивать детали, чтобы не получить противоречия и “шум” в сцене.\",\n\n    \"videoModelLimitationOnTheGeneratedVideoDurationMs\": 5000, //deretmines how many video clip prompts will be genereted for each visual\n\n    //5.2.4 CLIPS AND START FRAMES GENERATION SETTINGS\n    \"startFrameWidth\": 1280,\n    \"startFrameHeight\": 720,\n\n    \"useStyleLoraForStartFrame\": true,\n    \"startFrameStyleLoraName\": \"geminicomics_style.safetensors\", //how lora is named on server?\n    \"startFrameStyleLoraTriggerWord\": \"geminicomics style\",\n\n    /////////////////////////////////////////////////\n    //DO NOT CHANGE FOR ubai7vcm50 RUNPOD TEMPLATE///\n    \"clipFps\": 16,                                ///\n    /////////////////////////////////////////////////\n\n    // \"clipAdditionalSafeFrames\": 0,//изза квантования числа кадров в ltx-2 теряется до 7ми кадров при генерации.\n    \"clipWidth\": 1280,\n    \"clipHeight\": 720,\n    //==================================================================================\n\n\n\n    //##################################################################################\n\n\n    \n\n    //##################################################################################\n    //6. COMBINING VIDEO\n\n\n    \n    //==================================================================================\n    \"startRenderingAutomatically\": true\n    //==================================================================================\n\n\n\n    //##################################################################################\n}`;\n\nif (!rawText || !String(rawText).length) {\n  return [];\n}\n\nconst buffer = Buffer.from(String(rawText), \"utf8\");\n\nconst binaryData = await this.helpers.prepareBinaryData(\n  buffer,\n  \"config.json\",\n  \"application/json\"\n);\n\nreturn [\n  {\n    json: {},\n    binary: {\n      data: binaryData,\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        368
+      ],
+      "id": "0fd35ece-d1ee-446b-860f-ccfc7c2b1d95",
+      "name": "Create Settings File Template"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/settings.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        1056,
+        368
+      ],
+      "id": "45b9ea4f-0187-4cf5-9024-22a3e38aa402",
+      "name": "Write Setting File"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/themes.json ",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        544
+      ],
+      "name": "read channel themes",
+      "id": "d6af5e27-0ffa-4a6c-a46f-ea1260462a97",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5505f09e-62e2-462a-93b1-46e9c95b3412",
+              "leftValue": "={{ !$json.isEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        864,
+        544
+      ],
+      "id": "105f9735-0215-4629-98e2-bc7a46d95489",
+      "name": "If Themes Exists"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node\n// В rawText вставляешь РОВНО свой текст как есть.\n// Ничего не парсится, ничего не чистится, комментарии сохраняются.\n// Просто превращаем строку в binary-файл.\n\nconst rawText =\n`{\n  \"toBeUsed\": [\n    \"REPLACE ME. This is a list of video ideas. Video text generation uses this ideas to write texts.\",\n    \"REPLACE ME. Each line is an idea a new video.\",\n    \"REPLACE ME. Simply write a few words - the model will transform in into a complete text.\",\n    \"REPLACE ME. Have specific topic to cover in video? Feel free to list all of them inside within a single element of this array!\"\n  ],\n  \"used\": []\n}`;\n\nif (!rawText || !String(rawText).length) {\n  return [];\n}\n\nconst buffer = Buffer.from(String(rawText), \"utf8\");\n\nconst binaryData = await this.helpers.prepareBinaryData(\n  buffer,\n  \"config.json\",\n  \"application/json\"\n);\n\nreturn [\n  {\n    json: {},\n    binary: {\n      data: binaryData,\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        640
+      ],
+      "id": "d7047be0-168f-4d3b-b8d1-dd0722f1f37c",
+      "name": "Create Themes File Template"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/rewrite.json ",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        672,
+        832
+      ],
+      "name": "read channel rewrite",
+      "id": "c861c436-0a3b-4432-a648-f04135f1e9c3",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "5505f09e-62e2-462a-93b1-46e9c95b3412",
+              "leftValue": "={{ !$json.isEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "looseTypeValidation": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        864,
+        832
+      ],
+      "id": "b4ceb4d4-b8f4-4883-bfa2-a7f84c298c52",
+      "name": "If Rewrite Exists"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node\n// В rawText вставляешь РОВНО свой текст как есть.\n// Ничего не парсится, ничего не чистится, комментарии сохраняются.\n// Просто превращаем строку в binary-файл.\n\nconst rawText =\n`{\n  \"toRewriteLinks\": [\n    \"REPLACE ME. This is a list of links to videos you want to rewrite. First element of this array will be used in workflow and will be moved to used links array\",\n    \"https://www.youtube.com/watch?v=XXXXXXXXXXX\",\n    \"https://www.youtube.com/watch?v=YYYYYYYYYYY\"\n  ],\n  \"rewritedLinks\": []\n}`;\n\nif (!rawText || !String(rawText).length) {\n  return [];\n}\n\nconst buffer = Buffer.from(String(rawText), \"utf8\");\n\nconst binaryData = await this.helpers.prepareBinaryData(\n  buffer,\n  \"config.json\",\n  \"application/json\"\n);\n\nreturn [\n  {\n    json: {},\n    binary: {\n      data: binaryData,\n    },\n  },\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        960,
+        928
+      ],
+      "id": "dc9c6814-53a0-40be-9b3c-a9c0775aab8b",
+      "name": "Create Rewrite File Template"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/themes.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        1056,
+        640
+      ],
+      "id": "665e5b40-ebcd-4b53-b367-13c6b3b640ed",
+      "name": "Write Themes File"
+    },
+    {
+      "parameters": {
+        "operation": "write",
+        "fileName": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/rewrite.json",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        1056,
+        928
+      ],
+      "id": "e9dfbe8a-ee8a-423a-816c-9a986912c3d7",
+      "name": "Write Rwerite File"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        1248,
+        640
+      ],
+      "id": "6b784504-e493-423a-9c6b-a3bbb12e855f",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"startFramesClipsPromptsLock\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1872,
+        768
+      ],
+      "name": "lock starting frames and clips prompts",
+      "id": "58dad8a1-577b-487c-abcd-7a997f90f86f"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Base Settings').first().json.channelsFolderPath }}/{{ $('Base Settings').first().json.channelName }}/VIDEOS/{{ $('Read Existing Videos Folders').first().json.stdout.split('\\r\\n').first() }}/sessionLock.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"startFramesClipsPromptsLock\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2304,
+        768
+      ],
+      "name": "unlock starting frames and clips prompts",
+      "id": "14d3424f-2374-4c52-a151-11b0b2a3f1fb"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "l0p4y5gFr4cklXjY",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/l0p4y5gFr4cklXjY",
+          "cachedResultName": "generate clips"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "videoFolderName": "={{ $('Set Video Folder Name').first().json.videoFolderName }}",
+            "channelName": "={{ $('Base Settings').first().json.channelName }}",
+            "channelsFolderPath": "={{ $('Base Settings').first().json.channelsFolderPath }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2080,
+        1056
+      ],
+      "id": "9aed98e3-a7fa-4a4e-8154-404f1acf3591",
+      "name": "generate clips"
     }
   ],
   "connections": {
@@ -2950,11 +4072,16 @@
         ],
         [],
         [],
-        [],
-        [],
         [
           {
-            "node": "lock clip prompts",
+            "node": "lock starting frames and clips prompts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "lock starting frames",
             "type": "main",
             "index": 0
           }
@@ -2990,7 +4117,7 @@
       "main": [
         [
           {
-            "node": "Set Video Requirements",
+            "node": "If Settings Exists",
             "type": "main",
             "index": 0
           }
@@ -3079,28 +4206,6 @@
         ]
       ]
     },
-    "generate clips prompts": {
-      "main": [
-        [
-          {
-            "node": "unlock clip prompts",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "generate clips": {
-      "main": [
-        [
-          {
-            "node": "unlock clips",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "lock meta": {
       "main": [
         [
@@ -3134,17 +4239,6 @@
         ]
       ]
     },
-    "lock clip prompts": {
-      "main": [
-        [
-          {
-            "node": "generate clips prompts",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "lock clips": {
       "main": [
         [
@@ -3161,17 +4255,7 @@
         []
       ]
     },
-    "unlock voiceover": {
-      "main": [
-        []
-      ]
-    },
     "unlock transcription": {
-      "main": [
-        []
-      ]
-    },
-    "unlock clip prompts": {
       "main": [
         []
       ]
@@ -3185,7 +4269,7 @@
       "main": [
         [
           {
-            "node": "Switch by Video Status",
+            "node": "No Operation, do nothing1",
             "type": "main",
             "index": 0
           }
@@ -3201,13 +4285,7 @@
     },
     "unlock render": {
       "main": [
-        [
-          {
-            "node": "No Operation, do nothing",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "lock render": {
@@ -3275,17 +4353,310 @@
           }
         ]
       ]
+    },
+    "get product key": {
+      "main": [
+        [
+          {
+            "node": "get all workflow params",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get all workflow params": {
+      "main": [
+        [
+          {
+            "node": "SET Number of Hours to Delete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Connect me to next nodes to use": {
+      "main": [
+        []
+      ]
+    },
+    "generate starting frames and clips prompts": {
+      "main": [
+        [
+          {
+            "node": "unlock starting frames and clips prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "lock starting frames": {
+      "main": [
+        [
+          {
+            "node": "generate starting frames",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate starting frames": {
+      "main": [
+        [
+          {
+            "node": "unlock start frames",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form clear cache request": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form clear runpod jobs request": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET Number of Hours to Delete": {
+      "main": [
+        [
+          {
+            "node": "form clear cache request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "form clear runpod jobs request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Settings Exists": {
+      "main": [
+        [
+          {
+            "node": "read channel themes",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Settings File Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Settings File Template": {
+      "main": [
+        [
+          {
+            "node": "Write Setting File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Setting File": {
+      "main": [
+        [
+          {
+            "node": "read channel settings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read channel themes": {
+      "main": [
+        [
+          {
+            "node": "If Themes Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Themes Exists": {
+      "main": [
+        [
+          {
+            "node": "read channel rewrite",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Themes File Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Themes File Template": {
+      "main": [
+        [
+          {
+            "node": "Write Themes File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read channel rewrite": {
+      "main": [
+        [
+          {
+            "node": "If Rewrite Exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Rewrite Exists": {
+      "main": [
+        [
+          {
+            "node": "Set Video Requirements",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Create Rewrite File Template",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create Rewrite File Template": {
+      "main": [
+        [
+          {
+            "node": "Write Rwerite File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Themes File": {
+      "main": [
+        [
+          {
+            "node": "read channel themes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Write Rwerite File": {
+      "main": [
+        [
+          {
+            "node": "read channel rewrite",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing1": {
+      "main": [
+        [
+          {
+            "node": "Switch by Video Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "unlock start frames": {
+      "main": [
+        []
+      ]
+    },
+    "unlock voiceover": {
+      "main": [
+        []
+      ]
+    },
+    "lock starting frames and clips prompts": {
+      "main": [
+        [
+          {
+            "node": "generate starting frames and clips prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "unlock starting frames and clips prompts": {
+      "main": [
+        []
+      ]
+    },
+    "generate clips": {
+      "main": [
+        [
+          {
+            "node": "unlock clips",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Moscow",
+    "callerPolicy": "workflowsFromSameOwner",
+    "binaryMode": "separate",
+    "availableInMCP": false
   },
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "a9e9f0be-8f70-4a5e-bc2f-c036b60684bf",
+  "versionId": "fdd75a2b-c0f1-4bf3-9d3a-8465cee54fe8",
   "activeVersionId": null,
-  "versionCounter": 356,
+  "versionCounter": 1046,
   "triggerCount": 0,
   "tags": [],
   "shared": [

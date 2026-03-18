@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-05T19:34:37.450Z",
+  "updatedAt": "2026-03-17T20:44:12.730Z",
   "createdAt": "2026-02-04T19:51:18.685Z",
   "id": "QGwzjOX1i2qj5DPR",
   "name": "generate elevenlabs audio - paralleling",
@@ -38,7 +38,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        704,
+        896,
         352
       ],
       "id": "f10f013f-3b92-4105-8a97-54454a5c312f",
@@ -57,7 +57,7 @@
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $json.id\n} }}",
+              "value": "={{ {\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $('get product key').first().json.productKey\n} }}",
               "type": "object"
             },
             {
@@ -73,7 +73,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        912,
+        1104,
         352
       ],
       "id": "3f8db840-0a1e-46f9-b8f5-2c9bc335c008",
@@ -125,7 +125,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1328,
+        1520,
         352
       ],
       "id": "078d152d-8b4d-4d94-927e-9e0938992bd7",
@@ -213,7 +213,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        496,
+        688,
         352
       ],
       "name": "get elevenlabs request params",
@@ -226,7 +226,7 @@
           "value": "ljH0uamrMfc4IBJx",
           "mode": "list",
           "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "Proxy Server"
+          "cachedResultName": "http works"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -287,11 +287,99 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1120,
+        1312,
         352
       ],
       "id": "ec699041-ebcd-4174-96dc-8fe1e3ff04cf",
       "name": "Send HTTP Request"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\"productKey\"] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        352
+      ],
+      "name": "get product key",
+      "id": "508c40ec-1e7d-440e-89d6-45e58adea9f5"
     }
   ],
   "connections": {
@@ -299,7 +387,7 @@
       "main": [
         [
           {
-            "node": "get elevenlabs request params",
+            "node": "get product key",
             "type": "main",
             "index": 0
           }
@@ -349,6 +437,17 @@
           }
         ]
       ]
+    },
+    "get product key": {
+      "main": [
+        [
+          {
+            "node": "get elevenlabs request params",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -362,10 +461,10 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-02-03_RBsqa",
-          "textPart": "[pensive] Последний отсек в корме - румпельный. Здесь находятся механизмы, которые управляют рулями глубины и направления. И отсюда же гребной вал выходит из прочного корпуса наружу, через сложнейшую систему уплотнений. [pause 2s] На конце вала - движитель. На старых лодках это был обычный гребной винт с несколькими лопастями. На современных - все чаще ставят так называемый водометный движитель. Он сложнее и дороже, но работает гораздо тише, создавая меньше завихрений воды, которые может засечь вражеский сонар. [narration] Вот так, от носа до кормы, мы прошли сквозь этот рукотворный мир. Мир, где каждый сантиметр пространства продуман, каждая система дублируется, а жизнь всего экипажа зависит от безупречной работы тысяч механизмов и слаженных действий сотни людей. [pause 4s] Это не просто корабль. Это самодостаточная подводная крепость, способная месяцами скрываться в темных глубинах океана, оставаясь невидимой и неслышимой. И это, пожалуй, одно из самых сложных и впечатляющих творений, когда-либо созданных человеком.",
-          "textPartIndex": 9
+          "channelName": "NewChannel",
+          "videoFolderName": "2026-03-17_pWLve",
+          "textPart": "[tense] Гладкая скала уходит вверх на тысячу метров. [pause 2s] Кажется, человек держится чудом. Но за каждым шагом стоит расчет, ведь цена ошибки - жизнь.\n\n[narration] Страховку создают прямо на ходу. В трещину камня вставляют хитрое устройство - френд. При рывке его детали расширяются и намертво клинят в породе. [serious] Этот металл весом в двести граммов выдерживает больше тонны. Но поставишь криво - деталь вырвется со свистом, и падение станет пугающе долгим.\n\n[pensive] Важна и сама веревка. Обычный трос сломал бы человеку спину при резкой остановке. [breath] Поэтому альпинисты берут динамику. Такая веревка растягивается на треть длины. Ты летишь вниз лишние пять метров, зато мягко гасишь удар и сохраняешь кости целыми.\n\n[friendly] На ногах всегда тесные скальники. Эту обувь берут на два размера меньше. Пальцам больно, зато стопа становится жесткой. Это позволяет стоять на уступах толщиной в три миллиметра. А потные ладони сушат магнезией, иначе руки заскользят по граниту как по льду.\n\n[narration] Вертикальный подъем - это не просто сила рук. Это опасная игра с гравитацией, где на высоте пятисот метров выживает тот, кто доверяет физике.",
+          "textPartIndex": 0
         },
         "pairedItem": {
           "item": 0
@@ -373,9 +472,9 @@
       }
     ]
   },
-  "versionId": "513be468-5bbb-4fed-9a2e-86f6ad5925f4",
-  "activeVersionId": "513be468-5bbb-4fed-9a2e-86f6ad5925f4",
-  "versionCounter": 130,
+  "versionId": "922cd714-138f-4a1e-a6a0-15e61bf173a4",
+  "activeVersionId": "e1cf39e4-0e63-45c2-8b02-f294515da709",
+  "versionCounter": 171,
   "triggerCount": 0,
   "tags": [],
   "shared": [

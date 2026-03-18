@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-11T12:55:38.347Z",
+  "updatedAt": "2026-03-17T22:31:29.142Z",
   "createdAt": "2026-02-05T16:30:06.860Z",
   "id": "o5B3Nkoco1rF2d1h",
   "name": "runpod works",
@@ -10,15 +10,15 @@
     {
       "parameters": {
         "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"index\":0,\n  \"method\":\"\",\n\n  \"comfyUiRequest\":{},\n  \n  \"runpodTemplateId\":\"\",\n  \n  \"runpodUseVolume\":false,\n  \"runpodVolumeId\":\"\",\n\n  \"runpodContainerDiskInGb\": 0,\n  \"runpodVolumeInGb\": 0,\n\n  \"runpodGpuList\":[],\n  \"runpodCountryCodes\":[]\n}"
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"index\":0,\n  \"method\":\"\",\n\n  \"comfyUiRequest\":{},\n  \n  \"runpodTemplateId\":\"\",\n  \n  \"runpodUseVolume\":false,\n  \"runpodVolumeId\":\"\",\n\n  \"runpodGpuList\":[],\n  \"runpodCountryCodes\":[]\n}"
       },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        -416,
-        352
+        -448,
+        400
       ]
     },
     {
@@ -136,7 +136,7 @@
                 "conditions": [
                   {
                     "id": "60460865-c29c-4b17-9598-05b38cd6b37e",
-                    "leftValue": "={{ $('Start').first().json.method == \"sendComfyUiGenerationRequest\" }}",
+                    "leftValue": "={{ $('Start').first().json.method == \"sendComfyUiT2IGenerationRequest\" }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -148,7 +148,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "comfy t2v request"
+              "outputKey": "comfy t2i send request"
             },
             {
               "conditions": {
@@ -161,7 +161,7 @@
                 "conditions": [
                   {
                     "id": "2e89355c-7998-4101-9ab6-824334e7f9b9",
-                    "leftValue": "={{ $('Start').first().json.method == \"checkComfyUiGenerationStatus\" }}",
+                    "leftValue": "={{ $('Start').first().json.method == \"checkComfyUiT2IGenerationRequest\" }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -173,7 +173,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "comfy t2t status"
+              "outputKey": "comfy t2i check status"
             },
             {
               "conditions": {
@@ -185,7 +185,82 @@
                 },
                 "conditions": [
                   {
-                    "id": "ac4c9b0d-e48e-4c11-8910-051ce96cf6ab",
+                    "id": "7e02add0-69dc-45d8-aa70-0ec7342a0bb0",
+                    "leftValue": "={{ $('Start').first().json.method == \"uploadComfyUiFileRequest\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "upload comfyui file"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "8adf39ee-834c-4241-ad5d-7f3e34b35e8a",
+                    "leftValue": "={{ $('Start').first().json.method == \"sendComfyUiI2VGenerationRequest\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "comfy i2v send request"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b2d0431d-cd63-4b9d-9231-1a2045a86d6a",
+                    "leftValue": "={{ $('Start').first().json.method == \"checkComfyUiI2VGenerationRequest\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "comfy t2i check status"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "435bcb1f-e85c-4a5a-84d6-ca8f6d2439c9",
                     "leftValue": "={{ $('Start').first().json.method == \"getComfyUiGenerationResult\" }}",
                     "rightValue": "",
                     "operator": {
@@ -198,7 +273,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "comfy t2v download"
+              "outputKey": "comfy download result"
             }
           ]
         },
@@ -227,7 +302,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $('read pod status').last().json.isEmpty() || $('read pod status').last().json.podStatus == \"terminated\" }}",
+                    "leftValue": "={{ $('read pod status').last().json.isEmpty() || $('read pod status').last().json.podStatus.isEmpty() || $('read pod status').last().json.podStatus == \"terminated\" }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -324,13 +399,13 @@
             {
               "id": "924df8b7-5307-4367-a739-6b16477cea78",
               "name": "headers",
-              "value": "={{ {\"Authorization\": \"Bearer \" + $('get req params').first().json.runpodApiKey} }}",
+              "value": "={{ {\"Authorization\": \"Bearer \" + $('get all workflow params').first().json.runpodApiKey} }}",
               "type": "object"
             },
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{\n{\n  \"name\":\"my pod\",\n  \"templateId\":$('Start').first().json.runpodTemplateId,\n//  \"ports\":[\"8888/http\",\"22/tcp\"],\n\n  \"cloudType\":$('Start').first().json.runpodUseVolume ? \"SECURE\":\"COMMUNITY\",\n  \"networkVolumeId\":$('Start').first().json.runpodUseVolume ? $('Start').first().json.runpodVolumeId : \"\",\n  \"containerDiskInGb\":$('Start').first().json.runpodContainerDiskInGb,\n  \"volumeInGb\":$('Start').first().json.runpodVolumeInGb,\n\n//  \"imageName\":\"\",\n  \"gpuTypeIds\":$('Start').first().json.runpodGpuList,\n  \"gpuTypePriority\":\"custom\",\n  \"gpuCount\":1,\n\n\n    \"countryCodes\":$('Start').first().json.runpodCountryCodes,\n//  \"dataCenterIds\":[\"EU-RO-1\",\"CA-MTL-1\"],\n} }}",
+              "value": "={{\n{\n  \"name\":\"deployed: \" + $now.format('dd-MM-yyyy') + \" \" + $now.format('HH:mm'),\n  \"templateId\":$('Start').first().json.runpodTemplateId,\n//  \"ports\":[\"8888/http\",\"22/tcp\"],\n\n  \"cloudType\":$('Start').first().json.runpodUseVolume ? \"SECURE\":\"COMMUNITY\",\n  \"networkVolumeId\":$('Start').first().json.runpodUseVolume ? $('Start').first().json.runpodVolumeId : \"\",\n  \"containerDiskInGb\":$('Start').first().json.runpodContainerDiskInGb,\n  \"volumeInGb\":$('Start').first().json.runpodVolumeInGb,\n\n//  \"imageName\":\"\",\n  \"gpuTypeIds\":$('Start').first().json.runpodGpuList,\n  \"gpuTypePriority\":\"custom\",\n  \"gpuCount\":1,\n\n\n    \"countryCodes\":$('Start').first().json.runpodCountryCodes,\n//  \"dataCenterIds\":[\"EU-RO-1\",\"CA-MTL-1\"],\n} }}",
               "type": "object"
             }
           ]
@@ -365,7 +440,7 @@
             {
               "id": "924df8b7-5307-4367-a739-6b16477cea78",
               "name": "headers",
-              "value": "={{ {\"Authorization\": \"Bearer \" + $('get req params').first().json.runpodApiKey} }}",
+              "value": "={{ {\"Authorization\": \"Bearer \" + $('get all workflow params').first().json.runpodApiKey} }}",
               "type": "object"
             }
           ]
@@ -551,7 +626,7 @@
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/RUNPOD/pods/{{ $('Start').first().json.runpodTemplateId }}/podStatus.json",
             "fileAction": "write",
             "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ (()=>{\nconst r = $json\nconst json = {}\njson.podStatus = \"deploying\"\n\nconst ports = r.ports.map(i=>i.split('/').first())\nconst portsStatus = {}\nfor (p of ports){\nportsStatus[p] = \"unknown\"\n}\njson.portsStatus = portsStatus\n\njson.podMeta = $json\n\nreturn json\n})() }}",
+            "keysToWrite": "={{ (()=>{\nconst r = $json\nconst json = {}\njson.podStatus = \"deploying\"\n\njson.podMeta = $json\n\nreturn json\n})() }}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -849,7 +924,7 @@
       "typeVersion": 1.2,
       "position": [
         2880,
-        -128
+        -352
       ],
       "name": "read pod ports",
       "id": "02d16929-e414-4470-9573-f9603ab7c981"
@@ -872,7 +947,7 @@
       "typeVersion": 3.4,
       "position": [
         3376,
-        -128
+        -288
       ],
       "id": "2daf8bbb-06fc-45c6-9d32-7db4eec136b7",
       "name": "Extract Ports Numbers"
@@ -886,276 +961,10 @@
       "typeVersion": 1,
       "position": [
         3584,
-        -128
+        -288
       ],
       "id": "a65215ce-e095-451b-8675-ba7be619df89",
       "name": "Split For Ports"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/RUNPOD/pods/{{ $('Start').first().json.runpodTemplateId }}/podStatus.json",
-            "fileAction": "read",
-            "keysToReturn": "={{ [\"podMeta.id\"] }}",
-            "keysToWrite": "={{ {} }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        3104,
-        -128
-      ],
-      "name": "read pod id",
-      "id": "2b9b1c05-f9a9-4c0f-aa98-40048a0b8a13"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/RUNPOD/pods/{{ $('Start').first().json.runpodTemplateId }}/podStatus.json",
-            "fileAction": "write",
-            "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ (()=>{\nconst port = $('Split For Ports').item.json.port\nconst json = {\"portsStatus\":{} }\n\njson.portsStatus[port] = \"deploying\"\n\nreturn json\n})() }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        4560,
-        -16
-      ],
-      "name": "write ports deploying status",
-      "id": "511d230d-80e8-4dba-88b5-a45550445650"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/RUNPOD/pods/{{ $('Start').first().json.runpodTemplateId }}/podStatus.json",
-            "fileAction": "write",
-            "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ (()=>{\nconst port = $('Split For Ports').item.json.port\nconst json = {\"portsStatus\":{} }\n\njson.portsStatus[port] = \"listening\"\n\nreturn json\n})() }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        4560,
-        -176
-      ],
-      "name": "write ports listening status",
-      "id": "ce621825-1e38-4a8c-8e35-dfe1ccb90f94"
     },
     {
       "parameters": {
@@ -1239,7 +1048,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4752,
+        4912,
         -176
       ],
       "name": "read pod ports1",
@@ -1250,7 +1059,7 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        5200,
+        5328,
         -176
       ],
       "id": "2fcba666-47c9-40e5-ba37-533cab63f918",
@@ -1292,7 +1101,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        4976,
+        5104,
         -176
       ],
       "id": "425770da-b38f-4e2d-8822-8e071de31d4f",
@@ -1380,7 +1189,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        5408,
+        5536,
         -176
       ],
       "name": "write pod ready",
@@ -1468,7 +1277,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        5616,
+        5744,
         64
       ],
       "name": "read pod status1",
@@ -1493,7 +1302,7 @@
             {
               "id": "924df8b7-5307-4367-a739-6b16477cea78",
               "name": "headers",
-              "value": "={{ {\"Authorization\": \"Bearer \" + $('get req params').first().json.runpodApiKey} }}",
+              "value": "={{ {\"Authorization\": \"Bearer \" + $('get all workflow params').first().json.runpodApiKey} }}",
               "type": "object"
             },
             {
@@ -1641,95 +1450,6 @@
       "name": "Extract Ports Numbers1"
     },
     {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/RUNPOD/pods/{{ $('Start').first().json.runpodTemplateId }}/podStatus.json",
-            "fileAction": "write",
-            "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ (()=>{\nconst port = $('Split For Ports1').item.json.port\nconst json = {\"portsStatus\":{} }\n\njson.portsStatus[port] = \"closed\"\n\nreturn json\n})() }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        2672,
-        192
-      ],
-      "name": "write ports listening status1",
-      "id": "fb992996-ddaa-4c11-b001-2a5bfe4afb28"
-    },
-    {
       "parameters": {},
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
@@ -1822,20 +1542,21 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -32,
-        352
+        160,
+        400
       ],
       "name": "read pod status",
-      "id": "032b169d-8045-40a6-85d9-91924ef77a67"
+      "id": "032b169d-8045-40a6-85d9-91924ef77a67",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
-        "amount": 30
+        "amount": 0.1
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        4656,
+        4816,
         -16
       ],
       "id": "8497234d-f275-4a3e-81f4-613bd290174d",
@@ -1849,13 +1570,13 @@
             {
               "id": "2fb62633-4973-457b-9ff6-82b7e234c67c",
               "name": "method",
-              "value": "POST",
+              "value": "GET",
               "type": "string"
             },
             {
               "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
               "name": "route",
-              "value": "=https://{{ $('read pod id').last().json.podMeta.id }}-{{ $json.port }}.proxy.runpod.net/",
+              "value": "=https://{{ $('read pod id1').last().json.podMeta.id }}-{{ $('get all workflow params').first().json.runpodDashboardPort }}.proxy.runpod.net/api/services",
               "type": "string"
             },
             {
@@ -1888,7 +1609,7 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        4752,
+        4912,
         -16
       ],
       "id": "2fe44a33-b1ec-4fa9-8525-6f43e9258a69",
@@ -1953,19 +1674,19 @@
             {
               "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
               "name": "route",
-              "value": "=http://{{ $('get req params').first().json.proxyServerIP }}:{{ $('get req params').first().json.proxyServerPort }}/{{ $('get req params').first().json.comfyUiRoute }}/prompts",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.comfyUiRoute }}/prompts",
               "type": "string"
             },
             {
               "id": "924df8b7-5307-4367-a739-6b16477cea78",
               "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\":$json.id\n} }}",
+              "value": "={{ {\n\"X-Request-ID\":$('get random ID').item.json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
               "type": "object"
             },
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get req params').last().json.comfyUiPort,\n\"mode\": \"status\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get req params').first().json.runpodT2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get req params').first().json.clipWidth.toString()+'x'+$('get req params').first().json.clipHeight.toString(),\n\"fps\":$('get req params').first().json.clipFps,\n\"generationMode\": \"t2v\"\n},\n},\n\"comfyUiRequest\":$('Start').last().json.comfyUiRequest\n} }}",
+              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"mode\": \"status\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodT2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"t2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
               "type": "object"
             }
           ]
@@ -2182,7 +1903,7 @@
           "value": "ljH0uamrMfc4IBJx",
           "mode": "list",
           "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "Proxy Server"
+          "cachedResultName": "http works"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -2247,7 +1968,8 @@
         32
       ],
       "id": "d49f4ed6-df40-4c7b-a789-33901f00e0ff",
-      "name": "GET Status"
+      "name": "GET Status",
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -2256,7 +1978,7 @@
           "value": "ljH0uamrMfc4IBJx",
           "mode": "list",
           "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "Proxy Server"
+          "cachedResultName": "http works"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -2321,95 +2043,8 @@
         192
       ],
       "id": "9776fcd3-0817-4b1f-9819-a30db69c695b",
-      "name": "DELETE Terminate"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/RUNPOD/pods/{{ $('Start').first().json.runpodTemplateId }}/podStatus.json",
-            "fileAction": "write",
-            "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {\n\"podStatus\":\"terminated\",\n} }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        1920,
-        192
-      ],
-      "name": "write runpod terminated status2",
-      "id": "295788a8-0acc-4514-9032-24d0f724b644"
+      "name": "DELETE Terminate",
+      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -2418,7 +2053,7 @@
           "value": "ljH0uamrMfc4IBJx",
           "mode": "list",
           "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "Proxy Server"
+          "cachedResultName": "http works"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -2483,162 +2118,8 @@
         -128
       ],
       "id": "4da11a61-4e0a-44ba-917e-e8d21961ce4b",
-      "name": "POST Test Ports Listening"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "8f7915a3-a49e-4703-9b35-d41cb844e387",
-                    "leftValue": "={{ $json.hasField('error') && $json.error.status == 405 }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "listening"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.hasField('error') && ($json.error.status == 502 || $json.error.status == 404) }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "a4d6d51f-95d2-4728-9a2a-cb585bd99172"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "deploying"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        4272,
-        -128
-      ],
-      "id": "bc8864e1-fca5-4a11-a741-2d9b7dcfbcff",
-      "name": "are ports listening"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
-            "fileAction": "read",
-            "keysToReturn": "={{ [\"runpodApiKey\", \"comfyUiPort\", \"proxyServerIP\", \"proxyServerPort\", \"comfyUiRoute\", \"runpodT2VWorkloadKey\", \"clipWidth\", \"clipHeight\", \"clipFps\"] }}",
-            "keysToWrite": "={{ {} }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        -224,
-        352
-      ],
-      "name": "get req params",
-      "id": "a45b6c29-e5ee-40cc-8097-3dd49aa173f8"
+      "name": "POST Test Ports Listening",
+      "onError": "continueRegularOutput"
     },
     {
       "parameters": {
@@ -2774,8 +2255,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        176,
-        352
+        368,
+        400
       ],
       "id": "c0b6d417-8edc-4435-911b-6918643ae8e1",
       "name": "get random ID"
@@ -2793,19 +2274,19 @@
             {
               "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
               "name": "route",
-              "value": "=http://{{ $('get req params').first().json.proxyServerIP }}:{{ $('get req params').first().json.proxyServerPort }}/{{ $('get req params').first().json.comfyUiRoute }}/prompts",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.comfyUiRoute }}/prompts",
               "type": "string"
             },
             {
               "id": "924df8b7-5307-4367-a739-6b16477cea78",
               "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\":$json.id\n} }}",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID').item.json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
               "type": "object"
             },
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{ {\n\"mode\": \"download\",\n} }}",
+              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"mode\": \"download\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
               "type": "object"
             }
           ]
@@ -2816,10 +2297,1086 @@
       "typeVersion": 3.4,
       "position": [
         1264,
-        752
+        1344
       ],
       "id": "3cccbb35-6db3-4200-9e5d-2f87a7c0eb4d",
       "name": "form comfyui gen request1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "={{ $json.method }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body_content_type",
+              "displayName": "body_content_type",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1360,
+        1344
+      ],
+      "id": "39b54526-21ba-4526-b4b0-2ba9676808d3",
+      "name": "GET result"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\"productKey\"] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -240,
+        400
+      ],
+      "name": "get product key",
+      "id": "75d5f44c-27e5-429c-9619-71da95e1be64"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\n\"runpodApiKey\",\n\"comfyUiPort\",\n\"runpodDashboardPort\",\n\"proxyServerIP\",\n\"proxyServerPort\",\n\"comfyUiRoute\",\n\"runpodT2VWorkloadKey\",\n\"clipWidth\",\n\"clipHeight\",\n\"clipFps\",\n\n\"runpodT2IWorkloadKey\",\n\"runpodI2VWorkloadKey\",\n] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -32,
+        400
+      ],
+      "name": "get all workflow params",
+      "id": "a45b6c29-e5ee-40cc-8097-3dd49aa173f8"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "8f7915a3-a49e-4703-9b35-d41cb844e387",
+                    "leftValue": "={{ !$json.hasField('error') && $json.running }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "listening"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') || !$json.running }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "a4d6d51f-95d2-4728-9a2a-cb585bd99172"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "deploying"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        4432,
+        -128
+      ],
+      "id": "bc8864e1-fca5-4a11-a741-2d9b7dcfbcff",
+      "name": "is service running"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/RUNPOD/pods/{{ $('Start').first().json.runpodTemplateId }}/podStatus.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ (()=>{\nconst service = $json\nconst json = {\"portsStatus\":{} }\n\n  if (service.hasField('port')){\n  json.portsStatus[service.port] = \"unknown\"\n}\n\nreturn json\n})() }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4128,
+        -240
+      ],
+      "name": "write ports on pod",
+      "id": "76b9f46a-45cf-4976-9ebb-1c876c631b3b"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "37daa54a-0429-459a-8ce5-483a1af45e61",
+              "leftValue": "={{ $now.diffTo($('read pod id').last().json.podMeta.lastStartedAt.toDateTime(), ['minutes']) > 15 }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        5120,
+        -16
+      ],
+      "id": "e4cc8c7d-aefc-4923-8a05-00e7c0752eb4",
+      "name": "If Pod Start Time Exeeded"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/RUNPOD/pods/{{ $('Start').first().json.runpodTemplateId }}/podStatus.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ (()=>{\nconst port = $('Split For Ports1').item.json.port\nconst json = {\"portsStatus\":{} }\n\njson.portsStatus[port] = \"closed\"\n\nreturn json\n})() }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2672,
+        192
+      ],
+      "name": "write ports CLOSED status",
+      "id": "fb992996-ddaa-4c11-b001-2a5bfe4afb28"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/RUNPOD/pods/{{ $('Start').first().json.runpodTemplateId }}/podStatus.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"podStatus\":\"terminated\",\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1920,
+        192
+      ],
+      "name": "write runpod TERMINATED status",
+      "id": "295788a8-0acc-4514-9032-24d0f724b644"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/RUNPOD/pods/{{ $('Start').first().json.runpodTemplateId }}/podStatus.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ (()=>{\nconst service = $json\nconst json = {\"portsStatus\":{} }\n\n  if (service.hasField('port')){\n  json.portsStatus[service.port] = \"listening\"\n}\n\nreturn json\n})() }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4720,
+        -176
+      ],
+      "name": "write ports LISTENING status",
+      "id": "ce621825-1e38-4a8c-8e35-dfe1ccb90f94"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/RUNPOD/pods/{{ $('Start').first().json.runpodTemplateId }}/podStatus.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ (()=>{\nconst service = $json\nconst json = {\"portsStatus\":{} }\n\n  if (service.hasField('port')){\n  json.portsStatus[service.port] = \"deploying\"\n}\n\nreturn json\n})() }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4720,
+        -16
+      ],
+      "name": "write ports DEPLOYING status",
+      "id": "d53a58bc-9506-49ef-8aba-1cff0d14b911"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/RUNPOD/pods/{{ $('Start').first().json.runpodTemplateId }}/podStatus.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\"podMeta\"] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        560,
+        400
+      ],
+      "name": "read pod id",
+      "id": "3597a60d-42e6-4348-88b9-ce3745cd6f1c",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $('Start').first().json.comfyUiRequest.filePath }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        1264,
+        928
+      ],
+      "id": "c01f5718-574f-44d9-900f-6b0fbb87f3b6",
+      "name": "Read File To Upload"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $('read pod id').last().json.podMeta.id }}-{{ $('get all workflow params').first().json.comfyUiPort }}.proxy.runpod.net/api/upload/image",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "image",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "type",
+              "value": "input"
+            },
+            {
+              "name": "overwrite",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1360,
+        928
+      ],
+      "id": "bccf58d6-56d2-4977-aaa5-325e79fe5a87",
+      "name": "Upload Bianry File HTTP Request",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "state",
+              "value": "fail",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        1216
+      ],
+      "id": "e61134ba-a5fb-40d2-a03d-f90e65518b58",
+      "name": "output fail1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "state",
+              "value": "success",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        1120
+      ],
+      "id": "096f0c11-640a-45a5-afe3-26b4784a7e1c",
+      "name": "output success1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fb62633-4973-457b-9ff6-82b7e234c67c",
+              "name": "method",
+              "value": "POST",
+              "type": "string"
+            },
+            {
+              "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
+              "name": "route",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.comfyUiRoute }}/prompts",
+              "type": "string"
+            },
+            {
+              "id": "924df8b7-5307-4367-a739-6b16477cea78",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\":$('get random ID').item.json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
+              "name": "body",
+              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"mode\": \"status\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodI2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"i2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1264,
+        1072
+      ],
+      "id": "348b198e-8f6e-43fe-95cf-52d7a925613e",
+      "name": "form comfyui gen request2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "state",
+              "value": "generating",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        1024
+      ],
+      "id": "6a1c48f5-5972-4244-83fc-05ccf104aa3a",
+      "name": "output generating1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "state",
+              "value": "queued",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        928
+      ],
+      "id": "3d0a2638-85eb-4707-80d5-db58f2a76a0e",
+      "name": "output queued1"
     },
     {
       "parameters": {
@@ -2890,27 +3447,150 @@
       "typeVersion": 1.3,
       "position": [
         1360,
-        752
+        1072
       ],
-      "id": "39b54526-21ba-4526-b4b0-2ba9676808d3",
-      "name": "GET result"
+      "id": "b66b5302-cd34-4006-9f70-705b9f5e1987",
+      "name": "POST Prompt1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "102bc47c-a719-4b6c-beac-1b5e54f85f65",
+                    "leftValue": "={{ (!$json.hasField('error')||$json.error.isEmpty()) && $json.state == \"queued\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "queued"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ (!$json.hasField('error')||$json.error.isEmpty()) && $json.state == \"generating\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "7aac6550-6f19-402a-a7af-30806f99a42c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "generating"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "63606ca7-b900-430e-9e2a-edbb2e2cee22",
+                    "leftValue": "={{ (!$json.hasField('error')||$json.error.isEmpty()) && $json.state == \"success\" }}",
+                    "rightValue": "success",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "119da85a-45c9-4129-bcd0-5d0fc142a707",
+                    "leftValue": "={{ (!$json.hasField('error')||!$json.error.isEmpty()) && $json.state == \"fail\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "fail"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1568,
+        1040
+      ],
+      "id": "b7ab18e7-9312-4374-b5a5-9814628ecd88",
+      "name": "Switch1"
     },
     {
       "parameters": {
         "workflowId": {
           "__rl": true,
-          "value": "3OssCFgf2vTy8hKq",
+          "value": "qwG1pltFOQqqJLyh",
           "mode": "list",
-          "cachedResultUrl": "/workflow/3OssCFgf2vTy8hKq",
-          "cachedResultName": "Media Binary File Works"
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClips/{{ $('Start').first().json.videoFolderName.split('_').last() }}_{{ ($('Start').first().json.index).toString().padStart(5,'0') }}.mp4",
-            "fileAction": "write"
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/RUNPOD/pods/{{ $('Start').first().json.runpodTemplateId }}/podStatus.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\"podMeta\"] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
           },
-          "matchingColumns": [],
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
           "schema": [
             {
               "id": "filePath",
@@ -2931,6 +3611,36 @@
               "canBeUsedToMatch": true,
               "type": "string",
               "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -2939,36 +3649,25 @@
         "options": {}
       },
       "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
+      "typeVersion": 1.2,
       "position": [
-        1568,
-        752
+        3600,
+        -128
       ],
-      "id": "548514c8-3211-469d-9d15-6a7c8340afa0",
-      "name": "write media file"
+      "name": "read pod id1",
+      "id": "cf55f37e-2dc0-4a75-9b17-2a147156a9a7",
+      "alwaysOutputData": true
     },
     {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
-              "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('Start').first().json.comfyUiRequest\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
       "position": [
-        1024,
-        784
+        -448,
+        224
       ],
-      "id": "74e87297-852b-4eda-aadf-8edce3862a5d",
-      "name": "get random ID1"
+      "id": "91ec21bf-4024-4bd8-af3e-3cd76c4cad44",
+      "name": "When clicking ‘Execute workflow’"
     }
   ],
   "connections": {
@@ -2976,7 +3675,7 @@
       "main": [
         [
           {
-            "node": "get req params",
+            "node": "get product key",
             "type": "main",
             "index": 0
           }
@@ -3017,6 +3716,27 @@
         [
           {
             "node": "form comfyui gen request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Read File To Upload",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "form comfyui gen request2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "form comfyui gen request2",
             "type": "main",
             "index": 0
           }
@@ -3125,7 +3845,7 @@
       "main": [
         [
           {
-            "node": "read pod ports",
+            "node": "read pod id1",
             "type": "main",
             "index": 0
           }
@@ -3134,13 +3854,7 @@
     },
     "read pod ports": {
       "main": [
-        [
-          {
-            "node": "read pod id",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Extract Ports Numbers": {
@@ -3156,46 +3870,7 @@
     },
     "Split For Ports": {
       "main": [
-        [
-          {
-            "node": "form pod deploy test request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "read pod id": {
-      "main": [
-        [
-          {
-            "node": "Extract Ports Numbers",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "write ports deploying status": {
-      "main": [
-        [
-          {
-            "node": "Wait",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "write ports listening status": {
-      "main": [
-        [
-          {
-            "node": "read pod ports1",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "read pod ports1": {
@@ -3279,18 +3954,7 @@
       "main": [
         [
           {
-            "node": "write ports listening status1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "write ports listening status1": {
-      "main": [
-        [
-          {
-            "node": "Limit1",
+            "node": "write ports CLOSED status",
             "type": "main",
             "index": 0
           }
@@ -3345,7 +4009,7 @@
       "main": [
         [
           {
-            "node": "Extract Ports Numbers",
+            "node": "If Pod Start Time Exeeded",
             "type": "main",
             "index": 0
           }
@@ -3393,6 +4057,13 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "write runpod terminated status",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -3400,18 +4071,14 @@
       "main": [
         [
           {
-            "node": "write runpod terminated status2",
+            "node": "write runpod TERMINATED status",
             "type": "main",
             "index": 0
           }
-        ]
-      ]
-    },
-    "write runpod terminated status2": {
-      "main": [
+        ],
         [
           {
-            "node": "read pod ports2",
+            "node": "write runpod TERMINATED status",
             "type": "main",
             "index": 0
           }
@@ -3422,36 +4089,12 @@
       "main": [
         [
           {
-            "node": "are ports listening",
+            "node": "is service running",
             "type": "main",
             "index": 0
-          }
-        ]
-      ]
-    },
-    "are ports listening": {
-      "main": [
-        [
+          },
           {
-            "node": "write ports listening status",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "write ports deploying status",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "get req params": {
-      "main": [
-        [
-          {
-            "node": "read pod status",
+            "node": "write ports on pod",
             "type": "main",
             "index": 0
           }
@@ -3494,7 +4137,7 @@
       "main": [
         [
           {
-            "node": "Switch by method",
+            "node": "read pod id",
             "type": "main",
             "index": 0
           }
@@ -3514,31 +4157,213 @@
     },
     "output success": {
       "main": [
-        [
-          {
-            "node": "get random ID1",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "GET result": {
       "main": [
+        []
+      ]
+    },
+    "get product key": {
+      "main": [
         [
           {
-            "node": "write media file",
+            "node": "get all workflow params",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "get random ID1": {
+    "get all workflow params": {
       "main": [
         [
           {
-            "node": "form comfyui gen request1",
+            "node": "read pod status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "is service running": {
+      "main": [
+        [
+          {
+            "node": "write ports LISTENING status",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "write ports DEPLOYING status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write ports on pod": {
+      "main": [
+        []
+      ]
+    },
+    "If Pod Start Time Exeeded": {
+      "main": [
+        [
+          {
+            "node": "form pod terminate request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "form pod deploy test request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write ports CLOSED status": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write runpod TERMINATED status": {
+      "main": [
+        [
+          {
+            "node": "read pod ports2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write ports LISTENING status": {
+      "main": [
+        [
+          {
+            "node": "read pod ports1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write ports DEPLOYING status": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read pod id": {
+      "main": [
+        [
+          {
+            "node": "Switch by method",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read File To Upload": {
+      "main": [
+        [
+          {
+            "node": "Upload Bianry File HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form comfyui gen request2": {
+      "main": [
+        [
+          {
+            "node": "POST Prompt1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST Prompt1": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "output queued1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "output generating1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "output success1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "output fail1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read pod id1": {
+      "main": [
+        [
+          {
+            "node": "form pod deploy test request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "get product key",
             "type": "main",
             "index": 0
           }
@@ -3548,7 +4373,11 @@
   },
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "timeSavedMode": "fixed",
+    "timezone": "Europe/Moscow",
+    "callerPolicy": "workflowsFromSameOwner",
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -3557,38 +4386,60 @@
       {
         "json": {
           "consumerUserId": "user_38ka5aQPnNrJVgjuaMkOkt5rUt8",
-          "containerDiskInGb": 5,
-          "costPerHr": 0.69,
-          "createdAt": "2026-02-11 12:41:11.404 +0000 UTC",
+          "containerDiskInGb": 20,
+          "costPerHr": 1.69,
+          "createdAt": "2026-03-17 21:38:30.769 +0000 UTC",
           "desiredStatus": "RUNNING",
           "env": {
-            "PUBLIC_KEY": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOF8oTld57NYQFy7mS8dr8Z6lGTdD1EJl2TmXG11YVPQ runpod"
+            "COMFYUI_EXTRA_ARGS": "--use-sage-attention",
+            "HUGGINGFACE_TOKEN": "{{ RUNPOD_SECRET_hf_token }}",
+            "INSTALL_SAGEATTENTION": "true",
+            "PUBLIC_KEY": "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOF8oTld57NYQFy7mS8dr8Z6lGTdD1EJl2TmXG11YVPQ runpod",
+            "RUNPOD_API_KEY": "{{ RUNPOD_SECRET_runpod_api_key }}",
+            "SYNC_VENV_TO_WORKSPACE": "false",
+            "TIME_ZONE": "Etc/UTC"
           },
           "gpuCount": 1,
-          "id": "ejsf8btzawauvs",
-          "imageName": "bad4rr/ltx-qwen:latest",
-          "lastStartedAt": "2026-02-11 12:41:11.392 +0000 UTC",
-          "lastStatusChange": "Rented by User: Wed Feb 11 2026 12:41:11 GMT+0000 (Coordinated Universal Time)",
+          "id": "eg38dkd6i5gazd",
+          "imageName": "bad4rr/comfyui-smy-fastvolume:latest",
+          "lastStartedAt": "2026-03-17 21:38:30.768 +0000 UTC",
+          "lastStatusChange": "Rented by User: Tue Mar 17 2026 21:38:30 GMT+0000 (Coordinated Universal Time)",
           "machine": {
-            "diskThroughputMBps": 7496,
-            "gpuTypeId": "NVIDIA GeForce RTX 5090",
-            "location": "SE",
-            "maxDownloadSpeedMbps": 2326,
-            "maxUploadSpeedMbps": 2245,
+            "dataCenterId": "EU-RO-1",
+            "diskThroughputMBps": 23601,
+            "gpuTypeId": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+            "location": "RO",
+            "maxDownloadSpeedMbps": 6969,
+            "maxUploadSpeedMbps": 8044,
+            "secureCloud": true,
             "supportPublicIp": true,
-            "reservedCountVersion": 5074
+            "reservedCountVersion": 430
           },
-          "machineId": "xln0d30ayjvi",
-          "memoryInGb": 123,
-          "name": "my pod",
+          "machineId": "b4f4mclhv2hc",
+          "memoryInGb": 283,
+          "name": "deployed: 18-03-2026 00:38",
+          "networkVolume": {
+            "dataCenterId": "EU-RO-1",
+            "id": "psrm6za97d",
+            "name": "1",
+            "size": 200
+          },
+          "networkVolumeId": "psrm6za97d",
           "ports": [
-            "8188/http",
-            "8888/http"
+            "3000/http",
+            "8081/http",
+            "8082/http",
+            "8083/http",
+            "8888/http",
+            "8080/http",
+            "8084/http",
+            "22/tcp",
+            "22/udp"
           ],
           "publicIp": "",
-          "templateId": "edk2i1wn89",
-          "vcpuCount": 12,
-          "volumeInGb": 100,
+          "templateId": "ubai7vcm50",
+          "vcpuCount": 16,
+          "volumeInGb": 200,
           "volumeMountPath": "/workspace"
         },
         "pairedItem": {
@@ -3600,551 +4451,210 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "WgladWPrzeszlosc",
-          "videoFolderName": "2026-02-08_VySCN",
-          "method": "checkComfyUiGenerationStatus",
+          "channelName": "NewChannel",
+          "videoFolderName": "2026-03-17_pWLve",
+          "index": 0,
+          "method": "sendComfyUiT2IGenerationRequest",
           "comfyUiRequest": {
-            "client_id": "x",
-            "prompt": {
-              "75": {
-                "inputs": {
-                  "filename_prefix": "video/LTX-2",
-                  "format": "mp4",
-                  "codec": "auto",
-                  "video": [
-                    "121",
-                    0
-                  ]
-                },
-                "class_type": "SaveVideo",
-                "_meta": {
-                  "title": "Save Video"
-                }
+            "9": {
+              "inputs": {
+                "filename_prefix": "Flux2_dev",
+                "images": [
+                  "110",
+                  0
+                ]
               },
-              "98": {
-                "inputs": {
-                  "steps": 20,
-                  "max_shift": 2.05,
-                  "base_shift": 0.95,
-                  "stretch": true,
-                  "terminal": 0.1,
-                  "latent": [
-                    "108",
-                    0
-                  ]
-                },
-                "class_type": "LTXVScheduler",
-                "_meta": {
-                  "title": "LTXVScheduler"
-                }
+              "class_type": "SaveImage",
+              "_meta": {
+                "title": "Save Image"
+              }
+            },
+            "105": {
+              "inputs": {
+                "model": [
+                  "116",
+                  0
+                ],
+                "conditioning": [
+                  "106",
+                  0
+                ]
               },
-              "99": {
-                "inputs": {
-                  "sigmas": "0.909375, 0.725, 0.421875, 0.0"
-                },
-                "class_type": "ManualSigmas",
-                "_meta": {
-                  "title": "ManualSigmas"
-                }
+              "class_type": "BasicGuider",
+              "_meta": {
+                "title": "BasicGuider"
+              }
+            },
+            "106": {
+              "inputs": {
+                "guidance": 4,
+                "conditioning": [
+                  "115",
+                  0
+                ]
               },
-              "100": {
-                "inputs": {
-                  "model_name": "ltx-2-spatial-upscaler-x2-1.0.safetensors"
-                },
-                "class_type": "LatentUpscaleModelLoader",
-                "_meta": {
-                  "title": "Load Latent Upscale Model"
-                }
+              "class_type": "FluxGuidance",
+              "_meta": {
+                "title": "FluxGuidance"
+              }
+            },
+            "107": {
+              "inputs": {
+                "sampler_name": "euler"
               },
-              "101": {
-                "inputs": {
-                  "positive": [
-                    "106",
-                    0
-                  ],
-                  "negative": [
-                    "106",
-                    1
-                  ],
-                  "latent": [
-                    "115",
-                    0
-                  ]
-                },
-                "class_type": "LTXVCropGuides",
-                "_meta": {
-                  "title": "LTXVCropGuides"
-                }
+              "class_type": "KSamplerSelect",
+              "_meta": {
+                "title": "KSamplerSelect"
+              }
+            },
+            "108": {
+              "inputs": {
+                "vae_name": "flux2-vae.safetensors"
               },
-              "102": {
-                "inputs": {
-                  "cfg": 1,
-                  "model": [
-                    "132",
-                    0
-                  ],
-                  "positive": [
-                    "101",
-                    0
-                  ],
-                  "negative": [
-                    "101",
-                    1
-                  ]
-                },
-                "class_type": "CFGGuider",
-                "_meta": {
-                  "title": "CFGGuider"
-                }
+              "class_type": "VAELoader",
+              "_meta": {
+                "title": "Load VAE"
+              }
+            },
+            "109": {
+              "inputs": {
+                "noise": [
+                  "114",
+                  0
+                ],
+                "guider": [
+                  "105",
+                  0
+                ],
+                "sampler": [
+                  "107",
+                  0
+                ],
+                "sigmas": [
+                  "112",
+                  0
+                ],
+                "latent_image": [
+                  "113",
+                  0
+                ]
               },
-              "103": {
-                "inputs": {
-                  "upscale_method": "lanczos",
-                  "scale_by": 0.5,
-                  "image": [
-                    "110",
-                    0
-                  ]
-                },
-                "class_type": "ImageScaleBy",
-                "_meta": {
-                  "title": "Upscale Image By"
-                }
+              "class_type": "SamplerCustomAdvanced",
+              "_meta": {
+                "title": "SamplerCustomAdvanced"
+              }
+            },
+            "110": {
+              "inputs": {
+                "samples": [
+                  "109",
+                  0
+                ],
+                "vae": [
+                  "108",
+                  0
+                ]
               },
-              "104": {
-                "inputs": {
-                  "image": [
-                    "103",
-                    0
-                  ]
-                },
-                "class_type": "GetImageSize",
-                "_meta": {
-                  "title": "Get Image Size"
-                }
+              "class_type": "VAEDecode",
+              "_meta": {
+                "title": "VAE Decode"
+              }
+            },
+            "111": {
+              "inputs": {
+                "clip_name": "mistral_3_small_flux2_bf16.safetensors",
+                "type": "flux2",
+                "device": "default"
               },
-              "105": {
-                "inputs": {
-                  "frames_number": [
-                    "111",
-                    0
-                  ],
-                  "frame_rate": [
-                    "129",
-                    0
-                  ],
-                  "batch_size": 1,
-                  "audio_vae": [
-                    "122",
-                    0
-                  ]
-                },
-                "class_type": "LTXVEmptyLatentAudio",
-                "_meta": {
-                  "title": "LTXV Empty Latent Audio"
-                }
+              "class_type": "CLIPLoader",
+              "_meta": {
+                "title": "Load CLIP"
+              }
+            },
+            "112": {
+              "inputs": {
+                "steps": [
+                  "118",
+                  0
+                ],
+                "width": 1024,
+                "height": 1024
               },
-              "106": {
-                "inputs": {
-                  "frame_rate": [
-                    "128",
-                    0
-                  ],
-                  "positive": [
-                    "120",
-                    0
-                  ],
-                  "negative": [
-                    "109",
-                    0
-                  ]
-                },
-                "class_type": "LTXVConditioning",
-                "_meta": {
-                  "title": "LTXVConditioning"
-                }
+              "class_type": "Flux2Scheduler",
+              "_meta": {
+                "title": "Flux2Scheduler"
+              }
+            },
+            "113": {
+              "class_type": "EmptyFlux2LatentImage",
+              "_meta": {
+                "title": "Empty Flux 2 Latent"
               },
-              "107": {
-                "inputs": {
-                  "width": [
-                    "104",
-                    0
-                  ],
-                  "height": [
-                    "104",
-                    1
-                  ],
-                  "length": [
-                    "111",
-                    0
-                  ],
-                  "batch_size": 1
-                },
-                "class_type": "EmptyLTXVLatentVideo",
-                "_meta": {
-                  "title": "EmptyLTXVLatentVideo"
-                }
+              "inputs": {
+                "width": 1280,
+                "height": 720,
+                "batch_size": 1
+              }
+            },
+            "114": {
+              "inputs": {
+                "noise_seed": 39017841991881
               },
-              "108": {
-                "inputs": {
-                  "video_latent": [
-                    "107",
-                    0
-                  ],
-                  "audio_latent": [
-                    "105",
-                    0
-                  ]
-                },
-                "class_type": "LTXVConcatAVLatent",
-                "_meta": {
-                  "title": "LTXVConcatAVLatent"
-                }
+              "class_type": "RandomNoise",
+              "_meta": {
+                "title": "RandomNoise"
+              }
+            },
+            "115": {
+              "class_type": "CLIPTextEncode",
+              "_meta": {
+                "title": "CLIP Text Encode (Positive Prompt)"
               },
-              "109": {
-                "inputs": {
-                  "text": "blurry, out of focus, overexposed, underexposed, low contrast, washed out colors, excessive noise, grainy texture, poor lighting, flickering, motion blur, distorted proportions, unnatural skin tones, deformed facial features, asymmetrical face, missing facial features, extra limbs, disfigured hands, wrong hand count, artifacts around text, unreadable text on shirt or hat, incorrect lettering on cap (“PNTR”), incorrect t-shirt slogan (“JUST DO IT”), missing microphone, misplaced microphone, inconsistent perspective, camera shake, incorrect depth of field, background too sharp, background clutter, distracting reflections, harsh shadows, inconsistent lighting direction, color banding, cartoonish rendering, 3D CGI look, unrealistic materials, uncanny valley effect, incorrect ethnicity, wrong gender, exaggerated expressions, smiling, laughing, exaggerated sadness, wrong gaze direction, eyes looking at camera, mismatched lip sync, silent or muted audio, distorted voice, robotic voice, echo, background noise, off-sync audio, missing sniff sounds, incorrect dialogue, added dialogue, repetitive speech, jittery movement, awkward pauses, incorrect timing, unnatural transitions, inconsistent framing, tilted camera, missing door or shelves, missing shallow depth of field, flat lighting, inconsistent tone, cinematic oversaturation, stylized filters, or AI artifacts.",
-                  "clip": [
-                    "139",
-                    0
-                  ]
-                },
-                "class_type": "CLIPTextEncode",
-                "_meta": {
-                  "title": "clip_negative_prompt"
-                }
+              "inputs": {
+                "text": "geminicomics style, A Caucasian male rock climber in his 30s clings to a massive, nearly smooth vertical grey-brown cliff face. He wears a bright yellow tight climbing shirt, dark grey pants, tight climbing shoes, and a waist harness heavily loaded with metallic carabiners and mechanical camming devices. A small chalk bag hangs from his lower back. His right hand grips a microscopic rock edge, arm muscles taut, while his left hand rests near his hip. His face shows intense calculation and focus, looking upward at a narrow vertical crack in the rock. The composition uses a dynamic high-angle perspective highlighting the terrifying vertical drop. In the foreground, sharply textured, out-of-focus rock edges frame the shot. In the midground, the climber dominates the wall. In the distant background, a dizzying empty drop reveals a tiny valley, a winding river, and distant green trees. Bright midday sunlight casts sharp, contrasting shadows across the rock texture.",
+                "clip": [
+                  "111",
+                  0
+                ]
+              }
+            },
+            "116": {
+              "inputs": {
+                "lora_name": "geminicomics_style.safetensors",
+                "strength_model": 1,
+                "model": [
+                  "122",
+                  0
+                ]
               },
-              "110": {
-                "inputs": {
-                  "width": 1280,
-                  "height": 720,
-                  "batch_size": 1,
-                  "color": 0
-                },
-                "class_type": "EmptyImage",
-                "_meta": {
-                  "title": "clip_frame_size"
-                }
+              "class_type": "LoraLoaderModelOnly",
+              "_meta": {
+                "title": "Load LoRA"
+              }
+            },
+            "118": {
+              "inputs": {
+                "value": 20
               },
-              "111": {
-                "inputs": {
-                  "value": 130
-                },
-                "class_type": "PrimitiveInt",
-                "_meta": {
-                  "title": "clip_frame_count"
-                }
+              "class_type": "PrimitiveInt",
+              "_meta": {
+                "title": "Steps"
+              }
+            },
+            "122": {
+              "inputs": {
+                "unet_name": "flux2_dev_fp8mixed.safetensors",
+                "weight_dtype": "default"
               },
-              "112": {
-                "inputs": {
-                  "noise": [
-                    "114",
-                    0
-                  ],
-                  "guider": [
-                    "127",
-                    0
-                  ],
-                  "sampler": [
-                    "135",
-                    0
-                  ],
-                  "sigmas": [
-                    "98",
-                    0
-                  ],
-                  "latent_image": [
-                    "108",
-                    0
-                  ]
-                },
-                "class_type": "SamplerCustomAdvanced",
-                "_meta": {
-                  "title": "SamplerCustomAdvanced"
-                }
-              },
-              "113": {
-                "inputs": {
-                  "noise_seed": 0
-                },
-                "class_type": "RandomNoise",
-                "_meta": {
-                  "title": "RandomNoise"
-                }
-              },
-              "114": {
-                "inputs": {
-                  "noise_seed": 1
-                },
-                "class_type": "RandomNoise",
-                "_meta": {
-                  "title": "RandomNoise"
-                }
-              },
-              "115": {
-                "inputs": {
-                  "av_latent": [
-                    "112",
-                    0
-                  ]
-                },
-                "class_type": "LTXVSeparateAVLatent",
-                "_meta": {
-                  "title": "LTXVSeparateAVLatent"
-                }
-              },
-              "116": {
-                "inputs": {
-                  "video_latent": [
-                    "117",
-                    0
-                  ],
-                  "audio_latent": [
-                    "115",
-                    1
-                  ]
-                },
-                "class_type": "LTXVConcatAVLatent",
-                "_meta": {
-                  "title": "LTXVConcatAVLatent"
-                }
-              },
-              "117": {
-                "inputs": {
-                  "samples": [
-                    "101",
-                    2
-                  ],
-                  "upscale_model": [
-                    "100",
-                    0
-                  ],
-                  "vae": [
-                    "131",
-                    2
-                  ]
-                },
-                "class_type": "LTXVLatentUpsampler",
-                "_meta": {
-                  "title": "spatial"
-                }
-              },
-              "118": {
-                "inputs": {
-                  "noise": [
-                    "113",
-                    0
-                  ],
-                  "guider": [
-                    "102",
-                    0
-                  ],
-                  "sampler": [
-                    "136",
-                    0
-                  ],
-                  "sigmas": [
-                    "99",
-                    0
-                  ],
-                  "latent_image": [
-                    "116",
-                    0
-                  ]
-                },
-                "class_type": "SamplerCustomAdvanced",
-                "_meta": {
-                  "title": "SamplerCustomAdvanced"
-                }
-              },
-              "120": {
-                "inputs": {
-                  "text": "A professional, cinematic motion graphic sequence for a science documentary. The shot opens on a medium view of a stylized, animated evolutionary tree of life, set against a dark, clean background. The tree branches glow with a soft, warm light. The camera slowly and smoothly dollies in, tracking the specific branch for Primates, then narrowing down to the Hominidae family. As the camera moves, the scientific labels for each classification subtly light up. The shot concludes with a close-up on the final branch labeled 'Homo sapiens'. Sound design includes a faint, ambient electronic hum and a soft whooshing sound effect that follows the camera's movement. Maintain a high-quality, minimalist aesthetic throughout. No extra characters or objects, no watermarks, animation must be smooth.",
-                  "clip": [
-                    "139",
-                    0
-                  ]
-                },
-                "class_type": "CLIPTextEncode",
-                "_meta": {
-                  "title": "clip_positive_prompt"
-                }
-              },
-              "121": {
-                "inputs": {
-                  "fps": [
-                    "128",
-                    0
-                  ],
-                  "images": [
-                    "125",
-                    0
-                  ],
-                  "audio": [
-                    "126",
-                    0
-                  ]
-                },
-                "class_type": "CreateVideo",
-                "_meta": {
-                  "title": "Create Video"
-                }
-              },
-              "122": {
-                "inputs": {
-                  "ckpt_name": "ltx-2-19b-dev.safetensors"
-                },
-                "class_type": "LTXVAudioVAELoader",
-                "_meta": {
-                  "title": "LTXV Audio VAE Loader"
-                }
-              },
-              "123": {
-                "inputs": {
-                  "av_latent": [
-                    "118",
-                    1
-                  ]
-                },
-                "class_type": "LTXVSeparateAVLatent",
-                "_meta": {
-                  "title": "LTXVSeparateAVLatent"
-                }
-              },
-              "125": {
-                "inputs": {
-                  "tile_size": 512,
-                  "overlap": 64,
-                  "temporal_size": 4096,
-                  "temporal_overlap": 8,
-                  "samples": [
-                    "123",
-                    0
-                  ],
-                  "vae": [
-                    "131",
-                    2
-                  ]
-                },
-                "class_type": "VAEDecodeTiled",
-                "_meta": {
-                  "title": "VAE Decode (Tiled)"
-                }
-              },
-              "126": {
-                "inputs": {
-                  "samples": [
-                    "123",
-                    1
-                  ],
-                  "audio_vae": [
-                    "122",
-                    0
-                  ]
-                },
-                "class_type": "LTXVAudioVAEDecode",
-                "_meta": {
-                  "title": "LTXV Audio VAE Decode"
-                }
-              },
-              "127": {
-                "inputs": {
-                  "cfg": 4,
-                  "model": [
-                    "131",
-                    0
-                  ],
-                  "positive": [
-                    "106",
-                    0
-                  ],
-                  "negative": [
-                    "106",
-                    1
-                  ]
-                },
-                "class_type": "CFGGuider",
-                "_meta": {
-                  "title": "CFGGuider"
-                }
-              },
-              "128": {
-                "inputs": {
-                  "value": 24
-                },
-                "class_type": "PrimitiveFloat",
-                "_meta": {
-                  "title": "clip_frame_rate_float"
-                }
-              },
-              "129": {
-                "inputs": {
-                  "value": 24
-                },
-                "class_type": "PrimitiveInt",
-                "_meta": {
-                  "title": "clip_frame_rate_int"
-                }
-              },
-              "131": {
-                "inputs": {
-                  "ckpt_name": "ltx-2-19b-dev.safetensors"
-                },
-                "class_type": "CheckpointLoaderSimple",
-                "_meta": {
-                  "title": "Load Checkpoint"
-                }
-              },
-              "132": {
-                "inputs": {
-                  "lora_name": "ltx-2-19b-distilled-lora-384.safetensors",
-                  "strength_model": 1,
-                  "model": [
-                    "131",
-                    0
-                  ]
-                },
-                "class_type": "LoraLoaderModelOnly",
-                "_meta": {
-                  "title": "Load LoRA"
-                }
-              },
-              "135": {
-                "inputs": {
-                  "sampler_name": "euler_ancestral"
-                },
-                "class_type": "KSamplerSelect",
-                "_meta": {
-                  "title": "KSamplerSelect"
-                }
-              },
-              "136": {
-                "inputs": {
-                  "sampler_name": "euler_ancestral"
-                },
-                "class_type": "KSamplerSelect",
-                "_meta": {
-                  "title": "KSamplerSelect"
-                }
-              },
-              "139": {
-                "inputs": {
-                  "text_encoder": "gemma_3_12B_it.safetensors",
-                  "ckpt_name": "ltx-2-19b-dev.safetensors",
-                  "device": "default"
-                },
-                "class_type": "LTXAVTextEncoderLoader",
-                "_meta": {
-                  "title": "LTXV Audio Text Encoder Loader"
-                }
+              "class_type": "UNETLoader",
+              "_meta": {
+                "title": "Load Diffusion Model"
               }
             }
           },
-          "runpodTemplateId": "edk2i1wn89",
+          "runpodTemplateId": "ubai7vcm50",
           "runpodUseVolume": false,
           "runpodVolumeId": "",
-          "runpodContainerDiskInGb": 0,
-          "runpodVolumeInGb": 0,
           "runpodGpuList": [],
           "runpodCountryCodes": []
         },
@@ -4154,9 +4664,9 @@
       }
     ]
   },
-  "versionId": "f520af89-dae7-4e8b-a449-8e4f80d0ff00",
-  "activeVersionId": "f520af89-dae7-4e8b-a449-8e4f80d0ff00",
-  "versionCounter": 2519,
+  "versionId": "551c92b3-af6f-4975-8cd2-f0d8c5ec8927",
+  "activeVersionId": "551c92b3-af6f-4975-8cd2-f0d8c5ec8927",
+  "versionCounter": 3180,
   "triggerCount": 0,
   "tags": [],
   "shared": [

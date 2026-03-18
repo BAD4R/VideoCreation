@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-14T21:50:12.222Z",
+  "updatedAt": "2026-02-21T18:11:55.450Z",
   "createdAt": "2026-02-13T01:59:51.314Z",
   "id": "rFwvPFvSZOWxetnK",
   "name": "LoRA Works - paralleling",
@@ -10,7 +10,7 @@
     {
       "parameters": {
         "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"headers\": {},\n  \"body\": {},\n  \"stylePromptsArray\":\"\",\n  \"promptsArray\":\"\",\n  \"loraTrainArray\":\"\",\n  \"prefix\":\"\",\n  \"path\":\"\",\n  \"index\":0\n}"
+        "jsonExample": "{\n  \"headers\": {},\n  \"body\": {},\n  \"index\":0\n}"
       },
       "id": "78a165be-1ebc-47d0-a6e4-9aa626fe0dbb",
       "typeVersion": 1.1,
@@ -24,7 +24,7 @@
     {
       "parameters": {
         "operation": "write",
-        "fileName": "=/Users/varvarahanma/Documents/videos/main/gemini_dataset_for_lora/{{ $('Start').item.json.index.toString().padStart(3,\"0\") }}.png",
+        "fileName": "=C:/Users/V/Downloads/runpodloratrain/dataset/{{ $('Start').item.json.index.toString().padStart(3,\"0\") }}.png",
         "options": {}
       },
       "type": "n8n-nodes-base.readWriteFile",
@@ -90,7 +90,7 @@
     {
       "parameters": {
         "operation": "write",
-        "fileName": "=/Users/varvarahanma/Documents/videos/main/gemini_dataset_for_lora/{{ $('Start').item.json.index.toString().padStart(3,\"0\") }}.txt",
+        "fileName": "=C:/Users/V/Downloads/runpodloratrain/dataset/{{ $('Start').item.json.index.toString().padStart(3,\"0\") }}.txt",
         "options": {}
       },
       "type": "n8n-nodes-base.readWriteFile",
@@ -194,11 +194,6 @@
       "main": [
         [
           {
-            "node": "Edit Fields1",
-            "type": "main",
-            "index": 0
-          },
-          {
             "node": "Read/Write Files from Disk1",
             "type": "main",
             "index": 0
@@ -290,9 +285,9 @@
       }
     ]
   },
-  "versionId": "f9743610-3add-45cd-b399-a3cf19440b1a",
-  "activeVersionId": "d483492d-5a12-4c61-9f56-d7f4748b0ab5",
-  "versionCounter": 85,
+  "versionId": "16488b87-e313-4d10-b554-4d7e4b704c22",
+  "activeVersionId": "16488b87-e313-4d10-b554-4d7e4b704c22",
+  "versionCounter": 107,
   "triggerCount": 0,
   "tags": [],
   "shared": [

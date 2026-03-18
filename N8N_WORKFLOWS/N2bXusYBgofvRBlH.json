@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-02-09T14:00:02.247Z",
+  "updatedAt": "2026-03-17T17:46:10.308Z",
   "createdAt": "2026-02-04T22:33:38.505Z",
   "id": "N2bXusYBgofvRBlH",
   "name": "check files quantity in directory",
@@ -35,7 +35,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $json.fileExtentionToSearch != null }}",
+                    "leftValue": "={{ $json.fileExtentionToSearch != null && $json.fileNameToSearch == null }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -61,7 +61,7 @@
                 "conditions": [
                   {
                     "id": "c2dc8fea-2566-4bc3-967d-783ad71bb10f",
-                    "leftValue": "={{ $json.fileNameToSearch != null }}",
+                    "leftValue": "={{ $json.fileExtentionToSearch == null && $json.fileNameToSearch != null }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -141,7 +141,7 @@
     },
     {
       "parameters": {
-        "command": "=powershell -NoProfile -Command \"(Get-ChildItem -Path \"{{ $('Start').first().json.directoryPath }}\" -File -Filter \"*{{ $('Start').first().json.fileExtentionToSearch }}\" | Where-Object { $_.Name -like \"*{{ $('Start').first().json.fileNameToSearch }}*\" }).Name\""
+        "command": "=powershell -NoProfile -Command \"(Get-ChildItem -LiteralPath '{{ $('Start').first().json.directoryPath }}' -File -Filter '*{{ $('Start').first().json.fileExtentionToSearch }}' | Where-Object { $_.Name -like '*{{ $('Start').first().json.fileNameToSearch }}*' }).Name\""
       },
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
@@ -164,7 +164,7 @@
           "conditions": [
             {
               "id": "4c54797e-06d1-43a9-bbc0-5f6d27f95308",
-              "leftValue": "={{ $json.stdout.split(\"\\r\\n\").length == $('Start').first().json.expectedFilesCount }}",
+              "leftValue": "={{ !$json.stdout.isEmpty() && $json.stdout.split(\"\\r\\n\").length == $('Start').first().json.expectedFilesCount }}",
               "rightValue": "",
               "operator": {
                 "type": "boolean",
@@ -316,10 +316,10 @@
     "Start": [
       {
         "json": {
-          "directoryPath": "C:/Users/V/Desktop/Channels/WgladWPrzeszlosc/VIDEOS/2026-02-08_VySCN",
-          "fileExtentionToSearch": ".png",
-          "fileNameToSearch": "prev",
-          "expectedFilesCount": 3
+          "directoryPath": "C:/Users/V/Desktop/Channels/NewChannel/VIDEOS/2026-03-17_pWLve/VOICE",
+          "fileExtentionToSearch": ".mp3",
+          "fileNameToSearch": null,
+          "expectedFilesCount": 1
         },
         "pairedItem": {
           "item": 0
@@ -327,9 +327,9 @@
       }
     ]
   },
-  "versionId": "99238c3f-26fd-40c6-ad91-ca326fa133fb",
-  "activeVersionId": "99238c3f-26fd-40c6-ad91-ca326fa133fb",
-  "versionCounter": 276,
+  "versionId": "1ce02042-158b-4c17-a07f-5143ffd1394f",
+  "activeVersionId": "1ce02042-158b-4c17-a07f-5143ffd1394f",
+  "versionCounter": 310,
   "triggerCount": 0,
   "tags": [],
   "shared": [
