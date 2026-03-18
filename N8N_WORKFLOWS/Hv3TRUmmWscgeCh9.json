@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-18T19:25:54.880Z",
+  "updatedAt": "2026-03-18T19:55:51.004Z",
   "createdAt": "2026-02-14T16:04:49.373Z",
   "id": "Hv3TRUmmWscgeCh9",
   "name": "Deploy, Update, Upload",
@@ -23,12 +23,6 @@
         "assignments": {
           "assignments": [
             {
-              "id": "075c95d9-18bb-4a93-8142-e11b2e8c9cf7",
-              "name": "projectFolderPath",
-              "value": "C:\\Users\\V\\Desktop\\Projects",
-              "type": "string"
-            },
-            {
               "id": "aa0d7cf2-0178-47b4-954e-443e6dfa739a",
               "name": "mainFolderPath",
               "value": "C:\\Users\\V\\Desktop\\Channels",
@@ -51,6 +45,12 @@
               "name": "gitRepository",
               "value": "https://github.com/BAD4R/VideoCreation.git",
               "type": "string"
+            },
+            {
+              "id": "134b1651-fb4a-4cc2-a2a3-9ff98216efe2",
+              "name": "projectFolderPath",
+              "value": "C:/Users/V/Desktop/Projects",
+              "type": "string"
             }
           ]
         },
@@ -64,32 +64,6 @@
       ],
       "id": "10b1444c-d9d3-4efd-a1fb-86887ba6af3a",
       "name": "Base Settings"
-    },
-    {
-      "parameters": {
-        "command": "=powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"& { $ErrorActionPreference='Stop'; $n8n = Join-Path $env:APPDATA 'npm\\n8n.cmd'; & $n8n --version; & $n8n export:workflow --all --separate --pretty --output '{{$('Base Settings').first().json.projectFolderPath}}\\VideoCreation\\N8N_WORKFLOWS' }\""
-      },
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
-      "position": [
-        432,
-        304
-      ],
-      "id": "b60fe862-96b1-48e9-ad91-96da03808cb1",
-      "name": "export all workflows"
-    },
-    {
-      "parameters": {
-        "command": "=powershell -NoProfile -ExecutionPolicy Bypass -Command \"cd '{{ $('Base Settings').first().json.projectFolderPath }}\\VideoCreation'; git add -A; git commit -m 'update'; git push\""
-      },
-      "type": "n8n-nodes-base.executeCommand",
-      "typeVersion": 1,
-      "position": [
-        608,
-        304
-      ],
-      "id": "503b6545-1c6c-41d7-b983-bd80a1a9d492",
-      "name": "git add, commit, push"
     },
     {
       "parameters": {
@@ -190,6 +164,32 @@
       ],
       "id": "4af3ece7-4665-4847-bd71-b9d35a79edc2",
       "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "command": "=powershell -NoProfile -ExecutionPolicy Bypass -Command \"cd '{{ $('Base Settings').first().json.projectFolderPath }}\\VideoCreation'; git add -A; git commit -m 'update'; git push\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        608,
+        304
+      ],
+      "id": "503b6545-1c6c-41d7-b983-bd80a1a9d492",
+      "name": "git add, commit, push"
+    },
+    {
+      "parameters": {
+        "command": "=powershell -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command \"& { $ErrorActionPreference='Stop'; $n8n = Join-Path $env:APPDATA 'npm\\n8n.cmd'; & $n8n --version; & $n8n export:workflow --all --separate --pretty --output '{{$('Base Settings').first().json.projectFolderPath}}\\VideoCreation\\N8N_WORKFLOWS' }\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        432,
+        304
+      ],
+      "id": "b60fe862-96b1-48e9-ad91-96da03808cb1",
+      "name": "export all workflows"
     }
   ],
   "connections": {
@@ -209,17 +209,6 @@
         [
           {
             "node": "export all workflows",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "export all workflows": {
-      "main": [
-        [
-          {
-            "node": "git add, commit, push",
             "type": "main",
             "index": 0
           }
@@ -263,6 +252,17 @@
       "main": [
         []
       ]
+    },
+    "export all workflows": {
+      "main": [
+        [
+          {
+            "node": "git add, commit, push",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -273,9 +273,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "fc1e553a-6345-46dd-9ecf-cb5cb2e42f0b",
+  "versionId": "e5d5717f-8431-4fbd-8a90-a73f233a4956",
   "activeVersionId": null,
-  "versionCounter": 522,
+  "versionCounter": 529,
   "triggerCount": 0,
   "tags": [],
   "shared": [
