@@ -1,0 +1,16 @@
+{
+  "textReady": true,
+  "metaReady": true,
+  "voiceoverReady": true,
+  "musicReady": false,
+  "sfxReady": false,
+  "transcriptReady": false,
+  "imagesPromptsReady": false,
+  "imagesReady": false,
+  "startFramesPromptsReady": false,
+  "startFramesReady": false,
+  "clipsPromptsReady": false,
+  "clipsReady": false,
+  "renderReady": false,
+  "videoPublished": false
+}

@@ -136,11 +136,6 @@ if (-not [string]::IsNullOrWhiteSpace($PythonExe)) {
     $candidateList.Add(@{ exe = $PythonExe; prefix = @() }) | Out-Null
 }
 
-$projectVenvPython = Join-Path $ProjectDir ".venv\Scripts\python.exe"
-if (Test-Path -LiteralPath $projectVenvPython) {
-    $candidateList.Add(@{ exe = $projectVenvPython; prefix = @() }) | Out-Null
-}
-
 $minicondaPython = Join-Path $env:USERPROFILE "miniconda3\python.exe"
 if (Test-Path -LiteralPath $minicondaPython) {
     $candidateList.Add(@{ exe = $minicondaPython; prefix = @() }) | Out-Null

@@ -1,0 +1,76 @@
+﻿[texts] found 1 file(s): 2026-02-14_nQoYJ.txt
+[init:new] C:\Users\V\Desktop\Channels\SCRIPTS\AudioScripts\Transcriber\remote_jobs\20260214-200902-11246\source_main\WhispersOfEastAsia\VIDEOS\2026-02-14_nQoYJ\VOICE\transcript\2026-02-14_nQoYJ_transcript.json (created)
+[asr] nQoYJ_00000.mp3 medium/float16 bs=8 dev=cuda
+[heard] nQoYJ_00000.mp3: you don't wake up to the sun you wake up to a dull persistent ache in your neck for a moment you forget where you are and then you feel the hard curve of wood beneath you it's the takamakura the unforgiving pillow designed not for comfort but for preservation you sleep on this small lacquered block to protect your hairstyle a complex creation of wax combs and ornaments that must last for an entire week one wrong move in your sleep and you ruin hours of work this is your first lesson of the day and every day beauty is discipline and discipline is pain your day began long before you were you it started when you were just a girl perhaps 10 or 11 years old brought to the okia the geisha house in kyoto's gion district you don't remember much of your old family or maybe you choose not to your name was taken from you and a new one was given one that tied you to the house and your new sisters at first you were just a shikomi a maid you spent your days on your hands and knees scrubbing wooden floors until they shone running errands for the senior geisha and learning the most important skill of all how to be invisible you learned to speak only when spoken to to bow at the correct angle and to understand the unspoken language of a glance or a tapped fan after a year or more of this servitude if the okasan the house mother saw potential in you you became a minarai
+[+w] +267 T=267
+[+s] +16 T=16/160
+[idx] next_sentence=16/160 chunk_limit=-
+[+w] +0 T=267
+[save]
+[run] 2/8 nQoYJ_00001.mp3
+[asr] nQoYJ_00001.mp3 medium/float16 bs=8 dev=cuda
+[heard] nQoYJ_00001.mp3: this meant you could finally wear a simple kimono and follow your quote older sister an established geisha to the teahouses your job was to watch to observe you sat silently in the corner of the room during banquets absorbing everything how she poured the sake never letting a guest cup run empty how she laughed at a client's joke making him feel like the wittiest man in the world how she deflected an inappropriate comment with a graceful turn of phrase you were learning that a geisha's true art isn't just dance or music it's the art of creating a perfect moment for someone else then comes the misedashi your official debut as a maiko an apprentice geisha it's a day of overwhelming ceremony and sensation the first thing you feel is the weight your kimono is a magnificent burden of silk and brocade weighing up to 20 kilograms the obi the wide sash is nearly seven meters long and tied in a complex knot that presses into your back you can barely breathe then comes the face an older sister paints your skin with a thick white paste called oshiroi it feels cool and heavy a mask that hides the young girl underneath what you don't know in this year of 1935 is that this beautiful white powder is made with lead with every application a little bit of poison seeps into your skin your eyebrows are drawn on with charcoal
+[+w] +243 T=510
+[+s] +20 T=36/160
+[idx] next_sentence=36/160 chunk_limit=-
+[+w] +0 T=510
+[save]
+[run] 3/8 nQoYJ_00002.mp3
+[asr] nQoYJ_00002.mp3 medium/float16 bs=8 dev=cuda
+[heard] nQoYJ_00002.mp3: your eyes are lined with black and a touch of red making them seem larger more dramatic but the final touch is the benny the crimson lipstick made from safflower petals a senior geisha applies it to your lower lip only a small perfect red bud this is a signal to everyone you are new you are an apprentice you are beautiful but you are not yet a woman you walk through the streets of the district visiting the teahouses and shops introducing yourself your every step is a performance your every glance is judged the pressure is immense one misstep one sign of fear and you bring shame to your okia your days now fall into a relentless rhythm of lessons you wake up before dawn after a simple breakfast of rice and miso soup you go to your classes you spend hours learning to play the shamisen a three-stringed instrument your fingertips crack and bleed but you don't stop you practice the slow gliding movements of the traditional dance the mai until your muscles scream you learn calligraphy the tea ceremony and the intricate rules of conversation you must be able to discuss politics with a government official poetry with a scholar and the price of rice with a merchant you are being sculpted into a living work of art and the process is grueling there is no room for failure everything you learn every kimono you wear every meal you eat is a debt a debt to the okia that you will spend years paying off
+[+w] +259 T=769
+[+s] +23 T=59/160
+[idx] next_sentence=59/160 chunk_limit=-
+[advance] file=nQoYJ_00002.mp3 -> idx=59/160
+[+w] +0 T=769
+[+w] +0 T=769
+[save]
+[run] 4/8 nQoYJ_00003.mp3
+[asr] nQoYJ_00003.mp3 medium/float16 bs=8 dev=cuda
+[heard] nQoYJ_00003.mp3: as evening falls the transformation begins again the white mask is applied the heavy kimono is tied you and your sisters are called to an ozashki a banquet at a teahouse you enter the room a whirlwind of color and silk the air is thick with the smells of expensive food warm sake and men's cologne the men are powerful politicians businessmen famous artists you kneel on the tatami mat your back perfectly straight you are not here to eat the delicious food laid out before you you are here to serve you pour sake light cigarettes and laugh enchantingly your job is to make these men forget the outside world you play drinking games your movements quick and graceful you perform the dance you practiced all morning your fan fluttering like a butterfly you sing a song while your older sister plays the shamisen it's a delicate balance you must be charming but not familiar witty but not arrogant beautiful but not available you see the glances the men exchange you learn to read the room to understand who holds the power who is trying to impress whom you are a pawn in their games of status and also a coveted prize the more popular you are the more money you bring to your okia and the higher your own status rises but the tea house is also a battlefield the other maiko and geisha in the room are your sisters but they are also your rivals
+[+w] +248 T=1017
+[+s] +22 T=81/160
+[idx] next_sentence=81/160 chunk_limit=-
+[+w] +0 T=1017
+[save]
+[run] 5/8 nQoYJ_00004.mp3
+[asr] nQoYJ_00004.mp3 medium/float16 bs=8 dev=cuda
+[heard] nQoYJ_00004.mp3: you are all competing for the attention of the most influential guests a senior geisha might subtly steer a wealthy patron away from you a rival from another house might accidentally spill tea on your priceless kimono a disaster that could add months to your debt gossip is a weapon wielded with the precision of a sword a whispered rumor about your character true or not could ruin your reputation you learn to be wary to trust no one completely not even the girls you share a roof with the world of flowers and willows the karayukai is beautiful but it has thorns the ultimate goal for a geisha is not marriage it's to find adana adana is a wealthy patron who agrees to cover all of your expenses your kimonos your lessons your living costs all of it this is not a simple transaction adana is not a client for a single night it is a long-term complex relationship almost like a marriage but without the legal contract he becomes your protector and benefactor in return you offer him your loyalty and companionship he has exclusive rights to your time and your art finding adana is the only real path to financial security and high status in the geisha world attracting a potential donna is the most subtle art of all it's not done with overt flirting it is done through conversation through proving your intelligence and your grace you make him feel seen and understood
+[+w] +247 T=1264
+[+s] +22 T=103/160
+[idx] next_sentence=103/160 chunk_limit=-
+[+w] +0 T=1264
+[save]
+[run] 6/8 nQoYJ_00005.mp3
+[asr] nQoYJ_00005.mp3 medium/float16 bs=8 dev=cuda
+[heard] nQoYJ_00005.mp3: you remember the details of his business you ask about his interests you create an oasis of peace and beauty for him it can take months even years of carefully cultivated encounters at teahouses the okasan of your okia acts as a go-between negotiating the terms the decision is a massive gamble a kind and generous dana can give you a wonderful life a cruel or possessive one can make your existence a gilded cage there is a darker often misunderstood part of this journey for some maiko their coming of age is marked by a ceremony called mizuage it is in its starkest terms the practice of selling a maiko's virginity to the highest bidder this was not a universal practice and by the 1930s it was becoming less common but it was a harsh reality for many the money from the mizuage an enormous sum went directly to the okia it would instantly clear a huge portion of the young woman's debt catapulting her towards financial freedom for the girl it was a terrifying impersonal transaction that marked the final line between childhood and the harsh economic realities of her life it was a choice she did not make for herself after several years as a maiko usually around the age of 20 you undergo the ceremony of erikai the turning of the collar you trade your colorful long-sleeved kimono for a more subdued one your elaborate hairstyle is replaced with a simpler more elegant wig
+[+w] +248 T=1512
+[+s] +17 T=120/160
+[idx] next_sentence=120/160 chunk_limit=-
+[+w] +0 T=1512
+[save]
+[run] 7/8 nQoYJ_00006.mp3
+[asr] nQoYJ_00006.mp3 medium/float16 bs=8 dev=cuda
+[heard] nQoYJ_00006.mp3: the heavy white makeup is now reserved for only the most formal occasions you trade the red collar of an apprentice for the pure white collar of a full fledged gecko you are no longer a girl in training you are an artist in your own right your focus shifts from youthful charm to refined skill in music dance and conversation your value is now in your talent and wisdom not just your beauty life as a geiko is different you have more freedom more autonomy you can choose which banquets to attend you have your own fans patrons who request you specifically but the pressure doesn't disappear it just changes you are now responsible for mentoring the new maiko in your okia you are a businesswoman managing your own schedule and finances the rivalries become more sophisticated the game is no longer just about catching a man's eye for an evening but about building lasting relationships that ensure your security for years to come your reputation is your most valuable asset and you guard it fiercely you see the toll this life takes you see older geisha whose beauty has faded who struggle to get bookings you see others who have successfully paid off their debts and opened their own tea houses or okia becoming the new matriarchs of the system you see some who fell in love with a client they could never marry and left the karjukai disappearing into a normal life a world you can barely imagine
+[+w] +251 T=1763
+[+s] +20 T=140/160
+[idx] next_sentence=140/160 chunk_limit=-
+[advance] file=nQoYJ_00006.mp3 -> idx=140/160
+[+w] +0 T=1763
+[+w] +0 T=1763
+[save]
+[run] 8/8 nQoYJ_00007.mp3
+[asr] nQoYJ_00007.mp3 medium/float16 bs=8 dev=cuda
+[heard] nQoYJ_00007.mp3: every choice has a price to stay is to embrace a life of performance and discipline to leave is to lose the only community and identity you have ever known finally late at night you return to the okia the streets of gion are quiet now the paper lanterns casting a soft glow you slide open the wooden door and step back into the world of women the air smells of rice powder and hair oil you painstakingly remove your makeup first the oils to break down the white oshiroi then the scrubbing until your own skin reappears it feels raw and exposed you change out of your silk kimono and into a simple cotton yukata the silence of the house is a stark contrast to the noise and laughter of the tea house you lie down your head finding the familiar uncomfortable curve of the takamakura the ache in your neck is still there you close your eyes but sleep doesn't come easily the faces of the men the notes of the shamisen the scent of sake they all swirl in your mind you think about the debt you still owe the rivalries you must navigate the future you are trying to build one banquet at a time this is your world a world of breathtaking beauty and crushing weight of exquisite art and cold commerce and tomorrow you will wake up to the ache in your neck and you will do it all over again
+[+w] +247 T=2010
+[+s] +20 T=160/160
+[idx] next_sentence=160/160 chunk_limit=-
+[+w] +0 T=2010
+[save]
+[done]
+[time] elapsed 129.4s
+true
+2026-02-14 23:10:37.861963: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2026-02-14 23:10:39.453511: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+true
+

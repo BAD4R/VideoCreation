@@ -194,6 +194,8 @@ def scan_texts(mainFolderPath: Path,
       <main>/<channel>/VIDEOS/<video>/TEXTS/    и <main>/<channel>/VIDEOS/<video>/TEXTS/used/
     Имя 'TEXTS' ищется без учёта регистра. Расширения: .txt, .srt, .vtt.
     Если один и тот же файл есть и в TEXTS/ и в TEXTS/used/, приоритет за версией из used/.
+    Без --textFileName сначала пытается выбрать только <videoFolderName>.txt.
+    Если такого файла нет, использует авто-выбор (как раньше).
     Возвращает список сырых текстовых блоков (строки).
     """
     ALLOWED = {".txt", ".srt", ".vtt"}
@@ -275,29 +277,36 @@ def scan_texts(mainFolderPath: Path,
             eprint(f"[texts] warn: --textFileName '{textFileName}' not found; using auto selection")
 
     if not textFileName:
-        groups: Dict[str, List[Path]] = {}
-        for p in selected_paths:
-            key = _canonical_stem(p.stem)
-            groups.setdefault(key, []).append(p)
+        auto_name = f"{videoFolderName}.txt".strip().lower()
+        auto_exact = [p for p in paths if p.name.lower() == auto_name]
+        if auto_exact:
+            picked = _pick_preferred(auto_exact)
+            selected_paths = [picked]
+            eprint(f"[texts] auto-selected by videoFolderName: {picked.name}")
+        else:
+            groups: Dict[str, List[Path]] = {}
+            for p in selected_paths:
+                key = _canonical_stem(p.stem)
+                groups.setdefault(key, []).append(p)
 
-        filtered: List[Path] = []
-        for key in sorted(groups.keys(), key=natural_key):
-            group = groups[key]
-            if len(group) == 1:
-                filtered.append(group[0])
-                continue
+            filtered: List[Path] = []
+            for key in sorted(groups.keys(), key=natural_key):
+                group = groups[key]
+                if len(group) == 1:
+                    filtered.append(group[0])
+                    continue
 
-            has_copy_variant = any(_has_copy_marker(p.stem) for p in group)
-            if not has_copy_variant:
-                filtered.extend(sorted(group, key=lambda p: natural_key(p.name)))
-                continue
+                has_copy_variant = any(_has_copy_marker(p.stem) for p in group)
+                if not has_copy_variant:
+                    filtered.extend(sorted(group, key=lambda p: natural_key(p.name)))
+                    continue
 
-            picked = _pick_preferred(group)
-            skipped = [p.name for p in group if p != picked]
-            eprint(f"[texts] variant group '{key}': using {picked.name}; skipped {', '.join(skipped)}")
-            filtered.append(picked)
+                picked = _pick_preferred(group)
+                skipped = [p.name for p in group if p != picked]
+                eprint(f"[texts] variant group '{key}': using {picked.name}; skipped {', '.join(skipped)}")
+                filtered.append(picked)
 
-        selected_paths = filtered
+            selected_paths = filtered
 
     eprint(f"[texts] found {len(selected_paths)} file(s): " + ", ".join(p.name for p in selected_paths))
 

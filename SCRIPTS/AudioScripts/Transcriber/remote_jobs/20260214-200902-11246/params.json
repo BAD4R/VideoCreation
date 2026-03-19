@@ -1,0 +1,25 @@
+﻿{
+    "job_id":  "20260214-200902-11246",
+    "mainFolderPath":  "C:\\Users\\V\\Desktop\\Channels\\SCRIPTS\\AudioScripts\\Transcriber\\remote_jobs\\20260214-200902-11246\\source_main",
+    "channelName":  "WhispersOfEastAsia",
+    "videoFolderName":  "2026-02-14_nQoYJ",
+    "device":  "cuda",
+    "language":  "en",
+    "mode":  "",
+    "textPartsPath":  "",
+    "textFileName":  "",
+    "chunkLimit":  0,
+    "minIndexChars":  18,
+    "minIndexTokens":  0,
+    "asrWorkers":  1,
+    "minFreeVramGb":  0,
+    "asrPrompt":  "",
+    "asrPromptMaxChars":  800,
+    "outFilePath":  "C:\\Users\\V\\Desktop\\Channels\\SCRIPTS\\AudioScripts\\Transcriber\\remote_jobs\\20260214-200902-11246\\source_main\\WhispersOfEastAsia\\VIDEOS\\2026-02-14_nQoYJ\\VOICE\\transcript\\2026-02-14_nQoYJ_transcript.json",
+    "extraArgs":  [
+
+                  ],
+    "projectDir":  "C:\\Users\\V\\Desktop\\Channels\\SCRIPTS\\AudioScripts\\Transcriber",
+    "jobsRoot":  "C:\\Users\\V\\Desktop\\Channels\\SCRIPTS\\AudioScripts\\Transcriber\\remote_jobs",
+    "createdUtc":  "2026-02-14T20:10:34.4962757Z"
+}
