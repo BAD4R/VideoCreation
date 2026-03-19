@@ -1,0 +1,499 @@
+{
+  "updatedAt": "2026-03-17T20:44:12.730Z",
+  "createdAt": "2026-02-04T19:51:18.685Z",
+  "id": "QGwzjOX1i2qj5DPR",
+  "name": "generate elevenlabs audio - paralleling",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"textPart\": \"\",\n  \"textPartIndex\": 0\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('Start').first().json.textPart,\n    $('get elevenlabs request params').first().json.elevenLabsVoiceId,\n    $('get elevenlabs request params').first().json.elevenLabsModel,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        352
+      ],
+      "id": "f10f013f-3b92-4105-8a97-54454a5c312f",
+      "name": "get random ID"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $('get elevenlabs request params').first().json.proxyServerIP }}:{{ $('get elevenlabs request params').first().json.proxyServerPort }}/{{ $('get elevenlabs request params').first().json.elevenlabsRoute }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n\"model_id\": $('get elevenlabs request params').first().json.elevenLabsModel,\n\"voice_id\": $('get elevenlabs request params').first().json.elevenLabsVoiceId,\n\"text\": $('Start').first().json.textPart,\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1104,
+        352
+      ],
+      "id": "3f8db840-0a1e-46f9-b8f5-2c9bc335c008",
+      "name": "form request"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "3OssCFgf2vTy8hKq",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/3OssCFgf2vTy8hKq",
+          "cachedResultName": "Audio File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "fileAction": "write",
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VOICE/{{ $('Start').first().json.videoFolderName.slice(-5) }}_{{ ($('Start').first().json.textPartIndex).toString().padStart(5,'0') }}.mp3"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1520,
+        352
+      ],
+      "id": "078d152d-8b4d-4d94-927e-9e0938992bd7",
+      "name": "write audio file"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\"proxyServerIP\", \"proxyServerPort\", \"elevenlabsRoute\", \"elevenLabsVoiceId\", \"elevenLabsModel\"] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        688,
+        352
+      ],
+      "name": "get elevenlabs request params",
+      "id": "8cbae201-8525-4d78-9c0f-dab989635c14"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1312,
+        352
+      ],
+      "id": "ec699041-ebcd-4174-96dc-8fe1e3ff04cf",
+      "name": "Send HTTP Request"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\"productKey\"] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        480,
+        352
+      ],
+      "name": "get product key",
+      "id": "508c40ec-1e7d-440e-89d6-45e58adea9f5"
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "get product key",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID": {
+      "main": [
+        [
+          {
+            "node": "form request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form request": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get elevenlabs request params": {
+      "main": [
+        [
+          {
+            "node": "get random ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "write audio file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get product key": {
+      "main": [
+        [
+          {
+            "node": "get elevenlabs request params",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "channelsFolderPath": "C:/Users/V/Desktop/Channels",
+          "channelName": "NewChannel",
+          "videoFolderName": "2026-03-17_pWLve",
+          "textPart": "[tense] Гладкая скала уходит вверх на тысячу метров. [pause 2s] Кажется, человек держится чудом. Но за каждым шагом стоит расчет, ведь цена ошибки - жизнь.\n\n[narration] Страховку создают прямо на ходу. В трещину камня вставляют хитрое устройство - френд. При рывке его детали расширяются и намертво клинят в породе. [serious] Этот металл весом в двести граммов выдерживает больше тонны. Но поставишь криво - деталь вырвется со свистом, и падение станет пугающе долгим.\n\n[pensive] Важна и сама веревка. Обычный трос сломал бы человеку спину при резкой остановке. [breath] Поэтому альпинисты берут динамику. Такая веревка растягивается на треть длины. Ты летишь вниз лишние пять метров, зато мягко гасишь удар и сохраняешь кости целыми.\n\n[friendly] На ногах всегда тесные скальники. Эту обувь берут на два размера меньше. Пальцам больно, зато стопа становится жесткой. Это позволяет стоять на уступах толщиной в три миллиметра. А потные ладони сушат магнезией, иначе руки заскользят по граниту как по льду.\n\n[narration] Вертикальный подъем - это не просто сила рук. Это опасная игра с гравитацией, где на высоте пятисот метров выживает тот, кто доверяет физике.",
+          "textPartIndex": 0
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "922cd714-138f-4a1e-a6a0-15e61bf173a4",
+  "activeVersionId": "e1cf39e4-0e63-45c2-8b02-f294515da709",
+  "versionCounter": 171,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-04T19:51:18.688Z",
+      "createdAt": "2026-02-04T19:51:18.688Z",
+      "role": "workflow:owner",
+      "workflowId": "QGwzjOX1i2qj5DPR",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

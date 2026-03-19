@@ -1,0 +1,2287 @@
+{
+  "updatedAt": "2026-03-19T10:17:48.211Z",
+  "createdAt": "2026-02-05T15:40:02.769Z",
+  "id": "l0p4y5gFr4cklXjY",
+  "name": "generate clips",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "sendComfyUiI2VGenerationRequest",
+            "runpodUseVolume": "={{ false }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTemplateId }}",
+            "runpodVolumeId": "={{ \"\" }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "comfyUiRequest": "={{ $json.workflow }}",
+            "index": "={{ $('get prompts, filenames').item.json.fileName.slice(-10,-5).toNumber() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodUseVolume",
+              "displayName": "runpodUseVolume",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "boolean",
+              "removed": false
+            },
+            {
+              "id": "runpodVolumeId",
+              "displayName": "runpodVolumeId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4912,
+        -32
+      ],
+      "id": "55b8bdc9-feef-4f37-baaf-4788c3808c5a",
+      "name": "send runpod gen request"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Or9eJruDbYcgW7rm",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Or9eJruDbYcgW7rm",
+          "cachedResultName": "runpod generations manager"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "comfyUiRequest": "={{ $json.workflow }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTemplateId }}",
+            "index": "={{ $('get prompts, filenames').item.json.fileName.slice(-10,-5).toNumber() }}",
+            "saveFilePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClips/{{ $('Start').first().json.videoFolderName.slice(-5) }}_{{ $('get prompts, filenames').item.json.fileName.slice(-10,-5) }}.mp4",
+            "comfyUiMethod": "checkComfyUiI2VGenerationRequest"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "comfyUiMethod",
+              "displayName": "comfyUiMethod",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "saveFilePath",
+              "displayName": "saveFilePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4912,
+        96
+      ],
+      "id": "e8725072-55e5-4e9b-a892-e932642381fe",
+      "name": "runpod generations manager"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.filesReady }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "5359e40c-d5cf-4c2d-8d58-7b7cc779cafb"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ready"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "21d22fd7-1078-49ca-8e64-4c69b27f09d5",
+                    "leftValue": "={{ !$json.filesReady }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not ready"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        5120,
+        416
+      ],
+      "id": "73000a8a-2b19-45c4-9020-1a27b0d479f7",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "amount": 60
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        5216,
+        512
+      ],
+      "id": "3194b6dc-685d-4179-bf9d-9a3af1c06857",
+      "name": "Wait",
+      "webhookId": "e787279e-e456-4ca0-b755-91b00d6cc040"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "N2bXusYBgofvRBlH",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/N2bXusYBgofvRBlH",
+          "cachedResultName": "check files quantity in directory"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "expectedFilesCount": "={{ $('Define Visuals Duration(normalized)').item.json.parts.length }}",
+            "directoryPath": "={{ $('Start').item.json.channelsFolderPath }}/{{ $('Start').item.json.channelName }}/VIDEOS/{{ $('Start').item.json.videoFolderName }}/CLIPS/videoClips",
+            "fileExtentionToSearch": ".mp4"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "directoryPath",
+              "displayName": "directoryPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileExtentionToSearch",
+              "displayName": "fileExtentionToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileNameToSearch",
+              "displayName": "fileNameToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "expectedFilesCount",
+              "displayName": "expectedFilesCount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4912,
+        416
+      ],
+      "id": "cb85b561-4d4e-4e6e-bc0f-98a27ab2aec6",
+      "name": "check ready clips files"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoStatus.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"clipsReady\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        5360,
+        416
+      ],
+      "name": "set clips ready",
+      "id": "a325f998-ae71-4c29-adbc-a2e18281bed8"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "terminatePod",
+            "runpodUseVolume": "={{ false }}",
+            "runpodTemplateId": "={{ $('get pod parameters').last().json.runpodVideoGenTemplateId }}",
+            "runpodVolumeId": "={{ \"\" }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "runpodContainerDiskInGb": "={{0}}",
+            "runpodVolumeInGb": "={{0}}",
+            "comfyUiRequest": "={{ {} }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodUseVolume",
+              "displayName": "runpodUseVolume",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "boolean",
+              "removed": false
+            },
+            {
+              "id": "runpodVolumeId",
+              "displayName": "runpodVolumeId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodContainerDiskInGb",
+              "displayName": "runpodContainerDiskInGb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "runpodVolumeInGb",
+              "displayName": "runpodVolumeInGb",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        5552,
+        416
+      ],
+      "id": "13e34d7e-a158-4dbb-ac31-ac0e267c873e",
+      "name": "send terminate pod gen request"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fa71635d-0a12-4d7a-ad54-02a94e261aab",
+              "leftValue": "={{!$('check ready clips').last().json.existingFilesNames.map(item => item.slice(0,-4)).includes($('get prompts, filenames').item.json.fileName.slice(0,-4)) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        3760,
+        48
+      ],
+      "id": "c77b171b-a422-4637-a9cd-b46cfe7841f7",
+      "name": "filter done parts"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        5120,
+        96
+      ],
+      "id": "144375a7-7809-4363-a6db-0d0f14b199c6",
+      "name": "Limit1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('start runpod pod').last().json.podStatus == \"ready\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "97e59f12-bc59-4be5-90ae-b8377c299af1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ready"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "2a5279db-cf35-421f-89a4-ae3ce4b3694d",
+                    "leftValue": "={{ $('start runpod pod').last().json.podStatus == \"terminated\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "terminated"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1920,
+        224
+      ],
+      "id": "1e25c772-5115-47b4-ba82-2468388dbf6a",
+      "name": "if pod ready"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VOICE/transcript/{{ $('Start').first().json.videoFolderName }}_transcript.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\"items[n].text\",\"items[n].start_ms\",\"items[n].end_ms\"] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2304,
+        224
+      ],
+      "name": "get start/end ms of each scentance from transcript",
+      "id": "9682128d-0cd5-4db5-b89a-cffedf4ddf36"
+    },
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\"\n}"
+      },
+      "id": "66e07260-5c32-481b-8305-647f0819adf6",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        1072,
+        192
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\n\"clipGenerationService\",\n\n\"runpodTemplateId\",\n\"ranpodUseVolume\",\n\"runpodVolumeId\",\n\"runpodGPUList\",\n\"runpodCountryCodes\",\n\n\"eachVisualMinScreenTimeMs\",\n\"eachVisualMaxScreenTimeMs\",\n\n\"videoModelLimitationOnTheGeneratedVideoDurationMs\",\n\n\"clipFps\",\n\n\"clipWidth\",\n\"clipHeight\",\n\n\n] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1264,
+        192
+      ],
+      "name": "get all workflow params",
+      "id": "f8b9e8b4-d2c7-4047-b46a-d2e48cf14185"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "deployPod",
+            "runpodUseVolume": "={{ $('get all workflow params').first().json.ranpodUseVolume }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTemplateId }}",
+            "runpodVolumeId": "={{ $('get all workflow params').first().json.runpodVolumeId }}",
+            "runpodGpuList": "={{ $('get all workflow params').first().json.runpodGPUList }}",
+            "runpodCountryCodes": "={{ $('get all workflow params').first().json.runpodCountryCodes }}",
+            "comfyUiRequest": "={{ {} }}",
+            "index": 0
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodUseVolume",
+              "displayName": "runpodUseVolume",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "boolean",
+              "removed": false
+            },
+            {
+              "id": "runpodVolumeId",
+              "displayName": "runpodVolumeId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1712,
+        224
+      ],
+      "id": "f754b123-ddc3-4faa-9d81-d91277e1d04c",
+      "name": "start runpod pod"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ab5096bb-efa3-4287-b493-45cee392f8fd",
+                    "leftValue": "={{ $('get all workflow params').item.json.clipGenerationService == \"gemini\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "gemini"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').item.json.clipGenerationService == \"openai\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "83a26520-0567-4bc0-bc04-b49615dc071c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "openai"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1d5a5f77-e557-4346-b682-d4442fada8b1",
+                    "leftValue": "={{ $('get all workflow params').item.json.clipGenerationService == \"runpod\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "runpod"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1504,
+        176
+      ],
+      "id": "3e530906-b558-4ece-9b85-d2fe13957d7e",
+      "name": "clip gen service"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "N2bXusYBgofvRBlH",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/N2bXusYBgofvRBlH",
+          "cachedResultName": "check files quantity in directory"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "directoryPath": "={{ $('Start').item.json.channelsFolderPath }}/{{ $('Start').item.json.channelName }}/VIDEOS/{{ $('Start').item.json.videoFolderName }}/CLIPS/videoClips",
+            "fileExtentionToSearch": ".mp4",
+            "expectedFilesCount": -1
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "directoryPath",
+              "displayName": "directoryPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileExtentionToSearch",
+              "displayName": "fileExtentionToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileNameToSearch",
+              "displayName": "fileNameToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "expectedFilesCount",
+              "displayName": "expectedFilesCount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2112,
+        224
+      ],
+      "id": "9383124b-a787-4fcf-8aa7-ea4f09c3a9ff",
+      "name": "check ready clips"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClipsAndStartFramesPrompts/{{ $('Start').first().json.videoFolderName.slice(11) }}_{{ $json.partIndex.toString().padStart(5,'0') }}.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array"
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object"
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        3088,
+        224
+      ],
+      "id": "24b41906-4574-41da-89a5-877eda511a9b",
+      "name": "get prompts, filenames"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ===============================\n// ✅ INPUT VARIABLES (что подать на вход)\n// ===============================\n\n// 1) СЕГМЕНТЫ ТРАНСКРИПТА (массив объектов)\nconst RAW_SEGMENTS = $('get start/end ms of each scentance from transcript').first().json.items;\n\n// 2) MIN / MAX экранного времени (миллисекунды)\nconst EACH_IMAGE_MIN_SCREEN_TIME_MS = $('get all workflow params').first().json.eachVisualMinScreenTimeMs;\nconst EACH_IMAGE_MAX_SCREEN_TIME_MS = $('get all workflow params').first().json.eachVisualMaxScreenTimeMs;\n\n// 3) “Мягкий перелёт” — ЗАПРЕЩЕН (строго не выходим за max)\nconst SOFT_OVERFLOW_MS = 0;\n\n// 4) Какие ключи использовать в RAW_SEGMENTS\nconst TEXT_KEY   = 'text';\nconst START_KEYS = ['start_ms', 'start'];\nconst END_KEYS   = ['end_ms', 'end'];\n\n// 5) Единицы времени\nconst TIME_UNIT = 'auto'; // 'auto' | 'ms' | 's'\n\n// 6) Общая длительность трека (в мс). Если не найдём — возьмём max(end_ms) после нормализации.\nconst TOTAL_DUR_MS = (() => {\n  try {\n    const j = $('get start/end ms of each scentance from transcript').first().json;\n\n    const candidates = [\n      j.total_dur_ms,\n      j.totalDurMs,\n      j.total_duration_ms,\n      (Number(j.total_duration_sec) * 1000),\n      (Number(j.meta?.progress?.total_duration_sec) * 1000),\n      (Number(j.meta?.total_duration_sec) * 1000),\n    ];\n\n    for (const c of candidates) {\n      const n = Number(c);\n      if (Number.isFinite(n) && n > 0) return Math.round(n);\n    }\n  } catch (_) {}\n\n  return null;\n})();\n\n\n// ===============================\n// 🔧 Implementation\n// ===============================\n\nfunction cleanText(s) {\n  return String(s ?? \"\")\n    .replace(/\\r?\\n/g, \" \")\n    .replace(/\\s+/g, \" \")\n    .trim();\n}\n\nfunction pickFirst(obj, keys) {\n  for (const k of keys) {\n    if (obj && obj[k] != null) return obj[k];\n  }\n  return null;\n}\n\nfunction toNumber(x) {\n  const n = typeof x === \"number\" ? x : parseFloat(String(x));\n  return Number.isFinite(n) ? n : null;\n}\n\n// Нормализация start/end в МС (а не только durMs)\nfunction normalizeStartEndMs(rawSeg) {\n  // 1) start_ms/end_ms -> считаем что это ms\n  const sMs = toNumber(rawSeg?.start_ms);\n  const eMs = toNumber(rawSeg?.end_ms);\n  if (sMs != null && eMs != null) {\n    const start = Math.max(0, Math.round(sMs));\n    const end = Math.max(start, Math.round(eMs));\n    return { startMs: start, endMs: end };\n  }\n\n  // 2) start/end -> auto/ms/s\n  const s = toNumber(rawSeg?.start);\n  const e = toNumber(rawSeg?.end);\n  if (s == null || e == null) return { startMs: 0, endMs: 0 };\n\n  let factor = 1;\n  if (TIME_UNIT === 's') factor = 1000;\n  else if (TIME_UNIT === 'ms') factor = 1;\n  else {\n    const diff = e - s;\n    const looksLikeSeconds = diff > 0 && diff <= 120 && e <= 20000;\n    factor = looksLikeSeconds ? 1000 : 1;\n  }\n\n  const start = Math.max(0, Math.round(s * factor));\n  const end = Math.max(start, Math.round(e * factor));\n  return { startMs: start, endMs: end };\n}\n\n// ===============================\n// ✅ GAP FILL LOGIC\n// ===============================\nfunction fillGapsInPlace(segs, totalDurMs) {\n  if (!Array.isArray(segs) || segs.length === 0) return { totalDurMs: totalDurMs ?? 0 };\n\n  segs.sort((a, b) => (a.startMs - b.startMs) || (a._origIndex - b._origIndex));\n\n  if (segs[0].startMs > 0) segs[0].startMs = 0;\n  if (segs[0].startMs < 0) segs[0].startMs = 0;\n  if (segs[0].endMs < segs[0].startMs) segs[0].endMs = segs[0].startMs;\n\n  if (!Number.isFinite(totalDurMs) || totalDurMs == null || totalDurMs <= 0) {\n    let mx = 0;\n    for (const s of segs) mx = Math.max(mx, s.endMs);\n    totalDurMs = mx;\n  } else {\n    totalDurMs = Math.max(0, Math.round(totalDurMs));\n  }\n\n  for (let i = 0; i < segs.length - 1; i++) {\n    const cur = segs[i];\n    const next = segs[i + 1];\n\n    if (cur.startMs < 0) cur.startMs = 0;\n    if (next.startMs < 0) next.startMs = 0;\n\n    if (cur.endMs < cur.startMs) cur.endMs = cur.startMs;\n    if (next.endMs < next.startMs) next.endMs = next.startMs;\n\n    let desiredEnd = next.startMs - 1;\n    if (desiredEnd < cur.startMs) desiredEnd = cur.startMs;\n    cur.endMs = desiredEnd;\n\n    if (cur.endMs < cur.startMs) cur.endMs = cur.startMs;\n  }\n\n  const last = segs[segs.length - 1];\n  if (last.startMs < 0) last.startMs = 0;\n  if (last.endMs < last.startMs) last.endMs = last.startMs;\n\n  if (last.endMs < totalDurMs) last.endMs = totalDurMs;\n  if (last.endMs < last.startMs) last.endMs = last.startMs;\n\n  return { totalDurMs };\n}\n\n// --- границы предложений ---\nconst END_CHARS = new Set([\".\", \"!\", \"?\", \"…\", \"。\", \"！\", \"？\"]);\nconst CLOSERS = new Set(['\"', \"”\", \"’\", \"'\", \")\", \"]\", \"}\", \"»\", \"›\", \"）\", \"】\", \"』\", \"」\"]);\n\nconst ABBREV = new Set([\n  // EN\n  \"mr\",\"mrs\",\"ms\",\"mx\",\"dr\",\"prof\",\"sr\",\"jr\",\"st\",\"mt\",\"ft\",\"vs\",\n  \"etc\",\"eg\",\"ie\",\"fig\",\"eq\",\"ref\",\"refs\",\"no\",\"nos\",\"dept\",\"inc\",\"ltd\",\"corp\",\"co\",\"bros\",\n  \"est\",\"misc\",\"approx\",\"appt\",\"avg\",\"min\",\"max\",\"temp\",\"vol\",\"ch\",\"sec\",\"pp\",\"p\",\n  \"jan\",\"feb\",\"mar\",\"apr\",\"may\",\"jun\",\"jul\",\"aug\",\"sep\",\"sept\",\"oct\",\"nov\",\"dec\",\n  \"am\",\"pm\",\"a.m\",\"p.m\",\"u.s\",\"u.k\",\"e.u\",\"u.n\",\n\n  // RU\n  \"г\",\"гг\",\"ул\",\"д\",\"кв\",\"стр\",\"рис\",\"пр\",\"просп\",\"наб\",\"бул\",\"пер\",\"пл\",\"пос\",\"обл\",\"р-н\",\n  \"им\",\"акад\",\"доц\",\"проф\",\"см\",\"т.д\",\"т.п\",\"и т.д\",\"и т.п\",\"др\",\n  \"мин\",\"сек\",\"ч\",\"мес\",\"гл\",\"ст\",\"пп\",\"п\",\"млн\",\"млрд\",\"тыс\",\"руб\",\"коп\",\n\n  // PL\n  \"np\",\"itp\",\"itd\",\"m.in\",\"tzn\",\"tj\",\"wg\",\"ok\",\"nr\",\"ul\",\"al\",\"pl\",\"r\",\n  \"godz\",\"min\",\"sek\",\"str\",\"rys\",\"tab\",\"rozdz\",\"pkt\",\"ppkt\",\n  \"dr\",\"hab\",\"mgr\",\"inz\",\"prof\",\n\n  // CZ\n  \"např\",\"napr\",\"tzv\",\"atd\",\"apod\",\"tj\",\"tzn\",\"cl\",\"odst\",\"str\",\"obr\",\"tab\",\"kap\",\n  \"ing\",\"mgr\",\"mudr\",\"judr\",\"phdr\",\"bc\",\"dis\",\n\n  // SP (ES)\n  \"sr\",\"sra\",\"srta\",\"dr\",\"dra\",\"ud\",\"uds\",\"pag\",\"pags\",\"num\",\"nro\",\n  \"aprox\",\"etc\",\"av\",\"pto\",\"dpto\",\"art\",\"cap\",\"eeuu\",\n\n  // IT\n  \"sig\",\"sigg\",\"sigra\",\"sigre\",\"dr\",\"dott\",\"dssa\",\"ing\",\"avv\",\"prof\",\n  \"pag\",\"pagg\",\"num\",\"art\",\"cap\",\"ecc\",\"ca\",\"circa\",\"vle\",\"pza\",\"pzza\",\"cso\",\n\n  // FR\n  \"m\",\"mm\",\"mme\",\"mlle\",\"mlles\",\"dr\",\"pr\",\"etc\",\"env\",\"av\",\"bd\",\"st\",\"ste\",\n  \"no\",\"num\",\"art\",\"chap\",\"pag\",\"tel\",\"tva\",\n\n  // GE (DE)\n  \"hr\",\"fr\",\"dr\",\"prof\",\"bzw\",\"z.b\",\"zb\",\"bsp\",\"bspw\",\"usw\",\"vgl\",\"ca\",\n  \"d.h\",\"dh\",\"u.a\",\"ua\",\"u.ä\",\"ue\",\"str\",\"nr\",\"s\",\"abb\",\"ggf\",\"dipl\",\"ing\",\"dipl-ing\",\n\n  // SW\n  \"bl.a\",\"bla\",\"t.ex\",\"tex\",\"dvs\",\"m.fl\",\"mfl\",\"m.m\",\"mm\",\"osv\",\n  \"ca\",\"nr\",\"sid\",\"kap\",\"fig\",\"kl\",\"dr\",\"prof\",\"ing\",\"fru\",\"herr\",\n\n  // HE\n  \"דר\",\"פרופ\",\"גב\",\"מר\",\"מס\",\"עמ\",\"וכו\",\"לדוג\",\"רח\",\"טל\",\"סע\",\"פרק\"\n]);\n\n\nfunction isLetterOrDigit(ch) {\n  return /[0-9A-Za-zÀ-ÖØ-öø-ÿА-Яа-яЁё]/.test(ch);\n}\n\nfunction isAbbrevDot(text, dotPos) {\n  let i = dotPos - 1;\n  while (i >= 0 && text[i] === \" \") i--;\n\n  const end = i + 1;\n  while (i >= 0 && (isLetterOrDigit(text[i]) || text[i] === \"-\" )) i--;\n  const start = i + 1;\n\n  const word = text.slice(start, end).toLowerCase();\n  if (!word) return false;\n  if (word.length === 1) return true;\n  if (ABBREV.has(word)) return true;\n\n  const lookback = text.slice(Math.max(0, start - 4), dotPos + 1).toLowerCase();\n  if (lookback.includes(\".\") && lookback.length <= 6) return true;\n  return false;\n}\n\nfunction findSentenceBoundaries(text) {\n  const out = [];\n  const n = text.length;\n\n  for (let i = 0; i < n; i++) {\n    const ch = text[i];\n    if (!END_CHARS.has(ch)) continue;\n\n    let j = i;\n    while (j + 1 < n && END_CHARS.has(text[j + 1])) j++;\n\n    if (text[j] === \".\" && isAbbrevDot(text, j)) {\n      i = j;\n      continue;\n    }\n\n    let k = j + 1;\n    while (k < n && CLOSERS.has(text[k])) k++;\n\n    if (k === n || /\\s/.test(text[k])) out.push(k);\n    i = j;\n  }\n  return out;\n}\n\nfunction lastWhitespaceBefore(text, idx) {\n  for (let i = Math.min(idx, text.length - 1); i >= 0; i--) {\n    if (/\\s/.test(text[i])) return i;\n  }\n  return -1;\n}\n\nfunction firstWhitespaceAfter(text, idx) {\n  for (let i = Math.max(0, idx); i < text.length; i++) {\n    if (/\\s/.test(text[i])) return i;\n  }\n  return -1;\n}\n\n// ===============================\n// ✅ STRICT MIN/MAX REBALANCE PATCH\n// ===============================\n\nfunction splitDurStrict(totalDur, minMs, maxMs) {\n  const total = Math.max(0, Math.round(totalDur));\n  if (total === 0) return [];\n  if (total >= minMs && total <= maxMs) return [total];\n\n  // Можно ли сделать все части в [min..max]\n  const nMin = Math.ceil(total / maxMs);\n  const nMax = Math.floor(total / minMs);\n\n  if (nMin <= nMax && nMin > 0) {\n    const n = nMin;\n    const base = Math.floor(total / n);\n    let rem = total - base * n;\n    const out = Array(n).fill(base);\n    for (let i = 0; i < n && rem > 0; i++, rem--) out[i]++;\n    return out;\n  }\n\n  // Иначе строго выполнить диапазон невозможно — режем по max, хвост оставляем\n  const out = [];\n  let rem = total;\n  while (rem > maxMs) {\n    out.push(maxMs);\n    rem -= maxMs;\n  }\n  if (rem > 0) out.push(rem);\n  return out;\n}\n\nfunction nearestBoundary(boundaries, minPos, maxPos, idealPos) {\n  let best = -1;\n  let bestDist = Infinity;\n  for (const b of boundaries) {\n    if (b < minPos || b > maxPos) continue;\n    const d = Math.abs(b - idealPos);\n    if (d < bestDist) {\n      bestDist = d;\n      best = b;\n    }\n  }\n  return best;\n}\n\nfunction splitTextByDurations(text, durations) {\n  const t = cleanText(text);\n  if (!durations.length) return [];\n  if (!t) return durations.map(() => \"\");\n  if (durations.length === 1) return [t];\n\n  const out = [];\n  const boundaries = findSentenceBoundaries(t);\n  const totalDur = durations.reduce((a, b) => a + b, 0);\n\n  let start = 0;\n  let accDur = 0;\n\n  for (let i = 0; i < durations.length - 1; i++) {\n    accDur += durations[i];\n\n    let ideal = Math.round((accDur / Math.max(1, totalDur)) * t.length);\n    ideal = Math.max(start + 1, Math.min(t.length - 1, ideal));\n\n    const minPos = start + 1;\n    const maxPos = t.length - 1;\n\n    let cut = nearestBoundary(boundaries, minPos, maxPos, ideal);\n\n    if (cut < 0) {\n      const wsLeft = lastWhitespaceBefore(t, ideal);\n      const wsRight = firstWhitespaceAfter(t, ideal);\n\n      const leftOk = wsLeft >= minPos && wsLeft <= maxPos;\n      const rightOk = wsRight >= minPos && wsRight <= maxPos;\n\n      if (leftOk && rightOk) {\n        cut = (Math.abs(wsLeft - ideal) <= Math.abs(wsRight - ideal)) ? wsLeft + 1 : wsRight + 1;\n      } else if (leftOk) {\n        cut = wsLeft + 1;\n      } else if (rightOk) {\n        cut = wsRight + 1;\n      } else {\n        cut = ideal;\n      }\n    }\n\n    cut = Math.max(minPos, Math.min(maxPos, cut));\n    out.push(cleanText(t.slice(start, cut)));\n    start = cut;\n  }\n\n  out.push(cleanText(t.slice(start)));\n  return out;\n}\n\nfunction splitPartStrict(part, minMs, maxMs) {\n  const dur = Math.max(0, Math.round(part?.meta?.durMs || 0));\n  if (dur <= 0) return [];\n\n  const durs = splitDurStrict(dur, minMs, maxMs);\n  const texts = splitTextByDurations(part?.text || \"\", durs);\n\n  return durs.map((d, i) => ({\n    text: cleanText(texts[i] || \"\"),\n    meta: { durMs: d }\n  }));\n}\n\nfunction mergeParts(a, b) {\n  const ta = cleanText(a?.text || \"\");\n  const tb = cleanText(b?.text || \"\");\n  return {\n    text: cleanText((ta && tb) ? (ta + \" \" + tb) : (ta || tb)),\n    meta: {\n      durMs: Math.max(0, Math.round((a?.meta?.durMs || 0) + (b?.meta?.durMs || 0)))\n    }\n  };\n}\n\nfunction rebalancePartsStrict(inputParts, minMs, maxMs) {\n  let parts = (Array.isArray(inputParts) ? inputParts : [])\n    .map(p => ({\n      text: cleanText(p?.text || \"\"),\n      meta: { durMs: Math.max(0, Math.round(p?.meta?.durMs || 0)) }\n    }))\n    .filter(p => p.meta.durMs > 0);\n\n  if (!parts.length) return [];\n\n  for (let iter = 0; iter < 300; iter++) {\n    let changed = false;\n\n    // 1) Все > max режем сразу\n    let next = [];\n    for (const p of parts) {\n      if (p.meta.durMs > maxMs) {\n        next.push(...splitPartStrict(p, minMs, maxMs));\n        changed = true;\n      } else {\n        next.push(p);\n      }\n    }\n    parts = next;\n\n    // 2) Ищем первый кусок < min\n    const shortIdx = parts.findIndex(p => p.meta.durMs < minMs);\n    if (shortIdx === -1) {\n      if (!changed) break;\n      continue;\n    }\n\n    if (parts.length === 1) break; // total < min — неизбежно\n\n    const leftIdx = shortIdx - 1;\n    const rightIdx = shortIdx + 1;\n    const cur = parts[shortIdx];\n\n    let pickLeft = false;\n    if (leftIdx < 0) {\n      pickLeft = false;\n    } else if (rightIdx >= parts.length) {\n      pickLeft = true;\n    } else {\n      const leftDur = parts[leftIdx].meta.durMs + cur.meta.durMs;\n      const rightDur = parts[rightIdx].meta.durMs + cur.meta.durMs;\n\n      const leftOver = Math.max(0, leftDur - maxMs);\n      const rightOver = Math.max(0, rightDur - maxMs);\n\n      if (leftOver !== rightOver) {\n        pickLeft = leftOver < rightOver;\n      } else {\n        const target = (minMs + maxMs) / 2;\n        pickLeft = Math.abs(leftDur - target) <= Math.abs(rightDur - target);\n      }\n    }\n\n    if (pickLeft) {\n      parts[leftIdx] = mergeParts(parts[leftIdx], cur);\n      parts.splice(shortIdx, 1);\n    } else {\n      parts[rightIdx] = mergeParts(cur, parts[rightIdx]);\n      parts.splice(shortIdx, 1);\n    }\n\n    changed = true;\n    if (!changed) break;\n  }\n\n  // Финальный защитный проход по max\n  const final = [];\n  for (const p of parts) {\n    if (p.meta.durMs <= maxMs) final.push(p);\n    else final.push(...splitPartStrict(p, minMs, maxMs));\n  }\n\n  return final;\n}\n\n// ===============================\n// 🚀 Core splitter (STRICT MAX + STRICT MIN/MAX PATCH)\n// ===============================\nfunction splitByMinMax(rawSegments, cfg) {\n  let { minMs, maxMs, softOverflowMs, totalDurMs } = cfg;\n\n  if (!Number.isFinite(minMs) || minMs <= 0) minMs = 2500;\n  if (!Number.isFinite(maxMs) || maxMs <= 0) maxMs = 4500;\n  if (minMs > maxMs) [minMs, maxMs] = [maxMs, minMs];\n\n  softOverflowMs = 0;\n  const hardMaxMs = maxMs;\n\n  // 1) нормализуем сегменты: text + startMs/endMs\n  const segs = (Array.isArray(rawSegments) ? rawSegments : [])\n    .map((seg, i) => {\n      const text = cleanText(seg?.[TEXT_KEY] ?? seg?.text ?? seg?.transcript ?? seg?.caption ?? \"\");\n      const se = normalizeStartEndMs({\n        start_ms: seg?.start_ms ?? pickFirst(seg, START_KEYS),\n        end_ms:   seg?.end_ms   ?? pickFirst(seg, END_KEYS),\n        start:    seg?.start    ?? pickFirst(seg, START_KEYS),\n        end:      seg?.end      ?? pickFirst(seg, END_KEYS),\n      });\n\n      return {\n        _origIndex: i,\n        text,\n        startMs: se.startMs,\n        endMs: se.endMs,\n      };\n    })\n    .filter(s => s.text);\n\n  // 2) заполняем пробелы/убираем перекрытия по start/end\n  const filled = fillGapsInPlace(segs, totalDurMs);\n  totalDurMs = filled.totalDurMs;\n\n  // 3) для сборки частей используем durMs = end-start (как в оригинале)\n  const segments = segs.map(s => ({\n    text: s.text,\n    durMs: Math.max(0, s.endMs - s.startMs),\n  }));\n\n  // 4) Draft split: соблюдаем max, дальше строгий ребаланс\n  const draftParts = [];\n\n  function pushPart(txt, dur) {\n    const t = cleanText(txt);\n    if (!t) return;\n\n    const d = Math.max(0, Math.round(dur));\n    draftParts.push({\n      text: t,\n      meta: { durMs: d },\n    });\n  }\n\n  let bufText = \"\";\n  let bufDurMs = 0;\n\n  function cutBufferStrict() {\n    const t = bufText;\n    const totalChars = t.length;\n\n    if (!totalChars || bufDurMs <= 0) {\n      pushPart(t, bufDurMs);\n      bufText = \"\";\n      bufDurMs = 0;\n      return true;\n    }\n\n    const denom = Math.max(1, bufDurMs);\n\n    let maxChar = Math.floor(totalChars * (maxMs / denom));\n    maxChar = Math.max(1, Math.min(totalChars - 1, maxChar));\n\n    let minChar = Math.floor(totalChars * (minMs / denom));\n    minChar = Math.max(0, Math.min(maxChar, minChar));\n\n    const boundaries = findSentenceBoundaries(t);\n    let cutIdx = -1;\n\n    // 1) граница в [minChar..maxChar]\n    for (let i = boundaries.length - 1; i >= 0; i--) {\n      const b = boundaries[i];\n      if (b >= minChar && b <= maxChar) { cutIdx = b; break; }\n    }\n\n    // 2) поздняя граница <= maxChar\n    if (cutIdx < 0) {\n      for (let i = boundaries.length - 1; i >= 0; i--) {\n        const b = boundaries[i];\n        if (b <= maxChar) { cutIdx = b; break; }\n      }\n    }\n\n    // 3) пробел <= maxChar\n    if (cutIdx < 0) {\n      const ws = lastWhitespaceBefore(t, maxChar);\n      if (ws > 0) cutIdx = ws + 1;\n    }\n\n    // 4) иначе — ровно maxChar\n    if (cutIdx < 1 || cutIdx >= totalChars) cutIdx = maxChar;\n\n    const leftRaw = t.slice(0, cutIdx);\n    const rightRaw = t.slice(cutIdx);\n\n    const leftText = cleanText(leftRaw);\n    const rightText = cleanText(rightRaw);\n\n    const leftRatio = cutIdx / Math.max(1, totalChars);\n    let leftDur = Math.floor(bufDurMs * leftRatio);\n    if (leftDur > maxMs) leftDur = maxMs;\n    if (leftDur < 0) leftDur = 0;\n\n    const rightDur = Math.max(0, bufDurMs - leftDur);\n\n    pushPart(leftText, leftDur);\n    bufText = rightText;\n    bufDurMs = rightDur;\n\n    return true;\n  }\n\n  for (const seg of segments) {\n    bufText = bufText ? (bufText + \" \" + seg.text) : seg.text;\n    bufDurMs += seg.durMs;\n\n    while (bufText && bufDurMs > hardMaxMs) {\n      cutBufferStrict();\n      if (bufDurMs < minMs) break;\n    }\n  }\n\n  if (bufText) {\n    while (bufText && bufDurMs > hardMaxMs) {\n      cutBufferStrict();\n      if (bufDurMs < minMs) break;\n    }\n    if (bufText) pushPart(bufText, bufDurMs);\n  }\n\n  // 5) Патч: ребалансим, чтобы durMs были в [min..max], когда это возможно\n  const strictParts = rebalancePartsStrict(draftParts, minMs, maxMs);\n\n  // 6) Восстанавливаем ВСЕ поля как в оригинале\n  const parts = strictParts.map((p, i) => {\n    const t = cleanText(p.text);\n    return {\n      partIndex: i,\n      text: t,\n      meta: {\n        durMs: Math.max(0, Math.round(p.meta.durMs || 0)),\n        charCount: t.length,\n      },\n    };\n  });\n\n  return {\n    parts,\n    minMs,\n    maxMs,\n    softOverflowMs,\n    hardMaxMs,\n    totalDurMs,\n  };\n}\n\n// ===============================\n// ✅ Run\n// ===============================\nconst result = splitByMinMax(RAW_SEGMENTS, {\n  minMs: EACH_IMAGE_MIN_SCREEN_TIME_MS,\n  maxMs: EACH_IMAGE_MAX_SCREEN_TIME_MS,\n  softOverflowMs: SOFT_OVERFLOW_MS,\n  totalDurMs: TOTAL_DUR_MS,\n});\n\nreturn [\n  {\n    json: {\n      parts: result.parts,\n      totalDurMs: result.totalDurMs,\n      eachImageMinScreenTimeMs: result.minMs,\n      eachImageMaxScreenTimeMs: result.maxMs,\n      hardMaxMs: result.hardMaxMs,\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2496,
+        224
+      ],
+      "id": "f4e420a8-5979-453d-a1cb-99906226fdb6",
+      "name": "Define Visuals Duration(normalized)"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "parts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2704,
+        224
+      ],
+      "id": "8c5e2ded-1284-4e05-b023-e5dc88a15e17",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "0f69e89e-bf5d-4497-874d-52c8ceda8e32",
+              "leftValue": "={{ $('Split Out').all().length == $('get prompts, filenames').all().length }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3296,
+        224
+      ],
+      "id": "454dd95f-45b5-4e7c-a373-f1bb30b959db",
+      "name": "If Equal Prompts and Visuals Quantity"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        3568,
+        416
+      ],
+      "id": "465c04c6-22a3-46c8-ac62-a81afa9125d1",
+      "name": "Limit2"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Different Total Clip Prompts and Expected Total Visuals Quanntity"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        3760,
+        416
+      ],
+      "id": "40df5d93-1aad-4d93-9536-7add263776f1",
+      "name": "Stop and Error"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ (()=>{\nconst readyStartFrames = $('check ready clips').item.json.existingFilesNames.map(item => item.slice(0,-4))\n\nconst expectedFileNames = $('get prompts, filenames').item.json.fileName.slice(0,-5)\n\nreturn !readyStartFrames.includes(expectedFileNames)\n})() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "a798e700-5905-49f8-bb11-8dbada169803"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not ready"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c9ca3313-dde7-490a-b0ab-50db59a8e1cf",
+                    "leftValue": "={{ (()=>{\nconst readyStartFrames = $('check ready clips').last().json.existingFilesNames.map(item => item.slice(0,-4))\n\nconst expectedFileNames = $('get prompts, filenames').item.json.fileName.slice(0,-5)\n\nreturn readyStartFrames.includes(expectedFileNames)\n})() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ready"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3760,
+        224
+      ],
+      "id": "3c9b2708-c624-4f6c-9aba-3c86aa647ddb",
+      "name": "filter ready clips"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "wwicZuqjISFsTY3n",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/wwicZuqjISFsTY3n",
+          "cachedResultName": "ComfyUI Json Workflow Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "workflow": "={{ $json.workflow }}",
+            "actions": "={{ (() => {\n  const src = $('filter ready clips').item.json || {};\n  const workflowRaw = $json.workflow;\n\n  const clone = (v) => JSON.parse(JSON.stringify(v));\n  const root = typeof workflowRaw === 'string' ? JSON.parse(workflowRaw) : clone(workflowRaw);\n  const nodes = root && root.prompt && typeof root.prompt === 'object' ? root.prompt : root;\n\n  const hasNode = (id) => nodes && nodes[String(id)] !== undefined;\n  const actions = [];\n\n  const patchNode = (id, mutator) => {\n    const k = String(id);\n    if (!hasNode(k)) return;\n    const node = clone(nodes[k]);\n    mutator(node);\n    actions.push({\n      type: 'addNode',\n      id: k,\n      overwrite: true,\n      node\n    });\n  };\n\n  const parseArr = (v) => {\n    if (Array.isArray(v)) return v;\n    if (typeof v === 'string') {\n      try {\n        const p = JSON.parse(v);\n        return Array.isArray(p) ? p : [];\n      } catch {\n        return [];\n      }\n    }\n    return [];\n  };\n\n  // ========= ВХОДНЫЕ ПЕРЕМЕННЫЕ =========\n  const prompts = parseArr(src.chunksPositivePrompts);\n  const frames = parseArr(src.chunksFramesCount);\n\n  const startFrameFileName = src.startFrameFileName;\n  const negativePrompt = src.negativePrompt ?? src.negativePrompts ?? '';\n\n  const clipWidth = Number(src.clipWidth);\n  const clipHeight = Number(src.clipHeight);\n  const clipAspectRatioRaw = String(src.clipAspectRatio);\n\n  const highNoiseSize = Number(src.highNoiseSize ?? Math.max(clipWidth, clipHeight));\n  const finalSize = Number(src.finalSize ?? Math.max(clipWidth, clipHeight));\n\n  // Сколько кадров добавлять к чанкам со 2-го и далее (для компенсации overlap)\n  const OVERLAP_COMPENSATION_FRAMES = Number(src.overlapCompensationFrames ?? 6);\n  // ======================================\n\n  // target chunks: explicit > длины массивов\n  const explicitCount = Number(src.chunksCount ?? src.targetChunks ?? src.totalChunks);\n  let targetChunks = Number.isInteger(explicitCount) && explicitCount > 0\n    ? explicitCount\n    : Math.max(prompts.length, frames.length, 1);\n\n  targetChunks = Math.max(1, Math.min(6, targetChunks));\n\n  // ===== Детерминированные seed'ы в диапазоне 1..2147483647 =====\n  const stable = (v) => {\n    if (Array.isArray(v)) return v.map(stable);\n    if (v && typeof v === 'object') {\n      return Object.keys(v).sort().reduce((acc, k) => {\n        acc[k] = stable(v[k]);\n        return acc;\n      }, {});\n    }\n    return v;\n  };\n\n  const seedPayload = {\n    prompts,\n    frames,\n    startFrameFileName: startFrameFileName ?? '',\n    negativePrompt: negativePrompt ?? '',\n    clipWidth,\n    clipHeight,\n    clipAspectRatio: clipAspectRatioRaw,\n    highNoiseSize,\n    finalSize,\n    targetChunks,\n    overlapCompensationFrames: OVERLAP_COMPENSATION_FRAMES\n  };\n\n  const seedBase = JSON.stringify(stable(seedPayload));\n\n  const SEED_MIN = 1;\n  const SEED_MAX = 2147483647;\n  const SEED_RANGE = SEED_MAX - SEED_MIN + 1;\n\n  const toSeedRange = (n) => {\n    if (!Number.isFinite(n)) return SEED_MIN;\n    let x = Math.trunc(Math.abs(n));\n    x = ((x - SEED_MIN) % SEED_RANGE + SEED_RANGE) % SEED_RANGE + SEED_MIN;\n    if (x < SEED_MIN) return SEED_MIN;\n    if (x > SEED_MAX) return SEED_MAX;\n    return x;\n  };\n\n  const fnv1a = (str) => {\n    let h = 0x811c9dc5;\n    for (let i = 0; i < str.length; i++) {\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return h >>> 0;\n  };\n\n  const makeSeed = (kind, chunkIndex) => {\n    let h = fnv1a(`${kind}|${chunkIndex}|${seedBase}`);\n    h ^= h >>> 16;\n    h = Math.imul(h, 0x85ebca6b) >>> 0;\n    h ^= h >>> 13;\n    h = Math.imul(h, 0xc2b2ae35) >>> 0;\n    h ^= h >>> 16;\n    return toSeedRange(h);\n  };\n\n  // Удаляем лишние чанки > targetChunks\n  for (let c = targetChunks + 1; c <= 6; c++) {\n    const start = c * 100;\n    const end = start + 99;\n    for (let id = start; id <= end; id++) {\n      if (hasNode(id)) {\n        actions.push({ type: 'removeNode', nodeId: String(id) });\n      }\n    }\n  }\n\n  // Base patches\n  if (startFrameFileName) {\n    patchNode(6, (n) => { n.inputs.image = String(startFrameFileName); }); // Load Image\n  }\n\n  patchNode(31, (n) => { n.inputs.text = String(negativePrompt); }); // Negative_Prompt\n\n  // Aspect ratio node\n  const ratioKeys = ['1:1','4:3','3:2','5:4','16:9','16:10','21:9','2:1','1.85:1','2.39:1'];\n  const clipAspectRatio = ratioKeys.includes(clipAspectRatioRaw) ? clipAspectRatioRaw : '16:9';\n\n  patchNode(42, (n) => {\n    if (Number.isFinite(clipWidth) && clipWidth > 0) n.inputs.width = Math.round(clipWidth);\n    if (Number.isFinite(clipHeight) && clipHeight > 0) n.inputs.height = Math.round(clipHeight);\n    for (const k of ratioKeys) n.inputs[k] = (k === clipAspectRatio);\n  });\n\n  if (Number.isFinite(highNoiseSize) && highNoiseSize > 0) {\n    patchNode(43, (n) => { n.inputs.size = Math.round(highNoiseSize); }); // Set_High_Noise_Size\n  }\n\n  if (Number.isFinite(finalSize) && finalSize > 0) {\n    patchNode(44, (n) => { n.inputs.size = Math.round(finalSize); }); // Set_Final_Size\n  }\n\n  // Chunk node id maps\n  const promptId = (c) => (c === 1 ? 133 : c * 100 + 44); // 133,244,344...\n  const framesId = (c) => (c === 1 ? 145 : c * 100 + 51); // 145,251,351...\n  const finalId  = (c) => (c === 1 ? 139 : c * 100 + 39); // 139,239,339...\n\n  // Noise node id maps\n  const highNoiseId = (c) => (c === 1 ? 131 : c * 100 + 30); // 131,230,330...\n  const lowNoiseId  = (c) => (c === 1 ? 135 : c * 100 + 33); // 135,233,333...\n\n  // Patch prompts + frames (со 2-го чанка добавляем overlap compensation)\n  for (let c = 1; c <= targetChunks; c++) {\n    const p = prompts[c - 1];\n    if (p !== undefined && p !== null && hasNode(promptId(c))) {\n      patchNode(promptId(c), (n) => { n.inputs.value = String(p); });\n    }\n\n    const f = Number(frames[c - 1]);\n    if (Number.isFinite(f) && f > 0 && hasNode(framesId(c))) {\n      const extra = c === 1 ? 0 : Math.max(0, Math.round(OVERLAP_COMPENSATION_FRAMES));\n      patchNode(framesId(c), (n) => { n.inputs.value = Math.round(f) + extra; });\n    }\n  }\n\n  // save_output=true только у последнего чанка\n  for (let c = 1; c <= targetChunks; c++) {\n    if (hasNode(finalId(c))) {\n      patchNode(finalId(c), (n) => { n.inputs.save_output = (c === targetChunks); });\n    }\n  }\n\n  // Детерминированные seed для High/Low Noise по каждому чанку\n  for (let c = 1; c <= targetChunks; c++) {\n    const highSeed = makeSeed('HIGH', c);\n    let lowSeed = makeSeed('LOW', c);\n    if (lowSeed === highSeed) {\n      lowSeed = (lowSeed === SEED_MAX) ? SEED_MIN : (lowSeed + 1);\n    }\n\n    if (hasNode(highNoiseId(c))) {\n      patchNode(highNoiseId(c), (n) => { n.inputs.noise_seed = highSeed; });\n    }\n    if (hasNode(lowNoiseId(c))) {\n      patchNode(lowNoiseId(c), (n) => { n.inputs.noise_seed = lowSeed; });\n    }\n  }\n\n  return actions;\n})() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "workflow",
+              "displayName": "workflow",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "actions",
+              "displayName": "actions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4496,
+        224
+      ],
+      "id": "cbee27e7-8ee8-4d9f-8d55-aa569e1ae89f",
+      "name": "SET ubai7vcm50 I2V workflow image size, lora Chunk"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "023b77a2-462e-40f0-bd72-df1bfb68ba03",
+              "name": "workflow",
+              "value": "={{ \n{\n  \"6\": {\n    \"inputs\": {\n      \"image\": \"startFrame_1280.png\"\n    },\n    \"class_type\": \"LoadImage\",\n    \"_meta\": {\n      \"title\": \"Load Image\"\n    }\n  },\n  \"7\": {\n    \"inputs\": {\n      \"clip_name\": \"umt5_xxl_fp8_e4m3fn_scaled.safetensors\",\n      \"type\": \"wan\",\n      \"device\": \"default\"\n    },\n    \"class_type\": \"CLIPLoader\",\n    \"_meta\": {\n      \"title\": \"Load CLIP\"\n    }\n  },\n  \"9\": {\n    \"inputs\": {\n      \"vae_name\": \"wan_2.1_vae.safetensors\"\n    },\n    \"class_type\": \"VAELoader\",\n    \"_meta\": {\n      \"title\": \"Load VAE\"\n    }\n  },\n  \"15\": {\n    \"inputs\": {\n      \"model_name\": \"Wan2_2-I2V-A14B-LOW_fp8_e4m3fn_scaled_KJ.safetensors\",\n      \"weight_dtype\": \"default\",\n      \"compute_dtype\": \"default\",\n      \"patch_cublaslinear\": true,\n      \"sage_attention\": \"sageattn_qk_int8_pv_fp8_cuda++\",\n      \"enable_fp16_accumulation\": true\n    },\n    \"class_type\": \"DiffusionModelLoaderKJ\",\n    \"_meta\": {\n      \"title\": \"Diffusion Model Loader KJ\"\n    }\n  },\n  \"17\": {\n    \"inputs\": {\n      \"model_name\": \"Wan2_2-I2V-A14B-HIGH_fp8_e4m3fn_scaled_KJ.safetensors\",\n      \"weight_dtype\": \"default\",\n      \"compute_dtype\": \"default\",\n      \"patch_cublaslinear\": true,\n      \"sage_attention\": \"sageattn_qk_int8_pv_fp16_triton\",\n      \"enable_fp16_accumulation\": true\n    },\n    \"class_type\": \"DiffusionModelLoaderKJ\",\n    \"_meta\": {\n      \"title\": \"Diffusion Model Loader KJ\"\n    }\n  },\n  \"20\": {\n    \"inputs\": {\n      \"padding\": 0,\n      \"multiple_of\": 16,\n      \"image\": [\n        \"6\",\n        0\n      ],\n      \"mask\": [\n        \"6\",\n        1\n      ]\n    },\n    \"class_type\": \"ImageMaskCrop\",\n    \"_meta\": {\n      \"title\": \"Image Mask Crop\"\n    }\n  },\n  \"22\": {\n    \"inputs\": {\n      \"sampler_name\": \"euler\"\n    },\n    \"class_type\": \"KSamplerSelect\",\n    \"_meta\": {\n      \"title\": \"KSamplerSelect\"\n    }\n  },\n  \"23\": {\n    \"inputs\": {\n      \"lora_name\": \"SVI_v2_PRO_Wan2.2-I2V-A14B_HIGH_lora_rank_128_fp16.safetensors\"\n    },\n    \"class_type\": \"easy loraNames\",\n    \"_meta\": {\n      \"title\": \"Lora Names\"\n    }\n  },\n  \"25\": {\n    \"inputs\": {\n      \"lora_name\": \"SVI_v2_PRO_Wan2.2-I2V-A14B_LOW_lora_rank_128_fp16.safetensors\"\n    },\n    \"class_type\": \"easy loraNames\",\n    \"_meta\": {\n      \"title\": \"Lora Names\"\n    }\n  },\n  \"28\": {\n    \"inputs\": {\n      \"lora_name\": \"lightx2v_I2V_14B_480p_cfg_step_distill_rank128_bf16.safetensors\"\n    },\n    \"class_type\": \"easy loraNames\",\n    \"_meta\": {\n      \"title\": \"Lora Names\"\n    }\n  },\n  \"30\": {\n    \"inputs\": {\n      \"sampler_name\": \"euler\"\n    },\n    \"class_type\": \"KSamplerSelect\",\n    \"_meta\": {\n      \"title\": \"KSamplerSelect\"\n    }\n  },\n  \"31\": {\n    \"inputs\": {\n      \"text\": \"nothing is happening, standing still, slowmo, reversed, walking backwards, noisy, film grain, blurred background, low-quality, standing idle, felt style, pixel art style, puppet animation, claymation style, stop-motion, watercolor painting, oil painting style, time-lapse, fade-out, fade-in, jittery, shaky footage\",\n      \"clip\": [\n        \"7\",\n        0\n      ]\n    },\n    \"class_type\": \"CLIPTextEncode\",\n    \"_meta\": {\n      \"title\": \"Negative_Prompt\"\n    }\n  },\n  \"34\": {\n    \"inputs\": {\n      \"value\": 3.5\n    },\n    \"class_type\": \"FloatConstant\",\n    \"_meta\": {\n      \"title\": \"High Noise CFG\"\n    }\n  },\n  \"37\": {\n    \"inputs\": {\n      \"sigmas\": \"0.9000, 0.8333, 0.6250, 0.0000\"\n    },\n    \"class_type\": \"ManualSigmas\",\n    \"_meta\": {\n      \"title\": \"3 Steps Low Sigmas\"\n    }\n  },\n  \"38\": {\n    \"inputs\": {\n      \"scheduler\": \"simple\",\n      \"steps\": 4,\n      \"denoise\": 1,\n      \"model\": [\n        \"39\",\n        0\n      ]\n    },\n    \"class_type\": \"BasicScheduler\",\n    \"_meta\": {\n      \"title\": \"High Steps\"\n    }\n  },\n  \"39\": {\n    \"inputs\": {\n      \"shift\": 1.4,\n      \"model\": [\n        \"17\",\n        0\n      ]\n    },\n    \"class_type\": \"ModelSamplingAuraFlow\",\n    \"_meta\": {\n      \"title\": \"ModelSamplingAuraFlow\"\n    }\n  },\n  \"40\": {\n    \"inputs\": {\n      \"max\": 1,\n      \"min\": 0.9,\n      \"sigmas\": [\n        \"38\",\n        0\n      ]\n    },\n    \"class_type\": \"SigmasRescale\",\n    \"_meta\": {\n      \"title\": \"рџђ§ Sigmas Rescale\"\n    }\n  },\n  \"41\": {\n    \"inputs\": {\n      \"image\": [\n        \"20\",\n        0\n      ]\n    },\n    \"class_type\": \"GetImageSize\",\n    \"_meta\": {\n      \"title\": \"Get Image Size\"\n    }\n  },\n  \"42\": {\n    \"inputs\": {\n      \"width\": [\n        \"41\",\n        0\n      ],\n      \"height\": [\n        \"41\",\n        1\n      ],\n      \"1:1\": false,\n      \"4:3\": false,\n      \"3:2\": false,\n      \"5:4\": false,\n      \"16:9\": true,\n      \"16:10\": false,\n      \"21:9\": false,\n      \"2:1\": false,\n      \"1.85:1\": false,\n      \"2.39:1\": false\n    },\n    \"class_type\": \"GetCommonAspectRatio\",\n    \"_meta\": {\n      \"title\": \"Get_Closest_Aspect_Ratio\"\n    }\n  },\n  \"43\": {\n    \"inputs\": {\n      \"aspect_w\": [\n        \"42\",\n        0\n      ],\n      \"aspect_h\": [\n        \"42\",\n        1\n      ],\n      \"mode\": \"max\",\n      \"size\": 1280,\n      \"multiple_of\": 16\n    },\n    \"class_type\": \"ImageSizeCalculator\",\n    \"_meta\": {\n      \"title\": \"Set_High_Noise_Size\"\n    }\n  },\n  \"44\": {\n    \"inputs\": {\n      \"aspect_w\": [\n        \"42\",\n        0\n      ],\n      \"aspect_h\": [\n        \"42\",\n        1\n      ],\n      \"mode\": \"max\",\n      \"size\": 1280,\n      \"multiple_of\": 16\n    },\n    \"class_type\": \"ImageSizeCalculator\",\n    \"_meta\": {\n      \"title\": \"Set_Final_Size\"\n    }\n  },\n  \"45\": {\n    \"inputs\": {\n      \"value\": 1.3\n    },\n    \"class_type\": \"PrimitiveFloat\",\n    \"_meta\": {\n      \"title\": \"LightX2V SVI Strength\"\n    }\n  },\n  \"48\": {\n    \"inputs\": {\n      \"width\": [\n        \"44\",\n        0\n      ],\n      \"height\": [\n        \"44\",\n        1\n      ],\n      \"crop\": \"center\",\n      \"cover\": true,\n      \"upscale_method\": \"lanczos\",\n      \"multiple_of\": 16,\n      \"image\": [\n        \"20\",\n        0\n      ]\n    },\n    \"class_type\": \"SuperResizeImage\",\n    \"_meta\": {\n      \"title\": \"Crop Resize Image\"\n    }\n  },\n  \"100\": {\n    \"inputs\": {\n      \"samples\": [\n        \"103\",\n        1\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEDecode\",\n    \"_meta\": {\n      \"title\": \"VAE Decode\"\n    }\n  },\n  \"101\": {\n    \"inputs\": {\n      \"text\": [\n        \"133\",\n        0\n      ],\n      \"clip\": [\n        \"7\",\n        0\n      ]\n    },\n    \"class_type\": \"CLIPTextEncode\",\n    \"_meta\": {\n      \"title\": \"CLIP Text Encode (Positive Prompt)\"\n    }\n  },\n  \"102\": {\n    \"inputs\": {\n      \"width\": [\n        \"43\",\n        0\n      ],\n      \"height\": [\n        \"43\",\n        1\n      ],\n      \"length\": [\n        \"145\",\n        0\n      ],\n      \"batch_size\": 1,\n      \"positive\": [\n        \"101\",\n        0\n      ],\n      \"negative\": [\n        \"31\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ],\n      \"start_image\": [\n        \"144\",\n        0\n      ]\n    },\n    \"class_type\": \"WanImageToVideo\",\n    \"_meta\": {\n      \"title\": \"WanImageToVideo\"\n    }\n  },\n  \"103\": {\n    \"inputs\": {\n      \"noise\": [\n        \"131\",\n        0\n      ],\n      \"guider\": [\n        \"104\",\n        0\n      ],\n      \"sampler\": [\n        \"22\",\n        0\n      ],\n      \"sigmas\": [\n        \"40\",\n        0\n      ],\n      \"latent_image\": [\n        \"102\",\n        2\n      ]\n    },\n    \"class_type\": \"SamplerCustomAdvanced\",\n    \"_meta\": {\n      \"title\": \"SamplerCustomAdvanced\"\n    }\n  },\n  \"104\": {\n    \"inputs\": {\n      \"cfg\": [\n        \"34\",\n        0\n      ],\n      \"model\": [\n        \"127\",\n        0\n      ],\n      \"positive\": [\n        \"102\",\n        0\n      ],\n      \"negative\": [\n        \"102\",\n        1\n      ]\n    },\n    \"class_type\": \"CFGGuider\",\n    \"_meta\": {\n      \"title\": \"CFGGuider\"\n    }\n  },\n  \"111\": {\n    \"inputs\": {\n      \"noise\": [\n        \"135\",\n        0\n      ],\n      \"guider\": [\n        \"132\",\n        0\n      ],\n      \"sampler\": [\n        \"30\",\n        0\n      ],\n      \"sigmas\": [\n        \"37\",\n        0\n      ],\n      \"latent_image\": [\n        \"137\",\n        0\n      ]\n    },\n    \"class_type\": \"SamplerCustomAdvanced\",\n    \"_meta\": {\n      \"title\": \"SamplerCustomAdvanced\"\n    }\n  },\n  \"115\": {\n    \"inputs\": {\n      \"width\": [\n        \"44\",\n        0\n      ],\n      \"height\": [\n        \"44\",\n        1\n      ],\n      \"length\": [\n        \"145\",\n        0\n      ],\n      \"batch_size\": 1,\n      \"positive\": [\n        \"101\",\n        0\n      ],\n      \"negative\": [\n        \"31\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ],\n      \"start_image\": [\n        \"48\",\n        0\n      ]\n    },\n    \"class_type\": \"WanImageToVideo\",\n    \"_meta\": {\n      \"title\": \"WanImageToVideo\"\n    }\n  },\n  \"116\": {\n    \"inputs\": {\n      \"samples\": [\n        \"111\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEDecode\",\n    \"_meta\": {\n      \"title\": \"VAE Decode\"\n    }\n  },\n  \"126\": {\n    \"inputs\": {\n      \"toggle\": true,\n      \"mode\": \"simple\",\n      \"num_loras\": 4,\n      \"lora_1_name\": \"None\",\n      \"lora_1_strength\": 1,\n      \"lora_1_model_strength\": 1,\n      \"lora_1_clip_strength\": 1,\n      \"lora_2_name\": \"None\",\n      \"lora_2_strength\": 1,\n      \"lora_2_model_strength\": 1,\n      \"lora_2_clip_strength\": 1,\n      \"lora_3_name\": \"None\",\n      \"lora_3_strength\": 1,\n      \"lora_3_model_strength\": 1,\n      \"lora_3_clip_strength\": 1,\n      \"lora_4_name\": \"None\",\n      \"lora_4_strength\": 1,\n      \"lora_4_model_strength\": 1,\n      \"lora_4_clip_strength\": 1,\n      \"lora_5_name\": \"None\",\n      \"lora_5_strength\": 1,\n      \"lora_5_model_strength\": 1,\n      \"lora_5_clip_strength\": 1,\n      \"lora_6_name\": \"None\",\n      \"lora_6_strength\": 1,\n      \"lora_6_model_strength\": 1,\n      \"lora_6_clip_strength\": 1,\n      \"lora_7_name\": \"None\",\n      \"lora_7_strength\": 1,\n      \"lora_7_model_strength\": 1,\n      \"lora_7_clip_strength\": 1,\n      \"lora_8_name\": \"None\",\n      \"lora_8_strength\": 1,\n      \"lora_8_model_strength\": 1,\n      \"lora_8_clip_strength\": 1,\n      \"lora_9_name\": \"None\",\n      \"lora_9_strength\": 1,\n      \"lora_9_model_strength\": 1,\n      \"lora_9_clip_strength\": 1,\n      \"lora_10_name\": \"None\",\n      \"lora_10_strength\": 1,\n      \"lora_10_model_strength\": 1,\n      \"lora_10_clip_strength\": 1\n    },\n    \"class_type\": \"easy loraStack\",\n    \"_meta\": {\n      \"title\": \"High LoRAs\"\n    }\n  },\n  \"127\": {\n    \"inputs\": {\n      \"lora_stack\": [\n        \"126\",\n        0\n      ],\n      \"model\": [\n        \"17\",\n        0\n      ]\n    },\n    \"class_type\": \"easy loraStackApply\",\n    \"_meta\": {\n      \"title\": \"Easy Apply LoraStack\"\n    }\n  },\n  \"128\": {\n    \"inputs\": {\n      \"toggle\": true,\n      \"mode\": \"simple\",\n      \"num_loras\": 4,\n      \"lora_1_name\": [\n        \"28\",\n        0\n      ],\n      \"lora_1_strength\": 1.2,\n      \"lora_1_model_strength\": 1,\n      \"lora_1_clip_strength\": 1,\n      \"lora_2_name\": \"None\",\n      \"lora_2_strength\": 1,\n      \"lora_2_model_strength\": 1,\n      \"lora_2_clip_strength\": 1,\n      \"lora_3_name\": \"None\",\n      \"lora_3_strength\": 1,\n      \"lora_3_model_strength\": 1,\n      \"lora_3_clip_strength\": 1,\n      \"lora_4_name\": \"None\",\n      \"lora_4_strength\": 1,\n      \"lora_4_model_strength\": 1,\n      \"lora_4_clip_strength\": 1,\n      \"lora_5_name\": \"None\",\n      \"lora_5_strength\": 1,\n      \"lora_5_model_strength\": 1,\n      \"lora_5_clip_strength\": 1,\n      \"lora_6_name\": \"None\",\n      \"lora_6_strength\": 1,\n      \"lora_6_model_strength\": 1,\n      \"lora_6_clip_strength\": 1,\n      \"lora_7_name\": \"None\",\n      \"lora_7_strength\": 1,\n      \"lora_7_model_strength\": 1,\n      \"lora_7_clip_strength\": 1,\n      \"lora_8_name\": \"None\",\n      \"lora_8_strength\": 1,\n      \"lora_8_model_strength\": 1,\n      \"lora_8_clip_strength\": 1,\n      \"lora_9_name\": \"None\",\n      \"lora_9_strength\": 1,\n      \"lora_9_model_strength\": 1,\n      \"lora_9_clip_strength\": 1,\n      \"lora_10_name\": \"None\",\n      \"lora_10_strength\": 1,\n      \"lora_10_model_strength\": 1,\n      \"lora_10_clip_strength\": 1\n    },\n    \"class_type\": \"easy loraStack\",\n    \"_meta\": {\n      \"title\": \"Low LoRAs\"\n    }\n  },\n  \"129\": {\n    \"inputs\": {\n      \"lora_stack\": [\n        \"128\",\n        0\n      ],\n      \"model\": [\n        \"15\",\n        0\n      ]\n    },\n    \"class_type\": \"easy loraStackApply\",\n    \"_meta\": {\n      \"title\": \"Easy Apply LoraStack\"\n    }\n  },\n  \"131\": {\n    \"inputs\": {\n      \"noise_seed\": 1659\n    },\n    \"class_type\": \"RandomNoise\",\n    \"_meta\": {\n      \"title\": \"High_Noise_Chunk_1\"\n    }\n  },\n  \"132\": {\n    \"inputs\": {\n      \"cfg\": 1,\n      \"model\": [\n        \"129\",\n        0\n      ],\n      \"positive\": [\n        \"115\",\n        0\n      ],\n      \"negative\": [\n        \"115\",\n        1\n      ]\n    },\n    \"class_type\": \"CFGGuider\",\n    \"_meta\": {\n      \"title\": \"CFGGuider\"\n    }\n  },\n  \"133\": {\n    \"inputs\": {\n      \"value\": \"Chunk_1_PROMPT_GOES_HERE\"\n    },\n    \"class_type\": \"PrimitiveStringMultiline\",\n    \"_meta\": {\n      \"title\": \"Prompt_Chunk_1\"\n    }\n  },\n  \"135\": {\n    \"inputs\": {\n      \"noise_seed\": 796\n    },\n    \"class_type\": \"RandomNoise\",\n    \"_meta\": {\n      \"title\": \"Low_Noise_Chunk_1\"\n    }\n  },\n  \"136\": {\n    \"inputs\": {\n      \"frame_rate\": 16,\n      \"loop_count\": 0,\n      \"filename_prefix\": \"base_video_high\",\n      \"format\": \"video/h264-mp4\",\n      \"pix_fmt\": \"yuv420p\",\n      \"crf\": 19,\n      \"save_metadata\": true,\n      \"trim_to_audio\": false,\n      \"pingpong\": false,\n      \"save_output\": false,\n      \"images\": [\n        \"100\",\n        0\n      ]\n    },\n    \"class_type\": \"VHS_VideoCombine\",\n    \"_meta\": {\n      \"title\": \"Chunk_1_pre_video_combine\"\n    }\n  },\n  \"137\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"140\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"139\": {\n    \"inputs\": {\n      \"frame_rate\": 16,\n      \"loop_count\": 0,\n      \"filename_prefix\": \"base_video_low\",\n      \"format\": \"video/h264-mp4\",\n      \"pix_fmt\": \"yuv420p\",\n      \"crf\": 19,\n      \"save_metadata\": true,\n      \"trim_to_audio\": false,\n      \"pingpong\": false,\n      \"save_output\": false,\n      \"images\": [\n        \"116\",\n        0\n      ]\n    },\n    \"class_type\": \"VHS_VideoCombine\",\n    \"_meta\": {\n      \"title\": \"Chunk_1_final_video_combine\"\n    }\n  },\n  \"140\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"44\",\n        0\n      ],\n      \"height\": [\n        \"44\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"100\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"142\": {\n    \"inputs\": {\n      \"image\": [\n        \"116\",\n        0\n      ]\n    },\n    \"class_type\": \"GetImageSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"OUTPUT IMAGES\"\n    }\n  },\n  \"143\": {\n    \"inputs\": {\n      \"latent\": [\n        \"111\",\n        0\n      ]\n    },\n    \"class_type\": \"GetLatentSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"OUTPUT LATENTS\"\n    }\n  },\n  \"144\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"43\",\n        0\n      ],\n      \"height\": [\n        \"43\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"48\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"145\": {\n    \"inputs\": {\n      \"value\": 81\n    },\n    \"class_type\": \"PrimitiveInt\",\n    \"_meta\": {\n      \"title\": \"Frames_Count_Chunk_1\"\n    }\n  },\n  \"208\": {\n    \"inputs\": {\n      \"samples\": [\n        \"215\",\n        1\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEDecode\",\n    \"_meta\": {\n      \"title\": \"VAE Decode\"\n    }\n  },\n  \"209\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"228\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"210\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"43\",\n        0\n      ],\n      \"height\": [\n        \"43\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"48\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"211\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"43\",\n        0\n      ],\n      \"height\": [\n        \"43\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"246\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"212\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"210\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"213\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"211\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"214\": {\n    \"inputs\": {\n      \"cfg\": [\n        \"34\",\n        0\n      ],\n      \"model\": [\n        \"235\",\n        0\n      ],\n      \"positive\": [\n        \"234\",\n        0\n      ],\n      \"negative\": [\n        \"234\",\n        1\n      ]\n    },\n    \"class_type\": \"CFGGuider\",\n    \"_meta\": {\n      \"title\": \"CFGGuider\"\n    }\n  },\n  \"215\": {\n    \"inputs\": {\n      \"noise\": [\n        \"230\",\n        0\n      ],\n      \"guider\": [\n        \"214\",\n        0\n      ],\n      \"sampler\": [\n        \"22\",\n        0\n      ],\n      \"sigmas\": [\n        \"40\",\n        0\n      ],\n      \"latent_image\": [\n        \"234\",\n        2\n      ]\n    },\n    \"class_type\": \"SamplerCustomAdvanced\",\n    \"_meta\": {\n      \"title\": \"SamplerCustomAdvanced\"\n    }\n  },\n  \"216\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"242\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"217\": {\n    \"inputs\": {\n      \"noise\": [\n        \"233\",\n        0\n      ],\n      \"guider\": [\n        \"231\",\n        0\n      ],\n      \"sampler\": [\n        \"30\",\n        0\n      ],\n      \"sigmas\": [\n        \"37\",\n        0\n      ],\n      \"latent_image\": [\n        \"216\",\n        0\n      ]\n    },\n    \"class_type\": \"SamplerCustomAdvanced\",\n    \"_meta\": {\n      \"title\": \"SamplerCustomAdvanced\"\n    }\n  },\n  \"218\": {\n    \"inputs\": {\n      \"samples\": [\n        \"217\",\n        1\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEDecode\",\n    \"_meta\": {\n      \"title\": \"VAE Decode\"\n    }\n  },\n  \"219\": {\n    \"inputs\": {\n      \"overlap\": 5,\n      \"overlap_side\": \"source\",\n      \"overlap_mode\": \"ease_in_out\",\n      \"source_images\": [\n        \"246\",\n        0\n      ],\n      \"new_images\": [\n        \"218\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageBatchExtendWithOverlap\",\n    \"_meta\": {\n      \"title\": \"Image Batch Extend With Overlap\"\n    }\n  },\n  \"223\": {\n    \"inputs\": {\n      \"toggle\": true,\n      \"mode\": \"simple\",\n      \"num_loras\": 6,\n      \"lora_1_name\": [\n        \"25\",\n        0\n      ],\n      \"lora_1_strength\": 1,\n      \"lora_1_model_strength\": 1,\n      \"lora_1_clip_strength\": 1,\n      \"lora_2_name\": [\n        \"28\",\n        0\n      ],\n      \"lora_2_strength\": [\n        \"45\",\n        0\n      ],\n      \"lora_2_model_strength\": 1,\n      \"lora_2_clip_strength\": 1,\n      \"lora_3_name\": \"None\",\n      \"lora_3_strength\": 1,\n      \"lora_3_model_strength\": 1,\n      \"lora_3_clip_strength\": 1,\n      \"lora_4_name\": \"None\",\n      \"lora_4_strength\": 1,\n      \"lora_4_model_strength\": 1,\n      \"lora_4_clip_strength\": 1,\n      \"lora_5_name\": \"None\",\n      \"lora_5_strength\": 1,\n      \"lora_5_model_strength\": 1,\n      \"lora_5_clip_strength\": 1,\n      \"lora_6_name\": \"None\",\n      \"lora_6_strength\": 1,\n      \"lora_6_model_strength\": 1,\n      \"lora_6_clip_strength\": 1,\n      \"lora_7_name\": \"None\",\n      \"lora_7_strength\": 1,\n      \"lora_7_model_strength\": 1,\n      \"lora_7_clip_strength\": 1,\n      \"lora_8_name\": \"None\",\n      \"lora_8_strength\": 1,\n      \"lora_8_model_strength\": 1,\n      \"lora_8_clip_strength\": 1,\n      \"lora_9_name\": \"None\",\n      \"lora_9_strength\": 1,\n      \"lora_9_model_strength\": 1,\n      \"lora_9_clip_strength\": 1,\n      \"lora_10_name\": \"None\",\n      \"lora_10_strength\": 1,\n      \"lora_10_model_strength\": 1,\n      \"lora_10_clip_strength\": 1\n    },\n    \"class_type\": \"easy loraStack\",\n    \"_meta\": {\n      \"title\": \"Low LoRAs\"\n    }\n  },\n  \"224\": {\n    \"inputs\": {\n      \"lora_stack\": [\n        \"223\",\n        0\n      ],\n      \"model\": [\n        \"15\",\n        0\n      ]\n    },\n    \"class_type\": \"easy loraStackApply\",\n    \"_meta\": {\n      \"title\": \"Easy Apply LoraStack\"\n    }\n  },\n  \"226\": {\n    \"inputs\": {\n      \"frame_rate\": 16,\n      \"loop_count\": 0,\n      \"filename_prefix\": \"extended_video_high\",\n      \"format\": \"video/h264-mp4\",\n      \"pix_fmt\": \"yuv420p\",\n      \"crf\": 19,\n      \"save_metadata\": true,\n      \"trim_to_audio\": false,\n      \"pingpong\": false,\n      \"save_output\": false,\n      \"images\": [\n        \"208\",\n        0\n      ]\n    },\n    \"class_type\": \"VHS_VideoCombine\",\n    \"_meta\": {\n      \"title\": \"Chunk_2_pre_video_combine\"\n    }\n  },\n  \"227\": {\n    \"inputs\": {\n      \"length\": [\n        \"251\",\n        0\n      ],\n      \"motion_latent_count\": 1,\n      \"positive\": [\n        \"245\",\n        0\n      ],\n      \"negative\": [\n        \"31\",\n        0\n      ],\n      \"anchor_samples\": [\n        \"209\",\n        0\n      ],\n      \"prev_samples\": [\n        \"247\",\n        0\n      ]\n    },\n    \"class_type\": \"WanImageToVideoSVIPro\",\n    \"_meta\": {\n      \"title\": \"WanImageToVideoSVIPro\"\n    }\n  },\n  \"228\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"44\",\n        0\n      ],\n      \"height\": [\n        \"44\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"48\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"230\": {\n    \"inputs\": {\n      \"noise_seed\": 1854\n    },\n    \"class_type\": \"RandomNoise\",\n    \"_meta\": {\n      \"title\": \"High_Noise_Chunk_2\"\n    }\n  },\n  \"231\": {\n    \"inputs\": {\n      \"cfg\": 1,\n      \"model\": [\n        \"224\",\n        0\n      ],\n      \"positive\": [\n        \"227\",\n        0\n      ],\n      \"negative\": [\n        \"227\",\n        1\n      ]\n    },\n    \"class_type\": \"CFGGuider\",\n    \"_meta\": {\n      \"title\": \"CFGGuider\"\n    }\n  },\n  \"233\": {\n    \"inputs\": {\n      \"noise_seed\": 935\n    },\n    \"class_type\": \"RandomNoise\",\n    \"_meta\": {\n      \"title\": \"Low_Noise_Chunk_2\"\n    }\n  },\n  \"234\": {\n    \"inputs\": {\n      \"length\": [\n        \"251\",\n        0\n      ],\n      \"motion_latent_count\": 1,\n      \"positive\": [\n        \"245\",\n        0\n      ],\n      \"negative\": [\n        \"31\",\n        0\n      ],\n      \"anchor_samples\": [\n        \"212\",\n        0\n      ],\n      \"prev_samples\": [\n        \"213\",\n        0\n      ]\n    },\n    \"class_type\": \"WanImageToVideoSVIPro\",\n    \"_meta\": {\n      \"title\": \"WanImageToVideoSVIPro\"\n    }\n  },\n  \"235\": {\n    \"inputs\": {\n      \"lora_stack\": [\n        \"237\",\n        0\n      ],\n      \"model\": [\n        \"17\",\n        0\n      ]\n    },\n    \"class_type\": \"easy loraStackApply\",\n    \"_meta\": {\n      \"title\": \"Easy Apply LoraStack\"\n    }\n  },\n  \"237\": {\n    \"inputs\": {\n      \"toggle\": true,\n      \"mode\": \"simple\",\n      \"num_loras\": 6,\n      \"lora_1_name\": [\n        \"23\",\n        0\n      ],\n      \"lora_1_strength\": 1,\n      \"lora_1_model_strength\": 1,\n      \"lora_1_clip_strength\": 1,\n      \"lora_2_name\": \"None\",\n      \"lora_2_strength\": 1,\n      \"lora_2_model_strength\": 1,\n      \"lora_2_clip_strength\": 1,\n      \"lora_3_name\": \"None\",\n      \"lora_3_strength\": 1,\n      \"lora_3_model_strength\": 1,\n      \"lora_3_clip_strength\": 1,\n      \"lora_4_name\": \"None\",\n      \"lora_4_strength\": 1,\n      \"lora_4_model_strength\": 1,\n      \"lora_4_clip_strength\": 1,\n      \"lora_5_name\": \"None\",\n      \"lora_5_strength\": 1,\n      \"lora_5_model_strength\": 1,\n      \"lora_5_clip_strength\": 1,\n      \"lora_6_name\": \"None\",\n      \"lora_6_strength\": 1,\n      \"lora_6_model_strength\": 1,\n      \"lora_6_clip_strength\": 1,\n      \"lora_7_name\": \"None\",\n      \"lora_7_strength\": 1,\n      \"lora_7_model_strength\": 1,\n      \"lora_7_clip_strength\": 1,\n      \"lora_8_name\": \"None\",\n      \"lora_8_strength\": 1,\n      \"lora_8_model_strength\": 1,\n      \"lora_8_clip_strength\": 1,\n      \"lora_9_name\": \"None\",\n      \"lora_9_strength\": 1,\n      \"lora_9_model_strength\": 1,\n      \"lora_9_clip_strength\": 1,\n      \"lora_10_name\": \"None\",\n      \"lora_10_strength\": 1,\n      \"lora_10_model_strength\": 1,\n      \"lora_10_clip_strength\": 1\n    },\n    \"class_type\": \"easy loraStack\",\n    \"_meta\": {\n      \"title\": \"High LoRAs\"\n    }\n  },\n  \"239\": {\n    \"inputs\": {\n      \"frame_rate\": 16,\n      \"loop_count\": 0,\n      \"filename_prefix\": \"extended_video_low\",\n      \"format\": \"video/h264-mp4\",\n      \"pix_fmt\": \"yuv420p\",\n      \"crf\": 19,\n      \"save_metadata\": true,\n      \"trim_to_audio\": false,\n      \"pingpong\": false,\n      \"save_output\": false,\n      \"images\": [\n        \"219\",\n        2\n      ]\n    },\n    \"class_type\": \"VHS_VideoCombine\",\n    \"_meta\": {\n      \"title\": \"Chunk_2_final_video_combine\"\n    }\n  },\n  \"242\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"44\",\n        0\n      ],\n      \"height\": [\n        \"44\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"243\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"243\": {\n    \"inputs\": {\n      \"factor\": 0.95,\n      \"images\": [\n        \"208\",\n        0\n      ]\n    },\n    \"class_type\": \"AdjustBrightness\",\n    \"_meta\": {\n      \"title\": \"Adjust Brightness\"\n    }\n  },\n  \"244\": {\n    \"inputs\": {\n      \"value\": \"Chunk_2_PROMPT_GOES_HERE\"\n    },\n    \"class_type\": \"PrimitiveStringMultiline\",\n    \"_meta\": {\n      \"title\": \"Prompt_Chunk_2\"\n    }\n  },\n  \"245\": {\n    \"inputs\": {\n      \"text\": [\n        \"244\",\n        0\n      ],\n      \"clip\": [\n        \"7\",\n        0\n      ]\n    },\n    \"class_type\": \"CLIPTextEncode\",\n    \"_meta\": {\n      \"title\": \"CLIP Text Encode (Prompt)\"\n    }\n  },\n  \"246\": {\n    \"inputs\": {\n      \"image\": [\n        \"142\",\n        0\n      ]\n    },\n    \"class_type\": \"GetImageSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"INPUT IMAGES\"\n    }\n  },\n  \"247\": {\n    \"inputs\": {\n      \"latent\": [\n        \"143\",\n        0\n      ]\n    },\n    \"class_type\": \"GetLatentSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"INPUT LATENTS\"\n    }\n  },\n  \"248\": {\n    \"inputs\": {\n      \"latent\": [\n        \"217\",\n        1\n      ]\n    },\n    \"class_type\": \"GetLatentSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"OUTPUT LATENTS\"\n    }\n  },\n  \"249\": {\n    \"inputs\": {\n      \"image\": [\n        \"219\",\n        2\n      ]\n    },\n    \"class_type\": \"GetImageSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"OUTPUT IMAGES\"\n    }\n  },\n  \"251\": {\n    \"inputs\": {\n      \"value\": 81\n    },\n    \"class_type\": \"PrimitiveInt\",\n    \"_meta\": {\n      \"title\": \"Frames_Count_Chunk_2\"\n    }\n  },\n  \"308\": {\n    \"inputs\": {\n      \"samples\": [\n        \"315\",\n        1\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEDecode\",\n    \"_meta\": {\n      \"title\": \"VAE Decode\"\n    }\n  },\n  \"309\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"328\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"310\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"43\",\n        0\n      ],\n      \"height\": [\n        \"43\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"48\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"311\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"43\",\n        0\n      ],\n      \"height\": [\n        \"43\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"346\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"312\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"310\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"313\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"311\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"314\": {\n    \"inputs\": {\n      \"cfg\": [\n        \"34\",\n        0\n      ],\n      \"model\": [\n        \"335\",\n        0\n      ],\n      \"positive\": [\n        \"334\",\n        0\n      ],\n      \"negative\": [\n        \"334\",\n        1\n      ]\n    },\n    \"class_type\": \"CFGGuider\",\n    \"_meta\": {\n      \"title\": \"CFGGuider\"\n    }\n  },\n  \"315\": {\n    \"inputs\": {\n      \"noise\": [\n        \"330\",\n        0\n      ],\n      \"guider\": [\n        \"314\",\n        0\n      ],\n      \"sampler\": [\n        \"22\",\n        0\n      ],\n      \"sigmas\": [\n        \"40\",\n        0\n      ],\n      \"latent_image\": [\n        \"334\",\n        2\n      ]\n    },\n    \"class_type\": \"SamplerCustomAdvanced\",\n    \"_meta\": {\n      \"title\": \"SamplerCustomAdvanced\"\n    }\n  },\n  \"316\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"342\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"317\": {\n    \"inputs\": {\n      \"noise\": [\n        \"333\",\n        0\n      ],\n      \"guider\": [\n        \"331\",\n        0\n      ],\n      \"sampler\": [\n        \"30\",\n        0\n      ],\n      \"sigmas\": [\n        \"37\",\n        0\n      ],\n      \"latent_image\": [\n        \"316\",\n        0\n      ]\n    },\n    \"class_type\": \"SamplerCustomAdvanced\",\n    \"_meta\": {\n      \"title\": \"SamplerCustomAdvanced\"\n    }\n  },\n  \"318\": {\n    \"inputs\": {\n      \"samples\": [\n        \"317\",\n        1\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEDecode\",\n    \"_meta\": {\n      \"title\": \"VAE Decode\"\n    }\n  },\n  \"319\": {\n    \"inputs\": {\n      \"overlap\": 5,\n      \"overlap_side\": \"source\",\n      \"overlap_mode\": \"ease_in_out\",\n      \"source_images\": [\n        \"346\",\n        0\n      ],\n      \"new_images\": [\n        \"318\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageBatchExtendWithOverlap\",\n    \"_meta\": {\n      \"title\": \"Image Batch Extend With Overlap\"\n    }\n  },\n  \"323\": {\n    \"inputs\": {\n      \"toggle\": true,\n      \"mode\": \"simple\",\n      \"num_loras\": 6,\n      \"lora_1_name\": [\n        \"25\",\n        0\n      ],\n      \"lora_1_strength\": 1,\n      \"lora_1_model_strength\": 1,\n      \"lora_1_clip_strength\": 1,\n      \"lora_2_name\": [\n        \"28\",\n        0\n      ],\n      \"lora_2_strength\": [\n        \"45\",\n        0\n      ],\n      \"lora_2_model_strength\": 1,\n      \"lora_2_clip_strength\": 1,\n      \"lora_3_name\": \"None\",\n      \"lora_3_strength\": 1,\n      \"lora_3_model_strength\": 1,\n      \"lora_3_clip_strength\": 1,\n      \"lora_4_name\": \"None\",\n      \"lora_4_strength\": 1,\n      \"lora_4_model_strength\": 1,\n      \"lora_4_clip_strength\": 1,\n      \"lora_5_name\": \"None\",\n      \"lora_5_strength\": 1,\n      \"lora_5_model_strength\": 1,\n      \"lora_5_clip_strength\": 1,\n      \"lora_6_name\": \"None\",\n      \"lora_6_strength\": 1,\n      \"lora_6_model_strength\": 1,\n      \"lora_6_clip_strength\": 1,\n      \"lora_7_name\": \"None\",\n      \"lora_7_strength\": 1,\n      \"lora_7_model_strength\": 1,\n      \"lora_7_clip_strength\": 1,\n      \"lora_8_name\": \"None\",\n      \"lora_8_strength\": 1,\n      \"lora_8_model_strength\": 1,\n      \"lora_8_clip_strength\": 1,\n      \"lora_9_name\": \"None\",\n      \"lora_9_strength\": 1,\n      \"lora_9_model_strength\": 1,\n      \"lora_9_clip_strength\": 1,\n      \"lora_10_name\": \"None\",\n      \"lora_10_strength\": 1,\n      \"lora_10_model_strength\": 1,\n      \"lora_10_clip_strength\": 1\n    },\n    \"class_type\": \"easy loraStack\",\n    \"_meta\": {\n      \"title\": \"Low LoRAs\"\n    }\n  },\n  \"324\": {\n    \"inputs\": {\n      \"lora_stack\": [\n        \"323\",\n        0\n      ],\n      \"model\": [\n        \"15\",\n        0\n      ]\n    },\n    \"class_type\": \"easy loraStackApply\",\n    \"_meta\": {\n      \"title\": \"Easy Apply LoraStack\"\n    }\n  },\n  \"326\": {\n    \"inputs\": {\n      \"frame_rate\": 16,\n      \"loop_count\": 0,\n      \"filename_prefix\": \"extended_video_high\",\n      \"format\": \"video/h264-mp4\",\n      \"pix_fmt\": \"yuv420p\",\n      \"crf\": 19,\n      \"save_metadata\": true,\n      \"trim_to_audio\": false,\n      \"pingpong\": false,\n      \"save_output\": false,\n      \"images\": [\n        \"308\",\n        0\n      ]\n    },\n    \"class_type\": \"VHS_VideoCombine\",\n    \"_meta\": {\n      \"title\": \"Chunk_3_pre_video_combine\"\n    }\n  },\n  \"327\": {\n    \"inputs\": {\n      \"length\": [\n        \"351\",\n        0\n      ],\n      \"motion_latent_count\": 1,\n      \"positive\": [\n        \"345\",\n        0\n      ],\n      \"negative\": [\n        \"31\",\n        0\n      ],\n      \"anchor_samples\": [\n        \"309\",\n        0\n      ],\n      \"prev_samples\": [\n        \"347\",\n        0\n      ]\n    },\n    \"class_type\": \"WanImageToVideoSVIPro\",\n    \"_meta\": {\n      \"title\": \"WanImageToVideoSVIPro\"\n    }\n  },\n  \"328\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"44\",\n        0\n      ],\n      \"height\": [\n        \"44\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"48\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"330\": {\n    \"inputs\": {\n      \"noise_seed\": 2312\n    },\n    \"class_type\": \"RandomNoise\",\n    \"_meta\": {\n      \"title\": \"High_Noise_Chunk_3\"\n    }\n  },\n  \"331\": {\n    \"inputs\": {\n      \"cfg\": 1,\n      \"model\": [\n        \"324\",\n        0\n      ],\n      \"positive\": [\n        \"327\",\n        0\n      ],\n      \"negative\": [\n        \"327\",\n        1\n      ]\n    },\n    \"class_type\": \"CFGGuider\",\n    \"_meta\": {\n      \"title\": \"CFGGuider\"\n    }\n  },\n  \"333\": {\n    \"inputs\": {\n      \"noise_seed\": 2034\n    },\n    \"class_type\": \"RandomNoise\",\n    \"_meta\": {\n      \"title\": \"Low_Noise_Chunk_3\"\n    }\n  },\n  \"334\": {\n    \"inputs\": {\n      \"length\": [\n        \"351\",\n        0\n      ],\n      \"motion_latent_count\": 1,\n      \"positive\": [\n        \"345\",\n        0\n      ],\n      \"negative\": [\n        \"31\",\n        0\n      ],\n      \"anchor_samples\": [\n        \"312\",\n        0\n      ],\n      \"prev_samples\": [\n        \"313\",\n        0\n      ]\n    },\n    \"class_type\": \"WanImageToVideoSVIPro\",\n    \"_meta\": {\n      \"title\": \"WanImageToVideoSVIPro\"\n    }\n  },\n  \"335\": {\n    \"inputs\": {\n      \"lora_stack\": [\n        \"337\",\n        0\n      ],\n      \"model\": [\n        \"17\",\n        0\n      ]\n    },\n    \"class_type\": \"easy loraStackApply\",\n    \"_meta\": {\n      \"title\": \"Easy Apply LoraStack\"\n    }\n  },\n  \"337\": {\n    \"inputs\": {\n      \"toggle\": true,\n      \"mode\": \"simple\",\n      \"num_loras\": 6,\n      \"lora_1_name\": [\n        \"23\",\n        0\n      ],\n      \"lora_1_strength\": 1,\n      \"lora_1_model_strength\": 1,\n      \"lora_1_clip_strength\": 1,\n      \"lora_2_name\": \"None\",\n      \"lora_2_strength\": 1,\n      \"lora_2_model_strength\": 1,\n      \"lora_2_clip_strength\": 1,\n      \"lora_3_name\": \"None\",\n      \"lora_3_strength\": 1,\n      \"lora_3_model_strength\": 1,\n      \"lora_3_clip_strength\": 1,\n      \"lora_4_name\": \"None\",\n      \"lora_4_strength\": 1,\n      \"lora_4_model_strength\": 1,\n      \"lora_4_clip_strength\": 1,\n      \"lora_5_name\": \"None\",\n      \"lora_5_strength\": 1,\n      \"lora_5_model_strength\": 1,\n      \"lora_5_clip_strength\": 1,\n      \"lora_6_name\": \"None\",\n      \"lora_6_strength\": 1,\n      \"lora_6_model_strength\": 1,\n      \"lora_6_clip_strength\": 1,\n      \"lora_7_name\": \"None\",\n      \"lora_7_strength\": 1,\n      \"lora_7_model_strength\": 1,\n      \"lora_7_clip_strength\": 1,\n      \"lora_8_name\": \"None\",\n      \"lora_8_strength\": 1,\n      \"lora_8_model_strength\": 1,\n      \"lora_8_clip_strength\": 1,\n      \"lora_9_name\": \"None\",\n      \"lora_9_strength\": 1,\n      \"lora_9_model_strength\": 1,\n      \"lora_9_clip_strength\": 1,\n      \"lora_10_name\": \"None\",\n      \"lora_10_strength\": 1,\n      \"lora_10_model_strength\": 1,\n      \"lora_10_clip_strength\": 1\n    },\n    \"class_type\": \"easy loraStack\",\n    \"_meta\": {\n      \"title\": \"High LoRAs\"\n    }\n  },\n  \"339\": {\n    \"inputs\": {\n      \"frame_rate\": 16,\n      \"loop_count\": 0,\n      \"filename_prefix\": \"extended_video_low\",\n      \"format\": \"video/h264-mp4\",\n      \"pix_fmt\": \"yuv420p\",\n      \"crf\": 19,\n      \"save_metadata\": true,\n      \"trim_to_audio\": false,\n      \"pingpong\": false,\n      \"save_output\": false,\n      \"images\": [\n        \"319\",\n        2\n      ]\n    },\n    \"class_type\": \"VHS_VideoCombine\",\n    \"_meta\": {\n      \"title\": \"Chunk_3_final_video_combine\"\n    }\n  },\n  \"342\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"44\",\n        0\n      ],\n      \"height\": [\n        \"44\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"343\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"343\": {\n    \"inputs\": {\n      \"factor\": 0.95,\n      \"images\": [\n        \"308\",\n        0\n      ]\n    },\n    \"class_type\": \"AdjustBrightness\",\n    \"_meta\": {\n      \"title\": \"Adjust Brightness\"\n    }\n  },\n  \"344\": {\n    \"inputs\": {\n      \"value\": \"Chunk_3_PROMPT_GOES_HERE\"\n    },\n    \"class_type\": \"PrimitiveStringMultiline\",\n    \"_meta\": {\n      \"title\": \"Prompt_Chunk_3\"\n    }\n  },\n  \"345\": {\n    \"inputs\": {\n      \"text\": [\n        \"344\",\n        0\n      ],\n      \"clip\": [\n        \"7\",\n        0\n      ]\n    },\n    \"class_type\": \"CLIPTextEncode\",\n    \"_meta\": {\n      \"title\": \"CLIP Text Encode (Prompt)\"\n    }\n  },\n  \"346\": {\n    \"inputs\": {\n      \"image\": [\n        \"249\",\n        0\n      ]\n    },\n    \"class_type\": \"GetImageSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"INPUT IMAGES\"\n    }\n  },\n  \"347\": {\n    \"inputs\": {\n      \"latent\": [\n        \"248\",\n        0\n      ]\n    },\n    \"class_type\": \"GetLatentSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"INPUT LATENTS\"\n    }\n  },\n  \"348\": {\n    \"inputs\": {\n      \"latent\": [\n        \"317\",\n        1\n      ]\n    },\n    \"class_type\": \"GetLatentSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"OUTPUT LATENTS\"\n    }\n  },\n  \"349\": {\n    \"inputs\": {\n      \"image\": [\n        \"319\",\n        2\n      ]\n    },\n    \"class_type\": \"GetImageSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"OUTPUT IMAGES\"\n    }\n  },\n  \"351\": {\n    \"inputs\": {\n      \"value\": 81\n    },\n    \"class_type\": \"PrimitiveInt\",\n    \"_meta\": {\n      \"title\": \"Frames_Count_Chunk_3\"\n    }\n  },\n  \"408\": {\n    \"inputs\": {\n      \"samples\": [\n        \"415\",\n        1\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEDecode\",\n    \"_meta\": {\n      \"title\": \"VAE Decode\"\n    }\n  },\n  \"409\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"428\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"410\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"43\",\n        0\n      ],\n      \"height\": [\n        \"43\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"48\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"411\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"43\",\n        0\n      ],\n      \"height\": [\n        \"43\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"446\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"412\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"410\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"413\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"411\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"414\": {\n    \"inputs\": {\n      \"cfg\": [\n        \"34\",\n        0\n      ],\n      \"model\": [\n        \"435\",\n        0\n      ],\n      \"positive\": [\n        \"434\",\n        0\n      ],\n      \"negative\": [\n        \"434\",\n        1\n      ]\n    },\n    \"class_type\": \"CFGGuider\",\n    \"_meta\": {\n      \"title\": \"CFGGuider\"\n    }\n  },\n  \"415\": {\n    \"inputs\": {\n      \"noise\": [\n        \"430\",\n        0\n      ],\n      \"guider\": [\n        \"414\",\n        0\n      ],\n      \"sampler\": [\n        \"22\",\n        0\n      ],\n      \"sigmas\": [\n        \"40\",\n        0\n      ],\n      \"latent_image\": [\n        \"434\",\n        2\n      ]\n    },\n    \"class_type\": \"SamplerCustomAdvanced\",\n    \"_meta\": {\n      \"title\": \"SamplerCustomAdvanced\"\n    }\n  },\n  \"416\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"442\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"417\": {\n    \"inputs\": {\n      \"noise\": [\n        \"433\",\n        0\n      ],\n      \"guider\": [\n        \"431\",\n        0\n      ],\n      \"sampler\": [\n        \"30\",\n        0\n      ],\n      \"sigmas\": [\n        \"37\",\n        0\n      ],\n      \"latent_image\": [\n        \"416\",\n        0\n      ]\n    },\n    \"class_type\": \"SamplerCustomAdvanced\",\n    \"_meta\": {\n      \"title\": \"SamplerCustomAdvanced\"\n    }\n  },\n  \"418\": {\n    \"inputs\": {\n      \"samples\": [\n        \"417\",\n        1\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEDecode\",\n    \"_meta\": {\n      \"title\": \"VAE Decode\"\n    }\n  },\n  \"419\": {\n    \"inputs\": {\n      \"overlap\": 5,\n      \"overlap_side\": \"source\",\n      \"overlap_mode\": \"ease_in_out\",\n      \"source_images\": [\n        \"446\",\n        0\n      ],\n      \"new_images\": [\n        \"418\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageBatchExtendWithOverlap\",\n    \"_meta\": {\n      \"title\": \"Image Batch Extend With Overlap\"\n    }\n  },\n  \"423\": {\n    \"inputs\": {\n      \"toggle\": true,\n      \"mode\": \"simple\",\n      \"num_loras\": 6,\n      \"lora_1_name\": [\n        \"25\",\n        0\n      ],\n      \"lora_1_strength\": 1,\n      \"lora_1_model_strength\": 1,\n      \"lora_1_clip_strength\": 1,\n      \"lora_2_name\": [\n        \"28\",\n        0\n      ],\n      \"lora_2_strength\": [\n        \"45\",\n        0\n      ],\n      \"lora_2_model_strength\": 1,\n      \"lora_2_clip_strength\": 1,\n      \"lora_3_name\": \"None\",\n      \"lora_3_strength\": 1,\n      \"lora_3_model_strength\": 1,\n      \"lora_3_clip_strength\": 1,\n      \"lora_4_name\": \"None\",\n      \"lora_4_strength\": 1,\n      \"lora_4_model_strength\": 1,\n      \"lora_4_clip_strength\": 1,\n      \"lora_5_name\": \"None\",\n      \"lora_5_strength\": 1,\n      \"lora_5_model_strength\": 1,\n      \"lora_5_clip_strength\": 1,\n      \"lora_6_name\": \"None\",\n      \"lora_6_strength\": 1,\n      \"lora_6_model_strength\": 1,\n      \"lora_6_clip_strength\": 1,\n      \"lora_7_name\": \"None\",\n      \"lora_7_strength\": 1,\n      \"lora_7_model_strength\": 1,\n      \"lora_7_clip_strength\": 1,\n      \"lora_8_name\": \"None\",\n      \"lora_8_strength\": 1,\n      \"lora_8_model_strength\": 1,\n      \"lora_8_clip_strength\": 1,\n      \"lora_9_name\": \"None\",\n      \"lora_9_strength\": 1,\n      \"lora_9_model_strength\": 1,\n      \"lora_9_clip_strength\": 1,\n      \"lora_10_name\": \"None\",\n      \"lora_10_strength\": 1,\n      \"lora_10_model_strength\": 1,\n      \"lora_10_clip_strength\": 1\n    },\n    \"class_type\": \"easy loraStack\",\n    \"_meta\": {\n      \"title\": \"Low LoRAs\"\n    }\n  },\n  \"424\": {\n    \"inputs\": {\n      \"lora_stack\": [\n        \"423\",\n        0\n      ],\n      \"model\": [\n        \"15\",\n        0\n      ]\n    },\n    \"class_type\": \"easy loraStackApply\",\n    \"_meta\": {\n      \"title\": \"Easy Apply LoraStack\"\n    }\n  },\n  \"426\": {\n    \"inputs\": {\n      \"frame_rate\": 16,\n      \"loop_count\": 0,\n      \"filename_prefix\": \"extended_video_high\",\n      \"format\": \"video/h264-mp4\",\n      \"pix_fmt\": \"yuv420p\",\n      \"crf\": 19,\n      \"save_metadata\": true,\n      \"trim_to_audio\": false,\n      \"pingpong\": false,\n      \"save_output\": false,\n      \"images\": [\n        \"408\",\n        0\n      ]\n    },\n    \"class_type\": \"VHS_VideoCombine\",\n    \"_meta\": {\n      \"title\": \"Chunk_4_pre_video_combine\"\n    }\n  },\n  \"427\": {\n    \"inputs\": {\n      \"length\": [\n        \"451\",\n        0\n      ],\n      \"motion_latent_count\": 1,\n      \"positive\": [\n        \"445\",\n        0\n      ],\n      \"negative\": [\n        \"31\",\n        0\n      ],\n      \"anchor_samples\": [\n        \"409\",\n        0\n      ],\n      \"prev_samples\": [\n        \"447\",\n        0\n      ]\n    },\n    \"class_type\": \"WanImageToVideoSVIPro\",\n    \"_meta\": {\n      \"title\": \"WanImageToVideoSVIPro\"\n    }\n  },\n  \"428\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"44\",\n        0\n      ],\n      \"height\": [\n        \"44\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"48\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"430\": {\n    \"inputs\": {\n      \"noise_seed\": 3323\n    },\n    \"class_type\": \"RandomNoise\",\n    \"_meta\": {\n      \"title\": \"High_Noise_Chunk_4\"\n    }\n  },\n  \"431\": {\n    \"inputs\": {\n      \"cfg\": 1,\n      \"model\": [\n        \"424\",\n        0\n      ],\n      \"positive\": [\n        \"427\",\n        0\n      ],\n      \"negative\": [\n        \"427\",\n        1\n      ]\n    },\n    \"class_type\": \"CFGGuider\",\n    \"_meta\": {\n      \"title\": \"CFGGuider\"\n    }\n  },\n  \"433\": {\n    \"inputs\": {\n      \"noise_seed\": 2993\n    },\n    \"class_type\": \"RandomNoise\",\n    \"_meta\": {\n      \"title\": \"Low_Noise_Chunk_4\"\n    }\n  },\n  \"434\": {\n    \"inputs\": {\n      \"length\": [\n        \"451\",\n        0\n      ],\n      \"motion_latent_count\": 1,\n      \"positive\": [\n        \"445\",\n        0\n      ],\n      \"negative\": [\n        \"31\",\n        0\n      ],\n      \"anchor_samples\": [\n        \"412\",\n        0\n      ],\n      \"prev_samples\": [\n        \"413\",\n        0\n      ]\n    },\n    \"class_type\": \"WanImageToVideoSVIPro\",\n    \"_meta\": {\n      \"title\": \"WanImageToVideoSVIPro\"\n    }\n  },\n  \"435\": {\n    \"inputs\": {\n      \"lora_stack\": [\n        \"437\",\n        0\n      ],\n      \"model\": [\n        \"17\",\n        0\n      ]\n    },\n    \"class_type\": \"easy loraStackApply\",\n    \"_meta\": {\n      \"title\": \"Easy Apply LoraStack\"\n    }\n  },\n  \"437\": {\n    \"inputs\": {\n      \"toggle\": true,\n      \"mode\": \"simple\",\n      \"num_loras\": 6,\n      \"lora_1_name\": [\n        \"23\",\n        0\n      ],\n      \"lora_1_strength\": 1,\n      \"lora_1_model_strength\": 1,\n      \"lora_1_clip_strength\": 1,\n      \"lora_2_name\": \"None\",\n      \"lora_2_strength\": 1,\n      \"lora_2_model_strength\": 1,\n      \"lora_2_clip_strength\": 1,\n      \"lora_3_name\": \"None\",\n      \"lora_3_strength\": 1,\n      \"lora_3_model_strength\": 1,\n      \"lora_3_clip_strength\": 1,\n      \"lora_4_name\": \"None\",\n      \"lora_4_strength\": 1,\n      \"lora_4_model_strength\": 1,\n      \"lora_4_clip_strength\": 1,\n      \"lora_5_name\": \"None\",\n      \"lora_5_strength\": 1,\n      \"lora_5_model_strength\": 1,\n      \"lora_5_clip_strength\": 1,\n      \"lora_6_name\": \"None\",\n      \"lora_6_strength\": 1,\n      \"lora_6_model_strength\": 1,\n      \"lora_6_clip_strength\": 1,\n      \"lora_7_name\": \"None\",\n      \"lora_7_strength\": 1,\n      \"lora_7_model_strength\": 1,\n      \"lora_7_clip_strength\": 1,\n      \"lora_8_name\": \"None\",\n      \"lora_8_strength\": 1,\n      \"lora_8_model_strength\": 1,\n      \"lora_8_clip_strength\": 1,\n      \"lora_9_name\": \"None\",\n      \"lora_9_strength\": 1,\n      \"lora_9_model_strength\": 1,\n      \"lora_9_clip_strength\": 1,\n      \"lora_10_name\": \"None\",\n      \"lora_10_strength\": 1,\n      \"lora_10_model_strength\": 1,\n      \"lora_10_clip_strength\": 1\n    },\n    \"class_type\": \"easy loraStack\",\n    \"_meta\": {\n      \"title\": \"High LoRAs\"\n    }\n  },\n  \"439\": {\n    \"inputs\": {\n      \"frame_rate\": 16,\n      \"loop_count\": 0,\n      \"filename_prefix\": \"extended_video_low\",\n      \"format\": \"video/h264-mp4\",\n      \"pix_fmt\": \"yuv420p\",\n      \"crf\": 19,\n      \"save_metadata\": true,\n      \"trim_to_audio\": false,\n      \"pingpong\": false,\n      \"save_output\": false,\n      \"images\": [\n        \"419\",\n        2\n      ]\n    },\n    \"class_type\": \"VHS_VideoCombine\",\n    \"_meta\": {\n      \"title\": \"Chunk_4_final_video_combine\"\n    }\n  },\n  \"442\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"44\",\n        0\n      ],\n      \"height\": [\n        \"44\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"443\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"443\": {\n    \"inputs\": {\n      \"factor\": 0.95,\n      \"images\": [\n        \"408\",\n        0\n      ]\n    },\n    \"class_type\": \"AdjustBrightness\",\n    \"_meta\": {\n      \"title\": \"Adjust Brightness\"\n    }\n  },\n  \"444\": {\n    \"inputs\": {\n      \"value\": \"Chunk_4_PROMPT_GOES_HERE\"\n    },\n    \"class_type\": \"PrimitiveStringMultiline\",\n    \"_meta\": {\n      \"title\": \"Prompt_Chunk_4\"\n    }\n  },\n  \"445\": {\n    \"inputs\": {\n      \"text\": [\n        \"444\",\n        0\n      ],\n      \"clip\": [\n        \"7\",\n        0\n      ]\n    },\n    \"class_type\": \"CLIPTextEncode\",\n    \"_meta\": {\n      \"title\": \"CLIP Text Encode (Prompt)\"\n    }\n  },\n  \"446\": {\n    \"inputs\": {\n      \"image\": [\n        \"349\",\n        0\n      ]\n    },\n    \"class_type\": \"GetImageSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"INPUT IMAGES\"\n    }\n  },\n  \"447\": {\n    \"inputs\": {\n      \"latent\": [\n        \"348\",\n        0\n      ]\n    },\n    \"class_type\": \"GetLatentSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"INPUT LATENTS\"\n    }\n  },\n  \"448\": {\n    \"inputs\": {\n      \"latent\": [\n        \"417\",\n        1\n      ]\n    },\n    \"class_type\": \"GetLatentSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"OUTPUT LATENTS\"\n    }\n  },\n  \"449\": {\n    \"inputs\": {\n      \"image\": [\n        \"419\",\n        2\n      ]\n    },\n    \"class_type\": \"GetImageSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"OUTPUT IMAGES\"\n    }\n  },\n  \"451\": {\n    \"inputs\": {\n      \"value\": 81\n    },\n    \"class_type\": \"PrimitiveInt\",\n    \"_meta\": {\n      \"title\": \"Frames_Count_Chunk_4\"\n    }\n  },\n  \"508\": {\n    \"inputs\": {\n      \"samples\": [\n        \"515\",\n        1\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEDecode\",\n    \"_meta\": {\n      \"title\": \"VAE Decode\"\n    }\n  },\n  \"509\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"528\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"510\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"43\",\n        0\n      ],\n      \"height\": [\n        \"43\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"48\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"511\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"43\",\n        0\n      ],\n      \"height\": [\n        \"43\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"546\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"512\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"510\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"513\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"511\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"514\": {\n    \"inputs\": {\n      \"cfg\": [\n        \"34\",\n        0\n      ],\n      \"model\": [\n        \"535\",\n        0\n      ],\n      \"positive\": [\n        \"534\",\n        0\n      ],\n      \"negative\": [\n        \"534\",\n        1\n      ]\n    },\n    \"class_type\": \"CFGGuider\",\n    \"_meta\": {\n      \"title\": \"CFGGuider\"\n    }\n  },\n  \"515\": {\n    \"inputs\": {\n      \"noise\": [\n        \"530\",\n        0\n      ],\n      \"guider\": [\n        \"514\",\n        0\n      ],\n      \"sampler\": [\n        \"22\",\n        0\n      ],\n      \"sigmas\": [\n        \"40\",\n        0\n      ],\n      \"latent_image\": [\n        \"534\",\n        2\n      ]\n    },\n    \"class_type\": \"SamplerCustomAdvanced\",\n    \"_meta\": {\n      \"title\": \"SamplerCustomAdvanced\"\n    }\n  },\n  \"516\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"542\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"517\": {\n    \"inputs\": {\n      \"noise\": [\n        \"533\",\n        0\n      ],\n      \"guider\": [\n        \"531\",\n        0\n      ],\n      \"sampler\": [\n        \"30\",\n        0\n      ],\n      \"sigmas\": [\n        \"37\",\n        0\n      ],\n      \"latent_image\": [\n        \"516\",\n        0\n      ]\n    },\n    \"class_type\": \"SamplerCustomAdvanced\",\n    \"_meta\": {\n      \"title\": \"SamplerCustomAdvanced\"\n    }\n  },\n  \"518\": {\n    \"inputs\": {\n      \"samples\": [\n        \"517\",\n        1\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEDecode\",\n    \"_meta\": {\n      \"title\": \"VAE Decode\"\n    }\n  },\n  \"519\": {\n    \"inputs\": {\n      \"overlap\": 5,\n      \"overlap_side\": \"source\",\n      \"overlap_mode\": \"ease_in_out\",\n      \"source_images\": [\n        \"546\",\n        0\n      ],\n      \"new_images\": [\n        \"518\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageBatchExtendWithOverlap\",\n    \"_meta\": {\n      \"title\": \"Image Batch Extend With Overlap\"\n    }\n  },\n  \"523\": {\n    \"inputs\": {\n      \"toggle\": true,\n      \"mode\": \"simple\",\n      \"num_loras\": 6,\n      \"lora_1_name\": [\n        \"25\",\n        0\n      ],\n      \"lora_1_strength\": 1,\n      \"lora_1_model_strength\": 1,\n      \"lora_1_clip_strength\": 1,\n      \"lora_2_name\": [\n        \"28\",\n        0\n      ],\n      \"lora_2_strength\": [\n        \"45\",\n        0\n      ],\n      \"lora_2_model_strength\": 1,\n      \"lora_2_clip_strength\": 1,\n      \"lora_3_name\": \"None\",\n      \"lora_3_strength\": 1,\n      \"lora_3_model_strength\": 1,\n      \"lora_3_clip_strength\": 1,\n      \"lora_4_name\": \"None\",\n      \"lora_4_strength\": 1,\n      \"lora_4_model_strength\": 1,\n      \"lora_4_clip_strength\": 1,\n      \"lora_5_name\": \"None\",\n      \"lora_5_strength\": 1,\n      \"lora_5_model_strength\": 1,\n      \"lora_5_clip_strength\": 1,\n      \"lora_6_name\": \"None\",\n      \"lora_6_strength\": 1,\n      \"lora_6_model_strength\": 1,\n      \"lora_6_clip_strength\": 1,\n      \"lora_7_name\": \"None\",\n      \"lora_7_strength\": 1,\n      \"lora_7_model_strength\": 1,\n      \"lora_7_clip_strength\": 1,\n      \"lora_8_name\": \"None\",\n      \"lora_8_strength\": 1,\n      \"lora_8_model_strength\": 1,\n      \"lora_8_clip_strength\": 1,\n      \"lora_9_name\": \"None\",\n      \"lora_9_strength\": 1,\n      \"lora_9_model_strength\": 1,\n      \"lora_9_clip_strength\": 1,\n      \"lora_10_name\": \"None\",\n      \"lora_10_strength\": 1,\n      \"lora_10_model_strength\": 1,\n      \"lora_10_clip_strength\": 1\n    },\n    \"class_type\": \"easy loraStack\",\n    \"_meta\": {\n      \"title\": \"Low LoRAs\"\n    }\n  },\n  \"524\": {\n    \"inputs\": {\n      \"lora_stack\": [\n        \"523\",\n        0\n      ],\n      \"model\": [\n        \"15\",\n        0\n      ]\n    },\n    \"class_type\": \"easy loraStackApply\",\n    \"_meta\": {\n      \"title\": \"Easy Apply LoraStack\"\n    }\n  },\n  \"526\": {\n    \"inputs\": {\n      \"frame_rate\": 16,\n      \"loop_count\": 0,\n      \"filename_prefix\": \"extended_video_high\",\n      \"format\": \"video/h264-mp4\",\n      \"pix_fmt\": \"yuv420p\",\n      \"crf\": 19,\n      \"save_metadata\": true,\n      \"trim_to_audio\": false,\n      \"pingpong\": false,\n      \"save_output\": false,\n      \"images\": [\n        \"508\",\n        0\n      ]\n    },\n    \"class_type\": \"VHS_VideoCombine\",\n    \"_meta\": {\n      \"title\": \"Chunk_5_pre_video_combine\"\n    }\n  },\n  \"527\": {\n    \"inputs\": {\n      \"length\": [\n        \"551\",\n        0\n      ],\n      \"motion_latent_count\": 1,\n      \"positive\": [\n        \"545\",\n        0\n      ],\n      \"negative\": [\n        \"31\",\n        0\n      ],\n      \"anchor_samples\": [\n        \"509\",\n        0\n      ],\n      \"prev_samples\": [\n        \"547\",\n        0\n      ]\n    },\n    \"class_type\": \"WanImageToVideoSVIPro\",\n    \"_meta\": {\n      \"title\": \"WanImageToVideoSVIPro\"\n    }\n  },\n  \"528\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"44\",\n        0\n      ],\n      \"height\": [\n        \"44\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"48\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"530\": {\n    \"inputs\": {\n      \"noise_seed\": 7859\n    },\n    \"class_type\": \"RandomNoise\",\n    \"_meta\": {\n      \"title\": \"High_Noise_Chunk_5\"\n    }\n  },\n  \"531\": {\n    \"inputs\": {\n      \"cfg\": 1,\n      \"model\": [\n        \"524\",\n        0\n      ],\n      \"positive\": [\n        \"527\",\n        0\n      ],\n      \"negative\": [\n        \"527\",\n        1\n      ]\n    },\n    \"class_type\": \"CFGGuider\",\n    \"_meta\": {\n      \"title\": \"CFGGuider\"\n    }\n  },\n  \"533\": {\n    \"inputs\": {\n      \"noise_seed\": 5925\n    },\n    \"class_type\": \"RandomNoise\",\n    \"_meta\": {\n      \"title\": \"Low_Noise_Chunk_5\"\n    }\n  },\n  \"534\": {\n    \"inputs\": {\n      \"length\": [\n        \"551\",\n        0\n      ],\n      \"motion_latent_count\": 1,\n      \"positive\": [\n        \"545\",\n        0\n      ],\n      \"negative\": [\n        \"31\",\n        0\n      ],\n      \"anchor_samples\": [\n        \"512\",\n        0\n      ],\n      \"prev_samples\": [\n        \"513\",\n        0\n      ]\n    },\n    \"class_type\": \"WanImageToVideoSVIPro\",\n    \"_meta\": {\n      \"title\": \"WanImageToVideoSVIPro\"\n    }\n  },\n  \"535\": {\n    \"inputs\": {\n      \"lora_stack\": [\n        \"537\",\n        0\n      ],\n      \"model\": [\n        \"17\",\n        0\n      ]\n    },\n    \"class_type\": \"easy loraStackApply\",\n    \"_meta\": {\n      \"title\": \"Easy Apply LoraStack\"\n    }\n  },\n  \"537\": {\n    \"inputs\": {\n      \"toggle\": true,\n      \"mode\": \"simple\",\n      \"num_loras\": 6,\n      \"lora_1_name\": [\n        \"23\",\n        0\n      ],\n      \"lora_1_strength\": 1,\n      \"lora_1_model_strength\": 1,\n      \"lora_1_clip_strength\": 1,\n      \"lora_2_name\": \"None\",\n      \"lora_2_strength\": 1,\n      \"lora_2_model_strength\": 1,\n      \"lora_2_clip_strength\": 1,\n      \"lora_3_name\": \"None\",\n      \"lora_3_strength\": 1,\n      \"lora_3_model_strength\": 1,\n      \"lora_3_clip_strength\": 1,\n      \"lora_4_name\": \"None\",\n      \"lora_4_strength\": 1,\n      \"lora_4_model_strength\": 1,\n      \"lora_4_clip_strength\": 1,\n      \"lora_5_name\": \"None\",\n      \"lora_5_strength\": 1,\n      \"lora_5_model_strength\": 1,\n      \"lora_5_clip_strength\": 1,\n      \"lora_6_name\": \"None\",\n      \"lora_6_strength\": 1,\n      \"lora_6_model_strength\": 1,\n      \"lora_6_clip_strength\": 1,\n      \"lora_7_name\": \"None\",\n      \"lora_7_strength\": 1,\n      \"lora_7_model_strength\": 1,\n      \"lora_7_clip_strength\": 1,\n      \"lora_8_name\": \"None\",\n      \"lora_8_strength\": 1,\n      \"lora_8_model_strength\": 1,\n      \"lora_8_clip_strength\": 1,\n      \"lora_9_name\": \"None\",\n      \"lora_9_strength\": 1,\n      \"lora_9_model_strength\": 1,\n      \"lora_9_clip_strength\": 1,\n      \"lora_10_name\": \"None\",\n      \"lora_10_strength\": 1,\n      \"lora_10_model_strength\": 1,\n      \"lora_10_clip_strength\": 1\n    },\n    \"class_type\": \"easy loraStack\",\n    \"_meta\": {\n      \"title\": \"High LoRAs\"\n    }\n  },\n  \"539\": {\n    \"inputs\": {\n      \"frame_rate\": 16,\n      \"loop_count\": 0,\n      \"filename_prefix\": \"extended_video_low\",\n      \"format\": \"video/h264-mp4\",\n      \"pix_fmt\": \"yuv420p\",\n      \"crf\": 19,\n      \"save_metadata\": true,\n      \"trim_to_audio\": false,\n      \"pingpong\": false,\n      \"save_output\": false,\n      \"images\": [\n        \"519\",\n        2\n      ]\n    },\n    \"class_type\": \"VHS_VideoCombine\",\n    \"_meta\": {\n      \"title\": \"Chunk_5_final_video_combine\"\n    }\n  },\n  \"542\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"44\",\n        0\n      ],\n      \"height\": [\n        \"44\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"543\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"543\": {\n    \"inputs\": {\n      \"factor\": 0.95,\n      \"images\": [\n        \"508\",\n        0\n      ]\n    },\n    \"class_type\": \"AdjustBrightness\",\n    \"_meta\": {\n      \"title\": \"Adjust Brightness\"\n    }\n  },\n  \"544\": {\n    \"inputs\": {\n      \"value\": \"Chunk_5_PROMPT_GOES_HERE\"\n    },\n    \"class_type\": \"PrimitiveStringMultiline\",\n    \"_meta\": {\n      \"title\": \"Prompt_Chunk_5\"\n    }\n  },\n  \"545\": {\n    \"inputs\": {\n      \"text\": [\n        \"544\",\n        0\n      ],\n      \"clip\": [\n        \"7\",\n        0\n      ]\n    },\n    \"class_type\": \"CLIPTextEncode\",\n    \"_meta\": {\n      \"title\": \"CLIP Text Encode (Prompt)\"\n    }\n  },\n  \"546\": {\n    \"inputs\": {\n      \"image\": [\n        \"449\",\n        0\n      ]\n    },\n    \"class_type\": \"GetImageSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"INPUT IMAGES\"\n    }\n  },\n  \"547\": {\n    \"inputs\": {\n      \"latent\": [\n        \"448\",\n        0\n      ]\n    },\n    \"class_type\": \"GetLatentSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"INPUT LATENTS\"\n    }\n  },\n  \"548\": {\n    \"inputs\": {\n      \"latent\": [\n        \"517\",\n        1\n      ]\n    },\n    \"class_type\": \"GetLatentSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"OUTPUT LATENTS\"\n    }\n  },\n  \"549\": {\n    \"inputs\": {\n      \"image\": [\n        \"519\",\n        2\n      ]\n    },\n    \"class_type\": \"GetImageSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"OUTPUT IMAGES\"\n    }\n  },\n  \"551\": {\n    \"inputs\": {\n      \"value\": 81\n    },\n    \"class_type\": \"PrimitiveInt\",\n    \"_meta\": {\n      \"title\": \"Frames_Count_Chunk_5\"\n    }\n  },\n  \"608\": {\n    \"inputs\": {\n      \"samples\": [\n        \"615\",\n        1\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEDecode\",\n    \"_meta\": {\n      \"title\": \"VAE Decode\"\n    }\n  },\n  \"609\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"628\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"610\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"43\",\n        0\n      ],\n      \"height\": [\n        \"43\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"48\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"611\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"43\",\n        0\n      ],\n      \"height\": [\n        \"43\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"646\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"612\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"610\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"613\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"611\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"614\": {\n    \"inputs\": {\n      \"cfg\": [\n        \"34\",\n        0\n      ],\n      \"model\": [\n        \"635\",\n        0\n      ],\n      \"positive\": [\n        \"634\",\n        0\n      ],\n      \"negative\": [\n        \"634\",\n        1\n      ]\n    },\n    \"class_type\": \"CFGGuider\",\n    \"_meta\": {\n      \"title\": \"CFGGuider\"\n    }\n  },\n  \"615\": {\n    \"inputs\": {\n      \"noise\": [\n        \"630\",\n        0\n      ],\n      \"guider\": [\n        \"614\",\n        0\n      ],\n      \"sampler\": [\n        \"22\",\n        0\n      ],\n      \"sigmas\": [\n        \"40\",\n        0\n      ],\n      \"latent_image\": [\n        \"634\",\n        2\n      ]\n    },\n    \"class_type\": \"SamplerCustomAdvanced\",\n    \"_meta\": {\n      \"title\": \"SamplerCustomAdvanced\"\n    }\n  },\n  \"616\": {\n    \"inputs\": {\n      \"pixels\": [\n        \"642\",\n        0\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEEncode\",\n    \"_meta\": {\n      \"title\": \"VAE Encode\"\n    }\n  },\n  \"617\": {\n    \"inputs\": {\n      \"noise\": [\n        \"633\",\n        0\n      ],\n      \"guider\": [\n        \"631\",\n        0\n      ],\n      \"sampler\": [\n        \"30\",\n        0\n      ],\n      \"sigmas\": [\n        \"37\",\n        0\n      ],\n      \"latent_image\": [\n        \"616\",\n        0\n      ]\n    },\n    \"class_type\": \"SamplerCustomAdvanced\",\n    \"_meta\": {\n      \"title\": \"SamplerCustomAdvanced\"\n    }\n  },\n  \"618\": {\n    \"inputs\": {\n      \"samples\": [\n        \"617\",\n        1\n      ],\n      \"vae\": [\n        \"9\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEDecode\",\n    \"_meta\": {\n      \"title\": \"VAE Decode\"\n    }\n  },\n  \"619\": {\n    \"inputs\": {\n      \"overlap\": 5,\n      \"overlap_side\": \"source\",\n      \"overlap_mode\": \"ease_in_out\",\n      \"source_images\": [\n        \"646\",\n        0\n      ],\n      \"new_images\": [\n        \"618\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageBatchExtendWithOverlap\",\n    \"_meta\": {\n      \"title\": \"Image Batch Extend With Overlap\"\n    }\n  },\n  \"623\": {\n    \"inputs\": {\n      \"toggle\": true,\n      \"mode\": \"simple\",\n      \"num_loras\": 6,\n      \"lora_1_name\": [\n        \"25\",\n        0\n      ],\n      \"lora_1_strength\": 1,\n      \"lora_1_model_strength\": 1,\n      \"lora_1_clip_strength\": 1,\n      \"lora_2_name\": [\n        \"28\",\n        0\n      ],\n      \"lora_2_strength\": [\n        \"45\",\n        0\n      ],\n      \"lora_2_model_strength\": 1,\n      \"lora_2_clip_strength\": 1,\n      \"lora_3_name\": \"None\",\n      \"lora_3_strength\": 1,\n      \"lora_3_model_strength\": 1,\n      \"lora_3_clip_strength\": 1,\n      \"lora_4_name\": \"None\",\n      \"lora_4_strength\": 1,\n      \"lora_4_model_strength\": 1,\n      \"lora_4_clip_strength\": 1,\n      \"lora_5_name\": \"None\",\n      \"lora_5_strength\": 1,\n      \"lora_5_model_strength\": 1,\n      \"lora_5_clip_strength\": 1,\n      \"lora_6_name\": \"None\",\n      \"lora_6_strength\": 1,\n      \"lora_6_model_strength\": 1,\n      \"lora_6_clip_strength\": 1,\n      \"lora_7_name\": \"None\",\n      \"lora_7_strength\": 1,\n      \"lora_7_model_strength\": 1,\n      \"lora_7_clip_strength\": 1,\n      \"lora_8_name\": \"None\",\n      \"lora_8_strength\": 1,\n      \"lora_8_model_strength\": 1,\n      \"lora_8_clip_strength\": 1,\n      \"lora_9_name\": \"None\",\n      \"lora_9_strength\": 1,\n      \"lora_9_model_strength\": 1,\n      \"lora_9_clip_strength\": 1,\n      \"lora_10_name\": \"None\",\n      \"lora_10_strength\": 1,\n      \"lora_10_model_strength\": 1,\n      \"lora_10_clip_strength\": 1\n    },\n    \"class_type\": \"easy loraStack\",\n    \"_meta\": {\n      \"title\": \"Low LoRAs\"\n    }\n  },\n  \"624\": {\n    \"inputs\": {\n      \"lora_stack\": [\n        \"623\",\n        0\n      ],\n      \"model\": [\n        \"15\",\n        0\n      ]\n    },\n    \"class_type\": \"easy loraStackApply\",\n    \"_meta\": {\n      \"title\": \"Easy Apply LoraStack\"\n    }\n  },\n  \"626\": {\n    \"inputs\": {\n      \"frame_rate\": 16,\n      \"loop_count\": 0,\n      \"filename_prefix\": \"extended_video_high\",\n      \"format\": \"video/h264-mp4\",\n      \"pix_fmt\": \"yuv420p\",\n      \"crf\": 19,\n      \"save_metadata\": true,\n      \"trim_to_audio\": false,\n      \"pingpong\": false,\n      \"save_output\": false,\n      \"images\": [\n        \"608\",\n        0\n      ]\n    },\n    \"class_type\": \"VHS_VideoCombine\",\n    \"_meta\": {\n      \"title\": \"Chunk_6_pre_video_combine\"\n    }\n  },\n  \"627\": {\n    \"inputs\": {\n      \"length\": [\n        \"651\",\n        0\n      ],\n      \"motion_latent_count\": 1,\n      \"positive\": [\n        \"645\",\n        0\n      ],\n      \"negative\": [\n        \"31\",\n        0\n      ],\n      \"anchor_samples\": [\n        \"609\",\n        0\n      ],\n      \"prev_samples\": [\n        \"647\",\n        0\n      ]\n    },\n    \"class_type\": \"WanImageToVideoSVIPro\",\n    \"_meta\": {\n      \"title\": \"WanImageToVideoSVIPro\"\n    }\n  },\n  \"628\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"44\",\n        0\n      ],\n      \"height\": [\n        \"44\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"48\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"630\": {\n    \"inputs\": {\n      \"noise_seed\": 7158\n    },\n    \"class_type\": \"RandomNoise\",\n    \"_meta\": {\n      \"title\": \"High_Noise_Chunk_6\"\n    }\n  },\n  \"631\": {\n    \"inputs\": {\n      \"cfg\": 1,\n      \"model\": [\n        \"624\",\n        0\n      ],\n      \"positive\": [\n        \"627\",\n        0\n      ],\n      \"negative\": [\n        \"627\",\n        1\n      ]\n    },\n    \"class_type\": \"CFGGuider\",\n    \"_meta\": {\n      \"title\": \"CFGGuider\"\n    }\n  },\n  \"633\": {\n    \"inputs\": {\n      \"noise_seed\": 12110\n    },\n    \"class_type\": \"RandomNoise\",\n    \"_meta\": {\n      \"title\": \"Low_Noise_Chunk_6\"\n    }\n  },\n  \"634\": {\n    \"inputs\": {\n      \"length\": [\n        \"651\",\n        0\n      ],\n      \"motion_latent_count\": 1,\n      \"positive\": [\n        \"645\",\n        0\n      ],\n      \"negative\": [\n        \"31\",\n        0\n      ],\n      \"anchor_samples\": [\n        \"612\",\n        0\n      ],\n      \"prev_samples\": [\n        \"613\",\n        0\n      ]\n    },\n    \"class_type\": \"WanImageToVideoSVIPro\",\n    \"_meta\": {\n      \"title\": \"WanImageToVideoSVIPro\"\n    }\n  },\n  \"635\": {\n    \"inputs\": {\n      \"lora_stack\": [\n        \"637\",\n        0\n      ],\n      \"model\": [\n        \"17\",\n        0\n      ]\n    },\n    \"class_type\": \"easy loraStackApply\",\n    \"_meta\": {\n      \"title\": \"Easy Apply LoraStack\"\n    }\n  },\n  \"637\": {\n    \"inputs\": {\n      \"toggle\": true,\n      \"mode\": \"simple\",\n      \"num_loras\": 6,\n      \"lora_1_name\": [\n        \"23\",\n        0\n      ],\n      \"lora_1_strength\": 1,\n      \"lora_1_model_strength\": 1,\n      \"lora_1_clip_strength\": 1,\n      \"lora_2_name\": \"None\",\n      \"lora_2_strength\": 1,\n      \"lora_2_model_strength\": 1,\n      \"lora_2_clip_strength\": 1,\n      \"lora_3_name\": \"None\",\n      \"lora_3_strength\": 1,\n      \"lora_3_model_strength\": 1,\n      \"lora_3_clip_strength\": 1,\n      \"lora_4_name\": \"None\",\n      \"lora_4_strength\": 1,\n      \"lora_4_model_strength\": 1,\n      \"lora_4_clip_strength\": 1,\n      \"lora_5_name\": \"None\",\n      \"lora_5_strength\": 1,\n      \"lora_5_model_strength\": 1,\n      \"lora_5_clip_strength\": 1,\n      \"lora_6_name\": \"None\",\n      \"lora_6_strength\": 1,\n      \"lora_6_model_strength\": 1,\n      \"lora_6_clip_strength\": 1,\n      \"lora_7_name\": \"None\",\n      \"lora_7_strength\": 1,\n      \"lora_7_model_strength\": 1,\n      \"lora_7_clip_strength\": 1,\n      \"lora_8_name\": \"None\",\n      \"lora_8_strength\": 1,\n      \"lora_8_model_strength\": 1,\n      \"lora_8_clip_strength\": 1,\n      \"lora_9_name\": \"None\",\n      \"lora_9_strength\": 1,\n      \"lora_9_model_strength\": 1,\n      \"lora_9_clip_strength\": 1,\n      \"lora_10_name\": \"None\",\n      \"lora_10_strength\": 1,\n      \"lora_10_model_strength\": 1,\n      \"lora_10_clip_strength\": 1\n    },\n    \"class_type\": \"easy loraStack\",\n    \"_meta\": {\n      \"title\": \"High LoRAs\"\n    }\n  },\n  \"639\": {\n    \"inputs\": {\n      \"frame_rate\": 16,\n      \"loop_count\": 0,\n      \"filename_prefix\": \"extended_video_low\",\n      \"format\": \"video/h264-mp4\",\n      \"pix_fmt\": \"yuv420p\",\n      \"crf\": 19,\n      \"save_metadata\": true,\n      \"trim_to_audio\": false,\n      \"pingpong\": false,\n      \"save_output\": true,\n      \"images\": [\n        \"619\",\n        2\n      ]\n    },\n    \"class_type\": \"VHS_VideoCombine\",\n    \"_meta\": {\n      \"title\": \"Chunk_6_final_video_combine\"\n    }\n  },\n  \"642\": {\n    \"inputs\": {\n      \"upscale_method\": \"lanczos\",\n      \"width\": [\n        \"44\",\n        0\n      ],\n      \"height\": [\n        \"44\",\n        1\n      ],\n      \"crop\": \"disabled\",\n      \"image\": [\n        \"643\",\n        0\n      ]\n    },\n    \"class_type\": \"ImageScale\",\n    \"_meta\": {\n      \"title\": \"Upscale Image\"\n    }\n  },\n  \"643\": {\n    \"inputs\": {\n      \"factor\": 0.95,\n      \"images\": [\n        \"608\",\n        0\n      ]\n    },\n    \"class_type\": \"AdjustBrightness\",\n    \"_meta\": {\n      \"title\": \"Adjust Brightness\"\n    }\n  },\n  \"644\": {\n    \"inputs\": {\n      \"value\": \"Chunk_6_PROMPT_GOES_HERE\"\n    },\n    \"class_type\": \"PrimitiveStringMultiline\",\n    \"_meta\": {\n      \"title\": \"Prompt_Chunk_6\"\n    }\n  },\n  \"645\": {\n    \"inputs\": {\n      \"text\": [\n        \"644\",\n        0\n      ],\n      \"clip\": [\n        \"7\",\n        0\n      ]\n    },\n    \"class_type\": \"CLIPTextEncode\",\n    \"_meta\": {\n      \"title\": \"CLIP Text Encode (Prompt)\"\n    }\n  },\n  \"646\": {\n    \"inputs\": {\n      \"image\": [\n        \"549\",\n        0\n      ]\n    },\n    \"class_type\": \"GetImageSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"INPUT IMAGES\"\n    }\n  },\n  \"647\": {\n    \"inputs\": {\n      \"latent\": [\n        \"548\",\n        0\n      ]\n    },\n    \"class_type\": \"GetLatentSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"INPUT LATENTS\"\n    }\n  },\n  \"648\": {\n    \"inputs\": {\n      \"latent\": [\n        \"617\",\n        1\n      ]\n    },\n    \"class_type\": \"GetLatentSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"OUTPUT LATENTS\"\n    }\n  },\n  \"649\": {\n    \"inputs\": {\n      \"image\": [\n        \"619\",\n        2\n      ]\n    },\n    \"class_type\": \"GetImageSizeAndCount\",\n    \"_meta\": {\n      \"title\": \"OUTPUT IMAGES\"\n    }\n  },\n  \"651\": {\n    \"inputs\": {\n      \"value\": 81\n    },\n    \"class_type\": \"PrimitiveInt\",\n    \"_meta\": {\n      \"title\": \"Frames_Count_Chunk_6\"\n    }\n  }\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4400,
+        224
+      ],
+      "id": "e42e40b6-308d-4369-a330-29dfd49d8f2d",
+      "name": "Set ubai7vcm50 I2V Workflow Base"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "uploadComfyUiFileRequest",
+            "runpodUseVolume": "={{ false }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTemplateId }}",
+            "runpodVolumeId": "={{ \"\" }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "comfyUiRequest": "={{ $json.filePath }}",
+            "index": "={{ 0 }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodUseVolume",
+              "displayName": "runpodUseVolume",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "boolean",
+              "removed": false
+            },
+            {
+              "id": "runpodVolumeId",
+              "displayName": "runpodVolumeId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4160,
+        224
+      ],
+      "id": "13cf1c00-70c7-4f05-8905-0c939e85ac54",
+      "name": "upload runpod comfyui file",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "784b44fe-a762-4255-a41a-09bff6c1645b",
+              "name": "filePath",
+              "value": "={{ {\n\"filePath\": $('Start').first().json.channelsFolderPath +\"/\"+ $('Start').first().json.channelName +\"/VIDEOS/\"+ $('Start').first().json.videoFolderName + \"/CLIPS/startFrames/\"+  $('get prompts, filenames').item.json.fileName.slice(0,11) + \".png\"\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3968,
+        224
+      ],
+      "id": "e94e0121-f375-4be3-9b2d-637acb562eb9",
+      "name": "set filepath to upload from"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b838a0db-de7b-412b-bf0a-98d59eec900c",
+              "name": "chunksPositivePrompts",
+              "value": "={{ $json.videoClipPrompts }}",
+              "type": "array"
+            },
+            {
+              "id": "34d4782e-6e9a-441f-9ddf-64b6d23c1e7c",
+              "name": "chunksFramesCount",
+              "value": "={{ (()=>{\nlet chunksFramesCount = []\n\nconst clipFps = $('get all workflow params').first().json.clipFps\n\nconst videoModelClipDurationLimitationMs = $('get all workflow params').first().json.videoModelLimitationOnTheGeneratedVideoDurationMs\n\nconst currentVisualDurationMs = $('Split Out').item.json.meta.durMs\n\nconst needChunksToCoverWantedClipDuration =\nMath.ceil(currentVisualDurationMs/videoModelClipDurationLimitationMs)\n\nfor (let i = 0; i < needChunksToCoverWantedClipDuration; i++) {\n\n  if (i < needChunksToCoverWantedClipDuration-1){\n    chunksFramesCount.push(videoModelClipDurationLimitationMs/1000*clipFps+1)\n  }\n  if (i >= needChunksToCoverWantedClipDuration-1){\n    chunksFramesCount.push(Math.ceil(videoModelClipDurationLimitationMs/1000*clipFps*currentVisualDurationMs%videoModelClipDurationLimitationMs/1000*clipFps)+1)\n  }\n}\n\nreturn chunksFramesCount\n})() }}",
+              "type": "array"
+            },
+            {
+              "id": "c855e136-51a3-4efb-a159-d4c616716aca",
+              "name": "negativePrompt",
+              "value": "={{ $json.hasField('negativePrompt') ? $json.negativePrompt : \"nothing is happening, standing still, rigid body bends, rigid object deformation, unnatural bending of hard surfaces, warped mechanical parts, slowmo, reversed, walking backwards, noisy, film grain, blurred background, low-quality, standing idle, felt style, pixel art style, puppet animation, claymation style, stop-motion, watercolor painting, oil painting style, time-lapse, fade-out, fade-in, shot transition, scene transition, abrupt transition, jump cut, cut to another shot, multi-shot sequence, edit-like transition, dissolve transition, crossfade, montage, sudden scene change, frame blending between shots, jittery, shaky footage\" }}",
+              "type": "string"
+            },
+            {
+              "id": "c0923bce-18a2-4d29-8631-729f397e2637",
+              "name": "clipWidth",
+              "value": "={{ $('get all workflow params').first().json.clipWidth }}",
+              "type": "number"
+            },
+            {
+              "id": "1820dabd-6ad3-428d-8bb0-53d7fc743e39",
+              "name": "clipHeight",
+              "value": "={{ $('get all workflow params').first().json.clipHeight }}",
+              "type": "number"
+            },
+            {
+              "id": "1b1f620e-6e4d-455b-8580-e61e5704a6a2",
+              "name": "clipAspectRatio",
+              "value": "16:9",
+              "type": "string"
+            },
+            {
+              "id": "ad18b5fb-f08f-4b5e-928f-babf396ba2ac",
+              "name": "startFrameFileName",
+              "value": "={{ $('get prompts, filenames').item.json.fileName.slice(0,11) + \".png\" }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3568,
+        224
+      ],
+      "id": "b546c7ee-e5da-4f0b-a88c-611c3169ad3a",
+      "name": "set clip params"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        3968,
+        416
+      ],
+      "id": "70b424e7-0882-4e1a-951b-bce00265516c",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        4704,
+        416
+      ],
+      "id": "16b8f320-4238-440c-b268-8be981176891",
+      "name": "Limit"
+    }
+  ],
+  "connections": {
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "set clips ready",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "check ready clips files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check ready clips files": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set clips ready": {
+      "main": [
+        [
+          {
+            "node": "send terminate pod gen request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "filter done parts": {
+      "main": [
+        []
+      ]
+    },
+    "runpod generations manager": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit1": {
+      "main": [
+        []
+      ]
+    },
+    "if pod ready": {
+      "main": [
+        [
+          {
+            "node": "check ready clips",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "get all workflow params",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get all workflow params": {
+      "main": [
+        [
+          {
+            "node": "clip gen service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "start runpod pod": {
+      "main": [
+        [
+          {
+            "node": "if pod ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "clip gen service": {
+      "main": [
+        [],
+        [],
+        [
+          {
+            "node": "start runpod pod",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get start/end ms of each scentance from transcript": {
+      "main": [
+        [
+          {
+            "node": "Define Visuals Duration(normalized)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check ready clips": {
+      "main": [
+        [
+          {
+            "node": "get start/end ms of each scentance from transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get prompts, filenames": {
+      "main": [
+        [
+          {
+            "node": "If Equal Prompts and Visuals Quantity",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define Visuals Duration(normalized)": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "get prompts, filenames",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Equal Prompts and Visuals Quantity": {
+      "main": [
+        [
+          {
+            "node": "set clip params",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Limit2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit2": {
+      "main": [
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send runpod gen request": {
+      "main": [
+        []
+      ]
+    },
+    "filter ready clips": {
+      "main": [
+        [
+          {
+            "node": "set filepath to upload from",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set ubai7vcm50 I2V Workflow Base": {
+      "main": [
+        [
+          {
+            "node": "SET ubai7vcm50 I2V workflow image size, lora Chunk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set filepath to upload from": {
+      "main": [
+        [
+          {
+            "node": "upload runpod comfyui file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upload runpod comfyui file": {
+      "main": [
+        [
+          {
+            "node": "Set ubai7vcm50 I2V Workflow Base",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set clip params": {
+      "main": [
+        [
+          {
+            "node": "filter ready clips",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET ubai7vcm50 I2V workflow image size, lora Chunk": {
+      "main": [
+        [
+          {
+            "node": "send runpod gen request",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "runpod generations manager",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "check ready clips files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "channelsFolderPath": "C:/Users/V/Desktop/Channels",
+          "channelName": "LifeOfAPirate",
+          "videoFolderName": "2026-02-26_bgPMp"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "upload runpod comfyui file": [
+      {
+        "json": {
+          "name": "bgPMp_00084.png",
+          "subfolder": "",
+          "type": "input"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "name": "bgPMp_00085.png",
+          "subfolder": "",
+          "type": "input"
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      }
+    ],
+    "start runpod pod": [
+      {
+        "json": {
+          "podStatus": "ready",
+          "fileName": "podStatus.json"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "88c7f67c-c8b2-4ade-93c0-54fdc46fad2c",
+  "activeVersionId": "88c7f67c-c8b2-4ade-93c0-54fdc46fad2c",
+  "versionCounter": 1648,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-05T15:40:02.771Z",
+      "createdAt": "2026-02-05T15:40:02.771Z",
+      "role": "workflow:owner",
+      "workflowId": "l0p4y5gFr4cklXjY",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

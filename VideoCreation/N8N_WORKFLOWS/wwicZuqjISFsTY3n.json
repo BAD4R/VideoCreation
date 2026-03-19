@@ -1,0 +1,82 @@
+{
+  "updatedAt": "2026-03-16T14:08:31.277Z",
+  "createdAt": "2026-03-16T11:14:09.995Z",
+  "id": "wwicZuqjISFsTY3n",
+  "name": "ComfyUI Json Workflow Works",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"workflow\": {},\n  \"actions\": []\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "/**\n * ==========================================================\n * КАК РАБОТАТЬ С ЭТИМ КОДОМ (простыми словами)\n * ==========================================================\n * 1) Ты задаешь 2 переменные сверху:\n *    - WORKFLOW: текущий ComfyUI workflow JSON (объект или строка JSON)\n *    - ACTIONS: список действий (массив или строка JSON)\n *\n * 2) Код применяет ACTIONS по порядку и возвращает обновленный workflow.\n *\n * 3) Что можно делать через ACTIONS:\n *    - addNode      -> добавить ноду\n *    - connect      -> добавить связь\n *    - disconnect   -> удалить связь\n *    - removeNode   -> удалить ноду (и все входящие ссылки на нее)\n *\n * 4) Важно:\n *    - Для ComfyUI id лучше числовые (\"115\", \"116\"...)\n *    - Порядок ACTIONS имеет значение (действия выполняются сверху вниз)\n *    - Можно добавлять сразу много нод за один запуск\n *\n * ----------------------------------------------------------\n * Пример ACTIONS:\n * [\n *   {\n *     \"type\": \"addNode\",\n *     \"ref\": \"lora1\",\n *     \"node\": {\n *       \"class_type\": \"LoraLoaderModelOnly\",\n *       \"_meta\": { \"title\": \"Load LoRA\" },\n *       \"inputs\": { \"lora_name\": \"geminicomics_style.safetensors\", \"strength_model\": 1 }\n *     },\n *     \"connectInputs\": { \"model\": [\"122\", 0] }\n *   },\n *   {\n *     \"type\": \"connect\",\n *     \"fromRef\": \"lora1\",\n *     \"fromOutput\": 0,\n *     \"toNodeId\": \"130\",\n *     \"toInput\": \"model\"\n *   }\n * ]\n *\n * Где можно использовать ссылку на только что добавленную ноду:\n * - \"ref\": \"lora1\" в addNode\n * - потом \"fromRef\": \"lora1\" или \"toRef\": \"lora1\"\n * ==========================================================\n */\n\n// -------------------- ТВОИ ПЕРЕМЕННЫЕ --------------------\n// Подставь имена своих нод n8n:\nconst WORKFLOW = $('Start').first().json.workflow;\nconst ACTIONS = $('Start').first().json.actions;\n\n// false = разрешены только numeric id (рекомендовано для ComfyUI)\nconst ALLOW_NON_NUMERIC_IDS = false;\n// ---------------------------------------------------------\n\nfunction isObj(v) {\n  return v !== null && typeof v === 'object' && !Array.isArray(v);\n}\n\nfunction clone(v) {\n  return JSON.parse(JSON.stringify(v));\n}\n\nfunction parseJsonMaybe(value, name) {\n  if (typeof value === 'string') {\n    try {\n      return JSON.parse(value);\n    } catch (e) {\n      throw new Error(`${name}: invalid JSON string. ${e.message}`);\n    }\n  }\n  if (isObj(value) || Array.isArray(value)) return clone(value);\n  throw new Error(`${name} must be object/array or JSON string`);\n}\n\nfunction validateId(id) {\n  if (ALLOW_NON_NUMERIC_IDS) return;\n  if (!/^\\d+$/.test(String(id))) {\n    throw new Error(`Invalid node id \"${id}\". Use numeric ids for ComfyUI.`);\n  }\n}\n\nfunction makeIdAllocator(nodesMap) {\n  const used = new Set(Object.keys(nodesMap).map(String));\n  let maxNum = 0;\n\n  for (const k of used) {\n    if (/^\\d+$/.test(k)) maxNum = Math.max(maxNum, Number(k));\n  }\n\n  return {\n    reserve(id) {\n      if (used.has(id)) return false;\n      used.add(id);\n      if (/^\\d+$/.test(id)) maxNum = Math.max(maxNum, Number(id));\n      return true;\n    },\n    alloc() {\n      let n = maxNum + 1;\n      while (used.has(String(n))) n++;\n      const id = String(n);\n      used.add(id);\n      maxNum = n;\n      return id;\n    },\n  };\n}\n\n// -------- Parse workflow --------\nconst workflowRoot = parseJsonMaybe(WORKFLOW, 'WORKFLOW');\nconst hasPromptWrapper = isObj(workflowRoot.prompt);\nconst nodes = clone(hasPromptWrapper ? workflowRoot.prompt : workflowRoot);\n\nif (!isObj(nodes)) {\n  throw new Error('WORKFLOW must be a ComfyUI prompt object (nodeId -> nodeData)');\n}\n\n// -------- Parse actions --------\nconst parsedActions = parseJsonMaybe(ACTIONS, 'ACTIONS');\nconst actions = Array.isArray(parsedActions)\n  ? parsedActions\n  : (isObj(parsedActions) && Array.isArray(parsedActions.actions) ? parsedActions.actions : null);\n\nif (!Array.isArray(actions)) {\n  throw new Error('ACTIONS must be array or object with actions[]');\n}\n\nconst idMap = {}; // ref -> real node id\nconst allocator = makeIdAllocator(nodes);\n\nfunction hasNode(id) {\n  return Object.prototype.hasOwnProperty.call(nodes, String(id));\n}\n\nfunction ensureInputs(nodeId) {\n  if (!isObj(nodes[nodeId].inputs)) nodes[nodeId].inputs = {};\n}\n\nfunction assertNodeExists(id, where = '') {\n  if (!hasNode(id)) {\n    throw new Error(`Node ${id} not found${where ? ` (${where})` : ''}`);\n  }\n}\n\nfunction parseExplicitId(raw, fieldName) {\n  if (raw === undefined || raw === null) {\n    throw new Error(`${fieldName} is required`);\n  }\n  if (typeof raw === 'number') {\n    const id = String(raw);\n    validateId(id);\n    return id;\n  }\n  if (typeof raw === 'string') {\n    if (raw.startsWith('@')) {\n      throw new Error(`${fieldName} cannot be a ref (@...)`);\n    }\n    validateId(raw);\n    return raw;\n  }\n  throw new Error(`${fieldName} must be string or number`);\n}\n\nfunction resolveNodeId(raw, fieldName) {\n  if (raw === undefined || raw === null) {\n    throw new Error(`${fieldName} is required`);\n  }\n\n  if (typeof raw === 'number') {\n    const id = String(raw);\n    validateId(id);\n    return id;\n  }\n\n  if (typeof raw === 'string') {\n    if (raw.startsWith('@')) {\n      const ref = raw.slice(1);\n      if (!idMap[ref]) throw new Error(`Unknown ref \"${ref}\"`);\n      return idMap[ref];\n    }\n    validateId(raw);\n    return raw;\n  }\n\n  if (isObj(raw)) {\n    if (raw.ref) return resolveNodeId(`@${raw.ref}`, fieldName);\n    if (raw.id !== undefined) return resolveNodeId(raw.id, fieldName);\n    if (raw.nodeId !== undefined) return resolveNodeId(raw.nodeId, fieldName);\n  }\n\n  throw new Error(`Invalid ${fieldName}: ${JSON.stringify(raw)}`);\n}\n\nfunction resolveLinkSource(src, fieldName) {\n  if (Array.isArray(src)) {\n    const fromId = resolveNodeId(src[0], `${fieldName}[0]`);\n    const out = Number(src[1] ?? 0);\n    if (!Number.isInteger(out) || out < 0) {\n      throw new Error(`Invalid output index in ${fieldName}`);\n    }\n    return [fromId, out];\n  }\n\n  if (typeof src === 'string' || typeof src === 'number') {\n    const fromId = resolveNodeId(src, fieldName);\n    return [fromId, 0];\n  }\n\n  if (isObj(src)) {\n    const fromRaw = src.nodeId ?? src.id ?? (src.ref ? `@${src.ref}` : undefined);\n    const fromId = resolveNodeId(fromRaw, `${fieldName}.nodeId`);\n    const out = Number(src.output ?? src.fromOutput ?? 0);\n    if (!Number.isInteger(out) || out < 0) {\n      throw new Error(`Invalid output index in ${fieldName}`);\n    }\n    return [fromId, out];\n  }\n\n  throw new Error(`Invalid ${fieldName}`);\n}\n\n// Pre-pass для addNode: заранее выдаем id и ref,\n// чтобы можно было ссылаться через @ref.\nfor (let i = 0; i < actions.length; i++) {\n  const a = actions[i];\n  if (!isObj(a)) throw new Error(`actions[${i}] must be object`);\n  if (a.type !== 'addNode') continue;\n\n  let assignedId;\n  if (a.id !== undefined) {\n    assignedId = parseExplicitId(a.id, `actions[${i}].id`);\n\n    if (!hasNode(assignedId)) {\n      const reserved = allocator.reserve(assignedId);\n      if (!reserved) {\n        throw new Error(`actions[${i}]: id ${assignedId} already reserved`);\n      }\n    }\n  } else {\n    assignedId = allocator.alloc();\n  }\n\n  a.__assignedId = assignedId;\n\n  if (a.ref) {\n    if (idMap[a.ref] && idMap[a.ref] !== assignedId) {\n      throw new Error(`actions[${i}]: ref \"${a.ref}\" mapped to multiple ids`);\n    }\n    idMap[a.ref] = assignedId;\n  }\n}\n\nfunction connect(action) {\n  const fromRaw = action.fromNodeId ?? action.from ?? (action.fromRef ? `@${action.fromRef}` : undefined);\n  const toRaw = action.toNodeId ?? action.to ?? (action.toRef ? `@${action.toRef}` : undefined);\n  const toInput = action.toInput ?? action.input;\n\n  const fromId = resolveNodeId(fromRaw, 'connect.fromNodeId');\n  const toId = resolveNodeId(toRaw, 'connect.toNodeId');\n\n  if (!toInput) throw new Error('connect.toInput is required');\n\n  assertNodeExists(fromId, 'connect.fromNodeId');\n  assertNodeExists(toId, 'connect.toNodeId');\n\n  const out = Number(action.fromOutput ?? action.output ?? 0);\n  if (!Number.isInteger(out) || out < 0) {\n    throw new Error('connect.fromOutput must be integer >= 0');\n  }\n\n  ensureInputs(toId);\n  nodes[toId].inputs[toInput] = [fromId, out];\n}\n\nfunction disconnect(action) {\n  const toRaw = action.toNodeId ?? action.to ?? (action.toRef ? `@${action.toRef}` : undefined);\n  const fromRaw = action.fromNodeId ?? action.from ?? (action.fromRef ? `@${action.fromRef}` : undefined);\n  const toInput = action.toInput ?? action.input;\n\n  const hasTo = toRaw !== undefined;\n  const hasFrom = fromRaw !== undefined;\n\n  const fromId = hasFrom ? resolveNodeId(fromRaw, 'disconnect.fromNodeId') : null;\n  const outRaw = action.fromOutput ?? action.output;\n  const out = outRaw === undefined ? null : Number(outRaw);\n\n  const match = (v) => {\n    if (!Array.isArray(v) || v.length < 2) return false;\n    if (fromId !== null && String(v[0]) !== String(fromId)) return false;\n    if (out !== null && Number(v[1]) !== out) return false;\n    return true;\n  };\n\n  if (hasTo) {\n    const toId = resolveNodeId(toRaw, 'disconnect.toNodeId');\n    assertNodeExists(toId, 'disconnect.toNodeId');\n    if (!isObj(nodes[toId].inputs)) return;\n\n    if (toInput) {\n      const cur = nodes[toId].inputs[toInput];\n      if (cur !== undefined && (!hasFrom || match(cur))) {\n        delete nodes[toId].inputs[toInput];\n      }\n      return;\n    }\n\n    for (const [k, v] of Object.entries(nodes[toId].inputs)) {\n      if (!hasFrom || match(v)) delete nodes[toId].inputs[k];\n    }\n    return;\n  }\n\n  if (hasFrom) {\n    for (const node of Object.values(nodes)) {\n      if (!isObj(node.inputs)) continue;\n      for (const [k, v] of Object.entries(node.inputs)) {\n        if (!match(v)) continue;\n        if (toInput && k !== toInput) continue;\n        delete node.inputs[k];\n      }\n    }\n    return;\n  }\n\n  throw new Error('disconnect: provide toNodeId or fromNodeId');\n}\n\nfunction removeNode(action) {\n  const raw = action.nodeId ?? action.id ?? (action.ref ? `@${action.ref}` : undefined);\n  const id = resolveNodeId(raw, 'removeNode.nodeId');\n\n  if (!hasNode(id)) return;\n\n  for (const node of Object.values(nodes)) {\n    if (!isObj(node.inputs)) continue;\n    for (const [k, v] of Object.entries(node.inputs)) {\n      if (Array.isArray(v) && String(v[0]) === String(id)) {\n        delete node.inputs[k];\n      }\n    }\n  }\n\n  delete nodes[id];\n}\n\nfunction addNode(action, index) {\n  if (!isObj(action.node)) {\n    throw new Error(`actions[${index}] addNode: \"node\" is required`);\n  }\n\n  const id = String(action.__assignedId);\n  const exists = hasNode(id);\n\n  if (exists && !action.overwrite) {\n    throw new Error(`actions[${index}] addNode: node ${id} exists (set overwrite=true to replace)`);\n  }\n\n  nodes[id] = clone(action.node);\n  ensureInputs(id);\n\n  const connectInputs = isObj(action.connectInputs) ? action.connectInputs : {};\n  for (const [inputName, src] of Object.entries(connectInputs)) {\n    if (src === null) {\n      delete nodes[id].inputs[inputName];\n      continue;\n    }\n\n    const [fromId, out] = resolveLinkSource(src, `actions[${index}].connectInputs.${inputName}`);\n    assertNodeExists(fromId, `actions[${index}] connectInputs.${inputName}`);\n    nodes[id].inputs[inputName] = [fromId, out];\n  }\n\n  const connectOutputs = Array.isArray(action.connectOutputs) ? action.connectOutputs : [];\n  for (const c of connectOutputs) {\n    connect({\n      fromNodeId: id,\n      fromOutput: c.fromOutput ?? c.output ?? 0,\n      toNodeId: c.toNodeId ?? c.to ?? (c.toRef ? `@${c.toRef}` : undefined),\n      toInput: c.toInput ?? c.input,\n    });\n  }\n}\n\n// Выполняем действия по порядку\nfor (let i = 0; i < actions.length; i++) {\n  const a = actions[i];\n  if (!a.type) throw new Error(`actions[${i}].type is required`);\n\n  if (a.type === 'addNode') addNode(a, i);\n  else if (a.type === 'connect') connect(a);\n  else if (a.type === 'disconnect') disconnect(a);\n  else if (a.type === 'removeNode') removeNode(a);\n  else throw new Error(`actions[${i}]: unknown type \"${a.type}\"`);\n}\n\nconst updatedWorkflow = hasPromptWrapper\n  ? { ...workflowRoot, prompt: nodes }\n  : nodes;\n\nreturn [\n  {\n    json: {\n      workflow: updatedWorkflow,\n      idMap,\n    },\n  },\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        464,
+        352
+      ],
+      "id": "12dea2c2-bc66-480f-9865-428a7f726c57",
+      "name": "worflow works"
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "worflow works",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "1c3b720a-bff3-4d10-9bd5-41f19e964a8e",
+  "activeVersionId": "1c3b720a-bff3-4d10-9bd5-41f19e964a8e",
+  "versionCounter": 24,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-03-16T11:14:10.007Z",
+      "createdAt": "2026-03-16T11:14:10.007Z",
+      "role": "workflow:owner",
+      "workflowId": "wwicZuqjISFsTY3n",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}
