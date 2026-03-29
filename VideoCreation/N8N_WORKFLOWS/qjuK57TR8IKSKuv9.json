@@ -1,0 +1,458 @@
+{
+  "updatedAt": "2026-03-19T13:32:55.819Z",
+  "createdAt": "2026-03-18T23:37:51.202Z",
+  "id": "qjuK57TR8IKSKuv9",
+  "name": "Video Creation Progress Manager",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \n  \"stage\": \"\",\n  \"status\": \"\",\n  \"error\": \"\",\n  \"expectedReadyTimeMinutes\": \"\",\n  \"currentNumberOfReadyItems\": 0,\n  \"requiredNumberOfReadyItems\": 0,\n  \"items\": []\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/stagesProgress.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        464,
+        352
+      ],
+      "name": "read stages progress",
+      "id": "9fc9dc0d-27de-4923-ab7f-d0ee4a4080bf",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b64e06fc-1e20-4219-9516-477427053865",
+              "leftValue": "={{ !$json.isEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        672,
+        352
+      ],
+      "id": "a868b6dd-db6e-46ff-bac8-fcfb0610f7f4",
+      "name": "If file exists"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/stagesProgress.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ (()=>{\nreturn {\n\"stages\":{\n  \"text\":{\n    \"stageExecutions\": [\n//      {\n//        \"executionStatus\":\"not_started\",\n//        \"executionError\":null,\n//        \"executionStartedAt\":\"\",\n//        \"executionExpectedReadyTimeMinutes\":null,\n//        \"executionProgress\":{\n//          \"currentNumberOfReadyItems\":0,\n//          \"requiredNumberOfReadyItems\":null,\n//        },\n//    \"executionItems\":[\n//      {\n//       \"itemStatus\":null,\n//       \"itemError\": null,\n//       \"itemMetadata\":{\n//          \"itemName\":null,\n//          \"itemFilePath\":null,\n//        },\n//        \"itemContent\":{},\n//      }\n//    ]\n//      }\n    ]\n  },\n  \"meta\":{\n    \"stageExecutions\": []\n  },\n  \"voiceover\":{\n    \"stageExecutions\": []\n  },\n  \"transcription\":{\n    \"stageExecutions\": []\n  },\n  \"imagesPrompts\":{\n    \"stageExecutions\": []\n  },\n  \"images\":{\n    \"stageExecutions\": []\n  },\n  \"startFramesClipsPrompts\":{\n    \"stageExecutions\": []\n  },\n  \"startFrames\":{\n    \"stageExecutions\": []\n  },\n  \"clips\":{\n    \"stageExecutions\": []\n  },\n  \"render\":{\n    \"stageExecutions\": []\n  },\n  \"publication\":{\n    \"stageExecutions\": []\n  },\n}\n}\n})() }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        768,
+        448
+      ],
+      "name": "write stages progress file",
+      "id": "c4576677-d73b-4b00-b423-7030010b9459",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/stagesProgress.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1088,
+        352
+      ],
+      "name": "write stages progress",
+      "id": "aa4b4396-db2a-4813-8cb3-d74b7dc2877a",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b7aa9496-9493-46b5-92c5-3a073009363e",
+              "name": "obj",
+              "value": "={{ (() => {\n  const thisStage = $('Start').first().json.stage;\n\n  const thisExecution = {}\n\n  thisExecution\n\n  return {\n    stages: {\n      [thisStage]: {\n        stageExecutions: [thisExecution],\n      },\n    },\n  };\n})() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        864,
+        352
+      ],
+      "id": "9c4e4769-7b32-4958-8371-506e90a6b8a8",
+      "name": "form new stages obj"
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "read stages progress",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read stages progress": {
+      "main": [
+        []
+      ]
+    },
+    "If file exists": {
+      "main": [
+        [
+          {
+            "node": "form new stages obj",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "write stages progress file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write stages progress file": {
+      "main": [
+        [
+          {
+            "node": "form new stages obj",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form new stages obj": {
+      "main": [
+        [
+          {
+            "node": "write stages progress",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "channelsFolderPath": "C:/Users/V/Desktop/Channels",
+          "channelName": "NewChannel",
+          "videoFolderName": "2026-03-17_pWLve",
+          "stage": "text",
+          "stageStatus": "started",
+          "stageError": "null",
+          "expectedReadyTimeMinutes": "5",
+          "currentNumberOfReadyItems": 0,
+          "requiredNumberOfReadyItems": 2,
+          "items": null
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "3ec497ec-123a-4ef5-a698-f495203e12d3",
+  "activeVersionId": "4d6e76ca-21ed-4c7c-9872-ca2b3bf9302e",
+  "versionCounter": 496,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-03-18T23:37:51.205Z",
+      "createdAt": "2026-03-18T23:37:51.205Z",
+      "role": "workflow:owner",
+      "workflowId": "qjuK57TR8IKSKuv9",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "textLock": false,
+  "metaLock": false,
+  "voiceoverLock": false,
+  "sfxLock": false,
+  "musicLock": false,
+  "transcriptLock": true,
+  "imagesPromptsLock": false,
+  "imagesLock": false,
+  "startFramesPromptsLock": false,
+  "startFramesLock": false,
+  "clipsPromptsLock": false,
+  "clipsLock": false,
+  "renderLock": false,
+  "videoPublishLock": false
+}

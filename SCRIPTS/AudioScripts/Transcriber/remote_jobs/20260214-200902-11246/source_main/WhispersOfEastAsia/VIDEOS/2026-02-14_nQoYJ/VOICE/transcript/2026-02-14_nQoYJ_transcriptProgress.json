@@ -1,0 +1,30 @@
+{
+  "meta": {
+    "channel": "WhispersOfEastAsia",
+    "video": "2026-02-14_nQoYJ",
+    "language": "en",
+    "num_sentences_total": 160,
+    "progress": {
+      "status": "success",
+      "total": 160,
+      "current": 160,
+      "audios_total": 8,
+      "audios_done": 8,
+      "last_audio": "nQoYJ_00007.mp3",
+      "total_duration_sec": 781.8710189999999,
+      "problem_audio": null,
+      "unrecognized_text": null,
+      "time_spent": 129.34
+    },
+    "processed_audio": [
+      ["nQoYJ_00000.mp3", 22.5, 22.5],
+      ["nQoYJ_00001.mp3", 13.91, 13.91],
+      ["nQoYJ_00002.mp3", 14.27, 14.27],
+      ["nQoYJ_00003.mp3", 14.02, 14.02],
+      ["nQoYJ_00004.mp3", 13.78, 13.78],
+      ["nQoYJ_00005.mp3", 15.32, 15.32],
+      ["nQoYJ_00006.mp3", 16.51, 16.51],
+      ["nQoYJ_00007.mp3", 16.78, 16.78]
+    ]
+  }
+}

@@ -1,0 +1,12 @@
+﻿{
+    "job_id":  "20260214-200902-11246",
+    "ok":  true,
+    "exit_code":  0,
+    "progress_status":  "success",
+    "transcript_path":  "C:\\Users\\V\\Desktop\\Channels\\SCRIPTS\\AudioScripts\\Transcriber\\remote_jobs\\20260214-200902-11246\\source_main\\WhispersOfEastAsia\\VIDEOS\\2026-02-14_nQoYJ\\VOICE\\transcript\\2026-02-14_nQoYJ_transcript.json",
+    "progress_path":  "C:\\Users\\V\\Desktop\\Channels\\SCRIPTS\\AudioScripts\\Transcriber\\remote_jobs\\20260214-200902-11246\\source_main\\WhispersOfEastAsia\\VIDEOS\\2026-02-14_nQoYJ\\VOICE\\transcript\\2026-02-14_nQoYJ_transcriptProgress.json",
+    "run_log":  "C:\\Users\\V\\Desktop\\Channels\\SCRIPTS\\AudioScripts\\Transcriber\\remote_jobs\\20260214-200902-11246\\run.log",
+    "stdout_log":  "C:\\Users\\V\\Desktop\\Channels\\SCRIPTS\\AudioScripts\\Transcriber\\remote_jobs\\20260214-200902-11246\\stdout.log",
+    "stderr_log":  "C:\\Users\\V\\Desktop\\Channels\\SCRIPTS\\AudioScripts\\Transcriber\\remote_jobs\\20260214-200902-11246\\stderr.log",
+    "finishedUtc":  "2026-02-14T20:12:46.7499187Z"
+}

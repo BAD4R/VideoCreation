@@ -1,0 +1,4569 @@
+{
+  "updatedAt": "2026-03-24T10:34:05.118Z",
+  "createdAt": "2026-02-04T18:29:54.759Z",
+  "id": "CEAr7nSqMwURqKDg",
+  "name": "generate video meta",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\"\n}"
+      },
+      "id": "e66558b1-bc88-4047-931c-d88160c24000",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -4384,
+        -160
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoMeta.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -3808,
+        -160
+      ],
+      "name": "read meta file",
+      "id": "98074d62-5219-4e7a-ab08-46a6efe4e1f7"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').first().json.metaTextGenService == \"gemini\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "5ee75887-7518-4802-9c6e-47f913300963"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "gemini"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c4c3ce37-169a-4d45-bf04-1fbf84efb151",
+                    "leftValue": "={{ $('get all workflow params').first().json.metaTextGenService == \"openai\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "openai"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "05f5648d-1a6e-4f8d-97aa-2f4f035e56c5",
+                    "leftValue": "={{ $('get all workflow params').first().json.videoTextGenService == \"runpod\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "runpod"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -2368,
+        -416
+      ],
+      "id": "612e29df-5a7c-4f71-8f58-ba8b500b25c6",
+      "name": "Switch Text Gen Service"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoMeta.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ $json.videoMeta }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -1328,
+        -400
+      ],
+      "name": "edit meta file",
+      "id": "5e7b628b-4bac-462f-bd8e-c2e2ed25def8"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        -1744,
+        -544
+      ],
+      "id": "7b4f3af0-60b3-4c80-9ef5-17fb01958c5c",
+      "name": "Send HTTP Request"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').first().json.videoCreationMode == \"singlerequest\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "36ec83d4-ce69-469a-9c1c-310a0a93dc84"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "single request"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "9a431372-5d17-4d5c-b43f-c013e6607187",
+                    "leftValue": "={{ $('get all workflow params').first().json.videoCreationMode == \"rewrite\" }}",
+                    "rightValue": "rewrite",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "rewrite"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "55f0660e-a4eb-424a-8bff-8a20b76b3866",
+                    "leftValue": "={{ $('get all workflow params').first().json.videoCreationMode == \"manhwa\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "manhwa"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -2752,
+        -288
+      ],
+      "id": "308757fe-11a8-4a28-8ae0-853275530ce2",
+      "name": "Switch by Video Gen Type"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "28c2e084-47e7-4ff1-bfdf-b8fd495205e1",
+              "leftValue": "={{ $('get all workflow params').first().json.baseMetaOnVideoText }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -2528,
+        -272
+      ],
+      "id": "8fdc76ef-1157-4ad7-b96b-44c76791b701",
+      "name": "If base meta on video text"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoStatus.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"metaReady\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4928,
+        32
+      ],
+      "name": "set meta ready",
+      "id": "ebab68d4-f09a-42f1-b16a-e8e5c7d401c6"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "1d5361dd-75fc-4a07-a4e6-469e4f9ebad4",
+              "leftValue": "={{ $('get all workflow params').first().json.generateThumbnail }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -1184,
+        -160
+      ],
+      "id": "fe4ee8d5-a158-45e7-9d7a-2b7a45fc0575",
+      "name": "If generate thumbnail"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e5b0a540-16a1-47f3-aa5a-5df491e9a0d0",
+              "leftValue": "={{ $('get all workflow params').first().json.baseNewThumbnailOnOriginal }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -624,
+        -384
+      ],
+      "id": "1d9ffa0d-58a9-4574-b288-f3ad58459af0",
+      "name": "If base on original thumb"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "41e7190e-23ca-44f4-9855-59b0d45f3f11",
+                    "leftValue": "={{ $('read meta file').isEmpty || ($('read meta file').last().json.previewText.isEmpty() ||\n$('read meta file').last().json.videoTitle.isEmpty() ||\n$('read meta file').last().json.videoDescription.isEmpty()) }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not exists or some metas emtpy"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ !$('read meta file').isEmpty && (!$('read meta file').last().json.previewText.isEmpty() &&\n!$('read meta file').last().json.videoTitle.isEmpty() &&\n!$('read meta file').last().json.videoDescription.isEmpty()) }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "b1d7ea98-ec79-483e-aab6-f05bb287615b"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "exists and all metas exist"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -2992,
+        -160
+      ],
+      "id": "5befe64c-ca7c-4580-89f6-d8be764b693f",
+      "name": "meta ready"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "N2bXusYBgofvRBlH",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/N2bXusYBgofvRBlH",
+          "cachedResultName": "check files quantity in directory"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "expectedFilesCount": 3,
+            "directoryPath": "={{ $('Start').item.json.channelsFolderPath }}/{{ $('Start').item.json.channelName }}/VIDEOS/{{ $('Start').item.json.videoFolderName }}",
+            "fileExtentionToSearch": ".png",
+            "fileNameToSearch": "thumbnail"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "directoryPath",
+              "displayName": "directoryPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileExtentionToSearch",
+              "displayName": "fileExtentionToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileNameToSearch",
+              "displayName": "fileNameToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "expectedFilesCount",
+              "displayName": "expectedFilesCount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        -1024,
+        -272
+      ],
+      "id": "5b658f7d-aef1-477e-94e9-c445cbb910d4",
+      "name": "check if all thumbnails ready"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "3309a79e-73f5-4f7a-97b5-3ab0264cea61",
+                    "leftValue": "={{ !$json.filesReady }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not ready"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.filesReady }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "79b08c02-e93c-4e05-ad1f-79d108759a0f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "all ready"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -816,
+        -272
+      ],
+      "id": "585bb0b5-2b8a-4949-adb4-513cc9bd7f5e",
+      "name": "if all thumbs ready"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1248,
+        -576
+      ],
+      "id": "33b894d1-a5ba-4671-b8e8-13da00eb1ee2",
+      "name": "Send HTTP Request1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\n\"videoCreationMode\",\n\n\"summarizeFullText\",\n\n\"openAIApiKey\",\n\"googleApiKey\",\n\"proxyServerIP\",\n\"proxyServerPort\",\n\n\"openAiResponsesRoute\",\n\"openAiImagesRoute\",\n\"geminiAiResponsesRoute\",\n\n\"metaTextGenService\",\n\"metaTextGenModel\",\n\"baseMetaOnVideoText\",\n\n\"generateThumbnail\",\n\"baseNewThumbnailOnOriginal\",\n\n\"imageGenerationService\",\n\"imageBase\",\n\"imagePromptGenerationPrompt\",\n\n\"thumbnailPromptsGenService\",\n\"thumbnailPromptsGenModel\",\n\n\"thumbnailBase\",\n\"thumbnailPromptGenerationPrompt\",\n\"thumbnailPromptRegenerationPrompt\",\n\n\"thumbnailGenerationService\",\n\n\"geminiThumbnailModel\",\n\"thumbnailGeminiAspectRatio\",\n\"thumbnailGeminiQuality\",\n\n\"openaiThumbnailModel\",\n\"thumbnailOpenaiSize\",\n\"thumbnailOpenaiQuality\",\n\n\"metaDataSystemPrompt\"\n] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -4000,
+        -160
+      ],
+      "name": "get all workflow params",
+      "id": "78696e1a-14c1-4b3c-bec0-63eeb9ff39c1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ab5096bb-efa3-4287-b493-45cee392f8fd",
+                    "leftValue": "={{ $('get all workflow params').item.json.metaTextGenService == \"gemini\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "gemini"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').item.json.metaTextGenService == \"openai\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "83a26520-0567-4bc0-bc04-b49615dc071c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "openai"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1d5a5f77-e557-4346-b682-d4442fada8b1",
+                    "leftValue": "={{ $('get all workflow params').item.json.textGenService == \"runpod\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "runpod"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        608,
+        -432
+      ],
+      "id": "e0cee540-c75b-4567-bc7e-787edbd49a05",
+      "name": "text gen service1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "jN0HNmDZY1IKD2vM-oIO3",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/jN0HNmDZY1IKD2vM-oIO3",
+          "cachedResultName": "Text file works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/TEXTS/{{ $('Start').first().json.videoFolderName }}.txt",
+            "fileAction": "=read"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "text",
+              "displayName": "text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -3376,
+        -80
+      ],
+      "name": "get whole text file",
+      "id": "809c3aa7-51e9-4fc9-8ef8-a6dc5e8cb730"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.geminiAiResponsesRoute }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').last().json.googleApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.thumbnailPromptsGenModel,\n  \"systemInstruction\": {\n    \"parts\": [{ \"text\": $('get all workflow params').first().json.thumbnailPromptGenerationPrompt }]\n  },\n  \"contents\": [\n    { \"role\": \"user\",  \"parts\": [{ \"text\": $('get all workflow params').first().json.thumbnailBase }] },\n    { \"role\": \"user\",  \"parts\": [{ \"text\": \"Video title: \"+ $('split metas').item.json.videoTitle + \" Video description: \" + $('split metas').item.json.videoDescription }] },\n    { \"role\": \"user\",  \"parts\": [{ \"text\": $('Normalize Text').item.json.normalizedFullText }] }\n  ],\n \"generationConfig\": {\n    \"response_mime_type\": \"text/plain\",\n  },\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"BLOCK_NONE\" }\n  ]\n}\n }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1056,
+        -576
+      ],
+      "id": "8196194f-5505-4e74-9b8b-44435bbf3c1c",
+      "name": "form gemini thumbnail prompt req"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "videoMetas",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        -64,
+        -272
+      ],
+      "id": "89040ad0-bab1-4b1b-b768-7901e8416cad",
+      "name": "split metas"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4c1c1b10-8d69-43ce-bf77-696785771f50",
+              "name": "videoMetas",
+              "value": "={{ (() => {\n  const meta = $('read meta file2').first().json;\n\n  const titles = Array.isArray(meta.videoTitle) ? meta.videoTitle : [];\n  const descs  = Array.isArray(meta.videoDescription) ? meta.videoDescription : [];\n  const prevs  = Array.isArray(meta.previewText) ? meta.previewText : [];\n  const thumbs = Array.isArray(meta.thumbnailPrompt) ? meta.thumbnailPrompt : [];\n\n  const len = Math.max(titles.length, descs.length, prevs.length, thumbs.length);\n\n  const metas = [];\n  for (let i = 0; i < len; i++) {\n    metas.push({\n      metaIndex: i,\n      thumbnailFileName: `thumbnail_${i}.png`,\n      thumbnailPrompt: thumbs[i] ?? \"\",\n      previewText: prevs[i] ?? \"\",\n      videoTitle: titles[i] ?? \"\",\n      videoDescription: descs[i] ?? \"\"\n    });\n  }\n\n  return metas;\n})() }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -240,
+        -272
+      ],
+      "id": "da4f2bc7-a36e-4763-af00-2673124912e6",
+      "name": "combine metas"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoMeta.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -416,
+        -272
+      ],
+      "name": "read meta file2",
+      "id": "54212d6d-0026-4100-9904-05c80fdaa14f"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b48218f3-09b2-4867-aeca-d06d2f0a88f9",
+              "leftValue": "={{ (()=>{\nlet status = true\n\nif ($('check if all thumbnails ready').last().json.existingFilesNames.includes($json.thumbnailFileName)){\n  status = !true\n}\n\nreturn status\n})() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        2624,
+        -416
+      ],
+      "id": "58173026-ee10-4cd1-91f1-c5f3017d267b",
+      "name": "Filter ready thumbs1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "videoMetas",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2432,
+        -416
+      ],
+      "id": "62e1042f-577c-464f-ba00-d1569d961b3d",
+      "name": "split metas1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4c1c1b10-8d69-43ce-bf77-696785771f50",
+              "name": "videoMetas",
+              "value": "={{ (()=>{\nlet metas = []\nconst meta = $('read meta file3').first().json\n\n\nfor (m in meta.previewText)\n{\n    metas.push({\"metaIndex\":m, \"thumbnailFileName\":\"thumbnail_\"+m+\".png\", \"thumbnailPrompt\": meta.thumbnailPrompt[m]})\n}\n\nreturn metas\n})() }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2240,
+        -272
+      ],
+      "id": "1919e997-9d5c-442c-b010-6a6a5fe20912",
+      "name": "combine metas1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoMeta.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2048,
+        -272
+      ],
+      "name": "read meta file3",
+      "id": "276322ad-d1d0-4b54-8f5c-09a9f60992b4"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "b48218f3-09b2-4867-aeca-d06d2f0a88f9",
+              "leftValue": "={{ (()=>{\nlet status = true\n\nif ($('split metas').item.json.hasField('thumbnailPrompt') && !$('split metas').item.json.thumbnailPrompt.isEmpty() ){\n  status = !true\n}\n\nreturn status\n})() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        144,
+        -272
+      ],
+      "id": "d61bdd1f-2a68-401c-be7d-88a47f1aa9f6",
+      "name": "Filter ready thumb prompts",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "568c260c-7189-4fc0-8353-bc11a9072810",
+              "leftValue": "={{ !$json.isEmpty() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        352,
+        -272
+      ],
+      "id": "d8576372-cb99-422a-a149-edeb7a361bc7",
+      "name": "If not all prompts ready"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoMeta.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ (()=>{\npromptsArray=[];\nmetaArr=$json.meta;\n\nfor (let meta of metaArr){\npromptsArray.push(meta.prompts )\n}\n\nreturn {\"thumbnailPrompt\":promptsArray }\n})() }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1824,
+        -416
+      ],
+      "name": "write prompts to meta file",
+      "id": "b5818b5b-556f-4f04-a0e7-f3db537c8f56"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ab5096bb-efa3-4287-b493-45cee392f8fd",
+                    "leftValue": "={{ $('get all workflow params').item.json.thumbnailGenerationService == \"gemini\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "gemini"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').item.json.thumbnailGenerationService == \"openai\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "83a26520-0567-4bc0-bc04-b49615dc071c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "openai"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1d5a5f77-e557-4346-b682-d4442fada8b1",
+                    "leftValue": "={{ $('get all workflow params').item.json.thumbnailGenerationService == \"runpod\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "runpod"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2832,
+        -432
+      ],
+      "id": "b66ffedc-70e5-4ac0-9276-0de92446ad2e",
+      "name": "thumbnail gen service1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.openAiImagesRoute }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').last().json.openAIApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{\n{\n  \"model\": $('get all workflow params').first().json.openaiThumbnailModel,\n  \"prompt\": $('split metas1').item.json.thumbnailPrompt,\n  \"size\": $('get all workflow params').first().json.thumbnailOpenaiSize,\n  \"quality\": $('get all workflow params').first().json.thumbnailOpenaiQuality,\n  \"background\": \"opaque\",\n  \"output_format\": \"png\",\n  \"n\": 1\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3232,
+        -416
+      ],
+      "id": "ae507254-45ac-4eba-92d7-9da0424287a2",
+      "name": "form openai thumbnail gen req"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        3424,
+        -416
+      ],
+      "id": "5b6acfac-f0bf-47cb-93e1-3b41b896b10f",
+      "name": "send HTTP openai thumbnail gen req"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ad6bc87b-b5e9-449a-83c1-40dc2b117da4",
+                    "leftValue": "={{ !$json.hasField('error')}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "fine"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') && $json.error.message.includes('safety') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "daa57ffd-1f71-4766-a3bb-81c6390e81b4"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "safety error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3616,
+        -416
+      ],
+      "id": "b404f94c-c741-475a-b91c-da9db33d94a5",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4784,
+        -576
+      ],
+      "id": "f496b8bf-5289-44f6-a40d-9c1553d635c2",
+      "name": "Send HTTP Request2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ab5096bb-efa3-4287-b493-45cee392f8fd",
+                    "leftValue": "={{ $('get all workflow params').item.json.textGenService == \"gemini\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "gemini"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').item.json.textGenService == \"openai\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "83a26520-0567-4bc0-bc04-b49615dc071c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "openai"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1d5a5f77-e557-4346-b682-d4442fada8b1",
+                    "leftValue": "={{ $('get all workflow params').item.json.textGenService == \"runpod\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "runpod"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        4160,
+        -432
+      ],
+      "id": "6a5bfdf9-924e-45b5-ab11-9b86cde150e4",
+      "name": "text gen service"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoMeta.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ (() => {\n  const thisMetaThumbPrompt = $json.prompts ?? \"\";\n  const thisMetaIndex = Number($('split metas1').item.json.metaIndex);\n\n  const keysToWrite = {};\n  if (Number.isFinite(thisMetaIndex)) {\n    keysToWrite[`thumbnailPrompt[${thisMetaIndex}]`] = thisMetaThumbPrompt;\n  }\n\n  return keysToWrite;\n})() }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        5168,
+        -416
+      ],
+      "name": "write prompts to meta file1",
+      "id": "ae302547-0e95-4c9a-8b0c-65a7f07eaa28"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.thumbnailPromptsGenService,\n    $('get all workflow params').first().json.thumbnailPromptsGenModel,\n\n    $('get all workflow params').first().json.thumbnailPromptRegenerationPrompt,\n\n    $('split metas1').item.json.thumbnailPrompt\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4368,
+        -576
+      ],
+      "id": "7bafec09-2612-4260-b7ac-8a9b529c1a14",
+      "name": "get random ID for gemini thumbnail regen prompt"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.filesReady }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "9a646b80-a556-457a-b8ca-73d6c088bc60"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "all ready"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "813fbb19-40c8-4dd8-95c8-ea3125c5683b",
+                    "leftValue": "={{ !$json.filesReady }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not ready"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        4720,
+        -80
+      ],
+      "id": "28119858-c178-4a1c-94f6-7f80709fd761",
+      "name": "last image"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "N2bXusYBgofvRBlH",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/N2bXusYBgofvRBlH",
+          "cachedResultName": "check files quantity in directory"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "expectedFilesCount": 3,
+            "directoryPath": "={{ $('Start').item.json.channelsFolderPath }}/{{ $('Start').item.json.channelName }}/VIDEOS/{{ $('Start').item.json.videoFolderName }}",
+            "fileExtentionToSearch": ".png",
+            "fileNameToSearch": "thumbnail"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "directoryPath",
+              "displayName": "directoryPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileExtentionToSearch",
+              "displayName": "fileExtentionToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileNameToSearch",
+              "displayName": "fileNameToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "expectedFilesCount",
+              "displayName": "expectedFilesCount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4512,
+        -80
+      ],
+      "id": "a2c82cde-7f4a-4666-a055-cc8854084723",
+      "name": "check if all thumbnails ready1"
+    },
+    {
+      "parameters": {
+        "content": "## Titles, descriptions, texts to place on thumbnails Generation",
+        "height": 384,
+        "width": 1232,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -2416,
+        -624
+      ],
+      "id": "23afc062-0517-4353-b3f7-9b9d0f269536",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Thumbnails prompts generation",
+        "height": 368,
+        "width": 1408,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        560,
+        -624
+      ],
+      "id": "242b14c0-17df-40ee-a879-79d84dbee636",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Thumbnails images generation",
+        "height": 368,
+        "width": 1216,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2784,
+        -624
+      ],
+      "id": "db129e24-d27a-4247-afe7-aab2ac41576b",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\"productKey\"] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -4192,
+        -160
+      ],
+      "name": "get product key",
+      "id": "5fe3e53d-0bff-4901-bb2f-3ef590485963"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').first().json.summarizeFullText }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "19e0bbd0-f5bc-4911-be5a-6f98b5975619"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "summarize"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ab4cd4eb-9f36-4719-bc7d-ac4fd29a1901",
+                    "leftValue": "={{ !$('get all workflow params').first().json.summarizeFullText }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not summarize"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -3600,
+        -160
+      ],
+      "id": "7c7fbf41-bdc4-4bd3-81ee-797220af80f9",
+      "name": "summarized text?"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f373ee0e-cbe7-42f7-8541-382d1a12e4e9",
+              "name": "normalizedFullText",
+              "value": "={{ $json.text.replace(/\\[[^\\]]*]/g, \"\").replaceAll('\\n',' ') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -3184,
+        -160
+      ],
+      "id": "9ed56628-39ca-4175-b235-b460c227a0a1",
+      "name": "Normalize Text"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "jN0HNmDZY1IKD2vM-oIO3",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/jN0HNmDZY1IKD2vM-oIO3",
+          "cachedResultName": "Text file works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/TEXTS/{{ $('Start').first().json.videoFolderName }}_summarized.txt",
+            "fileAction": "=read"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "text",
+              "displayName": "text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -3376,
+        -240
+      ],
+      "name": "get summarized text file",
+      "id": "249b24b5-f491-4a32-a79a-dee751df8abe"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.geminiAiResponsesRoute }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').first().json.googleApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.metaTextGenModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('get all workflow params').first().json.metaDataSystemPrompt }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": \"Full video text: \" + $('Switch Text Gen Service').first().json.normalizedFullText }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseSchema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"previewText\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"videoTitle\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"videoDescription\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } }\n      },\n      \"required\": [\"previewText\", \"videoTitle\", \"videoDescription\"]\n    }\n  },\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"BLOCK_NONE\" }\n  ]\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1952,
+        -544
+      ],
+      "id": "ccb4641a-0357-47c3-b967-e0ce0789cbe3",
+      "name": "form gemini request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.metaDataSystemPrompt,\n    $('get all workflow params').first().json.metaTextGenService,\n    $('get all workflow params').first().json.metaTextGenModel,\n    $('Normalize Text').first().json.normalizedFullText\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2160,
+        -544
+      ],
+      "id": "04204c8f-d139-4663-bce9-e4cdfa0e9012",
+      "name": "get gemini random ID"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        -1744,
+        -400
+      ],
+      "id": "dcea642f-2e7a-4d50-a3de-101b50674501",
+      "name": "Send HTTP Request3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.metaDataSystemPrompt,\n    $('get all workflow params').first().json.metaTextGenService,\n    $('get all workflow params').first().json.metaTextGenModel,\n    $('Normalize Text').first().json.normalizedFullText\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -2160,
+        -400
+      ],
+      "id": "93665be1-6417-4224-9925-bafa29906a1c",
+      "name": "get openai random ID"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.openAiResponsesRoute }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').first().json.openAIApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.metaTextGenModel,\n  \"reasoning\": {\n    \"effort\": \"high\"\n  },\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        { \"type\": \"input_text\", \"text\": $('get all workflow params').first().json.metaDataSystemPrompt }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        { \"type\": \"input_text\", \"text\": \"Full video text: \" + $('Switch Text Gen Service').first().json.normalizedFullText }\n      ]\n    }\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_schema\",\n      \"name\": \"video_metadata\",\n      \"strict\": true,\n      \"schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"previewText\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n          \"videoTitle\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n          \"videoDescription\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } }\n        },\n        \"required\": [\"previewText\", \"videoTitle\", \"videoDescription\"],\n        \"additionalProperties\": false\n      }\n    }\n  }\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1952,
+        -400
+      ],
+      "id": "7122c75c-a2c4-456a-9568-2141d556878e",
+      "name": "form openai request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "691b3a6e-4a06-4a7a-b140-06f998ab7557",
+              "name": "=videoMeta",
+              "value": "={{ $json.candidates[0].content.parts[0].text.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1536,
+        -544
+      ],
+      "id": "90af19ec-687e-401c-becb-4299d068afbb",
+      "name": "Parse Json From Gemini Answer"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "691b3a6e-4a06-4a7a-b140-06f998ab7557",
+              "name": "=videoMeta",
+              "value": "={{ $json.output[1].content[0].text.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1536,
+        -400
+      ],
+      "id": "9edd3982-1fa9-4ad5-aac3-e08895373091",
+      "name": "Parse Json From Openai Answer"
+    },
+    {
+      "parameters": {
+        "content": "to be done",
+        "height": 80,
+        "width": 150,
+        "color": 3
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -448,
+        -400
+      ],
+      "id": "6c12b1d6-71ce-4ee6-aedb-4e6dda17d31a",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "destinationFieldName": "meta",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1632,
+        -416
+      ],
+      "id": "16a6dc57-dc63-47c3-98d8-030bd897b5ee",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.thumbnailPromptsGenService,\n    $('get all workflow params').first().json.thumbnailPromptsGenModel,\n\n    $('get all workflow params').first().json.tumbnailBase,\n    $('get all workflow params').first().json.thumbnailPromptGenerationPrompt,\n\n    $('split metas').item.json.previewText,\n    $('split metas').item.json.videoTitle,\n    $('split metas').item.json.videoDescription\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        864,
+        -576
+      ],
+      "id": "92320f3c-382a-4488-a9b4-21bf33fc4f9d",
+      "name": "get random ID for gemini thumbnail prompt"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1248,
+        -416
+      ],
+      "id": "216728d0-6c52-493f-a9f2-bf20112f261c",
+      "name": "Send HTTP Request4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.openAiResponsesRoute }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').last().json.openAIApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.thumbnailPromptsGenModel,\n  \"reasoning\": {\n    \"effort\": \"high\"\n  },\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        { \"type\": \"input_text\", \"text\": $('get all workflow params').first().json.thumbnailPromptGenerationPrompt }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        { \"type\": \"input_text\", \"text\": $('get all workflow params').first().json.thumbnailBase }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        { \"type\": \"input_text\", \"text\": \"Video title: \" + $('split metas').item.json.videoTitle + \" Video description: \" + $('split metas').item.json.videoDescription }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        { \"type\": \"input_text\", \"text\": $('Normalize Text').item.json.normalizedFullText }\n      ]\n    }\n  ]\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1056,
+        -416
+      ],
+      "id": "2fd164d0-1455-4feb-a090-65cb99da984d",
+      "name": "form openai thumbnail prompt req"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "prompts",
+              "value": "={{ $json.output[1].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1440,
+        -416
+      ],
+      "id": "d358b57b-d01d-4708-99d8-b0b8558a4e8b",
+      "name": "get openai generated prompt text"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "prompts",
+              "value": "={{ $json.candidates[0].content.parts[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1440,
+        -576
+      ],
+      "id": "822e2de7-a11a-4e29-9682-b8e04afb954a",
+      "name": "get gemini generated text"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.thumbnailPromptsGenService,\n    $('get all workflow params').first().json.thumbnailPromptsGenModel,\n\n    $('get all workflow params').first().json.tumbnailBase,\n    $('get all workflow params').first().json.thumbnailPromptGenerationPrompt,\n\n    $('split metas').item.json.previewText,\n    $('split metas').item.json.videoTitle,\n    $('split metas').item.json.videoDescription\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        864,
+        -416
+      ],
+      "id": "7c0879aa-0522-4dba-baaa-091335b47c9c",
+      "name": "get random ID for openai thumbnail prompt"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.tumbnailBase,\n    $('get all workflow params').first().json.thumbnailPromptGenerationPrompt,\n\n    $('split metas1').item.json.thumbnailPrompt,\n\n    $('get all workflow params').first().json.openaiThumbnailModel,\n    $('get all workflow params').first().json.thumbnailOpenaiSize,\n    $('get all workflow params').first().json.thumbnailOpenaiQuality,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3040,
+        -416
+      ],
+      "id": "d7ad4de2-e44c-436d-9161-444f3d2f2a6a",
+      "name": "get random ID for openai thumbnail gen req"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        3424,
+        -576
+      ],
+      "id": "1db31334-fafe-480b-aed8-46b8537b3612",
+      "name": "send HTTP openai thumbnail gen req1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.tumbnailBase,\n    $('get all workflow params').first().json.thumbnailPromptGenerationPrompt,\n\n    $('split metas1').item.json.thumbnailPrompt,\n\n    $('get all workflow params').first().json.geminiThumbnailModel,\n    $('get all workflow params').first().json.thumbnailGeminiSize,\n    $('get all workflow params').first().json.thumbnailGeminiQuality,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3040,
+        -576
+      ],
+      "id": "6064c336-1fe4-43b9-b798-6d3e28930230",
+      "name": "get random ID for gemini thumbnail gen req"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.geminiAiResponsesRoute }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').last().json.googleApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.geminiThumbnailModel,\n  \"contents\": [\n    {\n      \"parts\": [\n        { \"text\": $('split metas1').item.json.thumbnailPrompt }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseModalities\": [\"IMAGE\"],\n    \"imageConfig\": {\n      \"aspectRatio\": $('get all workflow params').first().json.thumbnailGeminiAspectRatio,\n      \"imageSize\": $('get all workflow params').first().json.thumbnailGeminiQuality\n    }\n  }\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3232,
+        -576
+      ],
+      "id": "785886d1-8a06-4e76-9ff3-f79a3133a571",
+      "name": "form gemini thumbnail gen req"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "3OssCFgf2vTy8hKq",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/3OssCFgf2vTy8hKq",
+          "cachedResultName": "Media Binary File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/{{ $('split metas1').item.json.thumbnailFileName }}",
+            "fileAction": "write"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4192,
+        -80
+      ],
+      "id": "ce8cd3c6-0757-467a-81ed-dbe48765b294",
+      "name": "write thumbnail files"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4784,
+        -416
+      ],
+      "id": "5dd5e0ee-293f-439e-b6a5-93eee7b9e472",
+      "name": "Send HTTP Request5"
+    },
+    {
+      "parameters": {
+        "operation": "toBinary",
+        "sourceProperty": "candidates[0].content.parts[0].inlineData.data",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        3824,
+        -576
+      ],
+      "id": "ff838f1a-d14a-4669-bbd9-7e2f1d7aa953",
+      "name": "Convert to File"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -608,
+        32
+      ],
+      "id": "bb360700-1878-43e9-96ca-86471159eb27",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "ad6bc87b-b5e9-449a-83c1-40dc2b117da4",
+                    "leftValue": "={{ !$json.hasField('error') && $json.candidates[0].finishReason != \"NO_IMAGE\"}}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "fine"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') || $json.candidates[0].finishReason == \"NO_IMAGE\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "daa57ffd-1f71-4766-a3bb-81c6390e81b4"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "no image"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3616,
+        -576
+      ],
+      "id": "eef88832-759a-4d0d-815d-84b2a7be0756",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.thumbnailPromptsGenService,\n    $('get all workflow params').first().json.thumbnailPromptsGenModel,\n\n    $('get all workflow params').first().json.thumbnailPromptRegenerationPrompt,\n\n    $('split metas1').item.json.thumbnailPrompt\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4368,
+        -416
+      ],
+      "id": "fd3471e7-b1f8-449d-8870-66178bf8e818",
+      "name": "get random ID for openai thumbnail regen prompt"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.geminiAiResponsesRoute }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').last().json.googleApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.thumbnailPromptsGenModel,\n  \"system_instruction\": {\n    \"parts\": [{ \"text\": $('get all workflow params').first().json.thumbnailPromptRegenerationPrompt }]\n  },\n  \"contents\": [\n    { \"role\": \"user\",  \"parts\": [{ \"text\": $('split metas1').item.json.thumbnailPrompt }] }\n  ]\n}\n }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4576,
+        -576
+      ],
+      "id": "1484060d-8fc7-4f78-8463-cf4a00a3c576",
+      "name": "form gemini thumbnail prompt regen req"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.openAiResponsesRoute }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').last().json.openAIApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.thumbnailPromptsGenModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        { \"type\": \"input_text\", \"text\": $('get all workflow params').first().json.thumbnailPromptRegenerationPrompt }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        { \"type\": \"input_text\", \"text\": $('split metas1').item.json.thumbnailPrompt }\n      ]\n    }\n  ]\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4576,
+        -416
+      ],
+      "id": "55956e63-207a-4241-a6ef-7a3853b9fc72",
+      "name": "form openai thumbnail prompt regen req"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "prompts",
+              "value": "={{ $json.candidates[0].content.parts[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4976,
+        -576
+      ],
+      "id": "be2d64ca-4bbf-40c3-b59e-71d8ab9dbf7d",
+      "name": "set new gemini prompt text"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "prompts",
+              "value": "={{ $json.output[1].content[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4976,
+        -416
+      ],
+      "id": "777377ac-b782-499d-adb9-76a4e2ebc417",
+      "name": "set new openai prompt text"
+    },
+    {
+      "parameters": {
+        "content": "## Regen thumb prompts on fail",
+        "height": 368,
+        "width": 1184,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4128,
+        -624
+      ],
+      "id": "dcaccb42-68da-4599-93e1-8d521a4c7023",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        5312,
+        -272
+      ],
+      "id": "90a61147-3537-4850-969c-ef8e274b7a91",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        4352,
+        -80
+      ],
+      "id": "d3d5f304-5d6c-46ee-80cb-465211650eff",
+      "name": "Wait",
+      "webhookId": "445a317f-3766-45df-b66e-0255cb83820d"
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "get product key",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read meta file": {
+      "main": [
+        [
+          {
+            "node": "summarized text?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Text Gen Service": {
+      "main": [
+        [
+          {
+            "node": "get gemini random ID",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get openai random ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "edit meta file": {
+      "main": [
+        [
+          {
+            "node": "If generate thumbnail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Parse Json From Gemini Answer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch by Video Gen Type": {
+      "main": [
+        [
+          {
+            "node": "Switch Text Gen Service",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If base meta on video text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If base meta on video text": {
+      "main": [
+        [
+          {
+            "node": "Switch Text Gen Service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If generate thumbnail": {
+      "main": [
+        [
+          {
+            "node": "check if all thumbnails ready",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If base on original thumb": {
+      "main": [
+        [],
+        [
+          {
+            "node": "read meta file2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "meta ready": {
+      "main": [
+        [
+          {
+            "node": "Switch by Video Gen Type",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "If generate thumbnail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check if all thumbnails ready": {
+      "main": [
+        [
+          {
+            "node": "if all thumbs ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "if all thumbs ready": {
+      "main": [
+        [
+          {
+            "node": "If base on original thumb",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get all workflow params": {
+      "main": [
+        [
+          {
+            "node": "read meta file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "text gen service1": {
+      "main": [
+        [
+          {
+            "node": "get random ID for gemini thumbnail prompt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get random ID for openai thumbnail prompt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "get whole text file": {
+      "main": [
+        [
+          {
+            "node": "Normalize Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form gemini thumbnail prompt req": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "split metas": {
+      "main": [
+        [
+          {
+            "node": "Filter ready thumb prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "combine metas": {
+      "main": [
+        [
+          {
+            "node": "split metas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read meta file2": {
+      "main": [
+        [
+          {
+            "node": "combine metas",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "split metas1": {
+      "main": [
+        [
+          {
+            "node": "Filter ready thumbs1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "combine metas1": {
+      "main": [
+        [
+          {
+            "node": "split metas1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read meta file3": {
+      "main": [
+        [
+          {
+            "node": "combine metas1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter ready thumb prompts": {
+      "main": [
+        [
+          {
+            "node": "If not all prompts ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If not all prompts ready": {
+      "main": [
+        [
+          {
+            "node": "text gen service1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "read meta file3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "get gemini generated text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write prompts to meta file": {
+      "main": [
+        [
+          {
+            "node": "read meta file3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter ready thumbs1": {
+      "main": [
+        [
+          {
+            "node": "thumbnail gen service1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "thumbnail gen service1": {
+      "main": [
+        [
+          {
+            "node": "get random ID for gemini thumbnail gen req",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get random ID for openai thumbnail gen req",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "form openai thumbnail gen req": {
+      "main": [
+        [
+          {
+            "node": "send HTTP openai thumbnail gen req",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send HTTP openai thumbnail gen req": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "write thumbnail files",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "text gen service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "set new gemini prompt text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "text gen service": {
+      "main": [
+        [
+          {
+            "node": "get random ID for gemini thumbnail regen prompt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get random ID for openai thumbnail regen prompt",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        []
+      ]
+    },
+    "get random ID for gemini thumbnail regen prompt": {
+      "main": [
+        [
+          {
+            "node": "form gemini thumbnail prompt regen req",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write prompts to meta file1": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check if all thumbnails ready1": {
+      "main": [
+        [
+          {
+            "node": "last image",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "last image": {
+      "main": [
+        [
+          {
+            "node": "set meta ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get product key": {
+      "main": [
+        [
+          {
+            "node": "get all workflow params",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "summarized text?": {
+      "main": [
+        [
+          {
+            "node": "get summarized text file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get whole text file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Text": {
+      "main": [
+        [
+          {
+            "node": "meta ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get summarized text file": {
+      "main": [
+        [
+          {
+            "node": "Normalize Text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form gemini request": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get gemini random ID": {
+      "main": [
+        [
+          {
+            "node": "form gemini request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "Parse Json From Openai Answer",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get openai random ID": {
+      "main": [
+        [
+          {
+            "node": "form openai request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form openai request": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Json From Gemini Answer": {
+      "main": [
+        [
+          {
+            "node": "edit meta file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Json From Openai Answer": {
+      "main": [
+        [
+          {
+            "node": "edit meta file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "write prompts to meta file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID for gemini thumbnail prompt": {
+      "main": [
+        [
+          {
+            "node": "form gemini thumbnail prompt req",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "get openai generated prompt text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form openai thumbnail prompt req": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get gemini generated text": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get openai generated prompt text": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID for openai thumbnail prompt": {
+      "main": [
+        [
+          {
+            "node": "form openai thumbnail prompt req",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID for openai thumbnail gen req": {
+      "main": [
+        [
+          {
+            "node": "form openai thumbnail gen req",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID for gemini thumbnail gen req": {
+      "main": [
+        [
+          {
+            "node": "form gemini thumbnail gen req",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form gemini thumbnail gen req": {
+      "main": [
+        [
+          {
+            "node": "send HTTP openai thumbnail gen req1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write thumbnail files": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send HTTP openai thumbnail gen req1": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "set new openai prompt text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to File": {
+      "main": [
+        [
+          {
+            "node": "write thumbnail files",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        [
+          {
+            "node": "set meta ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "text gen service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID for openai thumbnail regen prompt": {
+      "main": [
+        [
+          {
+            "node": "form openai thumbnail prompt regen req",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form gemini thumbnail prompt regen req": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form openai thumbnail prompt regen req": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set new gemini prompt text": {
+      "main": [
+        [
+          {
+            "node": "write prompts to meta file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set new openai prompt text": {
+      "main": [
+        [
+          {
+            "node": "write prompts to meta file1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing1": {
+      "main": [
+        [
+          {
+            "node": "check if all thumbnails ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "check if all thumbnails ready1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "channelsFolderPath": "C:/Users/V/Desktop/Channels",
+          "channelName": "LifeOfAPirate",
+          "videoFolderName": "2026-03-24_MbcCf"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "19a7cb04-11b8-4e33-88b2-a884d8728b4f",
+  "activeVersionId": "19a7cb04-11b8-4e33-88b2-a884d8728b4f",
+  "versionCounter": 2105,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-04T18:29:54.762Z",
+      "createdAt": "2026-02-04T18:29:54.762Z",
+      "role": "workflow:owner",
+      "workflowId": "CEAr7nSqMwURqKDg",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}
