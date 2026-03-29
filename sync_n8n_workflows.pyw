@@ -372,66 +372,11 @@ def ensure_workflows_dir(path_value: str) -> Path:
     return path
 
 
-def get_head_commit(repo_dir: Path) -> str:
-    result = run_git_command(repo_dir, ["rev-parse", "HEAD"])
-    return (result.stdout or "").strip()
-
-
-def unique_paths(paths: Sequence[Path]) -> List[Path]:
-    unique: List[Path] = []
-    seen = set()
-    for path in paths:
-        normalized = os.path.normcase(str(path.resolve()))
-        if normalized in seen:
-            continue
-        seen.add(normalized)
-        unique.append(path)
-    return unique
-
-
-def collect_changed_workflow_files(
-    repo_dir: Path,
-    workflows_dir: Path,
-    before_head: str,
-    after_head: str,
-) -> List[Path]:
-    if before_head == after_head:
-        return []
-
-    try:
-        workflows_rel = workflows_dir.relative_to(repo_dir)
-    except ValueError as exc:
-        raise RuntimeError(
-            "Workflows directory must be inside the git repository: {}".format(
-                workflows_dir
-            )
-        ) from exc
-
-    diff_result = run_git_command(
-        repo_dir,
-        [
-            "diff",
-            "--name-only",
-            "--diff-filter=ACMRT",
-            before_head,
-            after_head,
-            "--",
-            workflows_rel.as_posix(),
-        ],
+def get_all_workflow_files(workflows_dir: Path) -> List[Path]:
+    return sorted(
+        workflows_dir.glob("*.json"),
+        key=lambda path: path.name.lower(),
     )
-
-    changed_files: List[Path] = []
-    for raw_path in (diff_result.stdout or "").splitlines():
-        rel_path = raw_path.strip()
-        if not rel_path:
-            continue
-        abs_path = (repo_dir / Path(rel_path)).resolve()
-        if abs_path.suffix.lower() != ".json":
-            continue
-        if abs_path.exists():
-            changed_files.append(abs_path)
-
-    return unique_paths(changed_files)
 
 
 def load_workflow_ids(workflow_files: Sequence[Path]) -> List[str]:
@@ -496,14 +441,14 @@ def print_workflow_summary(
     workflow_files: Sequence[Path],
     workflow_ids: Sequence[str],
 ) -> None:
-    print("Changed workflows: {}".format(len(workflow_files)))
+    print("Workflow files: {}".format(len(workflow_files)))
     for workflow_file, workflow_id in zip(workflow_files, workflow_ids):
         print(" - {} (id={})".format(workflow_file.name, workflow_id))
 
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Pull git, then import and publish only updated n8n workflows."
+        description="Pull git, then import and publish all n8n workflows from the folder."
     )
     parser.add_argument(
         "--workflows-dir",
@@ -557,36 +502,16 @@ def main() -> int:
 
     if args.dry_run:
         print("[dry-run] Git command: {}".format(format_command(["git", "pull"])))
-        print("[dry-run] Changed workflow files are detected from the git diff after pull.")
-        changed_workflow_files: List[Path] = []
-        workflow_ids: List[str] = []
+        workflow_files = get_all_workflow_files(workflows_dir)
+        workflow_ids = load_workflow_ids(workflow_files)
+        print("[dry-run] After git pull, all workflow JSON files from the folder will be processed.")
+        print_workflow_summary(workflow_files, workflow_ids)
     else:
-        before_head = get_head_commit(repo_dir)
         print("Running git pull...")
         run_git_command(repo_dir, ["pull"], capture_output=False)
-        after_head = get_head_commit(repo_dir)
-
-        changed_workflow_files = collect_changed_workflow_files(
-            repo_dir,
-            workflows_dir,
-            before_head,
-            after_head,
-        )
-
-        if before_head == after_head:
-            print("Git is already up to date. Nothing to import or publish.")
-            return 0
-
-        if not changed_workflow_files:
-            print(
-                "Git updated, but no workflow JSON files changed in {}.".format(
-                    workflows_dir
-                )
-            )
-            return 0
-
-        workflow_ids = load_workflow_ids(changed_workflow_files)
-        print_workflow_summary(changed_workflow_files, workflow_ids)
+        workflow_files = get_all_workflow_files(workflows_dir)
+        workflow_ids = load_workflow_ids(workflow_files)
+        print_workflow_summary(workflow_files, workflow_ids)
 
     local_runner = detect_local_runner()
     npx_runner = detect_npx_runner(args.allow_npx_install)
@@ -606,11 +531,9 @@ def main() -> int:
 
     if args.dry_run:
         if not args.skip_import:
-            print("[dry-run] Import only the workflow files changed by git pull.")
+            print("[dry-run] Import all workflow files from the folder.")
         if not args.skip_publish:
-            print(
-                "[dry-run] Publish only the workflow IDs extracted from those changed files."
-            )
+            print("[dry-run] Publish all workflow IDs extracted from those files.")
         return 0
 
     if args.skip_import and args.skip_publish:
@@ -619,17 +542,13 @@ def main() -> int:
 
     with tempfile.TemporaryDirectory(prefix="n8n-workflow-sync-") as bundle_root:
         bundle_dir = Path(bundle_root)
-        for workflow_file in changed_workflow_files:
+        for workflow_file in workflow_files:
             shutil.copy2(workflow_file, bundle_dir / workflow_file.name)
 
         import_input_path = str(bundle_dir)
         if runner.mode == "docker":
             import_input_path = prepare_docker_input(runner, bundle_dir)
-            print(
-                "Copied changed workflows into container path: {}".format(
-                    import_input_path
-                )
-            )
+            print("Copied workflows into container path: {}".format(import_input_path))
 
         import_cmd = [
             *runner.command_prefix,
@@ -640,7 +559,7 @@ def main() -> int:
         ]
 
         if not args.skip_import:
-            print("Importing {} changed workflows...".format(len(changed_workflow_files)))
+            print("Importing {} workflows...".format(len(workflow_files)))
             run_command(import_cmd, capture_output=False)
             print("Import completed.")
 
@@ -648,7 +567,7 @@ def main() -> int:
         print("Publish step skipped.")
         return 0
 
-    print("Publishing {} changed workflows...".format(len(workflow_ids)))
+    print("Publishing {} workflows...".format(len(workflow_ids)))
     failed: List[Tuple[str, str]] = []
     for workflow_id in workflow_ids:
         publish_cmd = [*runner.command_prefix, "publish:workflow", "--id", workflow_id]
@@ -670,7 +589,7 @@ def main() -> int:
         print("Done with errors. Failed: {}".format(len(failed)))
         return 2
 
-    print("Done. Changed workflows imported and published successfully.")
+    print("Done. All workflows imported and published successfully.")
     return 0
 
 
