@@ -1,0 +1,389 @@
+{
+  "updatedAt": "2026-03-29T07:58:58.842Z",
+  "createdAt": "2026-02-06T16:51:26.973Z",
+  "id": "bDIsAKYoQqFa5a8N",
+  "name": "combine video",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\"\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        272,
+        352
+      ]
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get params all workflow params').item.json.generateSuitingClips }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "6eb31550-60b7-42e0-9ec3-bb95a8a18f95"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "clips_script"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1104,
+        352
+      ],
+      "id": "5eae523d-75e5-466a-8f61-9f038ae4af0a",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Grkg9t9XC9y7v5Se",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Grkg9t9XC9y7v5Se",
+          "cachedResultName": "execute command works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "command": "={{ $json.command }}"
+          },
+          "matchingColumns": [
+            "command"
+          ],
+          "schema": [
+            {
+              "id": "command",
+              "displayName": "command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1488,
+        352
+      ],
+      "id": "4863ceaa-0990-4423-a0ff-5916a814d0b5",
+      "name": "run command"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Grkg9t9XC9y7v5Se",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Grkg9t9XC9y7v5Se",
+          "cachedResultName": "execute command works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "command": "=powershell -NoProfile -Command \"$p=Get-Process -Name Resolve -ErrorAction SilentlyContinue; if(-not $p){Start-Process 'C:\\Program Files\\Blackmagic Design\\DaVinci Resolve\\Resolve.exe'; 'STARTED'}else{'ALREADY_RUNNING'}; exit 0\""
+          },
+          "matchingColumns": [
+            "command"
+          ],
+          "schema": [
+            {
+              "id": "command",
+              "displayName": "command",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        688,
+        352
+      ],
+      "id": "1d760f7d-0088-46a5-8376-d10a0b5f594a",
+      "name": "run command3"
+    },
+    {
+      "parameters": {
+        "amount": "={{ $json.stdout == \"STARTED\" ? 30 : 0 }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        896,
+        352
+      ],
+      "id": "5310b21b-b106-4615-ba04-67edef2a8c0e",
+      "name": "Wait",
+      "webhookId": "5f7aa6e4-cbca-4c05-9757-823f4b2b9967"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{\n[\n\n\"eachVisualMinScreenTimeMs\", \n\"eachVisualMaxScreenTimeMs\",\n\n\"videoCreationMode\",\n\"generateSuitingClips\",\n\n] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        464,
+        352
+      ],
+      "name": "get params all workflow params",
+      "id": "73c7da15-8ad1-48ce-b423-815bfff36e3d"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b5996ee5-512d-4609-9f5c-4368e2d0aa63",
+              "name": "command",
+              "value": "=python \"c:\\ProgramData\\Blackmagic Design\\DaVinci Resolve\\Fusion\\Scripts\\Edit\\clips_script.py\" \"{{ $('Start').item.json.channelsFolderPath }}/{{ $('Start').item.json.channelName }}/VIDEOS/{{ $('Start').item.json.videoFolderName }}\" --project \"{{ $('Start').item.json.channelName }}\" --verbose --part-min-ms {{ $('get params all workflow params').item.json.eachVisualMinScreenTimeMs }} --part-max-ms {{ $('get params all workflow params').item.json.eachVisualMaxScreenTimeMs }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1296,
+        240
+      ],
+      "id": "026da3fc-faf0-4d19-b23b-602c1d0889c7",
+      "name": "form clips script command"
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "get params all workflow params",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "form clips script command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "run command3": {
+      "main": [
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get params all workflow params": {
+      "main": [
+        [
+          {
+            "node": "run command3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form clips script command": {
+      "main": [
+        [
+          {
+            "node": "run command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "channelsFolderPath": "C:/Users/V/Desktop/Channels",
+          "channelName": "NewChannel",
+          "videoFolderName": "2026-03-19_LwNIR"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "27d3546f-56cd-47c7-8a27-a476d53ffacd",
+  "activeVersionId": "27d3546f-56cd-47c7-8a27-a476d53ffacd",
+  "versionCounter": 223,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-02-06T16:51:26.977Z",
+      "createdAt": "2026-02-06T16:51:26.977Z",
+      "role": "workflow:owner",
+      "workflowId": "bDIsAKYoQqFa5a8N",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}
