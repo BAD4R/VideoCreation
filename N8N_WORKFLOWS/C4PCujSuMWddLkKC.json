@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-19T21:46:55.079Z",
+  "updatedAt": "2026-03-31T23:05:29.103Z",
   "createdAt": "2026-02-05T01:25:42.639Z",
   "id": "C4PCujSuMWddLkKC",
   "name": "generate starting frames and clips prompts",
@@ -833,8 +833,8 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "NewChannel",
-          "videoFolderName": "2026-03-17_pWLve"
+          "channelName": "LifeOfAPirate",
+          "videoFolderName": "2026-03-24_MbcCf"
         },
         "pairedItem": {
           "item": 0
@@ -842,9 +842,9 @@
       }
     ]
   },
-  "versionId": "2f29436d-d334-4cef-96f7-2c5e85085acc",
-  "activeVersionId": "e909f5b6-e00f-4e25-848b-55ea6fcc8c1f",
-  "versionCounter": 748,
+  "versionId": "10953789-6675-4025-accf-fbdbdbf011da",
+  "activeVersionId": "0760c7c5-6546-4b10-bbd6-b7f2a1d3e285",
+  "versionCounter": 758,
   "triggerCount": 0,
   "tags": [],
   "shared": [

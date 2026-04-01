@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-28T12:56:49.449Z",
+  "updatedAt": "2026-03-30T20:28:15.128Z",
   "createdAt": "2026-03-27T18:43:39.108Z",
   "id": "14W8w4pXVuqk7Ciy",
   "name": "generate clips - paralleling",
@@ -37,9 +37,7 @@
             "channelName": "={{ $('Start').first().json.channelName }}",
             "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
             "method": "sendComfyUiI2VGenerationRequest",
-            "runpodUseVolume": "={{ false }}",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTemplateId }}",
-            "runpodVolumeId": "={{ \"\" }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
             "runpodGpuList": "={{ [] }}",
             "runpodCountryCodes": "={{ [] }}",
             "comfyUiRequest": "={{ $json.workflow }}",
@@ -108,28 +106,18 @@
               "removed": false
             },
             {
+              "id": "jupiterRequest",
+              "displayName": "jupiterRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
               "id": "runpodTemplateId",
               "displayName": "runpodTemplateId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodUseVolume",
-              "displayName": "runpodUseVolume",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "boolean",
-              "removed": false
-            },
-            {
-              "id": "runpodVolumeId",
-              "displayName": "runpodVolumeId",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -170,10 +158,11 @@
       "typeVersion": 1.3,
       "position": [
         1712,
-        464
+        320
       ],
       "id": "fe7b8a10-fb40-4020-9d75-c3a4480c009f",
-      "name": "send runpod gen request"
+      "name": "send runpod gen request",
+      "disabled": true
     },
     {
       "parameters": {
@@ -191,7 +180,7 @@
             "channelName": "={{ $('Start').first().json.channelName }}",
             "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
             "comfyUiRequest": "={{ $json.workflow }}",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTemplateId }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
             "index": "={{ $('get prompts, filenames').item.json.fileName.slice(-10,-5).toNumber() }}",
             "saveFilePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClips/{{ $('Start').first().json.videoFolderName.slice(-5) }}_{{ $('get prompts, filenames').item.json.fileName.slice(-10,-5) }}.mp4",
             "comfyUiMethod": "checkComfyUiI2VGenerationRequest"
@@ -290,8 +279,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1712,
-        576
+        1600,
+        496
       ],
       "id": "7c2ba09d-a899-4b9b-bad4-1740fabf9a79",
       "name": "runpod generations manager"
@@ -301,8 +290,8 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        1808,
-        576
+        1696,
+        496
       ],
       "id": "6e1d9bfe-38dd-4bbd-8150-5c49b0d8c843",
       "name": "Limit1"
@@ -324,7 +313,7 @@
             "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
             "method": "uploadComfyUiFileRequest",
             "runpodUseVolume": "={{ false }}",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTemplateId }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
             "runpodVolumeId": "={{ \"\" }}",
             "runpodGpuList": "={{ [] }}",
             "runpodCountryCodes": "={{ [] }}",
@@ -582,7 +571,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\n\"clipGenerationService\",\n\n\"runpodTemplateId\",\n\"ranpodUseVolume\",\n\"runpodVolumeId\",\n\"runpodGPUList\",\n\"runpodCountryCodes\",\n\n\"eachVisualMinScreenTimeMs\",\n\"eachVisualMaxScreenTimeMs\",\n\n\"videoModelLimitationOnTheGeneratedVideoDurationMs\",\n\n\"clipAdditionalSafeFrames\",\n\n\"clipFps\",\n\n\"clipWidth\",\n\"clipHeight\",\n\n\n] }}",
+            "keysToReturn": "={{ [\n\"clipGenerationService\",\n\n\"runpodVisualsGenerationGPUList\",\n\"runpodVisualsGenerationTemplateId\",\n\"runpodVolumeId\",\n\"runpodGPUList\",\n\"runpodCountryCodes\",\n\n\"eachVisualMinScreenTimeMs\",\n\"eachVisualMaxScreenTimeMs\",\n\n\"videoModelLimitationOnTheGeneratedVideoDurationMs\",\n\n\"clipAdditionalSafeFrames\",\n\n\"clipFps\",\n\n\"clipWidth\",\n\"clipHeight\",\n\n\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -673,7 +662,7 @@
             "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
             "method": "uploadComfyUiFileRequest",
             "runpodUseVolume": "={{ false }}",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTemplateId }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
             "runpodVolumeId": "={{ \"\" }}",
             "runpodGpuList": "={{ [] }}",
             "runpodCountryCodes": "={{ [] }}",
@@ -1361,26 +1350,14 @@
   "staticData": null,
   "meta": null,
   "pinData": {
-    "upload runpod comfyui file1": [
-      {
-        "json": {
-          "name": "MbcCf_00104.png",
-          "subfolder": "",
-          "type": "input"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ],
     "Start": [
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
           "videoFolderName": "2026-03-24_MbcCf",
-          "partIndex": 0,
-          "durMs": 11456
+          "partIndex": 102,
+          "durMs": 11538
         },
         "pairedItem": {
           "item": 0
@@ -1388,9 +1365,9 @@
       }
     ]
   },
-  "versionId": "0d8ce03c-3942-4ae4-a761-e4d07d9695d1",
-  "activeVersionId": "0d8ce03c-3942-4ae4-a761-e4d07d9695d1",
-  "versionCounter": 204,
+  "versionId": "d24d012c-0ef3-455f-9159-66865c625ce8",
+  "activeVersionId": "d24d012c-0ef3-455f-9159-66865c625ce8",
+  "versionCounter": 224,
   "triggerCount": 0,
   "tags": [],
   "shared": [

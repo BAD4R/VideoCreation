@@ -1,0 +1,841 @@
+{
+  "updatedAt": "2026-03-30T20:20:56.550Z",
+  "createdAt": "2026-03-30T14:03:19.768Z",
+  "id": "PHabe9bHZcEgKJi5",
+  "name": "prepairing text parts and generating voiceover on runpod - paralleling",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"partIndex\":0\n}"
+      },
+      "id": "343b750a-afc6-4b1e-90ac-dee310bffb90",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -64,
+        128
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{\n[\n\n\"channelLanguage\",\n\n\"runpodAudioGenerationTemplateId\",\n\"runpodCountryCodes\",\n\n\"prepareTextForVoiceGenerationModel\",\n\"promptForPreparingTextForVoiceGenerationModel\",\n]\n}}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        128,
+        128
+      ],
+      "name": "get all workflow params",
+      "id": "108c8cbc-b662-476d-b1e0-269b84823c49"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "2c0d3030-9290-4c6d-9572-4e2990c74124",
+                    "leftValue": "={{ !$json.prepareTextForVoiceGenerationModel }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "we don't"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.prepareTextForVoiceGenerationModel }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "fb9b14de-88a3-4a09-96e1-edcf95c86f3c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "we do"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        336,
+        128
+      ],
+      "id": "8c984b6c-9619-4961-8a61-e995921531d3",
+      "name": "Switch Do We Prepare Text For Voice Model?"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VOICE/voicePrompts/{{ $('Start').first().json.videoFolderName.slice(11) }}_{{ $('Start').first().json.partIndex.toString().padStart(5,'0') }}.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array"
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object"
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        608,
+        128
+      ],
+      "id": "3a106e10-f11e-43b3-982e-cab81d760e27",
+      "name": "get text"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        496,
+        240
+      ],
+      "id": "869a8000-9404-4dd0-9954-b575da643251",
+      "name": "Ok, fuck it"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b0060309-fa68-4d49-b68a-a9641ed7a660",
+              "name": "textToVoiceOver",
+              "value": "={{ $json.originalTextPart }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        816,
+        128
+      ],
+      "id": "858623f1-1009-47f0-b179-0523023be2d7",
+      "name": "set textToVoiceOver"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').item.json.runpodAudioGenerationTemplateId == \"wbp3azfko8\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "bb688091-7bde-4c46-9a1c-edfced73c9f8"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "qwen-3"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1072,
+        128
+      ],
+      "id": "2534211c-7cd2-4aa7-bb50-15c5b48fe99c",
+      "name": "runpodTemplateId1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b838a0db-de7b-412b-bf0a-98d59eec900c",
+              "name": "voiceFileName",
+              "value": "={{ $('get text').item.json.voiceId }}.mp3",
+              "type": "string"
+            },
+            {
+              "id": "34d4782e-6e9a-441f-9ddf-64b6d23c1e7c",
+              "name": "voiceTextReference",
+              "value": "={{ $('get text').item.json.voiceTextReference }}",
+              "type": "string"
+            },
+            {
+              "id": "c855e136-51a3-4efb-a159-d4c616716aca",
+              "name": "textToVoiceOver",
+              "value": "={{ $json.textToVoiceOver }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1328,
+        128
+      ],
+      "id": "28db7439-4c80-4d98-898b-9f2f1a5b363a",
+      "name": "set wbp3azfko8 voice params"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "023b77a2-462e-40f0-bd72-df1bfb68ba03",
+              "name": "workflow",
+              "value": "={{ \n{\n  \"47\": {\n    \"inputs\": {\n      \"audio\": $json.voiceFileName\n    },\n    \"class_type\": \"LoadAudio\",\n    \"_meta\": {\n      \"title\": \"Load Audio\"\n    }\n  },\n  \"51\": {\n    \"inputs\": {\n      \"filename_prefix\": \"qwen3-tts/clone\",\n      \"quality\": \"320k\",\n      \"audioUI\": \"\",\n      \"audio\": [\n        \"53\",\n        0\n      ]\n    },\n    \"class_type\": \"SaveAudioMP3\",\n    \"_meta\": {\n      \"title\": \"Save Audio (MP3)\"\n    }\n  },\n  \"53\": {\n    \"inputs\": {\n      \"target_text\": $json.textToVoiceOver,\n      \"model_size\": \"1.7B\",\n      \"device\": \"auto\",\n      \"precision\": \"fp32\",\n      \"language\": \"Russian\",\n      \"reference_text\": $json.voiceTextReference,\n      \"x_vector_only\": false,\n      \"max_new_tokens\": 2048,\n      \"do_sample\": true,\n      \"top_p\": 0.9,\n      \"top_k\": 50,\n      \"temperature\": 0.9,\n      \"repetition_penalty\": 1,\n      \"attention\": \"flash_attn\",\n      \"unload_models\": false,\n      \"seed\": 1,\n      \"reference_audio\": [\n        \"47\",\n        0\n      ]\n    },\n    \"class_type\": \"AILab_Qwen3TTSVoiceClone_Advanced\",\n    \"_meta\": {\n      \"title\": \"Voice Clone (QwenTTS) Advanced\"\n    }\n  }\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1568,
+        128
+      ],
+      "id": "2388a64f-0caa-4b7a-a4ec-106fd9b40682",
+      "name": "Set wbp3azfko8 TTS Workflow"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "sendComfyUiI2VGenerationRequest",
+            "runpodUseVolume": "={{ false }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodAudioGenerationTemplateId }}",
+            "runpodVolumeId": "={{ \"\" }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "comfyUiRequest": "={{ $json.workflow }}",
+            "index": "={{ $('Start').item.json.partIndex }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodUseVolume",
+              "displayName": "runpodUseVolume",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "boolean",
+              "removed": false
+            },
+            {
+              "id": "runpodVolumeId",
+              "displayName": "runpodVolumeId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1792,
+        128
+      ],
+      "id": "bc7fe07c-b17c-48a1-8457-4e8cf0eae802",
+      "name": "send runpod gen request1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Or9eJruDbYcgW7rm",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Or9eJruDbYcgW7rm",
+          "cachedResultName": "runpod generations manager"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "comfyUiRequest": "={{ $json.workflow }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodAudioGenerationTemplateId }}",
+            "index": "={{ $('Start').item.json.partIndex }}",
+            "saveFilePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VOICE/{{ $('Start').first().json.videoFolderName.slice(-5) }}_{{ $('Start').item.json.partIndex.toString().padStart(5,'0') }}.mp3",
+            "comfyUiMethod": "checkComfyUiI2VGenerationRequest"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "comfyUiMethod",
+              "displayName": "comfyUiMethod",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "saveFilePath",
+              "displayName": "saveFilePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1792,
+        240
+      ],
+      "id": "b56bd763-7897-4a86-b710-3e7e4274b1cc",
+      "name": "runpod generations manager1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1888,
+        240
+      ],
+      "id": "e70a4522-e5d0-43ff-8acc-415cbd98e359",
+      "name": "Limit"
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "get all workflow params",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get all workflow params": {
+      "main": [
+        [
+          {
+            "node": "Switch Do We Prepare Text For Voice Model?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Do We Prepare Text For Voice Model?": {
+      "main": [
+        [
+          {
+            "node": "get text",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Ok, fuck it",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get text": {
+      "main": [
+        [
+          {
+            "node": "set textToVoiceOver",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set textToVoiceOver": {
+      "main": [
+        [
+          {
+            "node": "runpodTemplateId1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "runpodTemplateId1": {
+      "main": [
+        [
+          {
+            "node": "set wbp3azfko8 voice params",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set wbp3azfko8 voice params": {
+      "main": [
+        [
+          {
+            "node": "Set wbp3azfko8 TTS Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set wbp3azfko8 TTS Workflow": {
+      "main": [
+        [
+          {
+            "node": "send runpod gen request1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "runpod generations manager1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "runpod generations manager1": {
+      "main": [
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "channelsFolderPath": "C:/Users/V/Desktop/Channels",
+          "channelName": "LifeOfAPirate",
+          "videoFolderName": "2026-03-24_MbcCf",
+          "partIndex": 17
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "f29bc014-2a4f-4657-80b0-a417933efad6",
+  "activeVersionId": "f29bc014-2a4f-4657-80b0-a417933efad6",
+  "versionCounter": 161,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-03-30T14:03:19.773Z",
+      "createdAt": "2026-03-30T14:03:19.773Z",
+      "role": "workflow:owner",
+      "workflowId": "PHabe9bHZcEgKJi5",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

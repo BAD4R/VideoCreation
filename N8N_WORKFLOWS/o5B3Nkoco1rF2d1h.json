@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-29T10:33:58.220Z",
+  "updatedAt": "2026-03-30T19:27:33.264Z",
   "createdAt": "2026-02-05T16:30:06.860Z",
   "id": "o5B3Nkoco1rF2d1h",
   "name": "runpod works",
@@ -10,7 +10,7 @@
     {
       "parameters": {
         "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"index\":0,\n  \"method\":\"\",\n\n  \"comfyUiRequest\":{},\n  \n  \"runpodTemplateId\":\"\",\n  \n  \"runpodUseVolume\":false,\n  \"runpodVolumeId\":\"\",\n\n  \"runpodGpuList\":[],\n  \"runpodCountryCodes\":[]\n}"
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"index\":0,\n  \"method\":\"\",\n\n  \"comfyUiRequest\":{},\n  \"jupiterRequest\":{},\n  \n  \"runpodTemplateId\":\"\",\n  \n  \"runpodGpuList\":[],\n  \"runpodCountryCodes\":[]\n}"
       },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
@@ -74,31 +74,6 @@
               },
               "renameOutput": true,
               "outputKey": "pod status"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "7c628bef-0ac6-4d22-bc63-890e2781ab56",
-                    "leftValue": "={{ $('Start').first().json.method == \"pausePod\" }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "pausePod"
             },
             {
               "conditions": {
@@ -185,31 +160,6 @@
                 },
                 "conditions": [
                   {
-                    "id": "7e02add0-69dc-45d8-aa70-0ec7342a0bb0",
-                    "leftValue": "={{ $('Start').first().json.method == \"uploadComfyUiFileRequest\" }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "upload comfyui file"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
                     "id": "8adf39ee-834c-4241-ad5d-7f3e34b35e8a",
                     "leftValue": "={{ $('Start').first().json.method == \"sendComfyUiI2VGenerationRequest\" }}",
                     "rightValue": "",
@@ -274,6 +224,81 @@
               },
               "renameOutput": true,
               "outputKey": "comfy download result"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "7e02add0-69dc-45d8-aa70-0ec7342a0bb0",
+                    "leftValue": "={{ $('Start').first().json.method == \"uploadComfyUiFileRequest\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "upload comfyui file"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "11db66b0-abda-4b63-8350-61c7a16411b1",
+                    "leftValue": "={{ $('Start').first().json.method == \"checkFileOnJupiter\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "check file on jupiter"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "5b548c25-3ab3-4451-add7-9fb449a9d87f",
+                    "leftValue": "={{ $('Start').first().json.method == \"uploadFileToJupiter\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "upload file to jupiter"
             }
           ]
         },
@@ -405,7 +430,7 @@
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{\n{\n  \"query\": \"mutation($input: PodFindAndDeployOnDemandInput) { podFindAndDeployOnDemand(input: $input) { id name desiredStatus machineId imageName templateId } }\",\n  \"variables\": {\n    \"input\": {\n      \"name\": \"deployed: \" + $now.format(\"dd-MM-yyyy HH:mm\"),\n      \"templateId\": $(\"Start\").first().json.runpodTemplateId,\n      \"cloudType\": $(\"Start\").first().json.runpodUseVolume ? \"SECURE\" : \"COMMUNITY\",\n      \"gpuTypeId\": $(\"Start\").first().json.runpodGpuList[0],\n      \"gpuCount\": 1,\n      \"containerDiskInGb\": $(\"Start\").first().json.runpodContainerDiskInGb,\n      \"volumeInGb\": $(\"Start\").first().json.runpodVolumeInGb,\n      \"supportPublicIp\": true,\n      \"startJupyter\": true,\n      \"startSsh\": true,\n      \"volumeMountPath\": \"/workspace\",\n      \"env\": [\n        {\n          \"key\": \"CIVITAI_TOKEN\",\n          \"value\": \"{{ RUNPOD_SECRET_civitai_api_key \\}}\"\n        }\n      ]\n    }\n  }\n}\n}}",
+              "value": "={{\n{\n  \"query\": \"mutation($input: PodFindAndDeployOnDemandInput) { podFindAndDeployOnDemand(input: $input) { id name desiredStatus machineId imageName templateId } }\",\n  \"variables\": {\n    \"input\": {\n      \"name\": \"deployed: \" + $now.format(\"dd-MM-yyyy HH:mm\"),\n      \"templateId\": $(\"Start\").first().json.runpodTemplateId,\n      \"cloudType\": $(\"Start\").first().json.runpodUseVolume ? \"SECURE\" : \"COMMUNITY\",\n      \"gpuTypeId\": $(\"Start\").first().json.runpodGpuList[0],\n      \"gpuCount\": 1,\n      \"containerDiskInGb\": $(\"Start\").first().json.runpodContainerDiskInGb,\n      \"volumeInGb\": $(\"Start\").first().json.runpodVolumeInGb,\n      \"supportPublicIp\": true,\n      \"startJupyter\": true,\n      \"startSsh\": true,\n      \"volumeMountPath\": \"/workspace\",\n      \"allowedCudaVersions\": [\"12.8\", \"12.9\", \"13.0\"],\n      \"env\": [\n        {\n          \"key\": \"CIVITAI_TOKEN\",\n          \"value\": \"{{ RUNPOD_SECRET_civitai_api_key \\}}\"\n        }\n      ]\n    }\n  }\n}\n}}",
               "type": "object"
             }
           ]
@@ -1633,7 +1658,7 @@
       "typeVersion": 3.4,
       "position": [
         1856,
-        688
+        704
       ],
       "id": "ff6fcc11-ddaf-4354-a5a1-f484c2773957",
       "name": "output fail"
@@ -1656,7 +1681,7 @@
       "typeVersion": 3.4,
       "position": [
         1856,
-        592
+        608
       ],
       "id": "8be83da0-bc51-420f-9c73-cbad776ea4fd",
       "name": "output success"
@@ -1697,7 +1722,7 @@
       "typeVersion": 3.4,
       "position": [
         1264,
-        544
+        704
       ],
       "id": "46b63207-8aa5-4e6c-90e2-4f2a8501ef86",
       "name": "form comfyui gen request"
@@ -1720,7 +1745,7 @@
       "typeVersion": 3.4,
       "position": [
         1856,
-        496
+        512
       ],
       "id": "7b868cdc-38f3-4be8-b0fd-820c395bb07c",
       "name": "output generating"
@@ -1743,7 +1768,7 @@
       "typeVersion": 3.4,
       "position": [
         1856,
-        400
+        416
       ],
       "id": "63069d87-b6d9-4288-90cf-cda31af8370e",
       "name": "output queued"
@@ -1817,7 +1842,7 @@
       "typeVersion": 1.3,
       "position": [
         1360,
-        544
+        704
       ],
       "id": "41e59df0-c59c-47c0-8758-e4bdebb554ea",
       "name": "POST Prompt"
@@ -2234,7 +2259,7 @@
       "typeVersion": 3.4,
       "position": [
         1568,
-        512
+        640
       ],
       "id": "35aa7004-451a-40b2-947d-1f89361e6456",
       "name": "Switch"
@@ -2298,7 +2323,7 @@
       "typeVersion": 3.4,
       "position": [
         1264,
-        1344
+        1200
       ],
       "id": "3cccbb35-6db3-4200-9e5d-2f87a7c0eb4d",
       "name": "form comfyui gen request1"
@@ -2382,7 +2407,7 @@
       "typeVersion": 1.3,
       "position": [
         1360,
-        1344
+        1200
       ],
       "id": "39b54526-21ba-4526-b4b0-2ba9676808d3",
       "name": "GET result"
@@ -3206,7 +3231,7 @@
       "typeVersion": 1.1,
       "position": [
         1264,
-        928
+        1408
       ],
       "id": "c01f5718-574f-44d9-900f-6b0fbb87f3b6",
       "name": "Read File To Upload"
@@ -3240,7 +3265,7 @@
       "typeVersion": 4.4,
       "position": [
         1360,
-        928
+        1408
       ],
       "id": "bccf58d6-56d2-4977-aaa5-325e79fe5a87",
       "name": "Upload Bianry File HTTP Request",
@@ -3264,7 +3289,7 @@
       "typeVersion": 3.4,
       "position": [
         1856,
-        1216
+        1184
       ],
       "id": "e61134ba-a5fb-40d2-a03d-f90e65518b58",
       "name": "output fail1"
@@ -3287,7 +3312,7 @@
       "typeVersion": 3.4,
       "position": [
         1856,
-        1120
+        1088
       ],
       "id": "096f0c11-640a-45a5-afe3-26b4784a7e1c",
       "name": "output success1"
@@ -3328,7 +3353,7 @@
       "typeVersion": 3.4,
       "position": [
         1264,
-        1072
+        896
       ],
       "id": "348b198e-8f6e-43fe-95cf-52d7a925613e",
       "name": "form comfyui gen request2"
@@ -3351,7 +3376,7 @@
       "typeVersion": 3.4,
       "position": [
         1856,
-        1024
+        992
       ],
       "id": "6a1c48f5-5972-4244-83fc-05ccf104aa3a",
       "name": "output generating1"
@@ -3374,7 +3399,7 @@
       "typeVersion": 3.4,
       "position": [
         1856,
-        928
+        896
       ],
       "id": "3d0a2638-85eb-4707-80d5-db58f2a76a0e",
       "name": "output queued1"
@@ -3448,7 +3473,7 @@
       "typeVersion": 1.3,
       "position": [
         1360,
-        1072
+        896
       ],
       "id": "b66b5302-cd34-4006-9f70-705b9f5e1987",
       "name": "POST Prompt1"
@@ -3565,7 +3590,7 @@
       "typeVersion": 3.4,
       "position": [
         1568,
-        1040
+        896
       ],
       "id": "b7ab18e7-9312-4374-b5a5-9814628ecd88",
       "name": "Switch1"
@@ -3849,6 +3874,162 @@
       "id": "457d1c3b-cd85-40ca-9881-d533fcfef869",
       "name": "GET Status1",
       "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "fileExist",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1552,
+        1568
+      ],
+      "id": "40d71c13-191e-43bb-9394-e6729df2387c",
+      "name": "output fileExist true"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "fileExist",
+              "value": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1552,
+        1664
+      ],
+      "id": "cf3eb594-69cf-4163-9cad-aab74aa6be16",
+      "name": "output fileExist false"
+    },
+    {
+      "parameters": {
+        "fileSelector": "={{ $('Start').item.json.jupiterRequest.localFilePath }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1.1,
+      "position": [
+        1264,
+        1808
+      ],
+      "id": "288b0f77-e8c9-453e-8f37-6573a6e2b8af",
+      "name": "Read File To Upload1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "fileUploadedSuccessfully",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1936,
+        1568
+      ],
+      "id": "a90799ea-b28f-432c-aed5-dfcf0a5d9bdd",
+      "name": "output fileUploadedSuccessfully true"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "fileUploadedSuccessfully",
+              "value": false,
+              "type": "boolean"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1936,
+        1664
+      ],
+      "id": "ba01700c-1083-4c25-b61a-781334a7482e",
+      "name": "output fileUploadedSuccessfully false"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://{{ $('read pod id').last().json.podMeta.id }}-{{ $('get all workflow params').first().json.comfyUiPort }}.proxy.runpod.net/api/upload/image",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "image",
+              "inputDataFieldName": "data"
+            },
+            {
+              "name": "type",
+              "value": "input"
+            },
+            {
+              "name": "overwrite",
+              "value": "true"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1360,
+        1808
+      ],
+      "id": "2fb6a96d-1b9e-45a8-86dd-19653856e03c",
+      "name": "Upload Bianry File HTTP Request1",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "url": "=https://{{ $('read pod id').last().json.podMeta.id }}-8888.proxy.runpod.net/api/contents/workspace{{ $('Start').first().json.jupiterRequest.filePathOnJupiter }}?content=0",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "position": [
+        1264,
+        1616
+      ],
+      "id": "265cefdd-8645-408f-85fc-f6a1b6b40d1c",
+      "name": "Upload Bianry File HTTP Request2",
+      "onError": "continueErrorOutput"
     }
   ],
   "connections": {
@@ -3879,7 +4060,6 @@
             "index": 0
           }
         ],
-        [],
         [
           {
             "node": "form pod terminate request",
@@ -3903,13 +4083,6 @@
         ],
         [
           {
-            "node": "Read File To Upload",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
             "node": "form comfyui gen request2",
             "type": "main",
             "index": 0
@@ -3925,6 +4098,27 @@
         [
           {
             "node": "form comfyui gen request1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Read File To Upload",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Upload Bianry File HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Read File To Upload1",
             "type": "main",
             "index": 0
           }
@@ -4601,6 +4795,71 @@
           }
         ]
       ]
+    },
+    "Read File To Upload1": {
+      "main": [
+        [
+          {
+            "node": "Upload Bianry File HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Bianry File HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "output fileUploadedSuccessfully true",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "output fileUploadedSuccessfully false",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Bianry File HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "output fileUploadedSuccessfully true",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "output fileUploadedSuccessfully false",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload Bianry File HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "output fileExist true",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "output fileExist false",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -4621,14 +4880,13 @@
           "channelName": "LifeOfAPirate",
           "videoFolderName": "2026-03-24_MbcCf",
           "index": 0,
-          "method": "deployPod",
+          "method": "checkFileOnJupiter",
           "comfyUiRequest": {},
-          "runpodTemplateId": "liqhn0gkqo",
-          "runpodUseVolume": false,
-          "runpodVolumeId": "psrm6za97d",
-          "runpodGpuList": [
-            "NVIDIA GeForce RTX 5090"
-          ],
+          "jupiterRequest": {
+            "filePathOnJupiter": "/ComfyUI/input/elevenlabs_nikolay_calm.mp3"
+          },
+          "runpodTemplateId": "wbp3azfko8",
+          "runpodGpuList": [],
           "runpodCountryCodes": []
         },
         "pairedItem": {
@@ -4637,9 +4895,9 @@
       }
     ]
   },
-  "versionId": "342c6c76-b975-4787-8a1f-a9d552d84583",
-  "activeVersionId": "342c6c76-b975-4787-8a1f-a9d552d84583",
-  "versionCounter": 3349,
+  "versionId": "7504a293-88b4-450e-8d9a-467238c2a81d",
+  "activeVersionId": "7504a293-88b4-450e-8d9a-467238c2a81d",
+  "versionCounter": 3525,
   "triggerCount": 0,
   "tags": [],
   "shared": [

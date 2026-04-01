@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-22T10:59:04.422Z",
+  "updatedAt": "2026-03-30T21:55:09.081Z",
   "createdAt": "2026-02-04T19:31:36.029Z",
   "id": "du4UzkaJt01yiEEG",
   "name": "generate voiceover",
@@ -17,19 +17,19 @@
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        272,
+        -48,
         352
       ]
     },
     {
       "parameters": {
-        "jsCode": "// --- ВХОДНЫЕ ПЕРЕМЕННЫЕ (как у тебя) ---\nconst textPartsLength = Number($('get audio gen service and textPartsLength').first().json.textPartsLength); // максимум длины части\nconst text = String($('get whole text from TXT file').first().json.text ?? \"\");        // исходный текст\n\n// --- ЛОГИКА ---\nconst partsArr = splitBalancedTTS(text, textPartsLength);\n\n// --- ВЫХОД ---\nreturn partsArr.map((partText, partIndex) => ({\n  json: {\n    partIndex,\n    text: partText,\n  },\n}));\n\n// ================== FUNCTIONS ==================\n\nfunction splitBalancedTTS(source, limit) {\n  if (!limit || limit <= 0) {\n    return source && source.trim() ? [source] : [];\n  }\n\n  const sents = splitIntoSentencesWithParas(source);\n\n  // 1) Нормализация сверхдлинных предложений\n  const normalized = [];\n  for (const s of sents) {\n    if (s === \"\\n\\n\") {\n      normalized.push(s);\n      continue;\n    }\n    if (s.length <= limit) {\n      normalized.push(s);\n      continue;\n    }\n    let rest = s;\n    while (rest.length > limit) {\n      const bp = findBreak(rest, limit);\n      const chunk = rest.slice(0, bp).trim();\n      if (chunk) normalized.push(chunk);\n      rest = rest.slice(bp).trim();\n    }\n    if (rest.trim()) normalized.push(rest.trim());\n  }\n\n  const n = normalized.length;\n  const pref = new Array(n + 1).fill(0);\n  for (let i = 0; i < n; i++) {\n    pref[i + 1] = pref[i] + normalized[i].length;\n  }\n\n  const chunkCost = (i, j) => {\n    const length = pref[j] - pref[i];\n    if (length > limit) return Infinity;\n    const slack = limit - length;\n    return slack * slack;\n  };\n\n  const best = new Array(n + 1).fill(Infinity);\n  const nextBreak = new Array(n + 1).fill(-1);\n  best[n] = 0;\n\n  for (let i = n - 1; i >= 0; i--) {\n    if (normalized[i] === \"\\n\\n\") {\n      best[i] = best[i + 1];\n      nextBreak[i] = i + 1;\n      continue;\n    }\n    let j = i + 1;\n    while (j <= n && (pref[j] - pref[i]) <= limit) {\n      const cost = chunkCost(i, j) + best[j];\n      if (cost < best[i]) {\n        best[i] = cost;\n        nextBreak[i] = j;\n      }\n      j++;\n    }\n  }\n\n  const chunks = [];\n  let i = 0;\n  while (i < n) {\n    let j = nextBreak[i];\n    if (j === -1 || j <= i) j = Math.min(n, i + 1);\n    const text = normalized.slice(i, j).join(\"\").trim();\n    if (text) chunks.push(text);\n    i = j;\n  }\n  return chunks;\n}\n\nfunction splitIntoSentencesWithParas(source) {\n  const result = [];\n  const paras = source.split(/\\n\\s*\\n/);\n  for (let pIdx = 0; pIdx < paras.length; pIdx++) {\n    const p = (paras[pIdx] || \"\").trim();\n    if (!p) continue;\n\n    let i = 0;\n    const rx = /([.!?…]+[)\"»\\]]*)(\\s+|$)/g;\n    const masked = maskTags(p);\n\n    let m;\n    while ((m = rx.exec(masked)) !== null) {\n      const end = m.index + m[0].length;\n      const sent = p.slice(i, end);\n      if (sent.trim()) result.push(sent);\n      i = end;\n    }\n    if (i < p.length) {\n      const tail = p.slice(i);\n      if (tail.trim()) result.push(tail);\n    }\n    if (pIdx < paras.length - 1) result.push(\"\\n\\n\");\n  }\n\n  // dedupe repeated paragraph separators\n  const compact = [];\n  for (const cur of result) {\n    if (cur === \"\\n\\n\" && compact.length && compact[compact.length - 1] === \"\\n\\n\") {\n      continue;\n    }\n    compact.push(cur);\n  }\n  return compact;\n}\n\nfunction findBreak(remaining, limit) {\n  const windowText = remaining.slice(0, limit);\n  const masked = maskTags(windowText);\n  const spans = getTagSpans(remaining);\n\n  let best = -1;\n  const rx = /([.!?…]+[)\"»\\]]?\\s)/g;\n  let m;\n  while ((m = rx.exec(masked)) !== null) {\n    best = m.index + m[0].length;\n  }\n\n  if (best >= Math.floor(limit * 0.6)) {\n    let idx = adjustBreakIndex(best, spans);\n    if (idx <= 0) idx = Math.max(1, best);\n    return safeBreakIndex(remaining, idx);\n  }\n\n  const lastSpace = Math.max(\n    masked.lastIndexOf(\" \"),\n    masked.lastIndexOf(\"\\n\"),\n    masked.lastIndexOf(\"\\t\")\n  );\n  if (lastSpace > 0) {\n    let idx = adjustBreakIndex(lastSpace + 1, spans);\n    if (idx <= 0) idx = Math.max(1, lastSpace + 1);\n    return safeBreakIndex(remaining, idx);\n  }\n\n  let idx = adjustBreakIndex(limit, spans);\n  if (idx <= 0) {\n    if (spans.length && spans[0][0] === 0) idx = spans[0][1];\n    if (idx <= 0) idx = 1;\n  }\n  return safeBreakIndex(remaining, idx);\n}\n\nfunction getTagSpans(text) {\n  const spans = [];\n  if (!text.includes(\"[\")) return spans;\n  let i = 0;\n  while (i < text.length) {\n    const start = text.indexOf(\"[\", i);\n    if (start === -1) break;\n    const end = text.indexOf(\"]\", start + 1);\n    if (end === -1) {\n      spans.push([start, text.length]);\n      break;\n    }\n    spans.push([start, end + 1]); // end exclusive\n    i = end + 1;\n  }\n  return spans;\n}\n\nfunction maskTags(text) {\n  if (!text.includes(\"[\")) return text;\n  const spans = getTagSpans(text);\n  if (!spans.length) return text;\n  const chars = text.split(\"\");\n  for (const [start, end] of spans) {\n    for (let i = start; i < end; i++) chars[i] = \"a\";\n  }\n  return chars.join(\"\");\n}\n\nfunction adjustBreakIndex(idx, spans) {\n  for (const [start, end] of spans) {\n    if (start < idx && idx < end) {\n      if (start > 0) return start;\n      return end;\n    }\n  }\n  return idx;\n}\n\nfunction safeBreakIndex(s, idx) {\n  if (idx > 0 && idx < s.length) {\n    const prev = s.charCodeAt(idx - 1);\n    const curr = s.charCodeAt(idx);\n    if (0xD800 <= prev && prev <= 0xDBFF && 0xDC00 <= curr && curr <= 0xDFFF) {\n      idx -= 1;\n    }\n  }\n  if (idx < 0) return 0;\n  if (idx > s.length) return s.length;\n  return idx;\n}\n"
+        "jsCode": "// --- ВХОДНЫЕ ПЕРЕМЕННЫЕ (как у тебя) ---\nconst textPartsLength = Number($('get all workflow params').first().json.textPartsLength); // максимум длины части\nconst text = String($('get whole text from TXT file').first().json.text ?? \"\");        // исходный текст\n\n// --- ЛОГИКА ---\nconst partsArr = splitBalancedTTS(text, textPartsLength);\n\n// --- ВЫХОД ---\nreturn partsArr.map((partText, partIndex) => ({\n  json: {\n    partIndex,\n    text: partText,\n  },\n}));\n\n// ================== FUNCTIONS ==================\n\nfunction splitBalancedTTS(source, limit) {\n  if (!limit || limit <= 0) {\n    return source && source.trim() ? [source] : [];\n  }\n\n  const sents = splitIntoSentencesWithParas(source);\n\n  // 1) Нормализация сверхдлинных предложений\n  const normalized = [];\n  for (const s of sents) {\n    if (s === \"\\n\\n\") {\n      normalized.push(s);\n      continue;\n    }\n    if (s.length <= limit) {\n      normalized.push(s);\n      continue;\n    }\n    let rest = s;\n    while (rest.length > limit) {\n      const bp = findBreak(rest, limit);\n      const chunk = rest.slice(0, bp).trim();\n      if (chunk) normalized.push(chunk);\n      rest = rest.slice(bp).trim();\n    }\n    if (rest.trim()) normalized.push(rest.trim());\n  }\n\n  const n = normalized.length;\n  const pref = new Array(n + 1).fill(0);\n  for (let i = 0; i < n; i++) {\n    pref[i + 1] = pref[i] + normalized[i].length;\n  }\n\n  const chunkCost = (i, j) => {\n    const length = pref[j] - pref[i];\n    if (length > limit) return Infinity;\n    const slack = limit - length;\n    return slack * slack;\n  };\n\n  const best = new Array(n + 1).fill(Infinity);\n  const nextBreak = new Array(n + 1).fill(-1);\n  best[n] = 0;\n\n  for (let i = n - 1; i >= 0; i--) {\n    if (normalized[i] === \"\\n\\n\") {\n      best[i] = best[i + 1];\n      nextBreak[i] = i + 1;\n      continue;\n    }\n    let j = i + 1;\n    while (j <= n && (pref[j] - pref[i]) <= limit) {\n      const cost = chunkCost(i, j) + best[j];\n      if (cost < best[i]) {\n        best[i] = cost;\n        nextBreak[i] = j;\n      }\n      j++;\n    }\n  }\n\n  const chunks = [];\n  let i = 0;\n  while (i < n) {\n    let j = nextBreak[i];\n    if (j === -1 || j <= i) j = Math.min(n, i + 1);\n    const text = normalized.slice(i, j).join(\"\").trim();\n    if (text) chunks.push(text);\n    i = j;\n  }\n  return chunks;\n}\n\nfunction splitIntoSentencesWithParas(source) {\n  const result = [];\n  const paras = source.split(/\\n\\s*\\n/);\n  for (let pIdx = 0; pIdx < paras.length; pIdx++) {\n    const p = (paras[pIdx] || \"\").trim();\n    if (!p) continue;\n\n    let i = 0;\n    const rx = /([.!?…]+[)\"»\\]]*)(\\s+|$)/g;\n    const masked = maskTags(p);\n\n    let m;\n    while ((m = rx.exec(masked)) !== null) {\n      const end = m.index + m[0].length;\n      const sent = p.slice(i, end);\n      if (sent.trim()) result.push(sent);\n      i = end;\n    }\n    if (i < p.length) {\n      const tail = p.slice(i);\n      if (tail.trim()) result.push(tail);\n    }\n    if (pIdx < paras.length - 1) result.push(\"\\n\\n\");\n  }\n\n  // dedupe repeated paragraph separators\n  const compact = [];\n  for (const cur of result) {\n    if (cur === \"\\n\\n\" && compact.length && compact[compact.length - 1] === \"\\n\\n\") {\n      continue;\n    }\n    compact.push(cur);\n  }\n  return compact;\n}\n\nfunction findBreak(remaining, limit) {\n  const windowText = remaining.slice(0, limit);\n  const masked = maskTags(windowText);\n  const spans = getTagSpans(remaining);\n\n  let best = -1;\n  const rx = /([.!?…]+[)\"»\\]]?\\s)/g;\n  let m;\n  while ((m = rx.exec(masked)) !== null) {\n    best = m.index + m[0].length;\n  }\n\n  if (best >= Math.floor(limit * 0.6)) {\n    let idx = adjustBreakIndex(best, spans);\n    if (idx <= 0) idx = Math.max(1, best);\n    return safeBreakIndex(remaining, idx);\n  }\n\n  const lastSpace = Math.max(\n    masked.lastIndexOf(\" \"),\n    masked.lastIndexOf(\"\\n\"),\n    masked.lastIndexOf(\"\\t\")\n  );\n  if (lastSpace > 0) {\n    let idx = adjustBreakIndex(lastSpace + 1, spans);\n    if (idx <= 0) idx = Math.max(1, lastSpace + 1);\n    return safeBreakIndex(remaining, idx);\n  }\n\n  let idx = adjustBreakIndex(limit, spans);\n  if (idx <= 0) {\n    if (spans.length && spans[0][0] === 0) idx = spans[0][1];\n    if (idx <= 0) idx = 1;\n  }\n  return safeBreakIndex(remaining, idx);\n}\n\nfunction getTagSpans(text) {\n  const spans = [];\n  if (!text.includes(\"[\")) return spans;\n  let i = 0;\n  while (i < text.length) {\n    const start = text.indexOf(\"[\", i);\n    if (start === -1) break;\n    const end = text.indexOf(\"]\", start + 1);\n    if (end === -1) {\n      spans.push([start, text.length]);\n      break;\n    }\n    spans.push([start, end + 1]); // end exclusive\n    i = end + 1;\n  }\n  return spans;\n}\n\nfunction maskTags(text) {\n  if (!text.includes(\"[\")) return text;\n  const spans = getTagSpans(text);\n  if (!spans.length) return text;\n  const chars = text.split(\"\");\n  for (const [start, end] of spans) {\n    for (let i = start; i < end; i++) chars[i] = \"a\";\n  }\n  return chars.join(\"\");\n}\n\nfunction adjustBreakIndex(idx, spans) {\n  for (const [start, end] of spans) {\n    if (start < idx && idx < end) {\n      if (start > 0) return start;\n      return end;\n    }\n  }\n  return idx;\n}\n\nfunction safeBreakIndex(s, idx) {\n  if (idx > 0 && idx < s.length) {\n    const prev = s.charCodeAt(idx - 1);\n    const curr = s.charCodeAt(idx);\n    if (0xD800 <= prev && prev <= 0xDBFF && 0xDC00 <= curr && curr <= 0xDFFF) {\n      idx -= 1;\n    }\n  }\n  if (idx < 0) return 0;\n  if (idx > s.length) return s.length;\n  return idx;\n}\n"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1392,
-        240
+        2864,
+        352
       ],
       "id": "37507078-6031-42ce-b17d-67d73c08fb03",
       "name": "split text to parts"
@@ -116,8 +116,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1904,
-        240
+        4784,
+        96
       ],
       "id": "1047bd1d-a118-4de1-8963-232ea80232b1",
       "name": "generate elevenlabs audio - paralleling"
@@ -189,8 +189,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1696,
-        384
+        4576,
+        464
       ],
       "id": "7d61ce44-e28b-4e4c-8289-6e993e7d147c",
       "name": "check if files ready"
@@ -223,8 +223,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1904,
-        384
+        4784,
+        464
       ],
       "id": "492c64f4-f88a-4113-9f7b-a9a9f2f84323",
       "name": "If Audio Ready"
@@ -236,8 +236,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        2000,
-        480
+        4880,
+        560
       ],
       "id": "4ffd3677-eee5-4686-964f-5f3a873e784b",
       "name": "Wait",
@@ -248,8 +248,8 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        2160,
-        384
+        5040,
+        464
       ],
       "id": "9357c574-c13a-4ab2-86a6-ff07a9435eca",
       "name": "Limit1"
@@ -336,8 +336,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        2352,
-        384
+        5232,
+        464
       ],
       "name": "set voiceover ready",
       "id": "a742cdce-4320-4097-aed2-1a86efe03d5b"
@@ -409,8 +409,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1184,
-        240
+        2656,
+        352
       ],
       "id": "d524fea0-3687-492f-a5ab-d1771db44a92",
       "name": "get existing audio files"
@@ -443,78 +443,11 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
       "position": [
-        1696,
-        240
+        4576,
+        96
       ],
       "id": "190182c1-89b1-470f-ade2-1a6bd75f0f34",
       "name": "Filter Ready Parts"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.audioGenService == \"elevenlabs\" }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "dc3b77df-1288-4bc2-9528-6f340e6a85a1"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "elevenlabs"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "0c18c801-d575-40c2-9226-d6e46fb02f14",
-                    "leftValue": "={{ $json.audioGenService == \"runpod\" }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "runpod"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        688,
-        352
-      ],
-      "id": "b499b5ec-fe90-42a4-b766-b24807ce26b2",
-      "name": "Switch by A Gudio gen Service"
     },
     {
       "parameters": {
@@ -572,11 +505,377 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        960,
-        240
+        2448,
+        352
       ],
       "name": "get whole text from TXT file",
       "id": "39732aa6-3eca-4630-a112-a585ef591981"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').first().json.audioGenService == \"elevenlabs\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "dc3b77df-1288-4bc2-9528-6f340e6a85a1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "elevenlabs"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "0c18c801-d575-40c2-9226-d6e46fb02f14",
+                    "leftValue": "={{ $('get all workflow params').first().json.audioGenService == \"runpod\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "runpod"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        4208,
+        272
+      ],
+      "id": "109c4a88-662a-4df0-9a7c-3b2db877c8c0",
+      "name": "Switch by A Gudio gen Service"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "01bf6e6d-2a96-46b9-9c83-df20b2a5c17e",
+              "leftValue": "={{(()=>{\nlet existingPartsIndexes = []\n\nif ($('get existing audio files').item.json.existingFilesNames.length > 0){\n  existingPartsIndexes = $('get existing audio files').first().json.existingFilesNames.map(name=>name.slice(-9,-4).toInt())\n}\n\nconst partIndex = $json.partIndex\n\nreturn !existingPartsIndexes.includes(partIndex)\n})()}}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        4576,
+        272
+      ],
+      "id": "aabd404e-22f0-47b1-ae0d-12ac7163d9e4",
+      "name": "Filter Ready Parts1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').first().json.audioGenService == \"elevenlabs\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "dc3b77df-1288-4bc2-9528-6f340e6a85a1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "elevenlabs"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "0c18c801-d575-40c2-9226-d6e46fb02f14",
+                    "leftValue": "={{ $('get all workflow params').first().json.audioGenService == \"runpod\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "runpod"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        384,
+        352
+      ],
+      "id": "f0ec83dc-4a7a-4587-b3e4-ab102afe8583",
+      "name": "Switch by A Gudio gen Service1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('start runpod voicegen pod').last().json.podStatus == \"ready\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "97e59f12-bc59-4be5-90ae-b8377c299af1"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ready"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "bd134720-5585-4531-a316-a4726894744c",
+                    "leftValue": "={{ $('start runpod voicegen pod').last().json.podStatus == \"terminated\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "terminated"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1072,
+        512
+      ],
+      "id": "def34dc2-19d4-4536-abd6-1b6297b07068",
+      "name": "if pod ready"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "deployPod",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodAudioGenerationTemplateId }}",
+            "runpodGpuList": "={{ $('get all workflow params').first().json.runpodAudioGenerationGPUList }}",
+            "runpodCountryCodes": "={{ $('get all workflow params').first().json.runpodCountryCodes }}",
+            "comfyUiRequest": "={{ {} }}",
+            "index": 0
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        864,
+        512
+      ],
+      "id": "500fb26c-6576-4cff-91cb-9a4beef45880",
+      "name": "start runpod voicegen pod"
     },
     {
       "parameters": {
@@ -592,7 +891,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\"audioGenService\", \"textPartsLength\"] }}",
+            "keysToReturn": "={{\n[\n\n\"audioGenService\",\n\"textPartsLength\",\n\"runpodAudioGenerationTemplateId\",\n\"runpodAudioGenerationGPUList\",\n\"runpodCountryCodes\",\n\"runpodVoiceId\"\n\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -660,11 +959,821 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        480,
+        160,
         352
       ],
-      "name": "get audio gen service and textPartsLength",
+      "name": "get all workflow params",
       "id": "1a35bf38-290f-4f69-baaa-ac5ab1b12123"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "checkFileOnJupiter",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodAudioGenerationTemplateId }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "comfyUiRequest": "={{ {} }}",
+            "index": 0,
+            "jupiterRequest": "={{ {\n\"filePathOnJupiter\":\"/ComfyUI/input/\"+$('get all workflow params').item.json.runpodVoiceId+'.mp3'\n} }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "jupiterRequest",
+              "displayName": "jupiterRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1280,
+        512
+      ],
+      "id": "c436c840-239e-4f5a-8a8d-4d778e4d00a2",
+      "name": "check file on jupiter"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "8d28d703-c38a-48c9-a039-7591752e7df0",
+              "leftValue": "={{ $json.fileExist }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1472,
+        512
+      ],
+      "id": "9028b22f-ac38-4550-85ea-df598cbd27b8",
+      "name": "If file exists"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "uploadFileToJupiter",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodAudioGenerationTemplateId }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "comfyUiRequest": "={{ {} }}",
+            "index": 0,
+            "jupiterRequest": "={{ {\n\"filePathOnJupiter\":\"/ComfyUI/input/\"+$('get all workflow params').item.json.runpodVoiceId+'.mp3',\n\"localFilePath\":$('Start').item.json.channelsFolderPath+'/VOICE_LIBRARY/'+$('get all workflow params').item.json.runpodVoiceId+'.mp3'\n} }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "jupiterRequest",
+              "displayName": "jupiterRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1776,
+        512
+      ],
+      "id": "97b818dd-f9ed-4be3-b450-8ce430e0b724",
+      "name": "upload file to jupiter"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Could not upload audio file"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        2064,
+        608
+      ],
+      "id": "1ae61ca4-e90f-406c-8be2-504b4cd1cd8e",
+      "name": "Stop and Error1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "N2bXusYBgofvRBlH",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/N2bXusYBgofvRBlH",
+          "cachedResultName": "check files quantity in directory"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "directoryPath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VOICE/voicePrompts",
+            "fileExtentionToSearch": ".json",
+            "expectedFilesCount": -1
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "directoryPath",
+              "displayName": "directoryPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileExtentionToSearch",
+              "displayName": "fileExtentionToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileNameToSearch",
+              "displayName": "fileNameToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "expectedFilesCount",
+              "displayName": "expectedFilesCount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2240,
+        352
+      ],
+      "id": "bc384f30-6d3e-453d-adf8-5172dcd5f1fc",
+      "name": "get voice prompts"
+    },
+    {
+      "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "part",
+              "renameField": true,
+              "outputFieldName": "parts"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        3280,
+        352
+      ],
+      "id": "127b8e14-9946-461f-89ab-cbedc0c81e03",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e3b07ca4-b07d-47af-a293-f4bdf637999e",
+              "leftValue": "={{ $json.parts.length == $('get voice prompts').item.json.existingFilesNames.length }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3488,
+        352
+      ],
+      "id": "5b053f98-5b75-4c15-9ccc-a05ddc7b520d",
+      "name": "If all voice prompts exist"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "798d6940-859b-4839-bef7-84f3b2c266d8",
+              "name": "part",
+              "value": "={{\n{\"partIndex\": $json.partIndex,\n\"text\": $json.text\n} \n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3072,
+        352
+      ],
+      "id": "ffb129ea-b5da-44c7-ab75-76cda395a6bf",
+      "name": "file"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "parts",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3696,
+        448
+      ],
+      "id": "fa2b0010-d79d-4036-b916-74b1eb1b3c21",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VOICE/voicePrompts/{{ $('Start').item.json.videoFolderName.split('_').last() }}_{{ $json.partIndex.toString().padStart(5,'0') }}.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\n\"partIndex\": $json.partIndex,\n\"voiceId\":$('get all workflow params').item.json.runpodVoiceId,\n\"voiceTextReference\":$('read voice transcript').first().json.textFromVoice,\n\"originalTextPart\": $json.text,\n\"preparedForVoiceModelTextPart\": \"\",\n\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3984,
+        448
+      ],
+      "name": "write voice prompts",
+      "id": "354d87c2-1892-4513-9ebd-1ee39a85958d"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        4080,
+        448
+      ],
+      "id": "e8c4edc3-96a4-4ce9-bf81-3fbbf5782fcb",
+      "name": "Limit3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// --- ВХОДНЫЕ ПЕРЕМЕННЫЕ (как у тебя) ---\nconst textPartsLength = Number($('get all workflow params').first().json.textPartsLength); // максимум длины части\nconst text = String($('get whole text from TXT file').first().json.text ?? \"\");        // исходный текст\n\n// --- ЛОГИКА ---\nconst partsArr = splitBalancedTTS(text, textPartsLength);\n\n// --- ВЫХОД ---\nreturn partsArr.map((partText, partIndex) => ({\n  json: {\n    partIndex,\n    text: partText,\n  },\n}));\n\n// ================== FUNCTIONS ==================\n\nfunction splitBalancedTTS(source, limit) {\n  if (!limit || limit <= 0) {\n    return source && source.trim() ? [source] : [];\n  }\n\n  const sents = splitIntoSentencesWithParas(source);\n\n  // 1) Нормализация сверхдлинных предложений\n  const normalized = [];\n  for (const s of sents) {\n    if (s === \"\\n\\n\") {\n      normalized.push(s);\n      continue;\n    }\n    if (s.length <= limit) {\n      normalized.push(s);\n      continue;\n    }\n    let rest = s;\n    while (rest.length > limit) {\n      const bp = findBreak(rest, limit);\n      const chunk = rest.slice(0, bp).trim();\n      if (chunk) normalized.push(chunk);\n      rest = rest.slice(bp).trim();\n    }\n    if (rest.trim()) normalized.push(rest.trim());\n  }\n\n  const n = normalized.length;\n  const pref = new Array(n + 1).fill(0);\n  for (let i = 0; i < n; i++) {\n    pref[i + 1] = pref[i] + normalized[i].length;\n  }\n\n  const chunkCost = (i, j) => {\n    const length = pref[j] - pref[i];\n    if (length > limit) return Infinity;\n    const slack = limit - length;\n    return slack * slack;\n  };\n\n  const best = new Array(n + 1).fill(Infinity);\n  const nextBreak = new Array(n + 1).fill(-1);\n  best[n] = 0;\n\n  for (let i = n - 1; i >= 0; i--) {\n    if (normalized[i] === \"\\n\\n\") {\n      best[i] = best[i + 1];\n      nextBreak[i] = i + 1;\n      continue;\n    }\n    let j = i + 1;\n    while (j <= n && (pref[j] - pref[i]) <= limit) {\n      const cost = chunkCost(i, j) + best[j];\n      if (cost < best[i]) {\n        best[i] = cost;\n        nextBreak[i] = j;\n      }\n      j++;\n    }\n  }\n\n  const chunks = [];\n  let i = 0;\n  while (i < n) {\n    let j = nextBreak[i];\n    if (j === -1 || j <= i) j = Math.min(n, i + 1);\n    const text = normalized.slice(i, j).join(\"\").trim();\n    if (text) chunks.push(text);\n    i = j;\n  }\n  return chunks;\n}\n\nfunction splitIntoSentencesWithParas(source) {\n  const result = [];\n  const paras = source.split(/\\n\\s*\\n/);\n  for (let pIdx = 0; pIdx < paras.length; pIdx++) {\n    const p = (paras[pIdx] || \"\").trim();\n    if (!p) continue;\n\n    let i = 0;\n    const rx = /([.!?…]+[)\"»\\]]*)(\\s+|$)/g;\n    const masked = maskTags(p);\n\n    let m;\n    while ((m = rx.exec(masked)) !== null) {\n      const end = m.index + m[0].length;\n      const sent = p.slice(i, end);\n      if (sent.trim()) result.push(sent);\n      i = end;\n    }\n    if (i < p.length) {\n      const tail = p.slice(i);\n      if (tail.trim()) result.push(tail);\n    }\n    if (pIdx < paras.length - 1) result.push(\"\\n\\n\");\n  }\n\n  // dedupe repeated paragraph separators\n  const compact = [];\n  for (const cur of result) {\n    if (cur === \"\\n\\n\" && compact.length && compact[compact.length - 1] === \"\\n\\n\") {\n      continue;\n    }\n    compact.push(cur);\n  }\n  return compact;\n}\n\nfunction findBreak(remaining, limit) {\n  const windowText = remaining.slice(0, limit);\n  const masked = maskTags(windowText);\n  const spans = getTagSpans(remaining);\n\n  let best = -1;\n  const rx = /([.!?…]+[)\"»\\]]?\\s)/g;\n  let m;\n  while ((m = rx.exec(masked)) !== null) {\n    best = m.index + m[0].length;\n  }\n\n  if (best >= Math.floor(limit * 0.6)) {\n    let idx = adjustBreakIndex(best, spans);\n    if (idx <= 0) idx = Math.max(1, best);\n    return safeBreakIndex(remaining, idx);\n  }\n\n  const lastSpace = Math.max(\n    masked.lastIndexOf(\" \"),\n    masked.lastIndexOf(\"\\n\"),\n    masked.lastIndexOf(\"\\t\")\n  );\n  if (lastSpace > 0) {\n    let idx = adjustBreakIndex(lastSpace + 1, spans);\n    if (idx <= 0) idx = Math.max(1, lastSpace + 1);\n    return safeBreakIndex(remaining, idx);\n  }\n\n  let idx = adjustBreakIndex(limit, spans);\n  if (idx <= 0) {\n    if (spans.length && spans[0][0] === 0) idx = spans[0][1];\n    if (idx <= 0) idx = 1;\n  }\n  return safeBreakIndex(remaining, idx);\n}\n\nfunction getTagSpans(text) {\n  const spans = [];\n  if (!text.includes(\"[\")) return spans;\n  let i = 0;\n  while (i < text.length) {\n    const start = text.indexOf(\"[\", i);\n    if (start === -1) break;\n    const end = text.indexOf(\"]\", start + 1);\n    if (end === -1) {\n      spans.push([start, text.length]);\n      break;\n    }\n    spans.push([start, end + 1]); // end exclusive\n    i = end + 1;\n  }\n  return spans;\n}\n\nfunction maskTags(text) {\n  if (!text.includes(\"[\")) return text;\n  const spans = getTagSpans(text);\n  if (!spans.length) return text;\n  const chars = text.split(\"\");\n  for (const [start, end] of spans) {\n    for (let i = start; i < end; i++) chars[i] = \"a\";\n  }\n  return chars.join(\"\");\n}\n\nfunction adjustBreakIndex(idx, spans) {\n  for (const [start, end] of spans) {\n    if (start < idx && idx < end) {\n      if (start > 0) return start;\n      return end;\n    }\n  }\n  return idx;\n}\n\nfunction safeBreakIndex(s, idx) {\n  if (idx > 0 && idx < s.length) {\n    const prev = s.charCodeAt(idx - 1);\n    const curr = s.charCodeAt(idx);\n    if (0xD800 <= prev && prev <= 0xDBFF && 0xDC00 <= curr && curr <= 0xDFFF) {\n      idx -= 1;\n    }\n  }\n  if (idx < 0) return 0;\n  if (idx > s.length) return s.length;\n  return idx;\n}\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3696,
+        272
+      ],
+      "id": "8577dfbc-740c-4a65-9802-12d74a6c523d",
+      "name": "split text to parts1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "PHabe9bHZcEgKJi5",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/PHabe9bHZcEgKJi5",
+          "cachedResultName": "prepairing text parts and generating voiceover on runpod - paralleling"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "partIndex": "={{ $json.partIndex }}",
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "partIndex",
+              "displayName": "partIndex",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4784,
+        272
+      ],
+      "id": "c418de03-4b97-4b93-8b58-bbcdae4eb6cf",
+      "name": "prepairing text parts and generating voiceover on runpod - paralleling"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/VOICE_LIBRARY/{{ $('get all workflow params').first().json.runpodVoiceId }}.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        608,
+        512
+      ],
+      "name": "read voice transcript",
+      "id": "41092f10-79bb-44fc-97a4-364a6b412058"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "fc16d85e-ce3f-4ca4-9597-53ea62b549d5",
+              "leftValue": "={{ $json.fileUploadedSuccessfully }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1968,
+        512
+      ],
+      "id": "d85e221f-9fa1-4edb-8284-bf08f0ff4a5e",
+      "name": "If uploaded"
     }
   ],
   "connections": {
@@ -672,7 +1781,7 @@
       "main": [
         [
           {
-            "node": "get audio gen service and textPartsLength",
+            "node": "get all workflow params",
             "type": "main",
             "index": 0
           }
@@ -683,12 +1792,7 @@
       "main": [
         [
           {
-            "node": "Filter Ready Parts",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "check if files ready",
+            "node": "file",
             "type": "main",
             "index": 0
           }
@@ -773,17 +1877,6 @@
         ]
       ]
     },
-    "Switch by A Gudio gen Service": {
-      "main": [
-        [
-          {
-            "node": "get whole text from TXT file",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "get whole text from TXT file": {
       "main": [
         [
@@ -795,11 +1888,254 @@
         ]
       ]
     },
-    "get audio gen service and textPartsLength": {
+    "Switch by A Gudio gen Service": {
+      "main": [
+        [
+          {
+            "node": "Filter Ready Parts",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "check if files ready",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "check if files ready",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Filter Ready Parts1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch by A Gudio gen Service1": {
+      "main": [
+        [
+          {
+            "node": "get voice prompts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "read voice transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "if pod ready": {
+      "main": [
+        [
+          {
+            "node": "check file on jupiter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "start runpod voicegen pod": {
+      "main": [
+        [
+          {
+            "node": "if pod ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get all workflow params": {
+      "main": [
+        [
+          {
+            "node": "Switch by A Gudio gen Service1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Ready Parts1": {
+      "main": [
+        [
+          {
+            "node": "prepairing text parts and generating voiceover on runpod - paralleling",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check file on jupiter": {
+      "main": [
+        [
+          {
+            "node": "If file exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If file exists": {
+      "main": [
+        [
+          {
+            "node": "get voice prompts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "upload file to jupiter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upload file to jupiter": {
+      "main": [
+        [
+          {
+            "node": "If uploaded",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get voice prompts": {
+      "main": [
+        [
+          {
+            "node": "get whole text from TXT file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "If all voice prompts exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "file": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If all voice prompts exist": {
+      "main": [
+        [
+          {
+            "node": "split text to parts1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "write voice prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write voice prompts": {
+      "main": [
+        [
+          {
+            "node": "Limit3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit3": {
+      "main": [
+        [
+          {
+            "node": "get voice prompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "split text to parts1": {
       "main": [
         [
           {
             "node": "Switch by A Gudio gen Service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read voice transcript": {
+      "main": [
+        [
+          {
+            "node": "start runpod voicegen pod",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If uploaded": {
+      "main": [
+        [
+          {
+            "node": "get voice prompts",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error1",
             "type": "main",
             "index": 0
           }
@@ -817,8 +2153,16 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "NewChannel",
-          "videoFolderName": "2026-03-19_LwNIR"
+          "channelName": "LifeOfAPirate",
+          "videoFolderName": "2026-03-24_MbcCf"
+        }
+      }
+    ],
+    "start runpod voicegen pod": [
+      {
+        "json": {
+          "podStatus": "ready",
+          "fileName": "podStatus.json"
         },
         "pairedItem": {
           "item": 0
@@ -826,9 +2170,9 @@
       }
     ]
   },
-  "versionId": "712f1de2-c30f-4335-8a1f-100133951676",
-  "activeVersionId": "f1a3bca0-23ac-4a94-ad4d-fd62ca4076ab",
-  "versionCounter": 312,
+  "versionId": "181cacb0-5476-434d-844d-1364af2b15c1",
+  "activeVersionId": "bec0a4b2-e8d2-4ad7-acf9-14adc2c253b0",
+  "versionCounter": 670,
   "triggerCount": 0,
   "tags": [],
   "shared": [

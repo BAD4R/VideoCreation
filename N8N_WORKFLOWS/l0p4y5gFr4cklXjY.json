@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-29T14:03:18.355Z",
+  "updatedAt": "2026-03-30T20:28:00.146Z",
   "createdAt": "2026-02-05T15:40:02.769Z",
   "id": "l0p4y5gFr4cklXjY",
   "name": "generate clips",
@@ -265,14 +265,11 @@
             "channelName": "={{ $('Start').first().json.channelName }}",
             "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
             "method": "terminatePod",
-            "runpodUseVolume": "={{ false }}",
-            "runpodTemplateId": "={{ $('get pod parameters').last().json.runpodVideoGenTemplateId }}",
-            "runpodVolumeId": "={{ \"\" }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
             "runpodGpuList": "={{ [] }}",
             "runpodCountryCodes": "={{ [] }}",
-            "runpodContainerDiskInGb": "={{0}}",
-            "runpodVolumeInGb": "={{0}}",
-            "comfyUiRequest": "={{ {} }}"
+            "comfyUiRequest": "={{ {} }}",
+            "index": 0
           },
           "matchingColumns": [],
           "schema": [
@@ -307,6 +304,16 @@
               "removed": false
             },
             {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
               "id": "method",
               "displayName": "method",
               "required": false,
@@ -327,6 +334,16 @@
               "removed": false
             },
             {
+              "id": "jupiterRequest",
+              "displayName": "jupiterRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
               "id": "runpodTemplateId",
               "displayName": "runpodTemplateId",
               "required": false,
@@ -334,46 +351,6 @@
               "display": true,
               "canBeUsedToMatch": true,
               "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodUseVolume",
-              "displayName": "runpodUseVolume",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "boolean",
-              "removed": false
-            },
-            {
-              "id": "runpodVolumeId",
-              "displayName": "runpodVolumeId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodContainerDiskInGb",
-              "displayName": "runpodContainerDiskInGb",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
-              "removed": false
-            },
-            {
-              "id": "runpodVolumeInGb",
-              "displayName": "runpodVolumeInGb",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
               "removed": false
             },
             {
@@ -408,7 +385,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        5552,
+        5680,
         416
       ],
       "id": "13e34d7e-a158-4dbb-ac31-ac0e267c873e",
@@ -631,7 +608,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\n\"clipGenerationService\",\n\n\"runpodTemplateId\",\n\"ranpodUseVolume\",\n\"runpodVolumeId\",\n\"runpodGPUList\",\n\"runpodCountryCodes\",\n\n\"eachVisualMinScreenTimeMs\",\n\"eachVisualMaxScreenTimeMs\",\n\n\"videoModelLimitationOnTheGeneratedVideoDurationMs\",\n\n\"clipFps\",\n\n\"clipWidth\",\n\"clipHeight\",\n\n\n] }}",
+            "keysToReturn": "={{ [\n\"clipGenerationService\",\n\n\"runpodVisualsGenerationTemplateId\",\n\"runpodVisualsGenerationGPUList\",\n\"runpodCountryCodes\",\n\n\"eachVisualMinScreenTimeMs\",\n\"eachVisualMaxScreenTimeMs\",\n\n\"videoModelLimitationOnTheGeneratedVideoDurationMs\",\n\n\"clipFps\",\n\n\"clipWidth\",\n\"clipHeight\",\n\n\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -721,13 +698,12 @@
             "channelName": "={{ $('Start').first().json.channelName }}",
             "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
             "method": "deployPod",
-            "runpodUseVolume": "={{ $('get all workflow params').first().json.ranpodUseVolume }}",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTemplateId }}",
-            "runpodVolumeId": "={{ $('get all workflow params').first().json.runpodVolumeId }}",
-            "runpodGpuList": "={{ $('get all workflow params').first().json.runpodGPUList }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
+            "runpodGpuList": "={{ $('get all workflow params').first().json.runpodVisualsGenerationGPUList }}",
             "runpodCountryCodes": "={{ $('get all workflow params').first().json.runpodCountryCodes }}",
             "comfyUiRequest": "={{ {} }}",
-            "index": 0
+            "index": 0,
+            "jupiterRequest": "={{ {} }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -792,28 +768,18 @@
               "removed": false
             },
             {
+              "id": "jupiterRequest",
+              "displayName": "jupiterRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
               "id": "runpodTemplateId",
               "displayName": "runpodTemplateId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodUseVolume",
-              "displayName": "runpodUseVolume",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "boolean",
-              "removed": false
-            },
-            {
-              "id": "runpodVolumeId",
-              "displayName": "runpodVolumeId",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -1765,9 +1731,9 @@
       }
     ]
   },
-  "versionId": "034fffe5-e674-4400-9ab1-0e8a178b2983",
-  "activeVersionId": "034fffe5-e674-4400-9ab1-0e8a178b2983",
-  "versionCounter": 1739,
+  "versionId": "d992935a-4a1f-4c66-bb82-69bc5599fa0a",
+  "activeVersionId": "d992935a-4a1f-4c66-bb82-69bc5599fa0a",
+  "versionCounter": 1764,
   "triggerCount": 0,
   "tags": [],
   "shared": [
