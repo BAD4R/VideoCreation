@@ -311,6 +311,7 @@ class Installer:
 
         self.verify_required_command("node", TARGET_NODE_VERSION)
         if self.system == "Windows":
+            self.ensure_windows_npm_prefix()
             self.ensure_windows_node_command_shims()
         npm_version = self.get_command_version("npm")
         if not npm_version:
@@ -339,11 +340,17 @@ class Installer:
         else:
             self.log(f"n8n is missing. Installing {TARGET_N8N_VERSION}.")
 
+        if self.system == "Windows":
+            self.ensure_windows_npm_prefix()
         self.run_command(
             ["npm", "install", "-g", f"n8n@{TARGET_N8N_VERSION}"],
             "Installing n8n globally",
         )
+        if self.system == "Windows":
+            self.ensure_windows_node_command_shims()
         self.verify_required_command("n8n", TARGET_N8N_VERSION)
+        if self.system == "Windows":
+            self.verify_windows_npx_n8n()
 
     def ensure_n8n_config(self) -> None:
         n8n_dir = Path.home() / ".n8n"
@@ -556,11 +563,46 @@ class Installer:
         )
         self.log(f"npm global prefix set to: {MAC_NPM_PREFIX}")
 
+    def ensure_windows_npm_prefix(self) -> None:
+        if self.system != "Windows":
+            return
+
+        prefix_dir = self.windows_npm_prefix_dir()
+        prefix_dir.mkdir(parents=True, exist_ok=True)
+        self.ensure_windows_user_path(prefix_dir)
+
+        current = self.run_quiet(["npm", "config", "get", "prefix"], check=False)
+        current_prefix = current.stdout.strip() if current.returncode == 0 else ""
+        expected = prefix_dir.resolve()
+        if current_prefix:
+            try:
+                current_resolved = Path(current_prefix).expanduser().resolve()
+            except Exception:
+                current_resolved = Path(current_prefix)
+            if normalize_path(str(current_resolved)) == normalize_path(str(expected)):
+                self.log(f"npm global prefix already set to: {prefix_dir}")
+                return
+
+        self.run_command(
+            ["npm", "config", "set", "prefix", str(prefix_dir)],
+            f"Setting npm global prefix to {prefix_dir}",
+        )
+        self.log(f"npm global prefix set to: {prefix_dir}")
+
     def build_target_home_env(self) -> dict[str, str]:
         target = dict(TARGET_HOME_ENV)
         target["N8N_RESTRICT_FILE_ACCESS_TO"] = '"C:"' if self.system == "Windows" else '"/"'
         target["CHANNELS_FOLDER_PATH"] = quote_env_value(self.channels_folder_path())
         return target
+
+    def windows_npm_prefix_dir(self) -> Path:
+        return Path(os.environ.get("APPDATA", Path.home())) / "npm"
+
+    def windows_npm_global_modules_dir(self) -> Path:
+        return self.windows_npm_prefix_dir() / "node_modules"
+
+    def windows_n8n_bin_script(self) -> Path:
+        return self.windows_npm_global_modules_dir() / "n8n" / "bin" / "n8n"
 
     def channels_folder_path(self) -> Path:
         return self.desktop_path() / "Channels"
@@ -886,35 +928,74 @@ class Installer:
         shims_dir.mkdir(parents=True, exist_ok=True)
         self.ensure_windows_user_path(shims_dir)
 
-        wrappers = {
+        node_exe = portable_dir / "node.exe"
+        command_targets = {
+            "node.cmd": node_exe,
             "npm.cmd": portable_dir / "npm.cmd",
             "npx.cmd": portable_dir / "npx.cmd",
             "corepack.cmd": portable_dir / "corepack.cmd",
         }
 
-        for shim_name, target_path in wrappers.items():
+        for shim_name, target_path in command_targets.items():
             if not target_path.exists():
                 self.log(f"Skipping shim {shim_name}: target not found at {target_path}")
                 continue
 
-            shim_path = shims_dir / shim_name
-            shim_content = "\r\n".join(
+            if target_path.suffix.lower() == ".exe":
+                shim_content = "\r\n".join(
+                    [
+                        "@echo off",
+                        f"\"{target_path}\" %*",
+                        "",
+                    ]
+                )
+            else:
+                shim_content = "\r\n".join(
+                    [
+                        "@echo off",
+                        f"call \"{target_path}\" %*",
+                        "",
+                    ]
+                )
+
+            self.write_windows_cmd_wrapper(shims_dir / shim_name, shim_content)
+
+        n8n_script = self.windows_n8n_bin_script()
+        if node_exe.exists() and n8n_script.exists():
+            n8n_content = "\r\n".join(
                 [
                     "@echo off",
-                    f"call \"{target_path}\" %*",
+                    f"\"{node_exe}\" \"{n8n_script}\" %*",
                     "",
                 ]
             )
+            self.write_windows_cmd_wrapper(shims_dir / "n8n.cmd", n8n_content)
+        else:
+            self.log(f"Skipping shim n8n.cmd: target not found at {n8n_script}")
 
-            current = shim_path.read_text(encoding="utf-8") if shim_path.exists() else None
-            if current == shim_content:
-                self.log(f"Windows shim already up to date: {shim_path}")
-                continue
+    def write_windows_cmd_wrapper(self, shim_path: Path, shim_content: str) -> None:
+        current = shim_path.read_text(encoding="utf-8") if shim_path.exists() else None
+        normalized_content = shim_content.replace("\r\n", "\n")
+        if current == normalized_content:
+            self.log(f"Windows shim already up to date: {shim_path}")
+            return
 
-            if shim_path.exists():
-                self.backup_file(shim_path)
-            atomic_write_text(shim_path, shim_content.replace("\r\n", "\n"))
-            self.log(f"Created Windows shim: {shim_path}")
+        if shim_path.exists():
+            self.backup_file(shim_path)
+        atomic_write_text(shim_path, normalized_content)
+        self.log(f"Created Windows shim: {shim_path}")
+
+    def verify_windows_npx_n8n(self) -> None:
+        if self.system != "Windows":
+            return
+
+        result = self.run_quiet(["npx", "--no-install", "n8n", "--version"], check=False)
+        if result.returncode != 0:
+            raise InstallError(
+                "npx n8n is not available after installation.\n"
+                f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
+            )
+        self.log(f"npx n8n verified: {first_non_empty_line((result.stdout or '') + (result.stderr or ''))}")
 
     def get_command_version(self, executable: str) -> Optional[str]:
         resolved = self.resolve_command_path(executable)
