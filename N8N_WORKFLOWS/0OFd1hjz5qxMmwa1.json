@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-01T19:56:06.037Z",
+  "updatedAt": "2026-04-02T16:31:11.533Z",
   "createdAt": "2026-02-04T01:37:01.806Z",
   "id": "0OFd1hjz5qxMmwa1",
   "name": "generate video text",
@@ -17,7 +17,7 @@
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        -544,
+        0,
         352
       ]
     },
@@ -1159,7 +1159,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -336,
+        208,
         352
       ],
       "name": "get product key",
@@ -1179,7 +1179,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\n\"videoCreationMode\",\n\n\"openAIApiKey\",\n\"googleApiKey\",\n\"proxyServerIP\",\n\"proxyServerPort\",\n\n\"openAiResponsesRoute\",\n\"openAiImagesRoute\",\n\"geminiAiResponsesRoute\",\n\n\"videoTextGenService\",\n\"videoTextGenModel\",\n\n\"summarizeFullText\",\n\"summarizeFullTextSystemPrompt\",\n] }}",
+            "keysToReturn": "={{ [\n\"videoCreationMode\",\n\n\n\n\"openAIApiKey\",\n\"googleApiKey\",\n\"proxyServerIP\",\n\"proxyServerPort\",\n\n\"openAiResponsesRoute\",\n\"openAiImagesRoute\",\n\"geminiAiResponsesRoute\",\n\n\"videoTextGenService\",\n\"videoTextGenModel\",\n\n\"summarizeFullText\",\n\"summarizeFullTextSystemPrompt\",\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -1247,7 +1247,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -160,
+        384,
         352
       ],
       "name": "get all workflow params",
@@ -1389,8 +1389,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        240,
-        496
+        272,
+        800
       ],
       "id": "a7e30316-965c-49e9-84e5-953f0f7426a4",
       "name": "PM - started"
@@ -1477,8 +1477,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        64,
-        496
+        96,
+        800
       ],
       "name": "read PM stage",
       "id": "6227ba5f-99b2-411b-bccb-9328327ee438",
@@ -1793,22 +1793,12 @@
   "staticData": null,
   "meta": null,
   "pinData": {
-    "single request": [
-      {
-        "json": {
-          "textStatus": "ready"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ],
     "Start": [
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "NewChannel",
-          "videoFolderName": "2026-03-17_pWLve"
+          "channelName": "LifeOfAPirate",
+          "videoFolderName": "2026-03-24_MbcCf"
         },
         "pairedItem": {
           "item": 0
@@ -1816,9 +1806,9 @@
       }
     ]
   },
-  "versionId": "d662e32c-56df-4f4f-a044-da5cf8dfc510",
-  "activeVersionId": "ea6381aa-f4c2-4d38-a024-10a00c11a851",
-  "versionCounter": 1071,
+  "versionId": "0d8b92e8-6e94-4864-b42f-f68902565f7c",
+  "activeVersionId": "0d8b92e8-6e94-4864-b42f-f68902565f7c",
+  "versionCounter": 1125,
   "triggerCount": 0,
   "tags": [],
   "shared": [

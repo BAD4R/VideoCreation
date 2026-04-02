@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-15T15:56:54.067Z",
+  "updatedAt": "2026-04-02T18:24:01.663Z",
   "createdAt": "2026-02-08T18:59:24.653Z",
   "id": "sNLnQQaHRoWWXZbH",
   "name": "single request",
@@ -454,7 +454,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        2336,
+        2320,
         272
       ],
       "name": "write video theme to video meta",
@@ -467,7 +467,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.singleRequestSystemPrompt,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n    $('get video theme').first().json.videoTheme,\n    $('get all workflow params').first().json.wantedTextLength,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read video clusters').item.json,\n    $('get all workflow params').first().json.singleRequestSystemPrompt,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n    $('get video theme').first().json.videoTheme,\n    $('get all workflow params').first().json.wantedTextLength,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -477,8 +477,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2528,
-        112
+        4800,
+        128
       ],
       "id": "4e7b5456-a28d-436c-bee1-59f0d6d22a9b",
       "name": "get random ID"
@@ -500,8 +500,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3296,
-        112
+        5568,
+        128
       ],
       "id": "b875e517-a089-4b72-82a8-21a4e1266762",
       "name": "set video text"
@@ -563,8 +563,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3712,
-        112
+        5984,
+        128
       ],
       "name": "write text",
       "id": "e116409a-0c82-428a-9f0a-ddf804ec22c1"
@@ -637,8 +637,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        2912,
-        112
+        5184,
+        128
       ],
       "id": "daf34949-6184-43a7-87d4-4a6f57a306b8",
       "name": "Send HTTP Request"
@@ -653,7 +653,7 @@
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        512,
+        528,
         272
       ]
     },
@@ -674,8 +674,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3920,
-        112
+        6192,
+        128
       ],
       "id": "ffdabacb-ecff-42b6-acf6-1123d2cb4fe0",
       "name": "out text status ready"
@@ -766,8 +766,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        2144,
-        96
+        4576,
+        112
       ],
       "id": "1c1a2a2e-635d-4a4f-b3d5-1a170dcb6b7a",
       "name": "Switch Text Gen Service"
@@ -779,7 +779,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.singleRequestSystemPrompt,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n    $('get video theme').first().json.videoTheme,\n    $('get all workflow params').first().json.wantedTextLength,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read video clusters').item.json,\n    $('get all workflow params').first().json.singleRequestSystemPrompt,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n    $('get video theme').first().json.videoTheme,\n    $('get all workflow params').first().json.wantedTextLength,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -789,8 +789,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2528,
-        -64
+        4800,
+        -48
       ],
       "id": "a3f38468-914e-4bac-bb46-3250d175c4cd",
       "name": "get random ID1"
@@ -812,8 +812,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3296,
-        -64
+        5568,
+        -48
       ],
       "id": "31a33688-2376-4a27-b0ed-97bcb0ec06a3",
       "name": "set video text1"
@@ -886,8 +886,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        2912,
-        -64
+        5184,
+        -48
       ],
       "id": "1d3617e8-4e0c-4fe8-b206-8d718681ac04",
       "name": "Send HTTP Request1"
@@ -1041,8 +1041,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        3504,
-        112
+        5776,
+        128
       ],
       "id": "1cba197e-81b3-4fdf-8934-b7d4a913534e",
       "name": "Switch",
@@ -1055,8 +1055,8 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        3712,
-        256
+        5984,
+        272
       ],
       "id": "1a1de7aa-5ea4-4d6a-87d9-1111c00f0e49",
       "name": "Stop and Error"
@@ -1080,7 +1080,7 @@
             {
               "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
               "name": "body",
-              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.videoTextGenModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('get all workflow params').first().json.singleRequestSystemPrompt\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": \"Video theme: \" + $('get video theme').first().json.videoTheme\n        },\n        {\n          \"type\": \"input_text\",\n          \"text\": \"Wanted text length (characters): \"+ $('get all workflow params').first().json.wantedTextLength \n        }\n      ]\n    }\n  ]\n}\n }}",
+              "value": "={{ \n(() => {\n  const params = $('get all workflow params').first().json;\n  const theme = $('get video theme').first().json.videoTheme;\n\n  const obj = {\n    \"model\": params.videoTextGenModel,\n    \"input\": [\n      {\n        \"role\": \"system\",\n        \"content\": [\n          {\n            \"type\": \"input_text\",\n            \"text\": params.singleRequestSystemPrompt\n          }\n        ]\n      },\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_text\",\n            \"text\": \"Video theme: \" + theme\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"Wanted text length (characters): \" + params.wantedTextLength \n          }\n        ]\n      }\n    ]\n  };\n\nif ($('get all workflow params').item.json.useClustersLibrary){\n  obj.input[1].content.push({\"type\": \"input_text\", \"text\": $('read video clusters').item.json.toJsonString()})\n}\n\n  return obj;\n})()\n}}",
               "type": "object"
             }
           ]
@@ -1090,8 +1090,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2720,
-        112
+        4992,
+        128
       ],
       "id": "3755c257-e74f-47fa-a1eb-7fd5ccb61cd5",
       "name": "form openai request"
@@ -1125,8 +1125,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2720,
-        -64
+        4992,
+        -48
       ],
       "id": "c7fb58ae-1e4e-4041-97a3-eff73d04061a",
       "name": "form gemini request"
@@ -1192,8 +1192,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        3088,
-        -64
+        5360,
+        -48
       ],
       "id": "440d5284-c23f-4e65-8cfd-f822f061b45a",
       "name": "was error"
@@ -1205,8 +1205,8 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        3296,
-        256
+        5568,
+        272
       ],
       "id": "2d2264e6-5423-46a1-b472-33686df4aab9",
       "name": "Stop and Error1"
@@ -1272,8 +1272,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        3088,
-        112
+        5360,
+        128
       ],
       "id": "56a23980-bb5c-4f49-ad50-868e07a3addf",
       "name": "was error1"
@@ -1360,7 +1360,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        720,
+        736,
         272
       ],
       "name": "get product key",
@@ -1380,7 +1380,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\n\"openAIApiKey\",\n\"googleApiKey\",\n\"proxyServerIP\",\n\"proxyServerPort\",\n\n\"openAiResponsesRoute\",\n\"openAiImagesRoute\",\n\"geminiAiResponsesRoute\",\n\n\"videoTextGenService\",\n\"videoTextGenModel\",\n\n\"singleRequestSystemPrompt\",\n\"wantedTextLength\"\n] }}",
+            "keysToReturn": "={{ [\n\"useClustersLibrary\",\n\"selectClustersPrompt\",\n\n\"openAIApiKey\",\n\"googleApiKey\",\n\"proxyServerIP\",\n\"proxyServerPort\",\n\n\"openAiResponsesRoute\",\n\"openAiImagesRoute\",\n\"geminiAiResponsesRoute\",\n\n\"videoTextGenService\",\n\"videoTextGenModel\",\n\n\"singleRequestSystemPrompt\",\n\"wantedTextLength\"\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -1448,11 +1448,878 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        960,
+        976,
         272
       ],
       "name": "get all workflow params",
       "id": "cfa9dac5-5008-4130-9b1e-aedad57a0505"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "55f0660e-a4eb-424a-8bff-8a20b76b3866",
+                    "leftValue": "={{ $('get all workflow params').item.json.useClustersLibrary }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "true"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "1031b3aa-99ec-4ab9-b093-bf23e42eb76d",
+                    "leftValue": "={{ !$('get all workflow params').item.json.useClustersLibrary }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "false"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1792,
+        112
+      ],
+      "id": "97406166-e489-4e97-8550-ee136fc9b18c",
+      "name": "Switch by Video Gen Type1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read channel clusters'),\n$('get video theme').item.json.videoTheme,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n$('get all workflow params').item.json.selectClustersPrompt\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2528,
+        0
+      ],
+      "id": "18499def-4cf5-495b-be04-6660cf68a7d1",
+      "name": "get random ID2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2912,
+        -160
+      ],
+      "id": "fcc343d7-5133-47fc-a2fe-61f7af524d0b",
+      "name": "Send HTTP Request2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').last().json.videoTextGenService == \"gemini\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "5ee75887-7518-4802-9c6e-47f913300963"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "gemini"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c4c3ce37-169a-4d45-bf04-1fbf84efb151",
+                    "leftValue": "={{ $('get all workflow params').last().json.videoTextGenService == \"openai\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "openai"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "05f5648d-1a6e-4f8d-97aa-2f4f035e56c5",
+                    "leftValue": "={{ $('get all workflow params').last().json.textGenService == \"runpod\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "runpod"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2304,
+        -16
+      ],
+      "id": "b82a83ee-ebc1-4e50-a35e-4b22efd35f15",
+      "name": "Switch Text Gen Service1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read channel clusters'),\n$('get video theme').item.json.videoTheme,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n$('get all workflow params').item.json.selectClustersPrompt\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2528,
+        -160
+      ],
+      "id": "c7cde2a5-bb56-41ce-ae8f-b5784fc9d78a",
+      "name": "get random ID3"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2912,
+        0
+      ],
+      "id": "24e5f145-6665-4aea-a2df-ba3b44644522",
+      "name": "Send HTTP Request3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.openAiResponsesRoute }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').first().json.openAIApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.videoTextGenModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\":  $('get all workflow params').item.json.selectClustersPrompt\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('get video theme').item.json.videoTheme\n        },\n        {\n          \"type\": \"input_text\",\n          \"text\": $('read channel clusters').item.json.toJsonString()\n        }\n      ]\n    },\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_schema\",\n      \"name\": \"selected_cluster_plan_v1_0\",\n      \"strict\": true,\n      \"schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"schema_version\": {\n            \"type\": \"string\",\n            \"enum\": [\"1.0\"]\n          },\n          \"topic_idea\": {\n            \"type\": \"string\"\n          },\n          \"confidence\": {\n            \"type\": \"number\"\n          },\n          \"selected_cluster\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"cluster_id\": {\n                \"type\": \"string\"\n              },\n              \"cluster_label\": {\n                \"type\": \"string\"\n              },\n              \"fit_score\": {\n                \"type\": \"number\"\n              },\n              \"fit_reason\": {\n                \"type\": \"string\"\n              }\n            },\n            \"required\": [\n              \"cluster_id\",\n              \"cluster_label\",\n              \"fit_score\",\n              \"fit_reason\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"selected_narrative_mode\": {\n            \"type\": \"string\",\n            \"enum\": [\n              \"single_object_tour\",\n              \"top_list\",\n              \"process_explainer\",\n              \"comparison\",\n              \"broad_explainer\",\n              \"story_case_studies\",\n              \"life_inside_focus\"\n            ]\n          },\n          \"narrative_mode_reason\": {\n            \"type\": \"string\"\n          },\n          \"combined_brief\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"self_identity\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"worldview\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"pain_growth\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"fears_desires\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"common_enemy\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"language_codes\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"visual_aesthetics\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"fit_packaging\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"preferred_text_tone\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"usage_notes\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"avoid_notes\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              }\n            },\n            \"required\": [\n              \"self_identity\",\n              \"worldview\",\n              \"pain_growth\",\n              \"fears_desires\",\n              \"common_enemy\",\n              \"language_codes\",\n              \"visual_aesthetics\",\n              \"fit_packaging\",\n              \"preferred_text_tone\",\n              \"usage_notes\",\n              \"avoid_notes\"\n            ],\n            \"additionalProperties\": false\n          }\n        },\n        \"required\": [\n          \"schema_version\",\n          \"topic_idea\",\n          \"confidence\",\n          \"selected_cluster\",\n          \"selected_narrative_mode\",\n          \"narrative_mode_reason\",\n          \"combined_brief\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  }\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2720,
+        0
+      ],
+      "id": "9afc297e-841d-47f2-8b23-55a764bce770",
+      "name": "form openai request1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.geminiAiResponsesRoute }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').first().json.googleApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.videoTextGenModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('get all workflow params').first().json.selectClustersPrompt }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": $('get video theme').item.json.videoTheme },\n        { \"text\": $('read channel clusters').item.json.toJsonString() }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseJsonSchema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"schema_version\": {\n          \"type\": \"string\",\n          \"enum\": [\"1.0\"]\n        },\n        \"topic_idea\": {\n          \"type\": \"string\"\n        },\n        \"confidence\": {\n          \"type\": \"number\"\n        },\n        \"selected_cluster\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"cluster_id\": {\n              \"type\": \"string\"\n            },\n            \"cluster_label\": {\n              \"type\": \"string\"\n            },\n            \"fit_score\": {\n              \"type\": \"number\"\n            },\n            \"fit_reason\": {\n              \"type\": \"string\"\n            }\n          },\n          \"required\": [\n            \"cluster_id\",\n            \"cluster_label\",\n            \"fit_score\",\n            \"fit_reason\"\n          ],\n          \"additionalProperties\": false\n        },\n        \"selected_narrative_mode\": {\n          \"type\": \"string\",\n          \"enum\": [\n            \"single_object_tour\",\n            \"top_list\",\n            \"process_explainer\",\n            \"comparison\",\n            \"broad_explainer\",\n            \"story_case_studies\",\n            \"life_inside_focus\"\n          ]\n        },\n        \"narrative_mode_reason\": {\n          \"type\": \"string\"\n        },\n        \"combined_brief\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"self_identity\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"worldview\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"pain_growth\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"fears_desires\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"common_enemy\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"language_codes\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"visual_aesthetics\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"fit_packaging\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"preferred_text_tone\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"usage_notes\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"avoid_notes\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            }\n          },\n          \"required\": [\n            \"self_identity\",\n            \"worldview\",\n            \"pain_growth\",\n            \"fears_desires\",\n            \"common_enemy\",\n            \"language_codes\",\n            \"visual_aesthetics\",\n            \"fit_packaging\",\n            \"preferred_text_tone\",\n            \"usage_notes\",\n            \"avoid_notes\"\n          ],\n          \"additionalProperties\": false\n        }\n      },\n      \"required\": [\n        \"schema_version\",\n        \"topic_idea\",\n        \"confidence\",\n        \"selected_cluster\",\n        \"selected_narrative_mode\",\n        \"narrative_mode_reason\",\n        \"combined_brief\"\n      ],\n      \"additionalProperties\": false\n    }\n  },\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"BLOCK_NONE\" }\n  ]\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2720,
+        -160
+      ],
+      "id": "8d5f0820-bfdc-47b6-bc1d-1e56fbafd838",
+      "name": "form gemini request1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3088,
+        -160
+      ],
+      "id": "cac95833-842f-4713-bd83-1da52dff3335",
+      "name": "was error2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ $json.hasField('error') ? $json.error==null : !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') ? !$json.error==null : $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3088,
+        0
+      ],
+      "id": "d96215c7-e375-4438-825c-17a7987e99f6",
+      "name": "was error3"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/channelClusters.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2016,
+        0
+      ],
+      "name": "read channel clusters",
+      "id": "a5885801-f9d4-40e8-90b4-b3f355525b49"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "videoClusters",
+              "value": "={{ $json.output[1].content[0].text.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3296,
+        0
+      ],
+      "id": "50aea211-d9b7-4ef8-aa9e-09e2c5b7796a",
+      "name": "Parse Openai Responce1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "videoClusters",
+              "value": "={{ $json.candidates[0].content.parts[0].text.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3296,
+        -160
+      ],
+      "id": "564cc87d-b2f6-410b-a6a1-bee7bb181d8c",
+      "name": "Parse Gemini Responce1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoClusters.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ $json.videoClusters }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3520,
+        0
+      ],
+      "name": "write video clusters",
+      "id": "61b4da58-5e6e-429e-9816-5c4681d90233"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoClusters.json",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}",
+            "fileAction": "read"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4336,
+        128
+      ],
+      "name": "read video clusters",
+      "id": "74c25945-788f-401e-95ee-f4ab6d64eb6c"
     }
   ],
   "connections": {
@@ -1639,7 +2506,7 @@
       "main": [
         [
           {
-            "node": "Switch Text Gen Service",
+            "node": "Switch by Video Gen Type1",
             "type": "main",
             "index": 0
           }
@@ -1754,11 +2621,191 @@
           }
         ]
       ]
+    },
+    "Switch by Video Gen Type1": {
+      "main": [
+        [
+          {
+            "node": "read channel clusters",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "read video clusters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID2": {
+      "main": [
+        [
+          {
+            "node": "form openai request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request2": {
+      "main": [
+        [
+          {
+            "node": "was error2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Text Gen Service1": {
+      "main": [
+        [
+          {
+            "node": "get random ID3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get random ID2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID3": {
+      "main": [
+        [
+          {
+            "node": "form gemini request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "was error3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form openai request1": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form gemini request1": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "was error2": {
+      "main": [
+        [
+          {
+            "node": "Parse Gemini Responce1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "was error3": {
+      "main": [
+        [
+          {
+            "node": "Parse Openai Responce1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read channel clusters": {
+      "main": [
+        [
+          {
+            "node": "Switch Text Gen Service1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Openai Responce1": {
+      "main": [
+        [
+          {
+            "node": "write video clusters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Gemini Responce1": {
+      "main": [
+        [
+          {
+            "node": "write video clusters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write video clusters": {
+      "main": [
+        [
+          {
+            "node": "read video clusters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read video clusters": {
+      "main": [
+        [
+          {
+            "node": "Switch Text Gen Service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -1768,7 +2815,7 @@
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-02-26_bgPMp"
+          "videoFolderName": "2026-03-24_MbcCf"
         },
         "pairedItem": {
           "item": 0
@@ -1776,9 +2823,9 @@
       }
     ]
   },
-  "versionId": "70504007-f951-4e2c-8c48-504b30db101c",
-  "activeVersionId": "70504007-f951-4e2c-8c48-504b30db101c",
-  "versionCounter": 553,
+  "versionId": "72096324-d587-4bfa-ab36-9be01032ced7",
+  "activeVersionId": "72096324-d587-4bfa-ab36-9be01032ced7",
+  "versionCounter": 712,
   "triggerCount": 0,
   "tags": [],
   "shared": [

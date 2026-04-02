@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-01T18:23:50.336Z",
+  "updatedAt": "2026-04-02T18:23:56.045Z",
   "createdAt": "2026-02-03T20:08:34.562Z",
   "id": "AmF6XaTnjkk9w41P",
   "name": "Main",
@@ -2669,7 +2669,7 @@
       "typeVersion": 1,
       "position": [
         -496,
-        880
+        832
       ],
       "id": "6a411b5f-f063-442c-bc68-fd3e720128ef",
       "name": "Sticky Note"
@@ -3214,7 +3214,7 @@
             {
               "id": "cbae57df-33ce-4f18-8f27-a46d854341c5",
               "name": "hours",
-              "value": 128,
+              "value": 2,
               "type": "number"
             }
           ]
@@ -4761,9 +4761,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "4764e7b5-1ef8-4b73-a916-cc122e8e327d",
+  "versionId": "bef6339f-d423-43a4-9b2d-ed6cdf43123d",
   "activeVersionId": null,
-  "versionCounter": 1262,
+  "versionCounter": 1268,
   "triggerCount": 0,
   "tags": [],
   "shared": [

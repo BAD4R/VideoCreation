@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-02T15:16:25.400Z",
+  "updatedAt": "2026-04-02T18:03:33.691Z",
   "createdAt": "2026-04-01T18:55:47.951Z",
   "id": "WX9zbGAetahvUf2V",
   "name": "Cluster Works",
@@ -1899,7 +1899,7 @@
       "parameters": {
         "content": "## Combining video evidences to channelEvidence",
         "height": 336,
-        "width": 2784,
+        "width": 2576,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -2628,7 +2628,7 @@
           "assignments": [
             {
               "id": "1af68585-863a-4943-bff7-f35629ad285f",
-              "name": "videoEvidence",
+              "name": "channelClusters",
               "value": "={{ $json.candidates[0].content.parts[0].text.parseJson() }}",
               "type": "object"
             }
@@ -2669,6 +2669,17 @@
       "name": "get random ID for request2"
     },
     {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        880,
+        736
+      ],
+      "id": "84e56458-645a-4e1d-9d71-0e588f68b1ce",
+      "name": "No Operation, do nothing"
+    },
+    {
       "parameters": {
         "workflowId": {
           "__rl": true,
@@ -2680,10 +2691,10 @@
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "filePath": "={{$env.CHANNELS_FOLDER_PATH + '/CLUSTERS/competitorsChannels/' + $('Base Settings').item.json.analyzedChannelFolderName}}/channelEvidence.json",
+            "filePath": "={{$env.CHANNELS_FOLDER_PATH + '/CLUSTERS/competitorsChannels/' + $('Base Settings').item.json.analyzedChannelFolderName}}/channelClusters.json",
             "fileAction": "=write",
             "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ $json.channelEvidence }}",
+            "keysToWrite": "={{ $json.channelClusters }}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -2756,21 +2767,10 @@
         2528,
         720
       ],
-      "name": "write channelEvidence.json1",
+      "name": "write channelClusters.json",
       "id": "0ae4ddb0-5f99-46a0-8e44-9e187d42ff75",
       "alwaysOutputData": true,
       "onError": "continueRegularOutput"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        880,
-        736
-      ],
-      "id": "84e56458-645a-4e1d-9d71-0e588f68b1ce",
-      "name": "No Operation, do nothing"
     }
   ],
   "connections": {
@@ -3357,7 +3357,7 @@
       "main": [
         [
           {
-            "node": "write channelEvidence.json1",
+            "node": "write channelClusters.json",
             "type": "main",
             "index": 0
           }
@@ -3368,7 +3368,7 @@
       "main": [
         [
           {
-            "node": "write channelEvidence.json1",
+            "node": "write channelClusters.json",
             "type": "main",
             "index": 0
           }
@@ -3431,9 +3431,9 @@
       }
     ]
   },
-  "versionId": "9a86910e-4186-4039-9ffc-561f2c2e36ed",
+  "versionId": "a54bfc06-cfc9-44be-8141-64de4af4f147",
   "activeVersionId": null,
-  "versionCounter": 881,
+  "versionCounter": 886,
   "triggerCount": 0,
   "tags": [],
   "shared": [
