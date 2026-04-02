@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-02T10:45:11.036Z",
+  "updatedAt": "2026-04-02T15:16:25.400Z",
   "createdAt": "2026-04-01T18:55:47.951Z",
   "id": "WX9zbGAetahvUf2V",
   "name": "Cluster Works",
@@ -50,6 +50,12 @@
               "id": "e964c165-3ef5-4082-9002-1cb45d1e19d7",
               "name": "channelEvidenceCombinePrompt",
               "value": "=Твоя задача на основе нескольких videoEvidence собрать один channelEvidence. На вход ты получаешь от имени user несколько videoEvidence в формате json. Каждый videoEvidence описывает один ролик и содержит сигналы по упаковке, содержанию, комментариям, success/failure и семи слоям: self_identity, worldview, pain_growth, fears_desires, common_enemy, language_codes, visual_aesthetics. Твоя задача - не строить финальные audience clusters и не придумывать идеи новых роликов, а собрать устойчивую карту сигналов канала на уровне evidence. channelEvidence - это промежуточный агрегированный слой между videoEvidence отдельных роликов и будущим channelClusters. Он должен показать, какие сигналы повторяются в успешных роликах, какие повторяются в неуспешных, какие встречаются в обоих типах роликов, а какие действительно различают успех и провал. Работай только с теми данными, которые есть во входных videoEvidence. Не выдумывай новые признаки. Не делай выводов на основе одного ролика как будто это закон канала. Если сигнал встречается один раз и не подкрепляется другими роликами, относись к нему как к слабому или шумовому. Если два сигнала означают почти одно и то же, нормализуй их в одну короткую каноническую формулировку. Не копируй фразы дословно из videoEvidence без необходимости; объединяй близкие формулировки в короткие нормализованные паттерны. Всегда разделяй successful и unsuccessful. Твоя цель - найти устойчивые паттерны и дельты между ними. Дельта означает сигнал, который заметно чаще и сильнее связан с successful или unsuccessful по сравнению с другой группой. Shared означает сигнал, который встречается в обеих группах и потому не объясняет успех сам по себе. Noise означает слабые, единичные, хаотичные или слишком частные сигналы, которые не стоит переносить дальше. Если сигналы конфликтуют, но оба повторяются, не выбирай любимый, а зафиксируй конфликт как contradiction. Не называй audience clusters. Не давай художественные summary. Не пиши длинные рассуждения. Все формулировки делай короткими, нормализованными и пригодными для дальнейшей автоматической обработки. Считай, что следующий шаг будет строить channelClusters именно из твоего channelEvidence, поэтому твой ответ должен быть максимально структурным и без лишней красоты. Верни только один JSON object в формате channelEvidence. Структура channelEvidence должна быть такой: schema_version - строка ровно \"1.0\"; totals - object с полями total_videos, successful_videos, unsuccessful_videos; successful_patterns - object с полями packaging, content, comments, carry_forward, где каждое поле это array of strings с короткими нормализованными паттернами, характерными для successful; unsuccessful_patterns - object с теми же полями, но для unsuccessful; shared_patterns - object с теми же полями, но для паттернов, встречающихся в обеих группах; layer_patterns - object с семью полями self_identity, worldview, pain_growth, fears_desires, common_enemy, language_codes, visual_aesthetics; каждое из этих семи полей должно быть object с полями success_signals, fail_signals, shared_signals, contradictions, где каждое поле это array of strings; packaging_patterns - object с полями success_signals, fail_signals, shared_signals, contradictions; content_patterns - object с полями success_signals, fail_signals, shared_signals, contradictions; comment_patterns - object с полями success_signals, fail_signals, shared_signals, contradictions; high_confidence_deltas - array of strings, только самые сильные различающие сигналы между successful и unsuccessful; medium_confidence_deltas - array of strings, различающие сигналы средней уверенности; weak_or_noisy_signals - array of strings, слабые или слишком частные сигналы, которые не стоит напрямую тащить в channelClusters; notes_for_cluster_builder - array of strings, короткие технические замечания для следующего шага построения channelClusters, например если канал поляризован, если shared-сигналов слишком много, если success держится не на теме, а на упаковке, если комментарии искажают картину из-за политических срачей. Правила агрегации: 1) если сигнал встречается в successful несколько раз и почти не встречается в unsuccessful, клади его в success_signals и при достаточной силе дублируй в high_confidence_deltas или medium_confidence_deltas; 2) если сигнал встречается в unsuccessful несколько раз и почти не встречается в successful, клади его в fail_signals и при достаточной силе дублируй в high_confidence_deltas или medium_confidence_deltas; 3) если сигнал часто встречается и там и там, клади его в shared_signals и shared_patterns, не называй его объяснением успеха; 4) если формулировки конфликтуют, но обе повторяются, клади краткую формулу конфликта в contradictions; 5) если сигнал единичный, слишком частный или завязан только на один конкретный ролик, клади его в weak_or_noisy_signals; 6) не переноси в channelEvidence букв в channelEvidence буквальные цитаты из комментариев, а только нормализованные паттерны; 7) не используй слишком узкие формулировки, которые подходят только под один сюжет; 8) не строй audience clusters на этом шаге; 9) не добавляй поля вне указанной структуры. Возвращай только валидный JSON object НА ТОМ ЖЕ ЯЗЫКЕ, на котором были данные на входе.",
+              "type": "string"
+            },
+            {
+              "id": "7ad392f2-ff13-4f2f-aaef-3c4c92ec8531",
+              "name": "channelClustersExcrationPrompt",
+              "value": "=Твоя задача - на основе одного channelEvidence построить один channelClusters. На вход ты получаешь channelEvidence в формате json. channelEvidence уже содержит агрегированные паттерны successful, unsuccessful, shared, layer_patterns, packaging_patterns, content_patterns, comment_patterns, deltas и notes_for_cluster_builder. Твоя задача - не пересказывать channelEvidence, а собрать из него несколько audience clusters канала. Audience cluster в этом задании - это не тема ролика и не жанр ролика, а устойчивая связка признаков зрителя и откликающейся ему подачи: self_identity, worldview, pain_growth, fears_desires, common_enemy, language_codes, visual_aesthetics, preferred packaging, preferred content framing. Кластер должен быть достаточно общим, чтобы подходить под множество будущих роликов канала, но достаточно конкретным, чтобы реально влиять на генерацию текста, метаданных, превью и подачи. Нельзя создавать кластер только из одной темы вроде Антарктиды, танков, самолетов, крипты или потопа. Нельзя создавать кластер только из формата вроде топ-лист или обзор. Кластер должен описывать людей и их отклик на подачу, а не просто предмет ролика. Работай только с данными из channelEvidence. Не выдумывай кластеры, если для них нет опоры в паттернах. Если evidence слабый, прямо снижай confidence и делай меньше кластеров. Если вход построен на слишком маленьком количестве роликов, отрази это в confidence и notes, но все равно построй рабочие черновые clusters для теста пайплайна. Создавай от двух до пяти кластеров максимум. Не делай один общий размытый кластер на весь канал. Не делай слишком узкие кластеры, которые подходят только под два-три ролика. Хороший кластер - это повторяемая комбинация identity + worldview + desires/fears + language + visual fit + packaging fit. Каждый кластер должен быть пригоден для дальнейшего использования в генерации роликов. Для каждого кластера нужно определить: кто это; как он видит мир; что его цепляет; чего он боится или хочет; какой враг или препятствие для него естественны; какой язык он считает своим; какой визуал он считает своим; какая упаковка и подача ему подходят; какие темы ему подходят; какие темы могут подойти при правильной подаче; какие темы ему обычно не подходят. Не привязывай fit_topics и misfit_topics только к текущим роликам. Обобщай темы до переносимого уровня, например не \"Харьковчанка\", а \"редкая техника для выживания в экстремальной среде\"; не \"захваченный Сейбр\", а \"известный военный артефакт без новой фактуры\". Если в channelEvidence есть shared_patterns, не считай их автоматически ядром кластера; shared может означать базовую тему канала, а не то, что реально объясняет успех. Сильнее опирайся на high_confidence_deltas, medium_confidence_deltas, layer_patterns.success_signals, layer_patterns.fail_signals, packaging_patterns и content_patterns. Не превращай notes_for_cluster_builder в готовые кластеры без проверки. Делай кластеры нормализованными, короткими и пригодными для машинного использования. cluster_label должен быть коротким и переносимым. cluster_id должен быть в snake_case. confidence - число от нуля до единицы. source_strength - short string: weak, medium или strong. Если evidence маленький, чаще ставь weak или medium. Для каждого кластера обязательно указывай supporting_signals и opposing_signals как короткие нормализованные формулы, а не длинные пояснения. fit_packaging, fit_narrative_modes, fit_visual_codes, fit_language_codes тоже должны быть короткими массивами формул. fit_narrative_modes выбирай только из: single_object_tour, top_list, process_explainer, comparison, broad_explainer, story_case_studies, life_inside_focus. preferred_text_tone должен быть коротким массивом формул вроде \"торжественный техно-нарратив\", \"сухой прагматичный разбор\", \"напряжённая подача выживания\", но только если это реально следует из evidence. Для каждого кластера добавь usage_notes - короткий массив практических правил для следующего шага генерации ролика. Эти usage_notes должны быть пригодны для того, чтобы потом вставлять кластер в запрос генерации текста и метаданных. Если evidence слишком слабый и кластеры частично пересекаются, это допустимо для тестового запуска, но тогда зафиксируй overlap в global_notes. Верни только один JSON object в формате channelClusters. Структура ответа: schema_version - строка ровно \"1.0\"; source_evidence_strength - string enum weak, medium, strong; global_notes - array of strings; clusters - array of objects. Каждый объект в clusters должен содержать: cluster_id - string; cluster_label - string; confidence - number; source_strength - string enum weak, medium, strong; self_identity - array of strings; worldview - array of strings; pain_growth - array of strings; fears_desires - array of strings; common_enemy - array of strings; language_codes - array of strings; visual_aesthetics - array of strings; fit_packaging - array of strings; fit_narrative_modes - array of allowed enum strings; preferred_text_tone - array of strings; fit_topics - array of strings; stretch_topics - array of strings; misfit_topics - array of strings; supporting_signals - array of strings; opposing_signals - array of strings; usage_notes - array of strings. Не добавляй другие поля. Возвращай только валидный JSON object НА ТОМ ЖЕ ЯЗЫКЕ, на котором были данные на входе.",
               "type": "string"
             }
           ]
@@ -1227,7 +1233,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        864,
+        1072,
         368
       ],
       "id": "bf216465-8baa-48af-839c-7d612dd05a99",
@@ -1241,7 +1247,7 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        992,
+        1200,
         368
       ],
       "id": "e9da1cd0-c73b-412b-9189-0c5e05c5897e",
@@ -1332,7 +1338,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1184,
+        1392,
         368
       ],
       "name": "Read All videoEvidences",
@@ -1357,7 +1363,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1312,
+        1520,
         368
       ],
       "id": "96523706-d988-40dd-8519-af2ea4dfa165",
@@ -1379,7 +1385,7 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        1440,
+        1648,
         368
       ],
       "id": "9ad80feb-ba9e-4a6b-8f77-a4cc0b77246b",
@@ -1446,7 +1452,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        1696,
+        1904,
         368
       ],
       "id": "a1f8d2b1-e96d-4768-a6be-7511c1b30377",
@@ -1513,7 +1519,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        2144,
+        2352,
         256
       ],
       "id": "04bc0b14-de74-4e80-b278-6fb60433f42f",
@@ -1580,7 +1586,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        2144,
+        2352,
         464
       ],
       "id": "5331defc-954f-429b-8fe4-1bf10832b688",
@@ -1654,7 +1660,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        2016,
+        2224,
         464
       ],
       "id": "0e6bb3c7-c120-4bde-9f67-f31b68444577",
@@ -1728,7 +1734,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        2016,
+        2224,
         256
       ],
       "id": "1a06b9c7-0dd3-450e-adac-76ceee8d511c",
@@ -1763,7 +1769,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1888,
+        2096,
         256
       ],
       "id": "f8c15b3c-089b-4dc8-b334-bdd74ac7bb22",
@@ -1798,7 +1804,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1888,
+        2096,
         464
       ],
       "id": "ad59428c-4562-4309-8888-8160b49b8329",
@@ -1821,7 +1827,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2336,
+        2544,
         464
       ],
       "id": "1e6cdf24-d478-4585-a0e2-99f10780145d",
@@ -1844,7 +1850,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2336,
+        2544,
         256
       ],
       "id": "3cad93fa-7ab1-4bdc-b3c9-333093a73033",
@@ -1867,7 +1873,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1568,
+        1776,
         368
       ],
       "id": "1bba4a3e-18a1-400d-8844-d7edeac30c21",
@@ -1893,7 +1899,7 @@
       "parameters": {
         "content": "## Combining video evidences to channelEvidence",
         "height": 336,
-        "width": 2576,
+        "width": 2784,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -1990,13 +1996,781 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        2528,
+        2736,
         352
       ],
       "name": "write channelEvidence.json",
       "id": "4bb80a54-246d-48fc-a7b9-3c6a4278382d",
       "alwaysOutputData": true,
       "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "content": "## Exctracting channelClusters from channelEvidence",
+        "height": 336,
+        "width": 2576,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        848,
+        608
+      ],
+      "id": "30a9bef7-23a8-45fc-8834-7a3da109eb44",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{$env.CHANNELS_FOLDER_PATH + '/CLUSTERS/competitorsChannels/' + $('Base Settings').item.json.analyzedChannelFolderName}}/channelEvidence.json",
+            "fileAction": "=read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        544,
+        368
+      ],
+      "name": "read channelEvidence.json1",
+      "id": "dfb95ca5-a172-44de-861d-625c5f716178",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.isEmpty() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "700fe8c9-a8fc-47be-8bfa-5a5224a1f720"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "no evidence file"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "13722f91-664b-4871-a27c-a253c81c6b17",
+                    "leftValue": "={{ !$json.isEmpty() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "has evidence file"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        368
+      ],
+      "id": "26a1211d-78f7-4857-9484-fed475ce7d2e",
+      "name": "Channel Evidence Exists?"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Base Settings').item.json.analyzingService == \"gemini\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "6de169e5-93ad-4299-a39b-44143c8d1d38"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "gemini"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "07496e8f-6f29-4c28-ba6a-26ca290dffac",
+                    "leftValue": "={{ $('Base Settings').item.json.analyzingService == \"openai\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "openai"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1696,
+        736
+      ],
+      "id": "4a0b2223-bf8b-4ac2-8746-969645cbe6bc",
+      "name": "Switch Analyzing Service2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2144,
+        624
+      ],
+      "id": "88f3b9b0-e63e-457d-a836-d1988c40a0a4",
+      "name": "was error4"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ $json.hasField('error') ? $json.error==null : !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') ? !$json.error==null : $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2144,
+        832
+      ],
+      "id": "030d6e08-8884-4403-af0c-3086accafc04",
+      "name": "was error5"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2016,
+        832
+      ],
+      "id": "9838d619-b4ce-46b3-91d7-8df6966e1045",
+      "name": "Send Openai Gen Request2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2016,
+        624
+      ],
+      "id": "57af7374-b844-4b49-aa65-2b9e545baddf",
+      "name": "Send Gemini Gen Request2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id+'TEST',\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ \n{\n  \"model\": $('Base Settings').item.json.analyzingModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('Base Settings').item.json.channelClustersExcrationPrompt }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": $('read channelEvidence.json1').item.json.toJsonString() }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseJsonSchema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"schema_version\": {\n          \"type\": \"string\",\n          \"enum\": [\"1.0\"]\n        },\n        \"source_evidence_strength\": {\n          \"type\": \"string\",\n          \"enum\": [\"weak\", \"medium\", \"strong\"]\n        },\n        \"global_notes\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        },\n        \"clusters\": {\n          \"type\": \"array\",\n          \"minItems\": 1,\n          \"maxItems\": 5,\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"cluster_id\": {\n                \"type\": \"string\"\n              },\n              \"cluster_label\": {\n                \"type\": \"string\"\n              },\n              \"confidence\": {\n                \"type\": \"number\"\n              },\n              \"source_strength\": {\n                \"type\": \"string\",\n                \"enum\": [\"weak\", \"medium\", \"strong\"]\n              },\n              \"self_identity\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"worldview\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"pain_growth\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"fears_desires\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"common_enemy\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"language_codes\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"visual_aesthetics\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"fit_packaging\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"fit_narrative_modes\": {\n                \"type\": \"array\",\n                \"items\": {\n                  \"type\": \"string\",\n                  \"enum\": [\n                    \"single_object_tour\",\n                    \"top_list\",\n                    \"process_explainer\",\n                    \"comparison\",\n                    \"broad_explainer\",\n                    \"story_case_studies\",\n                    \"life_inside_focus\"\n                  ]\n                }\n              },\n              \"preferred_text_tone\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"fit_topics\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"stretch_topics\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"misfit_topics\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"supporting_signals\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"opposing_signals\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"usage_notes\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              }\n            },\n            \"required\": [\n              \"cluster_id\",\n              \"cluster_label\",\n              \"confidence\",\n              \"source_strength\",\n              \"self_identity\",\n              \"worldview\",\n              \"pain_growth\",\n              \"fears_desires\",\n              \"common_enemy\",\n              \"language_codes\",\n              \"visual_aesthetics\",\n              \"fit_packaging\",\n              \"fit_narrative_modes\",\n              \"preferred_text_tone\",\n              \"fit_topics\",\n              \"stretch_topics\",\n              \"misfit_topics\",\n              \"supporting_signals\",\n              \"opposing_signals\",\n              \"usage_notes\"\n            ],\n            \"additionalProperties\": false\n          }\n        }\n      },\n      \"required\": [\n        \"schema_version\",\n        \"source_evidence_strength\",\n        \"global_notes\",\n        \"clusters\"\n      ],\n      \"additionalProperties\": false\n    }\n  },\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"BLOCK_NONE\" }\n  ]\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1888,
+        624
+      ],
+      "id": "cdd8e346-3617-4258-8450-a7716fbb9476",
+      "name": "Form Gemini Gen Request2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.OPENAI_RESPONSES_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.OPENAI_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ \n{\n  \"model\": $('Base Settings').item.json.analyzingModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\":  $('Base Settings').item.json.channelEvidenceCombinePrompt\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('read channelEvidence.json1').item.json.toJsonString()\n        }\n      ]\n    }\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_schema\",\n      \"name\": \"channel_clusters_v1_0\",\n      \"strict\": true,\n      \"schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"schema_version\": {\n            \"type\": \"string\",\n            \"enum\": [\"1.0\"]\n          },\n          \"source_evidence_strength\": {\n            \"type\": \"string\",\n            \"enum\": [\"weak\", \"medium\", \"strong\"]\n          },\n          \"global_notes\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          },\n          \"clusters\": {\n            \"type\": \"array\",\n            \"minItems\": 1,\n            \"maxItems\": 5,\n            \"items\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"cluster_id\": {\n                  \"type\": \"string\"\n                },\n                \"cluster_label\": {\n                  \"type\": \"string\"\n                },\n                \"confidence\": {\n                  \"type\": \"number\"\n                },\n                \"source_strength\": {\n                  \"type\": \"string\",\n                  \"enum\": [\"weak\", \"medium\", \"strong\"]\n                },\n                \"self_identity\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"worldview\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"pain_growth\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"fears_desires\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"common_enemy\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"language_codes\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"visual_aesthetics\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"fit_packaging\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"fit_narrative_modes\": {\n                  \"type\": \"array\",\n                  \"items\": {\n                    \"type\": \"string\",\n                    \"enum\": [\n                      \"single_object_tour\",\n                      \"top_list\",\n                      \"process_explainer\",\n                      \"comparison\",\n                      \"broad_explainer\",\n                      \"story_case_studies\",\n                      \"life_inside_focus\"\n                    ]\n                  }\n                },\n                \"preferred_text_tone\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"fit_topics\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"stretch_topics\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"misfit_topics\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"supporting_signals\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"opposing_signals\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"usage_notes\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                }\n              },\n              \"required\": [\n                \"cluster_id\",\n                \"cluster_label\",\n                \"confidence\",\n                \"source_strength\",\n                \"self_identity\",\n                \"worldview\",\n                \"pain_growth\",\n                \"fears_desires\",\n                \"common_enemy\",\n                \"language_codes\",\n                \"visual_aesthetics\",\n                \"fit_packaging\",\n                \"fit_narrative_modes\",\n                \"preferred_text_tone\",\n                \"fit_topics\",\n                \"stretch_topics\",\n                \"misfit_topics\",\n                \"supporting_signals\",\n                \"opposing_signals\",\n                \"usage_notes\"\n              ],\n              \"additionalProperties\": false\n            }\n          }\n        },\n        \"required\": [\n          \"schema_version\",\n          \"source_evidence_strength\",\n          \"global_notes\",\n          \"clusters\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  }\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1888,
+        832
+      ],
+      "id": "ca3e4b0b-1ae4-4118-9ec9-827bb5ee47b2",
+      "name": "Form Openai Gen Request2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "channelEvidence",
+              "value": "={{ $('Send Openai Gen Request2').item.json.output[0].content[0].text.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2336,
+        832
+      ],
+      "id": "cb241c95-b7a8-4b6b-8792-8d4bcb7fd775",
+      "name": "Parse Openai Responce2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "videoEvidence",
+              "value": "={{ $json.candidates[0].content.parts[0].text.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2336,
+        624
+      ],
+      "id": "e49a48b7-3e1b-42a3-a5e7-9877c4862c07",
+      "name": "Parse Gemini Responce2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read channelEvidence.json1'),\n$('Base Settings').item.json.analyzingService,\n$('Base Settings').item.json.analyzingModel,\n$('Base Settings').item.json.channelClustersExcrationPrompt\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1568,
+        736
+      ],
+      "id": "07f91657-6a5c-42f1-8894-bf2078da8010",
+      "name": "get random ID for request2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{$env.CHANNELS_FOLDER_PATH + '/CLUSTERS/competitorsChannels/' + $('Base Settings').item.json.analyzedChannelFolderName}}/channelEvidence.json",
+            "fileAction": "=write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ $json.channelEvidence }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2528,
+        720
+      ],
+      "name": "write channelEvidence.json1",
+      "id": "0ae4ddb0-5f99-46a0-8e44-9e187d42ff75",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        880,
+        736
+      ],
+      "id": "84e56458-645a-4e1d-9d71-0e588f68b1ce",
+      "name": "No Operation, do nothing"
     }
   ],
   "connections": {
@@ -2282,7 +3056,7 @@
       "main": [
         [
           {
-            "node": "Parse Array1",
+            "node": "read channelEvidence.json1",
             "type": "main",
             "index": 0
           }
@@ -2460,6 +3234,168 @@
           }
         ]
       ]
+    },
+    "write channelEvidence.json": {
+      "main": [
+        []
+      ]
+    },
+    "read channelEvidence.json1": {
+      "main": [
+        [
+          {
+            "node": "Channel Evidence Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Channel Evidence Exists?": {
+      "main": [
+        [
+          {
+            "node": "Parse Array1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Analyzing Service2": {
+      "main": [
+        [
+          {
+            "node": "Form Gemini Gen Request2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Form Openai Gen Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "was error4": {
+      "main": [
+        [
+          {
+            "node": "Parse Gemini Responce2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "was error5": {
+      "main": [
+        [
+          {
+            "node": "Parse Openai Responce2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Openai Gen Request2": {
+      "main": [
+        [
+          {
+            "node": "was error5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send Gemini Gen Request2": {
+      "main": [
+        [
+          {
+            "node": "was error4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Form Gemini Gen Request2": {
+      "main": [
+        [
+          {
+            "node": "Send Gemini Gen Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Form Openai Gen Request2": {
+      "main": [
+        [
+          {
+            "node": "Send Openai Gen Request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Openai Responce2": {
+      "main": [
+        [
+          {
+            "node": "write channelEvidence.json1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Gemini Responce2": {
+      "main": [
+        [
+          {
+            "node": "write channelEvidence.json1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID for request2": {
+      "main": [
+        [
+          {
+            "node": "Switch Analyzing Service2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        [
+          {
+            "node": "get random ID for request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -2495,9 +3431,9 @@
       }
     ]
   },
-  "versionId": "d9508c01-e3e1-421b-93a1-b033dc077909",
+  "versionId": "9a86910e-4186-4039-9ffc-561f2c2e36ed",
   "activeVersionId": null,
-  "versionCounter": 761,
+  "versionCounter": 881,
   "triggerCount": 0,
   "tags": [],
   "shared": [

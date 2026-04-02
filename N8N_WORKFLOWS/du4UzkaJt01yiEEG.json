@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-30T21:55:09.081Z",
+  "updatedAt": "2026-04-02T15:41:25.627Z",
   "createdAt": "2026-02-04T19:31:36.029Z",
   "id": "du4UzkaJt01yiEEG",
   "name": "generate voiceover",
@@ -1393,40 +1393,6 @@
     },
     {
       "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "e3b07ca4-b07d-47af-a293-f4bdf637999e",
-              "leftValue": "={{ $json.parts.length == $('get voice prompts').item.json.existingFilesNames.length }}",
-              "rightValue": "",
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        3488,
-        352
-      ],
-      "id": "5b053f98-5b75-4c15-9ccc-a05ddc7b520d",
-      "name": "If all voice prompts exist"
-    },
-    {
-      "parameters": {
         "assignments": {
           "assignments": [
             {
@@ -1774,6 +1740,40 @@
       ],
       "id": "d85e221f-9fa1-4edb-8284-bf08f0ff4a5e",
       "name": "If uploaded"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e3b07ca4-b07d-47af-a293-f4bdf637999e",
+              "leftValue": "={{ $json.parts.length == $('get voice prompts').item.json.existingFilesNames.length || $('get all workflow params').item.json.audioGenService == \"elevenlabs\" }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        3488,
+        352
+      ],
+      "id": "5b053f98-5b75-4c15-9ccc-a05ddc7b520d",
+      "name": "If elvenlabs or all voice prompts exist"
     }
   ],
   "connections": {
@@ -2033,7 +2033,7 @@
       "main": [
         [
           {
-            "node": "If all voice prompts exist",
+            "node": "If elvenlabs or all voice prompts exist",
             "type": "main",
             "index": 0
           }
@@ -2045,24 +2045,6 @@
         [
           {
             "node": "Aggregate",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If all voice prompts exist": {
-      "main": [
-        [
-          {
-            "node": "split text to parts1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Split Out1",
             "type": "main",
             "index": 0
           }
@@ -2141,6 +2123,24 @@
           }
         ]
       ]
+    },
+    "If elvenlabs or all voice prompts exist": {
+      "main": [
+        [
+          {
+            "node": "split text to parts1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -2170,9 +2170,9 @@
       }
     ]
   },
-  "versionId": "181cacb0-5476-434d-844d-1364af2b15c1",
-  "activeVersionId": "bec0a4b2-e8d2-4ad7-acf9-14adc2c253b0",
-  "versionCounter": 676,
+  "versionId": "c6f6ee70-a081-4406-a928-f2ddbd6f8cb0",
+  "activeVersionId": "c6f6ee70-a081-4406-a928-f2ddbd6f8cb0",
+  "versionCounter": 688,
   "triggerCount": 0,
   "tags": [],
   "shared": [
