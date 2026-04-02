@@ -249,6 +249,8 @@ class Installer:
         self.python_executable = self._detect_python_executable()
         self._unix_path_entries: set[str] = set()
         self.log_file = LOG_PATH
+        self.portable_node_dir: Optional[Path] = None
+        self.portable_node_bin_dir: Optional[Path] = None
 
         if self.system not in {"Windows", "Darwin"}:
             raise InstallError(f"Unsupported OS: {self.system}. This installer supports only Windows and macOS.")
@@ -566,6 +568,8 @@ class Installer:
         node_exe = install_dir / "node.exe"
 
         if node_exe.exists():
+            self.portable_node_dir = install_dir
+            self.portable_node_bin_dir = install_dir
             return install_dir
 
         WINDOWS_NODE_ROOT.mkdir(parents=True, exist_ok=True)
@@ -573,6 +577,8 @@ class Installer:
         self.download_and_extract_zip(url, WINDOWS_NODE_ROOT, install_dir)
         if not node_exe.exists():
             raise InstallError(f"Portable Node.js did not extract correctly: {node_exe}")
+        self.portable_node_dir = install_dir
+        self.portable_node_bin_dir = install_dir
         return install_dir
 
     def install_portable_node_macos(self) -> Path:
@@ -582,6 +588,8 @@ class Installer:
         node_binary = install_dir / "bin" / "node"
 
         if node_binary.exists():
+            self.portable_node_dir = install_dir
+            self.portable_node_bin_dir = install_dir / "bin"
             return install_dir / "bin"
 
         MAC_NODE_ROOT.mkdir(parents=True, exist_ok=True)
@@ -589,6 +597,8 @@ class Installer:
         self.download_and_extract_tar(url, MAC_NODE_ROOT, install_dir)
         if not node_binary.exists():
             raise InstallError(f"Portable Node.js did not extract correctly: {node_binary}")
+        self.portable_node_dir = install_dir
+        self.portable_node_bin_dir = install_dir / "bin"
         return install_dir / "bin"
 
     def install_portable_powershell_macos(self) -> Path:
@@ -782,12 +792,85 @@ class Installer:
             )
         self.log(f"{executable} verified: {actual}")
 
+    def prepare_command(self, command: list[str]) -> list[str]:
+        if not command:
+            return command
+        resolved = self.resolve_command_path(command[0])
+        if not resolved:
+            return command
+        return [resolved, *command[1:]]
+
+    def resolve_command_path(self, executable: str) -> Optional[str]:
+        direct_path = Path(executable)
+        if any(sep in executable for sep in ("\\", "/")) or direct_path.drive:
+            return str(direct_path) if direct_path.exists() else None
+
+        direct = shutil.which(executable)
+        if direct:
+            return direct
+
+        if self.system == "Windows":
+            portable_dir = self.portable_node_dir or self.detect_portable_node_windows_dir()
+            if portable_dir:
+                windows_binaries = {
+                    "node": portable_dir / "node.exe",
+                    "npm": portable_dir / "npm.cmd",
+                    "npx": portable_dir / "npx.cmd",
+                    "corepack": portable_dir / "corepack.cmd",
+                }
+                candidate = windows_binaries.get(executable.lower())
+                if candidate and candidate.exists():
+                    return str(candidate)
+
+            appdata_npm = Path(os.environ.get("APPDATA", Path.home())) / "npm"
+            n8n_candidate = appdata_npm / "n8n.cmd"
+            if executable.lower() == "n8n" and n8n_candidate.exists():
+                return str(n8n_candidate)
+
+        if self.system == "Darwin":
+            portable_bin = self.portable_node_bin_dir or self.detect_portable_node_macos_bin_dir()
+            if portable_bin:
+                unix_binaries = {
+                    "node": portable_bin / "node",
+                    "npm": portable_bin / "npm",
+                    "npx": portable_bin / "npx",
+                    "corepack": portable_bin / "corepack",
+                }
+                candidate = unix_binaries.get(executable.lower())
+                if candidate and candidate.exists():
+                    return str(candidate)
+
+            mac_candidates = {
+                "n8n": MAC_NPM_PREFIX / "bin" / "n8n",
+                "powershell": MAC_LOCAL_BIN / "powershell",
+            }
+            candidate = mac_candidates.get(executable.lower())
+            if candidate and candidate.exists():
+                return str(candidate)
+
+        return None
+
+    def detect_portable_node_windows_dir(self) -> Optional[Path]:
+        candidate = WINDOWS_NODE_ROOT / f"node-v{TARGET_NODE_VERSION}-win-{self.windows_node_arch()}"
+        if (candidate / "node.exe").exists():
+            self.portable_node_dir = candidate
+            self.portable_node_bin_dir = candidate
+            return candidate
+        return None
+
+    def detect_portable_node_macos_bin_dir(self) -> Optional[Path]:
+        candidate = MAC_NODE_ROOT / f"node-v{TARGET_NODE_VERSION}-darwin-{self.macos_node_arch()}" / "bin"
+        if (candidate / "node").exists():
+            self.portable_node_dir = candidate.parent
+            self.portable_node_bin_dir = candidate
+            return candidate
+        return None
+
     def get_command_version(self, executable: str) -> Optional[str]:
-        if not shutil.which(executable):
-            executable_path = Path(executable)
-            if executable_path.name == executable and not executable_path.exists():
-                return None
-        result = self.run_quiet([executable, "--version"], check=False)
+        resolved = self.resolve_command_path(executable)
+        if not resolved:
+            return None
+        result = self.run_quiet([resolved, "--version"], check=False)
         if result.returncode != 0:
             return None
         output = (result.stdout or "") + "\n" + (result.stderr or "")
@@ -795,12 +878,13 @@ class Installer:
         return version or None
 
     def run_command(self, command: list[str], description: str) -> None:
+        prepared_command = self.prepare_command(command)
         self.log(description)
-        self.log(f"$ {format_command(command)}")
+        self.log(f"$ {format_command(prepared_command)}")
 
         try:
             process = subprocess.Popen(
-                command,
+                prepared_command,
                 cwd=str(SCRIPT_DIR),
                 env=os.environ.copy(),
                 stdout=subprocess.PIPE,
@@ -810,7 +894,7 @@ class Installer:
                 errors="replace",
             )
         except FileNotFoundError as exc:
-            raise InstallError(f"Command not found: {command[0]}") from exc
+            raise InstallError(f"Command not found: {prepared_command[0]}") from exc
 
         assert process.stdout is not None
         for line in process.stdout:
@@ -818,12 +902,13 @@ class Installer:
 
         return_code = process.wait()
         if return_code != 0:
-            raise InstallError(f"Command failed with exit code {return_code}: {format_command(command)}")
+            raise InstallError(f"Command failed with exit code {return_code}: {format_command(prepared_command)}")
 
     def run_quiet(self, command: list[str], *, check: bool) -> subprocess.CompletedProcess[str]:
+        prepared_command = self.prepare_command(command)
         try:
             result = subprocess.run(
-                command,
+                prepared_command,
                 cwd=str(SCRIPT_DIR),
                 env=os.environ.copy(),
                 capture_output=True,
@@ -833,16 +918,16 @@ class Installer:
             )
         except FileNotFoundError as exc:
             if check:
-                raise InstallError(f"Command not found: {command[0]}") from exc
+                raise InstallError(f"Command not found: {prepared_command[0]}") from exc
             result = subprocess.CompletedProcess(
-                command,
+                prepared_command,
                 127,
                 stdout="",
                 stderr=str(exc),
             )
         if check and result.returncode != 0:
             raise InstallError(
-                f"Command failed with exit code {result.returncode}: {format_command(command)}\n"
+                f"Command failed with exit code {result.returncode}: {format_command(prepared_command)}\n"
                 f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
             )
         return result
