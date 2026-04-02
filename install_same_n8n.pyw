@@ -316,6 +316,11 @@ class Installer:
         if not npm_version:
             raise InstallError("npm is not available after Node.js installation.")
         self.log(f"npm detected: {npm_version}")
+        if self.system == "Windows":
+            npx_version = self.get_command_version("npx")
+            if not npx_version:
+                raise InstallError("npx is not available after Node.js installation.")
+            self.log(f"npx detected: {npx_version}")
 
         if self.system == "Windows":
             appdata_npm = Path(os.environ.get("APPDATA", Path.home())) / "npm"
