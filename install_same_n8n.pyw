@@ -783,6 +783,10 @@ class Installer:
         self.log(f"{executable} verified: {actual}")
 
     def get_command_version(self, executable: str) -> Optional[str]:
+        if not shutil.which(executable):
+            executable_path = Path(executable)
+            if executable_path.name == executable and not executable_path.exists():
+                return None
         result = self.run_quiet([executable, "--version"], check=False)
         if result.returncode != 0:
             return None
@@ -794,16 +798,19 @@ class Installer:
         self.log(description)
         self.log(f"$ {format_command(command)}")
 
-        process = subprocess.Popen(
-            command,
-            cwd=str(SCRIPT_DIR),
-            env=os.environ.copy(),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-        )
+        try:
+            process = subprocess.Popen(
+                command,
+                cwd=str(SCRIPT_DIR),
+                env=os.environ.copy(),
+                stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+            )
+        except FileNotFoundError as exc:
+            raise InstallError(f"Command not found: {command[0]}") from exc
 
         assert process.stdout is not None
         for line in process.stdout:
@@ -814,15 +821,25 @@ class Installer:
             raise InstallError(f"Command failed with exit code {return_code}: {format_command(command)}")
 
     def run_quiet(self, command: list[str], *, check: bool) -> subprocess.CompletedProcess[str]:
-        result = subprocess.run(
-            command,
-            cwd=str(SCRIPT_DIR),
-            env=os.environ.copy(),
-            capture_output=True,
-            text=True,
-            encoding="utf-8",
-            errors="replace",
-        )
+        try:
+            result = subprocess.run(
+                command,
+                cwd=str(SCRIPT_DIR),
+                env=os.environ.copy(),
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+                errors="replace",
+            )
+        except FileNotFoundError as exc:
+            if check:
+                raise InstallError(f"Command not found: {command[0]}") from exc
+            result = subprocess.CompletedProcess(
+                command,
+                127,
+                stdout="",
+                stderr=str(exc),
+            )
         if check and result.returncode != 0:
             raise InstallError(
                 f"Command failed with exit code {result.returncode}: {format_command(command)}\n"
