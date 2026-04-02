@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-30T20:28:00.146Z",
+  "updatedAt": "2026-04-01T00:57:54.522Z",
   "createdAt": "2026-02-05T15:40:02.769Z",
   "id": "l0p4y5gFr4cklXjY",
   "name": "generate clips",
@@ -583,7 +583,7 @@
     {
       "parameters": {
         "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \n}"
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\"  \n}"
       },
       "id": "66e07260-5c32-481b-8305-647f0819adf6",
       "typeVersion": 1.1,
@@ -1731,9 +1731,9 @@
       }
     ]
   },
-  "versionId": "d992935a-4a1f-4c66-bb82-69bc5599fa0a",
-  "activeVersionId": "d992935a-4a1f-4c66-bb82-69bc5599fa0a",
-  "versionCounter": 1764,
+  "versionId": "eef69427-217c-4720-9693-5dd8e9a05c1c",
+  "activeVersionId": "eef69427-217c-4720-9693-5dd8e9a05c1c",
+  "versionCounter": 1773,
   "triggerCount": 0,
   "tags": [],
   "shared": [

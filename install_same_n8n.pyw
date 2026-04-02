@@ -310,6 +310,8 @@ class Installer:
                 self.log(f"Portable Node.js installed at: {node_bin_dir.parent}")
 
         self.verify_required_command("node", TARGET_NODE_VERSION)
+        if self.system == "Windows":
+            self.ensure_windows_node_command_shims()
         npm_version = self.get_command_version("npm")
         if not npm_version:
             raise InstallError("npm is not available after Node.js installation.")
@@ -865,6 +867,49 @@ class Installer:
             self.portable_node_bin_dir = candidate
             return candidate
         return None
+
+    def ensure_windows_node_command_shims(self) -> None:
+        if self.system != "Windows":
+            return
+
+        portable_dir = self.portable_node_dir or self.detect_portable_node_windows_dir()
+        if not portable_dir:
+            self.log("Portable Node.js directory was not detected, skipping Windows command shims.")
+            return
+
+        shims_dir = Path(os.environ.get("APPDATA", Path.home())) / "npm"
+        shims_dir.mkdir(parents=True, exist_ok=True)
+        self.ensure_windows_user_path(shims_dir)
+
+        wrappers = {
+            "npm.cmd": portable_dir / "npm.cmd",
+            "npx.cmd": portable_dir / "npx.cmd",
+            "corepack.cmd": portable_dir / "corepack.cmd",
+        }
+
+        for shim_name, target_path in wrappers.items():
+            if not target_path.exists():
+                self.log(f"Skipping shim {shim_name}: target not found at {target_path}")
+                continue
+
+            shim_path = shims_dir / shim_name
+            shim_content = "\r\n".join(
+                [
+                    "@echo off",
+                    f"call \"{target_path}\" %*",
+                    "",
+                ]
+            )
+
+            current = shim_path.read_text(encoding="utf-8") if shim_path.exists() else None
+            if current == shim_content:
+                self.log(f"Windows shim already up to date: {shim_path}")
+                continue
+
+            if shim_path.exists():
+                self.backup_file(shim_path)
+            atomic_write_text(shim_path, shim_content.replace("\r\n", "\n"))
+            self.log(f"Created Windows shim: {shim_path}")
 
     def get_command_version(self, executable: str) -> Optional[str]:
         resolved = self.resolve_command_path(executable)

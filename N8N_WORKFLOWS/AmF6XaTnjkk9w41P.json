@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-31T23:05:22.495Z",
+  "updatedAt": "2026-04-01T18:23:50.336Z",
   "createdAt": "2026-02-03T20:08:34.562Z",
   "id": "AmF6XaTnjkk9w41P",
   "name": "Main",
@@ -12,7 +12,7 @@
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        -800,
+        -992,
         1232
       ],
       "id": "b1249053-d956-414b-a9c2-8ffcb3299a30",
@@ -20,14 +20,28 @@
     },
     {
       "parameters": {
-        "mode": "raw",
-        "jsonOutput": "={\n  \"channelsFolderPath\": \"C:/Users/V/Desktop/Channels\",\n  \"channelName\": \"LifeOfAPirate\",\n}",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "9fef8d0f-27e5-4921-9cdf-0bf0224cdf47",
+              "name": "=channelsFolderPath",
+              "value": "=C:/Users/V/Desktop/Channels",
+              "type": "string"
+            },
+            {
+              "id": "6bf8fb55-da43-41b9-a476-0ef633256d7c",
+              "name": "channelName",
+              "value": "LifeOfAPirate",
+              "type": "string"
+            }
+          ]
+        },
         "options": {}
       },
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        -640,
+        -720,
         1232
       ],
       "id": "1bf27e09-cd02-414e-bdb5-a0c624452e37",
@@ -2466,8 +2480,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        512,
-        -192
+        -240,
+        928
       ],
       "name": "get product key",
       "id": "97cb47c6-47c1-4f21-b4d2-77a8ad96d021"
@@ -2550,8 +2564,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1408,
-        -288
+        656,
+        832
       ],
       "id": "27dbe791-64c8-471c-a876-48a3ce51d230",
       "name": "Send HTTP Request"
@@ -2638,8 +2652,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        736,
-        -192
+        -16,
+        928
       ],
       "name": "get all workflow params",
       "id": "b8d836d1-1b28-4236-9a93-09e14b13b9c3"
@@ -2654,8 +2668,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        256,
-        -240
+        -496,
+        880
       ],
       "id": "6a411b5f-f063-442c-bc68-fd3e720128ef",
       "name": "Sticky Note"
@@ -2665,8 +2679,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        288,
-        -192
+        -464,
+        928
       ],
       "id": "b00606bc-f316-4f89-93c6-06b70c1d39cd",
       "name": "Connect me to next nodes to use"
@@ -3152,8 +3166,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1184,
-        -288
+        432,
+        832
       ],
       "id": "1bffc076-ae94-412e-a5e5-07c2d3d9e258",
       "name": "form clear cache request"
@@ -3187,8 +3201,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1184,
-        -96
+        432,
+        1024
       ],
       "id": "fd09fdcd-cc98-486b-9112-9ef8ba45f65c",
       "name": "form clear runpod jobs request"
@@ -3210,8 +3224,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        960,
-        -192
+        208,
+        928
       ],
       "id": "0eacc2fa-3d75-47cd-bdeb-574f1136ed33",
       "name": "SET Number of Hours to Delete"
@@ -3294,8 +3308,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1408,
-        -96
+        656,
+        1024
       ],
       "id": "2fc0b719-259c-4d3b-ba59-a1a4929cecab",
       "name": "Send HTTP Request1"
@@ -4678,7 +4692,13 @@
     },
     "Write Rwerite File": {
       "main": [
-        []
+        [
+          {
+            "node": "read channel rewrite",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "No Operation, do nothing1": {
@@ -4741,9 +4761,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "f4fa0ca9-87b2-4a8c-aaea-28ca6b536fbb",
+  "versionId": "4764e7b5-1ef8-4b73-a916-cc122e8e327d",
   "activeVersionId": null,
-  "versionCounter": 1236,
+  "versionCounter": 1262,
   "triggerCount": 0,
   "tags": [],
   "shared": [

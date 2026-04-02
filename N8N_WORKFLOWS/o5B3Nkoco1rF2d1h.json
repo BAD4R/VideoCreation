@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-30T19:27:33.264Z",
+  "updatedAt": "2026-04-01T17:07:30.441Z",
   "createdAt": "2026-02-05T16:30:06.860Z",
   "id": "o5B3Nkoco1rF2d1h",
   "name": "runpod works",
@@ -10,7 +10,7 @@
     {
       "parameters": {
         "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"index\":0,\n  \"method\":\"\",\n\n  \"comfyUiRequest\":{},\n  \"jupiterRequest\":{},\n  \n  \"runpodTemplateId\":\"\",\n  \n  \"runpodGpuList\":[],\n  \"runpodCountryCodes\":[]\n}"
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"index\":0,\n  \"method\":\"\",\n\n  \"comfyUiRequest\":{},\n  \"jupiterRequest\":{},\n  \"request\":{},\n  \n  \"runpodTemplateId\":\"\",\n  \n  \"runpodGpuList\":[],\n  \"runpodCountryCodes\":[]\n}"
       },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
@@ -18,7 +18,7 @@
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
         -448,
-        400
+        416
       ]
     },
     {
@@ -299,6 +299,31 @@
               },
               "renameOutput": true,
               "outputKey": "upload file to jupiter"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "06933206-526c-40c8-9b29-3db927e84389",
+                    "leftValue": "={{ $('Start').first().json.method == \"startTextAudioAlignProcess\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "start text audio align"
             }
           ]
         },
@@ -1568,7 +1593,7 @@
       "typeVersion": 1.2,
       "position": [
         160,
-        400
+        416
       ],
       "name": "read pod status",
       "id": "032b169d-8045-40a6-85d9-91924ef77a67",
@@ -2282,7 +2307,7 @@
       "typeVersion": 3.4,
       "position": [
         368,
-        400
+        416
       ],
       "id": "c0b6d417-8edc-4435-911b-6918643ae8e1",
       "name": "get random ID"
@@ -2495,7 +2520,7 @@
       "typeVersion": 1.2,
       "position": [
         -240,
-        400
+        416
       ],
       "name": "get product key",
       "id": "75d5f44c-27e5-429c-9619-71da95e1be64"
@@ -2583,7 +2608,7 @@
       "typeVersion": 1.2,
       "position": [
         -32,
-        400
+        416
       ],
       "name": "get all workflow params",
       "id": "a45b6c29-e5ee-40cc-8097-3dd49aa173f8"
@@ -3216,7 +3241,7 @@
       "typeVersion": 1.2,
       "position": [
         560,
-        400
+        416
       ],
       "name": "read pod id",
       "id": "3597a60d-42e6-4348-88b9-ce3745cd6f1c",
@@ -3690,7 +3715,7 @@
       "typeVersion": 1,
       "position": [
         -448,
-        224
+        240
       ],
       "id": "91ec21bf-4024-4bd8-af3e-3cd76c4cad44",
       "name": "When clicking ‘Execute workflow’"
@@ -3984,14 +4009,14 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://{{ $('read pod id').last().json.podMeta.id }}-{{ $('get all workflow params').first().json.comfyUiPort }}.proxy.runpod.net/api/upload/image",
+        "url": "=https://{{ $('read pod id').last().json.podMeta.id }}-8091.proxy.runpod.net/api/files/upload",
         "sendBody": true,
         "contentType": "multipart-form-data",
         "bodyParameters": {
           "parameters": [
             {
               "parameterType": "formBinaryData",
-              "name": "image",
+              "name": "file",
               "inputDataFieldName": "data"
             },
             {
@@ -4018,7 +4043,7 @@
     },
     {
       "parameters": {
-        "url": "=https://{{ $('read pod id').last().json.podMeta.id }}-8888.proxy.runpod.net/api/contents/workspace{{ $('Start').first().json.jupiterRequest.filePathOnJupiter }}?content=0",
+        "url": "=https://{{ $('read pod id').last().json.podMeta.id }}-8888.proxy.runpod.net/api/contents/{{ $('Start').first().json.jupiterRequest.filePathOnJupiter }}?content=0",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -4028,7 +4053,7 @@
         1616
       ],
       "id": "265cefdd-8645-408f-85fc-f6a1b6b40d1c",
-      "name": "Upload Bianry File HTTP Request2",
+      "name": "check file exits",
       "onError": "continueErrorOutput"
     }
   ],
@@ -4111,7 +4136,7 @@
         ],
         [
           {
-            "node": "Upload Bianry File HTTP Request2",
+            "node": "check file exits",
             "type": "main",
             "index": 0
           }
@@ -4122,7 +4147,8 @@
             "type": "main",
             "index": 0
           }
-        ]
+        ],
+        []
       ]
     },
     "Switch by Pod Status": {
@@ -4843,7 +4869,7 @@
         ]
       ]
     },
-    "Upload Bianry File HTTP Request2": {
+    "check file exits": {
       "main": [
         [
           {
@@ -4880,12 +4906,13 @@
           "channelName": "LifeOfAPirate",
           "videoFolderName": "2026-03-24_MbcCf",
           "index": 0,
-          "method": "checkFileOnJupiter",
+          "method": "uploadFileToJupiter",
           "comfyUiRequest": {},
           "jupiterRequest": {
-            "filePathOnJupiter": "/ComfyUI/input/elevenlabs_nikolay_calm.mp3"
+            "filePathOnJupiter": "/workspace/input/MbcCf_00001.mp3",
+            "localFilePath": "C:/Users/V/Desktop/Channels/LifeOfAPirate/VIDEOS/2026-03-24_MbcCf/VOICE/MbcCf_00001.mp3"
           },
-          "runpodTemplateId": "wbp3azfko8",
+          "runpodTemplateId": "y4h0gu0eo4",
           "runpodGpuList": [],
           "runpodCountryCodes": []
         },
@@ -4895,9 +4922,9 @@
       }
     ]
   },
-  "versionId": "7504a293-88b4-450e-8d9a-467238c2a81d",
-  "activeVersionId": "7504a293-88b4-450e-8d9a-467238c2a81d",
-  "versionCounter": 3525,
+  "versionId": "fda8770f-9acd-443a-814e-72c7ca9ef7ee",
+  "activeVersionId": "fda8770f-9acd-443a-814e-72c7ca9ef7ee",
+  "versionCounter": 3565,
   "triggerCount": 0,
   "tags": [],
   "shared": [

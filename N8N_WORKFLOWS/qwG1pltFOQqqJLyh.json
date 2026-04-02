@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-19T21:46:34.755Z",
+  "updatedAt": "2026-04-02T09:08:40.798Z",
   "createdAt": "2026-02-03T20:31:14.881Z",
   "id": "qwG1pltFOQqqJLyh",
   "name": "JSON File Works",
@@ -412,24 +412,9 @@
     "Start": [
       {
         "json": {
-          "filePath": "C:/Users/V/Desktop/Channels/NewChannel/settings.json",
+          "filePath": "C:\\Users\\V\\Desktop\\Channels\\CLUSTERS\\competitorsChannels\\TEHNO_TV\\videos\\video2\\videoData.json",
           "fileAction": "read",
-          "keysToReturn": [
-            "clipGenType",
-            "openAIApiKey",
-            "googleApiKey",
-            "proxyServerIP",
-            "proxyServerPort",
-            "openAiResponsesRoute",
-            "openAiImagesRoute",
-            "geminiAiResponsesRoute",
-            "clipsPromptsGenService",
-            "clipsPromptsGenModel",
-            "imageToVideoBase",
-            "imageToVideoPromptGenerationPrompt",
-            "textToVideoPromptGenerationPrompt",
-            "videoModelLimitationOnTheGeneratedVideoDurationMs"
-          ],
+          "keysToReturn": [],
           "keysToWrite": {},
           "keysToDelete": []
         },
@@ -441,7 +426,7 @@
   },
   "versionId": "49a018d3-167b-430d-b3ec-647277ae6d55",
   "activeVersionId": "49a018d3-167b-430d-b3ec-647277ae6d55",
-  "versionCounter": 459,
+  "versionCounter": 466,
   "triggerCount": 0,
   "tags": [],
   "shared": [

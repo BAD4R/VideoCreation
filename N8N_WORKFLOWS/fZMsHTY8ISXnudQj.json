@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-30T23:11:05.869Z",
+  "updatedAt": "2026-04-01T17:39:39.473Z",
   "createdAt": "2026-02-05T00:33:05.372Z",
   "id": "fZMsHTY8ISXnudQj",
   "name": "transcribe voiceover",
@@ -401,7 +401,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{\n\n[\n\"proxyServerIP\",\n\"proxyServerPort\",\n\"textAudioAlignerRoute\",\n\n\"videoCreationMode\",\n\"textPartsLength\",\n\"channelLanguage\",\n\n\"channelLanguage\",\n\n\n\"runpodAudioGenerationTemplateId\",\n\"runpodAudioGenerationGPUList\",\n\"runpodCountryCodes\",\n\n\"voiceAlignmentService\"\n\n] }}",
+            "keysToReturn": "={{\n\n[\n\"proxyServerIP\",\n\"proxyServerPort\",\n\"textAudioAlignerRoute\",\n\n\"videoCreationMode\",\n\"textPartsLength\",\n\"channelLanguage\",\n\n\"channelLanguage\",\n\n\n\"runpodTextAudioAlignTemplateId\",\n\"runpodTextAudioAlignGPUList\",\n\"runpodCountryCodes\",\n\n\"voiceAlignmentService\"\n\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -625,8 +625,8 @@
             "channelName": "={{ $('Start').first().json.channelName }}",
             "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
             "method": "deployPod",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodAudioGenerationTemplateId }}",
-            "runpodGpuList": "={{ $('get all workflow params').first().json.runpodAudioGenerationGPUList }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTextAudioAlignTemplateId }}",
+            "runpodGpuList": "={{ $('get all workflow params').first().json.runpodTextAudioAlignGPUList }}",
             "runpodCountryCodes": "={{ $('get all workflow params').first().json.runpodCountryCodes }}",
             "comfyUiRequest": "={{ {} }}",
             "index": 0
@@ -756,12 +756,12 @@
             "channelName": "={{ $('Start').first().json.channelName }}",
             "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
             "method": "checkFileOnJupiter",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodAudioGenerationTemplateId }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTextAudioAlignTemplateId }}",
             "runpodGpuList": "={{ [] }}",
             "runpodCountryCodes": "={{ [] }}",
             "comfyUiRequest": "={{ {} }}",
             "index": 0,
-            "jupiterRequest": "={{ {\n\"filePathOnJupiter\":\"/ComfyUI/input/\"+$json.existingFilesNames\n} }}"
+            "jupiterRequest": "={{ {\n\"filePathOnJupiter\":\"/workspace/input/\"+$('Split Out').item.json.existingFilesNames\n} }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -877,7 +877,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1712,
+        1664,
         528
       ],
       "id": "f00702e1-d472-4252-99c1-3f0e37e0a16e",
@@ -911,7 +911,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1904,
+        1888,
         528
       ],
       "id": "e322d7b4-4461-4b2f-bd7d-5880213bcdb7",
@@ -933,12 +933,12 @@
             "channelName": "={{ $('Start').first().json.channelName }}",
             "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
             "method": "uploadFileToJupiter",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodAudioGenerationTemplateId }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTextAudioAlignTemplateId }}",
             "runpodGpuList": "={{ [] }}",
             "runpodCountryCodes": "={{ [] }}",
             "comfyUiRequest": "={{ {} }}",
             "index": 0,
-            "jupiterRequest": "={{ {\n\"filePathOnJupiter\":\"/ComfyUI/input/\"+$('Split Out').item.json.existingFilesNames,\n\"localFilePath\":$('Start').item.json.channelsFolderPath+'/'+$('Start').item.json.channelName+'/VIDEOS/'+ $('Start').item.json.videoFolderName + '/VOICE/' + $('Split Out').item.json.existingFilesNames\n} }}"
+            "jupiterRequest": "={{ {\n\"filePathOnJupiter\":\"/workspace/input/\"+$('Split Out').item.json.existingFilesNames,\n\"localFilePath\":$('Start').item.json.channelsFolderPath+'/'+$('Start').item.json.channelName+'/VIDEOS/'+ $('Start').item.json.videoFolderName + '/VOICE/' + $('Split Out').item.json.existingFilesNames\n} }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -1054,25 +1054,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        2000,
+        1984,
         624
       ],
       "id": "1921c41e-40a6-4bd6-877b-d845d564f2e2",
       "name": "upload file to jupiter"
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "existingFilesNames",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
-        1504,
-        528
-      ],
-      "id": "1540017c-367f-4bd4-abf8-bfecf4bfaa85",
-      "name": "Split Out"
     },
     {
       "parameters": {
@@ -1090,12 +1076,12 @@
             "channelName": "={{ $('Start').first().json.channelName }}",
             "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
             "method": "checkFileOnJupiter",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodAudioGenerationTemplateId }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTextAudioAlignTemplateId }}",
             "runpodGpuList": "={{ [] }}",
             "runpodCountryCodes": "={{ [] }}",
             "comfyUiRequest": "={{ {} }}",
             "index": 0,
-            "jupiterRequest": "={{ {\n\"filePathOnJupiter\":\"/ComfyUI/input/\"+$json.existingFilesNames\n} }}"
+            "jupiterRequest": "={{ {\n\"filePathOnJupiter\":\"/workspace/input/\"+$('Split Out').item.json.existingFilesNames\n} }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -1211,7 +1197,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        2272,
+        2256,
         720
       ],
       "id": "6a40d402-139e-4794-9fcf-cc0a71008723",
@@ -1245,7 +1231,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2464,
+        2448,
         720
       ],
       "id": "85228338-9dd0-49e9-927f-cb5519dc3233",
@@ -1256,7 +1242,7 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        2096,
+        2080,
         720
       ],
       "id": "a35d53d9-8519-4550-bc5a-6ae95332bc43",
@@ -1277,7 +1263,7 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        2688,
+        2912,
         528
       ],
       "id": "92862c68-fcfa-4f50-9e67-0021faf3dcc2",
@@ -1311,7 +1297,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        2864,
+        3088,
         528
       ],
       "id": "ec131de0-21a0-4c49-960b-58d018400236",
@@ -1415,7 +1401,7 @@
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{ \n{\n  \"podId\": $('get all workflow params').item.json.runpodAudioGenerationTemplateId,\n  \"alignmentPort\": 8091,\n  \"autoRetry\": true,\n  \"maxRetries\": 1,\n  \"timeoutSeconds\": 120,\n  \"alignmentRequest\": {\n    \"backend\": \"qwen3_asr\",\n    \"device\": \"cuda\",\n    \"language\": $('get all workflow params').first().json.channelLanguage,\n    \"text\": $('get whole text from TXT file').item.json.text,\n    \"audioPaths\": $('get voiceover file names').item.json.existingFilesNames.map(i=>\"/workspace/ComfyUI/input/\"+i),\n    \"mode\": \"default\",\n    \"chunkLimit\": $('get all workflow params').first().json.textPartsLength,\n    \"asrWorkers\": 1,\n    \"minIndexChars\": 35\n  }\n}\n}}",
+              "value": "={{ \n{\n  \"podId\": $('read pod id').item.json.podMeta.id,\n  \"alignmentPort\": \"8091\",\n  \"autoRetry\": true,\n  \"maxRetries\": 1,\n  \"timeoutSeconds\": 120,\n  \"alignmentRequest\": {\n    \"backend\": \"whisperx\",\n    \"channelName\": \"n8n\",\n    \"videoFolderName\": $('get product key').first().json.productKey,\n    \"device\": \"cuda\",\n    \"language\": $('get all workflow params').first().json.channelLanguage,\n    \"text\": $('get whole text from TXT file').item.json.text,\n    \"audioPaths\": $('get voiceover file names').item.json.existingFilesNames.map(i => \"/workspace/input/\" + i),\n    \"mode\": \"default\",\n    \"chunkLimit\": $('get all workflow params').first().json.textPartsLength,\n    \"asrWorkers\": 1,\n    \"minIndexChars\": 35\n  }\n}\n}}",
               "type": "object"
             }
           ]
@@ -1425,7 +1411,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3568,
+        3888,
         528
       ],
       "id": "d16a4ff4-1420-4011-9150-685a09919819",
@@ -1448,26 +1434,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3328,
+        3664,
         528
       ],
       "id": "dbb3a541-b18f-4e77-98a0-13b000489973",
       "name": "get random ID1"
-    },
-    {
-      "parameters": {
-        "fieldToSplitOut": "files",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.splitOut",
-      "typeVersion": 1,
-      "position": [
-        3424,
-        272
-      ],
-      "id": "677ce01f-f972-4e00-b052-510ebd501265",
-      "name": "Split Out1",
-      "disabled": true
     },
     {
       "parameters": {
@@ -1525,109 +1496,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3088,
+        3312,
         528
       ],
       "name": "get whole text from TXT file",
       "id": "f7562be2-a632-42c8-9e4b-d803260bd6c7"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "7ce5dc5b-c1d8-45e0-a0e9-708cd2aaa131",
-              "name": "files",
-              "value": "={{ $('get voiceover file names').item.json.existingFilesNames }}",
-              "type": "array"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        3328,
-        272
-      ],
-      "id": "88ecf542-d8d5-4cd4-9d5f-58c662d0faae",
-      "name": "set filenames",
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ljH0uamrMfc4IBJx",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "http works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "route": "={{ $json.route }}",
-            "headers": "={{ $json.headers }}",
-            "body": "={{ $json.body }}",
-            "method": "={{ $json.method }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route",
-              "displayName": "route",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        3728,
-        528
-      ],
-      "id": "738c3c0f-ff3c-4c5e-84b1-2ef94f153ea2",
-      "name": "POST text audio align req"
     },
     {
       "parameters": {
@@ -1718,6 +1591,414 @@
       "id": "158d2bfd-53ab-4009-a200-adb8835e87dd"
     },
     {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        2704,
+        528
+      ],
+      "id": "c492d42c-2a33-4dd9-a742-9cb23948de19",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "existingFilesNames",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        1488,
+        528
+      ],
+      "id": "eb5d1a09-926d-4498-8e2d-0b345c23bd09",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "={{ $json.method }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4064,
+        528
+      ],
+      "id": "c8201e73-9050-4c1f-8265-bc7964f3ba49",
+      "name": "POST Deploy",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/RUNPOD/pods/{{ $('get all workflow params').item.json.runpodTextAudioAlignTemplateId }}/podStatus.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\"podMeta.id\"] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3520,
+        528
+      ],
+      "name": "read pod id",
+      "id": "abc2b07b-9e71-4b09-89db-581df6ae4e02",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.meta.progress.status == \"success\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "d60c8143-431c-42fd-ae00-f85786c31554"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "5ec1d134-810d-4c82-9941-feb3666d7d37",
+                    "leftValue": "={{ $json.meta.progress.status == \"processing\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "processing"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "943af9e6-26ab-48e3-824d-ef5e5e9f6691",
+                    "leftValue": "={{ $json.isEmpty() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "no progress file yet"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "dce3399f-3414-4508-9339-94a56f2d91eb",
+                    "leftValue": "={{ $json.meta.progress.status == \"error\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        5280,
+        624
+      ],
+      "id": "80d4fc55-e94a-4bc5-aa8e-0960b0caa507",
+      "name": "Switch by status1"
+    },
+    {
+      "parameters": {
+        "amount": 15
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        5376,
+        784
+      ],
+      "id": "2f267dbe-1b63-4a2f-ad14-d4dfa9b92c35",
+      "name": "Wait3",
+      "webhookId": "e8358e3c-9375-49e1-abb9-588c5b6a8520"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoStatus.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"transcriptReady\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        5584,
+        656
+      ],
+      "name": "set voiceover ready1",
+      "id": "00737f3b-28a8-4bc8-ad44-87c65b410e8f"
+    },
+    {
       "parameters": {
         "assignments": {
           "assignments": [
@@ -1736,13 +2017,13 @@
             {
               "id": "924df8b7-5307-4367-a739-6b16477cea78",
               "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $('get random ID1').item.json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID1').first().json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
               "type": "object"
             },
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{ \n{\n  \"routeMode\": \"download\",\n}\n}}",
+              "value": "={{ \n{\n\"mode\":\"status\"\n}\n}}",
               "type": "object"
             }
           ]
@@ -1752,10 +2033,10 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3936,
-        704
+        4480,
+        640
       ],
-      "id": "0ebf0d75-0237-4926-93ea-4b8747b120ab",
+      "id": "4c052136-1c84-441e-a3e2-9a6ec171c395",
       "name": "form transcription request1"
     },
     {
@@ -1826,11 +2107,128 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        4048,
-        704
+        4656,
+        640
       ],
-      "id": "02c83cbe-f1c1-44ba-8672-b6603882ca86",
-      "name": "POST text audio align req1"
+      "id": "f8a2f414-b745-4b88-9107-fe25e5213c9d",
+      "name": "POST Deploy1",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fb62633-4973-457b-9ff6-82b7e234c67c",
+              "name": "method",
+              "value": "POST",
+              "type": "string"
+            },
+            {
+              "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
+              "name": "route",
+              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.textAudioAlignerRoute }}",
+              "type": "string"
+            },
+            {
+              "id": "924df8b7-5307-4367-a739-6b16477cea78",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID1').first().json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
+              "name": "body",
+              "value": "={{ \n{\n\"mode\":\"download\"\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4864,
+        640
+      ],
+      "id": "e943aa0e-b02c-4c99-b890-d14cfa7bcc6b",
+      "name": "form transcription request2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "={{ $json.method }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        5040,
+        640
+      ],
+      "id": "e51df516-b738-492a-8990-0f4605c25046",
+      "name": "POST Deploy2",
+      "onError": "continueErrorOutput"
     }
   ],
   "connections": {
@@ -1946,6 +2344,13 @@
             "type": "main",
             "index": 0
           }
+        ],
+        [
+          {
+            "node": "start runpod voicegen pod",
+            "type": "main",
+            "index": 0
+          }
         ]
       ]
     },
@@ -1975,7 +2380,7 @@
       "main": [
         [
           {
-            "node": "Aggregate",
+            "node": "Merge",
             "type": "main",
             "index": 0
           }
@@ -2000,17 +2405,6 @@
         ]
       ]
     },
-    "Split Out": {
-      "main": [
-        [
-          {
-            "node": "check file on jupiter",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "check file on jupiter1": {
       "main": [
         [
@@ -2026,9 +2420,9 @@
       "main": [
         [
           {
-            "node": "Aggregate",
+            "node": "Merge",
             "type": "main",
-            "index": 0
+            "index": 1
           }
         ],
         [
@@ -2088,34 +2482,18 @@
       "main": [
         [
           {
-            "node": "POST text audio align req",
+            "node": "POST Deploy",
             "type": "main",
             "index": 0
           }
         ]
-      ]
-    },
-    "Split Out1": {
-      "main": [
-        []
       ]
     },
     "get whole text from TXT file": {
       "main": [
         [
           {
-            "node": "get random ID1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "set filenames": {
-      "main": [
-        [
-          {
-            "node": "Split Out1",
+            "node": "read pod id",
             "type": "main",
             "index": 0
           }
@@ -2144,22 +2522,107 @@
         ]
       ]
     },
-    "form transcription request1": {
+    "Merge": {
       "main": [
         [
           {
-            "node": "POST text audio align req1",
+            "node": "Aggregate",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "POST text audio align req": {
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "check file on jupiter",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read pod id": {
+      "main": [
+        [
+          {
+            "node": "get random ID1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch by status1": {
+      "main": [
+        [
+          {
+            "node": "set voiceover ready1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait3": {
+      "main": [
+        []
+      ]
+    },
+    "POST Deploy": {
       "main": [
         [
           {
             "node": "form transcription request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form transcription request1": {
+      "main": [
+        [
+          {
+            "node": "POST Deploy1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form transcription request2": {
+      "main": [
+        [
+          {
+            "node": "POST Deploy2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST Deploy1": {
+      "main": [
+        [
+          {
+            "node": "form transcription request2",
             "type": "main",
             "index": 0
           }
@@ -2182,6 +2645,17 @@
         }
       }
     ],
+    "start runpod voicegen pod": [
+      {
+        "json": {
+          "podStatus": "ready",
+          "fileName": "podStatus.json"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
     "check file on jupiter": [
       {
         "json": {
@@ -2198,141 +2672,875 @@
         "pairedItem": {
           "item": 1
         }
-      },
+      }
+    ],
+    "POST Deploy2": [
       {
         "json": {
-          "fileExist": true
+          "id": "0d34-5c25-a166-0ce7",
+          "state": "success",
+          "jobId": "84076f52d92e4cbabf3fef46dbe361b1",
+          "status": {
+            "job_id": "84076f52d92e4cbabf3fef46dbe361b1",
+            "status": "completed",
+            "backend": "whisperx",
+            "created_at": "2026-04-01T17:37:36Z",
+            "started_at": "2026-04-01T17:37:36Z",
+            "finished_at": "2026-04-01T17:38:07Z",
+            "pid": 743,
+            "return_code": null,
+            "error": null,
+            "result_path": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/result/transcript.json",
+            "progress_path": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/result/transcriptProgress.json",
+            "log_path": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/logs/transcribe.log",
+            "dataset_info": {
+              "mainFolderPath": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/dataset",
+              "channelName": "n8n",
+              "videoFolderName": "pk_live_qQtRdoPVyQEtupktOboHQtgkMzHFQXHU",
+              "textPartsPath": null,
+              "materialized": true,
+              "copiedAudioFiles": [
+                "MbcCf_00000.mp3",
+                "MbcCf_00001.mp3"
+              ]
+            },
+            "progress_meta": {
+              "channel": "n8n",
+              "video": "pk_live_qQtRdoPVyQEtupktOboHQtgkMzHFQXHU",
+              "language": "ru",
+              "num_sentences_total": 21,
+              "progress": {
+                "status": "success",
+                "total": 21,
+                "current": 21,
+                "audios_total": 2,
+                "audios_done": 2,
+                "last_audio": "MbcCf_00001.mp3",
+                "total_duration_sec": 145.110204,
+                "problem_audio": null,
+                "unrecognized_text": null,
+                "time_spent": 24.15
+              },
+              "processed_audio": [
+                [
+                  "MbcCf_00000.mp3",
+                  15.19,
+                  15.19
+                ],
+                [
+                  "MbcCf_00001.mp3",
+                  7.83,
+                  7.83
+                ]
+              ]
+            },
+            "transcript_exists": true,
+            "urls": {
+              "self": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1",
+              "transcript": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/result/transcript",
+              "progress": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/result/progress",
+              "log": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/log",
+              "cancel": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/cancel"
+            },
+            "log_tail": "Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\ntrue\ntrue\n"
+          },
+          "transcript": {
+            "meta": {
+              "channel": "n8n",
+              "video": "pk_live_qQtRdoPVyQEtupktOboHQtgkMzHFQXHU",
+              "language": "ru",
+              "num_sentences_total": 21,
+              "progress": {
+                "status": "success",
+                "total": 21,
+                "current": 21,
+                "audios_total": 2,
+                "audios_done": 2,
+                "last_audio": "MbcCf_00001.mp3",
+                "total_duration_sec": 145.110204,
+                "problem_audio": null,
+                "unrecognized_text": null,
+                "time_spent": 24.15
+              },
+              "processed_audio": [
+                [
+                  "MbcCf_00000.mp3",
+                  15.19,
+                  15.19
+                ],
+                [
+                  "MbcCf_00001.mp3",
+                  7.83,
+                  7.83
+                ]
+              ]
+            },
+            "items": [
+              {
+                "idx": 0,
+                "text": "Город шумит целые сутки, а найти уголок для двоих всё равно можно.",
+                "normalized": "gorod shumit tselye sutki, a naiti ugolok dlia dvoikh vsio ravno mozhno.",
+                "tokens": [
+                  "gorod",
+                  "shumit",
+                  "tselye",
+                  "sutki",
+                  "a",
+                  "naiti",
+                  "ugolok",
+                  "dlia",
+                  "dvoikh",
+                  "vsio",
+                  "ravno",
+                  "mozhno"
+                ],
+                "start_ms": 31,
+                "end_ms": 2966,
+                "audio_file": "MbcCf_00000.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 0
+              },
+              {
+                "idx": 1,
+                "text": "Где в переполненной Москве тишина переключается на шёпот и какой маршрут превращает обычный вечер в историю, к которой захочется вернуться?",
+                "normalized": "gde v perepolnennoi moskve tishina perekliuchaetsia na shiopot i kakoi marshrut prevrashchaet obychnyi vecher v istoriiu, k kotoroi zakhochetsia vernut'sia?",
+                "tokens": [
+                  "gde",
+                  "v",
+                  "perepolnennoi",
+                  "moskve",
+                  "tishina",
+                  "perekliuchaetsia",
+                  "na",
+                  "shiopot",
+                  "i",
+                  "kakoi",
+                  "marshrut",
+                  "prevrashchaet",
+                  "obychnyi",
+                  "vecher",
+                  "v",
+                  "istoriiu",
+                  "k",
+                  "kotoroi",
+                  "zakhochetsia",
+                  "vernut'sia"
+                ],
+                "start_ms": 5062,
+                "end_ms": 7997,
+                "audio_file": "MbcCf_00000.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 0
+              },
+              {
+                "idx": 2,
+                "text": "Начинаем с места, где воздух пахнет свежей травой и слегка... льдом.",
+                "normalized": "nachinaem s mesta, gde vozdukh pakhnet svezhei travoi i slegka... l'dom.",
+                "tokens": [
+                  "nachinaem",
+                  "s",
+                  "mesta",
+                  "gde",
+                  "vozdukh",
+                  "pakhnet",
+                  "svezhei",
+                  "travoi",
+                  "i",
+                  "slegka",
+                  "l'dom"
+                ],
+                "start_ms": 14965,
+                "end_ms": 20562,
+                "audio_file": "MbcCf_00000.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 0
+              },
+              {
+                "idx": 3,
+                "text": "Зарядье держит главный трюк - парящий мост нависает над Москвой-рекой, будто завис.",
+                "normalized": "zariad'e derzhit glavnyi triuk - pariashchii most navisaet nad moskvoi-rekoi, budto zavis.",
+                "tokens": [
+                  "zariad'e",
+                  "derzhit",
+                  "glavnyi",
+                  "triuk",
+                  "-",
+                  "pariashchii",
+                  "most",
+                  "navisaet",
+                  "nad",
+                  "moskvoi-rekoi",
+                  "budto",
+                  "zavis"
+                ],
+                "start_ms": 20563,
+                "end_ms": 22597,
+                "audio_file": "MbcCf_00000.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 0
+              },
+              {
+                "idx": 4,
+                "text": "Стекло под ногами заставляет сердце подпрыгнуть, а закат на фоне кремлёвских башен делает фото без фильтров.",
+                "normalized": "steklo pod nogami zastavliaet serdtse podprygnut', a zakat na fone kremliovskikh bashen delaet foto bez fil'trov.",
+                "tokens": [
+                  "steklo",
+                  "pod",
+                  "nogami",
+                  "zastavliaet",
+                  "serdtse",
+                  "podprygnut'",
+                  "a",
+                  "zakat",
+                  "na",
+                  "fone",
+                  "kremliovskikh",
+                  "bashen",
+                  "delaet",
+                  "foto",
+                  "bez",
+                  "fil'trov"
+                ],
+                "start_ms": 26668,
+                "end_ms": 31756,
+                "audio_file": "MbcCf_00000.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 0
+              },
+              {
+                "idx": 5,
+                "text": "Если станет прохладно - рядом ледяная пещера, внутри всегда минус пять и повод прижаться ближе.",
+                "normalized": "esli stanet prokhladno - riadom ledianaia peshchera, vnutri vsegda minus piat' i povod prizhat'sia blizhe.",
+                "tokens": [
+                  "esli",
+                  "stanet",
+                  "prokhladno",
+                  "-",
+                  "riadom",
+                  "ledianaia",
+                  "peshchera",
+                  "vnutri",
+                  "vsegda",
+                  "minus",
+                  "piat'",
+                  "i",
+                  "povod",
+                  "prizhat'sia",
+                  "blizhe"
+                ],
+                "start_ms": 34300,
+                "end_ms": 41932,
+                "audio_file": "MbcCf_00000.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 0
+              },
+              {
+                "idx": 6,
+                "text": "Доступ свободный, вечером людей заметно меньше. Дальше - Патриаршие пруды.",
+                "normalized": "dostup svobodnyi, vecherom liudei zametno men'she. dal'she - patriarshie prudy.",
+                "tokens": [
+                  "dostup",
+                  "svobodnyi",
+                  "vecherom",
+                  "liudei",
+                  "zametno",
+                  "men'she",
+                  "dal'she",
+                  "-",
+                  "patriarshie",
+                  "prudy"
+                ],
+                "start_ms": 42016,
+                "end_ms": 45706,
+                "audio_file": "MbcCf_00000.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 0
+              },
+              {
+                "idx": 7,
+                "text": "Летом здесь лениво скользят утки, зимой - коньки и глинтвейн в одноразовом стакане.",
+                "normalized": "letom zdes' lenivo skol'ziat utki, zimoi - kon'ki i glintvein v odnorazovom stakane.",
+                "tokens": [
+                  "letom",
+                  "zdes'",
+                  "lenivo",
+                  "skol'ziat",
+                  "utki",
+                  "zimoi",
+                  "-",
+                  "kon'ki",
+                  "i",
+                  "glintvein",
+                  "v",
+                  "odnorazovom",
+                  "stakane"
+                ],
+                "start_ms": 46760,
+                "end_ms": 53612,
+                "audio_file": "MbcCf_00000.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 0
+              },
+              {
+                "idx": 8,
+                "text": "Скамейки у воды скрыты каштанами, музыка не орёт, фонари жёлтые.",
+                "normalized": "skameiki u vody skryty kashtanami, muzyka ne oriot, fonari zhioltye.",
+                "tokens": [
+                  "skameiki",
+                  "u",
+                  "vody",
+                  "skryty",
+                  "kashtanami",
+                  "muzyka",
+                  "ne",
+                  "oriot",
+                  "fonari",
+                  "zhioltye"
+                ],
+                "start_ms": 53613,
+                "end_ms": 58883,
+                "audio_file": "MbcCf_00000.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 0
+              },
+              {
+                "idx": 9,
+                "text": "Пушкинский маршрут бонусом: десять минут пешком - и вы уже на крошечных кривых улицах старой Москвы. Хотите драматической высоты?",
+                "normalized": "pushkinskii marshrut bonusom: desiat' minut peshkom - i vy uzhe na kroshechnykh krivykh ulitsakh staroi moskvy. khotite dramaticheskoi vysoty?",
+                "tokens": [
+                  "pushkinskii",
+                  "marshrut",
+                  "bonusom",
+                  "desiat'",
+                  "minut",
+                  "peshkom",
+                  "-",
+                  "i",
+                  "vy",
+                  "uzhe",
+                  "na",
+                  "kroshechnykh",
+                  "krivykh",
+                  "ulitsakh",
+                  "staroi",
+                  "moskvy",
+                  "khotite",
+                  "dramaticheskoi",
+                  "vysoty"
+                ],
+                "start_ms": 58884,
+                "end_ms": 68898,
+                "audio_file": "MbcCf_00000.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 0
+              },
+              {
+                "idx": 10,
+                "text": "Смотровая Москва-Сити на восемьдесят девятом этаже даёт обзор в триста шестьдесят градусов.",
+                "normalized": "smotrovaia moskva-siti na vosem'desiat deviatom etazhe daiot obzor v trista shest'desiat gradusov.",
+                "tokens": [
+                  "smotrovaia",
+                  "moskva-siti",
+                  "na",
+                  "vosem'desiat",
+                  "deviatom",
+                  "etazhe",
+                  "daiot",
+                  "obzor",
+                  "v",
+                  "trista",
+                  "shest'desiat",
+                  "gradusov"
+                ],
+                "start_ms": 68942,
+                "end_ms": 70572,
+                "audio_file": "MbcCf_00001.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 1
+              },
+              {
+                "idx": 11,
+                "text": "Небо почти на уровне ладони, а огни Третьего транспортного кольца уходят в бесконечность.",
+                "normalized": "nebo pochti na urovne ladoni, a ogni tret'ego transportnogo kol'tsa ukhodiat v beskonechnost'.",
+                "tokens": [
+                  "nebo",
+                  "pochti",
+                  "na",
+                  "urovne",
+                  "ladoni",
+                  "a",
+                  "ogni",
+                  "tret'ego",
+                  "transportnogo",
+                  "kol'tsa",
+                  "ukhodiat",
+                  "v",
+                  "beskonechnost'"
+                ],
+                "start_ms": 74375,
+                "end_ms": 81437,
+                "audio_file": "MbcCf_00001.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 1
+              },
+              {
+                "idx": 12,
+                "text": "Билеты бронируйте заранее онлайн - так уйдёте от очередей и сэкономите примерно четверть стоимости.",
+                "normalized": "bilety broniruite zaranee onlain - tak uidiote ot ocheredei i sekonomite primerno chetvert' stoimosti.",
+                "tokens": [
+                  "bilety",
+                  "broniruite",
+                  "zaranee",
+                  "onlain",
+                  "-",
+                  "tak",
+                  "uidiote",
+                  "ot",
+                  "ocheredei",
+                  "i",
+                  "sekonomite",
+                  "primerno",
+                  "chetvert'",
+                  "stoimosti"
+                ],
+                "start_ms": 82524,
+                "end_ms": 88500,
+                "audio_file": "MbcCf_00001.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 1
+              },
+              {
+                "idx": 13,
+                "text": "Для тех, кто ценит тишину без бетона, подходит Коломенское.",
+                "normalized": "dlia tekh, kto tsenit tishinu bez betona, podkhodit kolomenskoe.",
+                "tokens": [
+                  "dlia",
+                  "tekh",
+                  "kto",
+                  "tsenit",
+                  "tishinu",
+                  "bez",
+                  "betona",
+                  "podkhodit",
+                  "kolomenskoe"
+                ],
+                "start_ms": 90979,
+                "end_ms": 94458,
+                "audio_file": "MbcCf_00001.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 1
+              },
+              {
+                "idx": 14,
+                "text": "Дубравы, деревянные мостки к Москва-реке, яблоневый сад весной.",
+                "normalized": "dubravy, dereviannye mostki k moskva-reke, iablonevyi sad vesnoi.",
+                "tokens": [
+                  "dubravy",
+                  "dereviannye",
+                  "mostki",
+                  "k",
+                  "moskva-reke",
+                  "iablonevyi",
+                  "sad",
+                  "vesnoi"
+                ],
+                "start_ms": 94459,
+                "end_ms": 95452,
+                "audio_file": "MbcCf_00001.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 1
+              },
+              {
+                "idx": 15,
+                "text": "Плед, термос с чаем, и вдруг слышно, как по воде хлопает ладонь рыбака.",
+                "normalized": "pled, termos s chaem, i vdrug slyshno, kak po vode khlopaet ladon' rybaka.",
+                "tokens": [
+                  "pled",
+                  "termos",
+                  "s",
+                  "chaem",
+                  "i",
+                  "vdrug",
+                  "slyshno",
+                  "kak",
+                  "po",
+                  "vode",
+                  "khlopaet",
+                  "ladon'",
+                  "rybaka"
+                ],
+                "start_ms": 99925,
+                "end_ms": 104894,
+                "audio_file": "MbcCf_00001.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 1
+              },
+              {
+                "idx": 16,
+                "text": "До станции метро пять минут, но кажется, что город остался в другой реальности.",
+                "normalized": "do stantsii metro piat' minut, no kazhetsia, chto gorod ostalsia v drugoi real'nosti.",
+                "tokens": [
+                  "do",
+                  "stantsii",
+                  "metro",
+                  "piat'",
+                  "minut",
+                  "no",
+                  "kazhetsia",
+                  "chto",
+                  "gorod",
+                  "ostalsia",
+                  "v",
+                  "drugoi",
+                  "real'nosti"
+                ],
+                "start_ms": 106385,
+                "end_ms": 111355,
+                "audio_file": "MbcCf_00001.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 1
+              },
+              {
+                "idx": 17,
+                "text": "Финальный акцент - ночной теплоход от Парка Горького.",
+                "normalized": "final'nyi aktsent - nochnoi teplokhod ot parka gor'kogo.",
+                "tokens": [
+                  "final'nyi",
+                  "aktsent",
+                  "-",
+                  "nochnoi",
+                  "teplokhod",
+                  "ot",
+                  "parka",
+                  "gor'kogo"
+                ],
+                "start_ms": 111356,
+                "end_ms": 115331,
+                "audio_file": "MbcCf_00001.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 1
+              },
+              {
+                "idx": 18,
+                "text": "Две с половиной часы лайнер медленно режет чёрную воду, Катерина Второй воплощается в подсвеченных фасадах, а тихий диджей сет не перебивает разговор.",
+                "normalized": "dve s polovinoi chasy lainer medlenno rezhet chiornuiu vodu, katerina vtoroi voploshchaetsia v podsvechennykh fasadakh, a tikhii didzhei set ne perebivaet razgovor.",
+                "tokens": [
+                  "dve",
+                  "s",
+                  "polovinoi",
+                  "chasy",
+                  "lainer",
+                  "medlenno",
+                  "rezhet",
+                  "chiornuiu",
+                  "vodu",
+                  "katerina",
+                  "vtoroi",
+                  "voploshchaetsia",
+                  "v",
+                  "podsvechennykh",
+                  "fasadakh",
+                  "a",
+                  "tikhii",
+                  "didzhei",
+                  "set",
+                  "ne",
+                  "perebivaet",
+                  "razgovor"
+                ],
+                "start_ms": 117561,
+                "end_ms": 126394,
+                "audio_file": "MbcCf_00001.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 1
+              },
+              {
+                "idx": 19,
+                "text": "Ветер расправляет волосы, и внезапно понимаешь: вот оно - свидание без права забыть. Пять точек, пять настроений.",
+                "normalized": "veter raspravliaet volosy, i vnezapno ponimaesh': vot ono - svidanie bez prava zabyt'. piat' tochek, piat' nastroenii.",
+                "tokens": [
+                  "veter",
+                  "raspravliaet",
+                  "volosy",
+                  "i",
+                  "vnezapno",
+                  "ponimaesh'",
+                  "vot",
+                  "ono",
+                  "-",
+                  "svidanie",
+                  "bez",
+                  "prava",
+                  "zabyt'",
+                  "piat'",
+                  "tochek",
+                  "piat'",
+                  "nastroenii"
+                ],
+                "start_ms": 127953,
+                "end_ms": 134707,
+                "audio_file": "MbcCf_00001.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 1
+              },
+              {
+                "idx": 20,
+                "text": "Общая нитка простая: выбирайте место, где можно говорить тихо и всё равно слышать друг друга. Остальное Москва берёт на себя.",
+                "normalized": "obshchaia nitka prostaia: vybiraite mesto, gde mozhno govorit' tikho i vsio ravno slyshat' drug druga. ostal'noe moskva beriot na sebia.",
+                "tokens": [
+                  "obshchaia",
+                  "nitka",
+                  "prostaia",
+                  "vybiraite",
+                  "mesto",
+                  "gde",
+                  "mozhno",
+                  "govorit'",
+                  "tikho",
+                  "i",
+                  "vsio",
+                  "ravno",
+                  "slyshat'",
+                  "drug",
+                  "druga",
+                  "ostal'noe",
+                  "moskva",
+                  "beriot",
+                  "na",
+                  "sebia"
+                ],
+                "start_ms": 134708,
+                "end_ms": 139903,
+                "audio_file": "MbcCf_00001.mp3",
+                "merged_with": null,
+                "preMergedText": null,
+                "order": null,
+                "suborder": null,
+                "chunk": 1
+              }
+            ]
+          },
+          "transcriptProgress": {
+            "meta": {
+              "channel": "n8n",
+              "video": "pk_live_qQtRdoPVyQEtupktOboHQtgkMzHFQXHU",
+              "language": "ru",
+              "num_sentences_total": 21,
+              "progress": {
+                "status": "success",
+                "total": 21,
+                "current": 21,
+                "audios_total": 2,
+                "audios_done": 2,
+                "last_audio": "MbcCf_00001.mp3",
+                "total_duration_sec": 145.110204,
+                "problem_audio": null,
+                "unrecognized_text": null,
+                "time_spent": 24.15
+              },
+              "processed_audio": [
+                [
+                  "MbcCf_00000.mp3",
+                  15.19,
+                  15.19
+                ],
+                [
+                  "MbcCf_00001.mp3",
+                  7.83,
+                  7.83
+                ]
+              ]
+            }
+          },
+          "log": {
+            "job_id": "84076f52d92e4cbabf3fef46dbe361b1",
+            "log_path": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/logs/transcribe.log",
+            "log": "Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\ntrue\ntrue\n"
+          },
+          "completedAt": "2026-04-01T17:38:07Z"
         },
         "pairedItem": {
-          "item": 2
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 3
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 4
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 5
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 6
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 7
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 8
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 9
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 10
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 11
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 12
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 13
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 14
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 15
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 16
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 17
+          "item": 0
         }
       }
     ],
-    "start runpod voicegen pod": [
+    "POST Deploy1": [
       {
         "json": {
-          "podStatus": "ready",
-          "fileName": "podStatus.json"
+          "alignmentPort": "8091",
+          "artifactAvailable": true,
+          "error": null,
+          "generationConfiguration": {
+            "gpuCount": 1,
+            "gpuTypeId": "",
+            "modality": "",
+            "podCostUsdPerHour": 0,
+            "tags": {},
+            "workloadKey": ""
+          },
+          "id": "0d34-5c25-a166-0ce7",
+          "jobId": "84076f52d92e4cbabf3fef46dbe361b1",
+          "podId": "ptx7qlmniyyamk",
+          "retries": 4,
+          "state": "success",
+          "status": {
+            "backend": "whisperx",
+            "created_at": "2026-04-01T17:37:36Z",
+            "dataset_info": {
+              "channelName": "n8n",
+              "copiedAudioFiles": [
+                "MbcCf_00000.mp3",
+                "MbcCf_00001.mp3"
+              ],
+              "mainFolderPath": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/dataset",
+              "materialized": true,
+              "textPartsPath": null,
+              "videoFolderName": "pk_live_qQtRdoPVyQEtupktOboHQtgkMzHFQXHU"
+            },
+            "error": null,
+            "finished_at": "2026-04-01T17:38:07Z",
+            "job_id": "84076f52d92e4cbabf3fef46dbe361b1",
+            "log_path": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/logs/transcribe.log",
+            "log_tail": "Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\ntrue\ntrue\n",
+            "pid": 743,
+            "progress_meta": {
+              "channel": "n8n",
+              "language": "ru",
+              "num_sentences_total": 21,
+              "processed_audio": [
+                [
+                  "MbcCf_00000.mp3",
+                  15.19,
+                  15.19
+                ],
+                [
+                  "MbcCf_00001.mp3",
+                  7.83,
+                  7.83
+                ]
+              ],
+              "progress": {
+                "audios_done": 2,
+                "audios_total": 2,
+                "current": 21,
+                "last_audio": "MbcCf_00001.mp3",
+                "problem_audio": null,
+                "status": "success",
+                "time_spent": 24.15,
+                "total": 21,
+                "total_duration_sec": 145.110204,
+                "unrecognized_text": null
+              },
+              "video": "pk_live_qQtRdoPVyQEtupktOboHQtgkMzHFQXHU"
+            },
+            "progress_path": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/result/transcriptProgress.json",
+            "result_path": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/result/transcript.json",
+            "return_code": null,
+            "started_at": "2026-04-01T17:37:36Z",
+            "status": "completed",
+            "transcript_exists": true,
+            "urls": {
+              "cancel": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/cancel",
+              "log": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/log",
+              "progress": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/result/progress",
+              "self": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1",
+              "transcript": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/result/transcript"
+            }
+          },
+          "transcriptAvailable": true,
+          "transcriptProgress": {
+            "meta": {
+              "channel": "n8n",
+              "language": "ru",
+              "num_sentences_total": 21,
+              "processed_audio": [
+                [
+                  "MbcCf_00000.mp3",
+                  15.19,
+                  15.19
+                ],
+                [
+                  "MbcCf_00001.mp3",
+                  7.83,
+                  7.83
+                ]
+              ],
+              "progress": {
+                "audios_done": 2,
+                "audios_total": 2,
+                "current": 21,
+                "last_audio": "MbcCf_00001.mp3",
+                "problem_audio": null,
+                "status": "success",
+                "time_spent": 24.15,
+                "total": 21,
+                "total_duration_sec": 145.110204,
+                "unrecognized_text": null
+              },
+              "video": "pk_live_qQtRdoPVyQEtupktOboHQtgkMzHFQXHU"
+            }
+          },
+          "transcriptProgressAvailable": true
         },
         "pairedItem": {
           "item": 0
@@ -2340,9 +3548,9 @@
       }
     ]
   },
-  "versionId": "4a2ad255-bc23-411f-8c8a-e1b4f47db3a8",
-  "activeVersionId": "55a91cc3-f6fd-431f-8a29-a1189abbee21",
-  "versionCounter": 506,
+  "versionId": "257d883f-4741-4f2a-8ec3-26732f864aba",
+  "activeVersionId": "854a3e86-96f5-4d82-8c17-e76c6fc1bfe9",
+  "versionCounter": 657,
   "triggerCount": 0,
   "tags": [],
   "shared": [
