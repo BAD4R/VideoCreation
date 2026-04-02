@@ -79,6 +79,7 @@ MAC_LOCAL_BIN = Path.home() / ".local" / "bin"
 MAC_NPM_PREFIX = Path.home() / ".npm-global"
 MAC_ENV_SCRIPT = Path.home() / ".video_creation_env.sh"
 WINDOWS_N8N_HOME_LAUNCHER = Path(os.environ.get("APPDATA", Path.home())) / "npm" / "n8n-from-home.cmd"
+WINDOWS_N8N_SCRIPT_DIR_LAUNCHER = SCRIPT_DIR / "Start n8n.cmd"
 MAC_N8N_HOME_LAUNCHER = MAC_LOCAL_BIN / "n8n-from-home"
 MAC_RC_FILES = [
     Path.home() / ".zprofile",
@@ -302,7 +303,7 @@ class Installer:
 
             if self.system == "Windows":
                 node_dir = self.install_portable_node_windows()
-                self.ensure_windows_user_path(node_dir)
+                self.prepend_process_path(node_dir)
                 self.log(f"Portable Node.js installed at: {node_dir}")
             else:
                 node_bin_dir = self.install_portable_node_macos()
@@ -312,7 +313,9 @@ class Installer:
         self.verify_required_command("node", TARGET_NODE_VERSION)
         if self.system == "Windows":
             self.ensure_windows_npm_prefix()
-            self.ensure_windows_node_command_shims()
+            self.ensure_windows_node_command_shims(include_n8n=False)
+            self.remove_windows_managed_powershell_wrappers(include_n8n=False)
+            self.remove_windows_managed_node_path_entries()
         npm_version = self.get_command_version("npm")
         if not npm_version:
             raise InstallError("npm is not available after Node.js installation.")
@@ -330,9 +333,18 @@ class Installer:
             self.ensure_mac_npm_prefix()
 
     def ensure_n8n(self) -> None:
-        existing = self.get_command_version("n8n")
+        if self.system == "Windows":
+            existing = self.get_windows_installed_n8n_version()
+        else:
+            existing = self.get_command_version("n8n")
         if existing and normalize_version(existing) == TARGET_N8N_VERSION:
             self.log(f"n8n already matches target version: {existing}")
+            if self.system == "Windows":
+                self.remove_windows_prefix_n8n_launchers(remove_cmd=False)
+                self.ensure_windows_node_command_shims(include_n8n=True)
+                self.remove_windows_managed_powershell_wrappers(include_n8n=True)
+                self.verify_required_command("n8n", TARGET_N8N_VERSION)
+                self.verify_windows_npx_n8n()
             return
 
         if existing:
@@ -342,12 +354,15 @@ class Installer:
 
         if self.system == "Windows":
             self.ensure_windows_npm_prefix()
+            self.remove_windows_prefix_n8n_launchers(remove_cmd=True)
         self.run_command(
             ["npm", "install", "-g", f"n8n@{TARGET_N8N_VERSION}"],
             "Installing n8n globally",
         )
         if self.system == "Windows":
-            self.ensure_windows_node_command_shims()
+            self.remove_windows_prefix_n8n_launchers(remove_cmd=False)
+            self.ensure_windows_node_command_shims(include_n8n=True)
+            self.remove_windows_managed_powershell_wrappers(include_n8n=True)
         self.verify_required_command("n8n", TARGET_N8N_VERSION)
         if self.system == "Windows":
             self.verify_windows_npx_n8n()
@@ -489,7 +504,10 @@ class Installer:
 
     def ensure_n8n_home_launcher(self) -> None:
         if self.system == "Windows":
-            launcher_path = WINDOWS_N8N_HOME_LAUNCHER
+            launcher_targets = [
+                WINDOWS_N8N_HOME_LAUNCHER,
+                WINDOWS_N8N_SCRIPT_DIR_LAUNCHER,
+            ]
             launcher_content = "\r\n".join(
                 [
                     "@echo off",
@@ -500,7 +518,7 @@ class Installer:
             )
         else:
             self.ensure_unix_path(MAC_LOCAL_BIN)
-            launcher_path = MAC_N8N_HOME_LAUNCHER
+            launcher_targets = [MAC_N8N_HOME_LAUNCHER]
             launcher_content = "\n".join(
                 [
                     "#!/bin/sh",
@@ -510,17 +528,18 @@ class Installer:
                 ]
             )
 
-        launcher_path.parent.mkdir(parents=True, exist_ok=True)
-        current = launcher_path.read_text(encoding="utf-8") if launcher_path.exists() else None
-        if current != launcher_content:
-            if launcher_path.exists():
-                self.backup_file(launcher_path)
-            atomic_write_text(launcher_path, launcher_content)
-            if self.system != "Windows":
-                os.chmod(launcher_path, 0o755)
-            self.log(f"Created launcher that starts n8n from the home directory: {launcher_path}")
-        else:
-            self.log(f"Home-directory launcher already up to date: {launcher_path}")
+        for launcher_path in launcher_targets:
+            launcher_path.parent.mkdir(parents=True, exist_ok=True)
+            current = launcher_path.read_text(encoding="utf-8") if launcher_path.exists() else None
+            if current != launcher_content:
+                if launcher_path.exists():
+                    self.backup_file(launcher_path)
+                atomic_write_text(launcher_path, launcher_content)
+                if self.system != "Windows":
+                    os.chmod(launcher_path, 0o755)
+                self.log(f"Created launcher that starts n8n from the home directory: {launcher_path}")
+            else:
+                self.log(f"Home-directory launcher already up to date: {launcher_path}")
 
     def ensure_cuda_requirements(self) -> None:
         requirements_path = self.find_transcriber_requirements()
@@ -603,6 +622,115 @@ class Installer:
 
     def windows_n8n_bin_script(self) -> Path:
         return self.windows_npm_global_modules_dir() / "n8n" / "bin" / "n8n"
+
+    def windows_n8n_package_dirs(self) -> list[Path]:
+        package_dirs = [self.windows_npm_global_modules_dir() / "n8n"]
+
+        portable_dir = self.portable_node_dir or self.detect_portable_node_windows_dir()
+        if portable_dir:
+            package_dirs.append(portable_dir / "node_modules" / "n8n")
+
+        unique_dirs: list[Path] = []
+        seen: set[str] = set()
+        for package_dir in package_dirs:
+            normalized_package_dir = normalize_path(str(package_dir))
+            if normalized_package_dir in seen:
+                continue
+            seen.add(normalized_package_dir)
+            unique_dirs.append(package_dir)
+        return unique_dirs
+
+    def get_windows_installed_n8n_version(self) -> Optional[str]:
+        for package_dir in self.windows_n8n_package_dirs():
+            package_json = package_dir / "package.json"
+            if not package_json.exists():
+                continue
+            try:
+                payload = json.loads(package_json.read_text(encoding="utf-8"))
+            except Exception:
+                continue
+            version = payload.get("version")
+            if isinstance(version, str) and version.strip():
+                return version.strip()
+        return None
+
+    def windows_n8n_cmd_target(self) -> Optional[Path]:
+        candidates = []
+
+        for package_dir in self.windows_n8n_package_dirs():
+            candidates.extend(
+                [
+                    package_dir / "bin" / "n8n.cmd",
+                    package_dir / "bin" / "n8n",
+                ]
+            )
+
+        portable_dir = self.portable_node_dir or self.detect_portable_node_windows_dir()
+        if portable_dir:
+            candidates.extend(
+                [
+                    portable_dir / "n8n.cmd",
+                    portable_dir / "n8n",
+                ]
+            )
+
+        for candidate in candidates:
+            if candidate.exists():
+                return candidate
+        return None
+
+    def remove_windows_prefix_n8n_launchers(self, *, remove_cmd: bool) -> None:
+        if self.system != "Windows":
+            return
+
+        prefix_dir = self.windows_npm_prefix_dir()
+        launcher_paths = [
+            prefix_dir / "n8n",
+            prefix_dir / "n8n.ps1",
+        ]
+        if remove_cmd:
+            launcher_paths.insert(0, prefix_dir / "n8n.cmd")
+
+        for launcher_path in launcher_paths:
+            if not launcher_path.exists():
+                continue
+            self.backup_file(launcher_path)
+            launcher_path.unlink()
+            self.log(f"Removed conflicting n8n launcher: {launcher_path}")
+
+    def remove_windows_managed_powershell_wrappers(self, *, include_n8n: bool) -> None:
+        if self.system != "Windows":
+            return
+
+        portable_dir = self.portable_node_dir or self.detect_portable_node_windows_dir()
+        wrapper_paths: list[Path] = []
+
+        if portable_dir:
+            wrapper_paths.extend(
+                [
+                    portable_dir / "npm.ps1",
+                    portable_dir / "npx.ps1",
+                    portable_dir / "corepack.ps1",
+                ]
+            )
+            if include_n8n:
+                wrapper_paths.append(portable_dir / "n8n.ps1")
+
+        prefix_dir = self.windows_npm_prefix_dir()
+        if include_n8n:
+            wrapper_paths.append(prefix_dir / "n8n.ps1")
+
+        seen: set[str] = set()
+        for wrapper_path in wrapper_paths:
+            normalized_wrapper_path = normalize_path(str(wrapper_path))
+            if normalized_wrapper_path in seen:
+                continue
+            seen.add(normalized_wrapper_path)
+            if not wrapper_path.exists():
+                continue
+            self.backup_file(wrapper_path)
+            wrapper_path.unlink()
+            self.log(f"Removed managed PowerShell wrapper: {wrapper_path}")
 
     def channels_folder_path(self) -> Path:
         return self.desktop_path() / "Channels"
@@ -854,11 +982,19 @@ class Installer:
         if any(sep in executable for sep in ("\\", "/")) or direct_path.drive:
             return str(direct_path) if direct_path.exists() else None
 
-        direct = shutil.which(executable)
-        if direct:
-            return direct
-
         if self.system == "Windows":
+            appdata_npm = Path(os.environ.get("APPDATA", Path.home())) / "npm"
+            preferred_wrappers = {
+                "node": appdata_npm / "node.cmd",
+                "npm": appdata_npm / "npm.cmd",
+                "npx": appdata_npm / "npx.cmd",
+                "corepack": appdata_npm / "corepack.cmd",
+                "n8n": appdata_npm / "n8n.cmd",
+            }
+            preferred = preferred_wrappers.get(executable.lower())
+            if preferred and preferred.exists():
+                return str(preferred)
+
             portable_dir = self.portable_node_dir or self.detect_portable_node_windows_dir()
             if portable_dir:
                 windows_binaries = {
@@ -870,11 +1006,6 @@ class Installer:
                 candidate = windows_binaries.get(executable.lower())
                 if candidate and candidate.exists():
                     return str(candidate)
-
-            appdata_npm = Path(os.environ.get("APPDATA", Path.home())) / "npm"
-            n8n_candidate = appdata_npm / "n8n.cmd"
-            if executable.lower() == "n8n" and n8n_candidate.exists():
-                return str(n8n_candidate)
 
         if self.system == "Darwin":
             portable_bin = self.portable_node_bin_dir or self.detect_portable_node_macos_bin_dir()
@@ -897,6 +1028,10 @@ class Installer:
             if candidate and candidate.exists():
                 return str(candidate)
 
+        direct = shutil.which(executable)
+        if direct:
+            return direct
+
         return None
 
     def detect_portable_node_windows_dir(self) -> Optional[Path]:
@@ -915,7 +1050,7 @@ class Installer:
             return candidate
         return None
 
-    def ensure_windows_node_command_shims(self) -> None:
+    def ensure_windows_node_command_shims(self, *, include_n8n: bool) -> None:
         if self.system != "Windows":
             return
 
@@ -941,7 +1076,20 @@ class Installer:
                 self.log(f"Skipping shim {shim_name}: target not found at {target_path}")
                 continue
 
-            if target_path.suffix.lower() == ".exe":
+            if shim_name == "npx.cmd":
+                shim_content = "\r\n".join(
+                    [
+                        "@echo off",
+                        f"if /I \"%~1\"==\"n8n\" (",
+                        "  shift",
+                        f"  call \"{shims_dir / 'n8n.cmd'}\" %*",
+                        "  exit /b %ERRORLEVEL%",
+                        ")",
+                        f"call \"{target_path}\" %*",
+                        "",
+                    ]
+                )
+            elif target_path.suffix.lower() == ".exe":
                 shim_content = "\r\n".join(
                     [
                         "@echo off",
@@ -960,18 +1108,38 @@ class Installer:
 
             self.write_windows_cmd_wrapper(shims_dir / shim_name, shim_content)
 
-        n8n_script = self.windows_n8n_bin_script()
-        if node_exe.exists() and n8n_script.exists():
-            n8n_content = "\r\n".join(
-                [
-                    "@echo off",
-                    f"\"{node_exe}\" \"{n8n_script}\" %*",
-                    "",
-                ]
-            )
-            self.write_windows_cmd_wrapper(shims_dir / "n8n.cmd", n8n_content)
+        if not include_n8n:
+            return
+
+        n8n_target = self.windows_n8n_cmd_target()
+        if n8n_target and n8n_target.exists():
+            if n8n_target.suffix.lower() == ".cmd":
+                n8n_content = "\r\n".join(
+                    [
+                        "@echo off",
+                        "cd /d %USERPROFILE%",
+                        f"call \"{n8n_target}\" %*",
+                        "",
+                    ]
+                )
+            elif node_exe.exists():
+                n8n_content = "\r\n".join(
+                    [
+                        "@echo off",
+                        "cd /d %USERPROFILE%",
+                        f"\"{node_exe}\" \"{n8n_target}\" %*",
+                        "",
+                    ]
+                )
+            else:
+                n8n_content = ""
+
+            if n8n_content:
+                self.write_windows_cmd_wrapper(shims_dir / "n8n.cmd", n8n_content)
+            else:
+                self.log(f"Skipping shim n8n.cmd: node.exe is missing for target {n8n_target}")
         else:
-            self.log(f"Skipping shim n8n.cmd: target not found at {n8n_script}")
+            self.log("Skipping shim n8n.cmd: target was not found in the npm prefix or portable Node.js directory")
 
     def write_windows_cmd_wrapper(self, shim_path: Path, shim_content: str) -> None:
         current = shim_path.read_text(encoding="utf-8") if shim_path.exists() else None
@@ -989,13 +1157,21 @@ class Installer:
         if self.system != "Windows":
             return
 
-        result = self.run_quiet(["npx", "--no-install", "n8n", "--version"], check=False)
+        n8n_result = self.run_quiet(["n8n", "--version"], check=False)
+        if n8n_result.returncode != 0:
+            raise InstallError(
+                "n8n is not available after installation.\n"
+                f"STDOUT:\n{n8n_result.stdout}\nSTDERR:\n{n8n_result.stderr}"
+            )
+        self.log(f"n8n launcher verified: {first_non_empty_line((n8n_result.stdout or '') + (n8n_result.stderr or ''))}")
+
+        result = self.run_quiet(["npx.cmd", "--version"], check=False)
         if result.returncode != 0:
             raise InstallError(
-                "npx n8n is not available after installation.\n"
+                "npx.cmd is not available after installation.\n"
                 f"STDOUT:\n{result.stdout}\nSTDERR:\n{result.stderr}"
             )
-        self.log(f"npx n8n verified: {first_non_empty_line((result.stdout or '') + (result.stderr or ''))}")
+        self.log(f"npx.cmd verified: {first_non_empty_line((result.stdout or '') + (result.stderr or ''))}")
 
     def get_command_version(self, executable: str) -> Optional[str]:
         resolved = self.resolve_command_path(executable)
@@ -1081,15 +1257,77 @@ class Installer:
                 except FileNotFoundError:
                     current_path = ""
 
+                normalized_entry = normalize_path(str(entry))
                 parts = [part for part in current_path.split(os.pathsep) if part]
-                normalized_parts = {normalize_path(part) for part in parts}
-                if normalize_path(str(entry)) not in normalized_parts:
-                    parts.insert(0, str(entry))
-                    new_value = os.pathsep.join(parts)
+                reordered_parts = [part for part in parts if normalize_path(part) != normalized_entry]
+                reordered_parts.insert(0, str(entry))
+                new_value = os.pathsep.join(reordered_parts)
+                if new_value != current_path:
                     winreg.SetValueEx(key, "Path", 0, winreg.REG_EXPAND_SZ, new_value)
                     self.broadcast_environment_change()
         except PermissionError as exc:
             raise InstallError(f"Unable to update the Windows user PATH: {exc}") from exc
+
+    def remove_windows_user_path(self, entry: Path) -> bool:
+        if self.system != "Windows":
+            return False
+
+        entry = entry.expanduser().resolve()
+
+        import winreg
+
+        try:
+            with winreg.OpenKey(
+                winreg.HKEY_CURRENT_USER,
+                "Environment",
+                0,
+                winreg.KEY_READ | winreg.KEY_SET_VALUE,
+            ) as key:
+                try:
+                    current_path, _ = winreg.QueryValueEx(key, "Path")
+                except FileNotFoundError:
+                    current_path = ""
+
+                normalized_entry = normalize_path(str(entry))
+                parts = [part for part in current_path.split(os.pathsep) if part]
+                filtered_parts = [part for part in parts if normalize_path(part) != normalized_entry]
+                new_value = os.pathsep.join(filtered_parts)
+                if new_value == current_path:
+                    return False
+
+                winreg.SetValueEx(key, "Path", 0, winreg.REG_EXPAND_SZ, new_value)
+                self.broadcast_environment_change()
+                return True
+        except PermissionError as exc:
+            raise InstallError(f"Unable to update the Windows user PATH: {exc}") from exc
+
+    def remove_windows_managed_node_path_entries(self) -> None:
+        if self.system != "Windows":
+            return
+
+        candidates: list[Path] = []
+        portable_dir = self.portable_node_dir or self.detect_portable_node_windows_dir()
+        if portable_dir:
+            candidates.append(portable_dir)
+
+        if WINDOWS_NODE_ROOT.exists():
+            candidates.extend(
+                path for path in WINDOWS_NODE_ROOT.iterdir() if path.is_dir()
+            )
+
+        removed_any = False
+        seen: set[str] = set()
+        for candidate in candidates:
+            normalized_candidate = normalize_path(str(candidate))
+            if normalized_candidate in seen:
+                continue
+            seen.add(normalized_candidate)
+            if self.remove_windows_user_path(candidate):
+                self.log(f"Removed managed Node.js directory from user PATH: {candidate}")
+                removed_any = True
+
+        if not removed_any:
+            self.log("Managed Node.js directory is not present in the user PATH.")
 
     def ensure_unix_path(self, entry: Path) -> None:
         entry = entry.expanduser().resolve()
