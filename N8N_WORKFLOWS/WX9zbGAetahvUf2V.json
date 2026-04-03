@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-02T18:03:33.691Z",
+  "updatedAt": "2026-04-03T11:18:34.585Z",
   "createdAt": "2026-04-01T18:55:47.951Z",
   "id": "WX9zbGAetahvUf2V",
   "name": "Cluster Works",
@@ -2771,6 +2771,29 @@
       "id": "0ae4ddb0-5f99-46a0-8e44-9e187d42ff75",
       "alwaysOutputData": true,
       "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0b465508-7f22-4a4d-bbf0-1e7629457741",
+              "name": "videoLinksToParse",
+              "value": "",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        112,
+        -320
+      ],
+      "id": "29950ada-18e9-4466-b20e-198a18b4a918",
+      "name": "Set list of video links"
     }
   ],
   "connections": {
@@ -3431,9 +3454,9 @@
       }
     ]
   },
-  "versionId": "a54bfc06-cfc9-44be-8141-64de4af4f147",
+  "versionId": "d953b60e-9bbe-4b64-8fa8-1f050870f309",
   "activeVersionId": null,
-  "versionCounter": 886,
+  "versionCounter": 891,
   "triggerCount": 0,
   "tags": [],
   "shared": [

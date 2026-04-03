@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-02T19:23:02.989Z",
+  "updatedAt": "2026-04-02T20:34:21.726Z",
   "createdAt": "2026-02-03T20:08:34.562Z",
   "id": "AmF6XaTnjkk9w41P",
   "name": "Main",
@@ -25,7 +25,7 @@
             {
               "id": "9fef8d0f-27e5-4921-9cdf-0bf0224cdf47",
               "name": "=channelsFolderPath",
-              "value": "=C:/Users/V/Desktop/Channels",
+              "value": "={{ $env.CHANNELS_FOLDER_PATH }}",
               "type": "string"
             },
             {
@@ -4761,9 +4761,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "25661367-c0ff-4f66-ab7d-c5483eee7864",
+  "versionId": "cd9589e1-1233-4910-8582-bed5b2585552",
   "activeVersionId": null,
-  "versionCounter": 1269,
+  "versionCounter": 1271,
   "triggerCount": 0,
   "tags": [],
   "shared": [
