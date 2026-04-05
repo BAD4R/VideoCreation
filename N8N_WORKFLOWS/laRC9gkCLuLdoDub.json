@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-05T00:38:00.169Z",
+  "updatedAt": "2026-04-05T01:52:34.883Z",
   "createdAt": "2026-02-05T03:23:05.635Z",
   "id": "laRC9gkCLuLdoDub",
   "name": "generate starting frames and clips prompts - paralleling",
@@ -103,7 +103,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        2672,
+        2496,
         240
       ],
       "name": "get all workflow params",
@@ -191,7 +191,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        2848,
+        2672,
         240
       ],
       "name": "get video titles and descriptions",
@@ -258,7 +258,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        3664,
+        3200,
         240
       ],
       "id": "eca4a873-7282-4828-aab1-1f03339e58eb",
@@ -293,7 +293,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4512,
+        4048,
         -80
       ],
       "id": "23d6a120-0d10-4db3-96d2-27d4fcbbc5ca",
@@ -370,7 +370,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        4608,
+        4144,
         -80
       ],
       "id": "2d1d7fa2-60f1-40c0-81f6-b2f00d42c9e4",
@@ -462,7 +462,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        3888,
+        3424,
         160
       ],
       "id": "393a4b73-addd-4bd1-99ab-d3a7e8ee3c38",
@@ -485,7 +485,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4800,
+        4336,
         -80
       ],
       "id": "b6dc953d-19ee-48e3-9f34-87435dd7f780",
@@ -508,7 +508,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4320,
+        3856,
         -80
       ],
       "id": "29df351a-5b9e-417f-be6d-e50d3ebe67c1",
@@ -596,7 +596,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3040,
+        2864,
         240
       ],
       "name": "write prompts2",
@@ -685,7 +685,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4992,
+        4528,
         -80
       ],
       "name": "write starting frame",
@@ -773,7 +773,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        5184,
+        4720,
         -80
       ],
       "name": "read",
@@ -796,7 +796,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        5376,
+        4912,
         -80
       ],
       "id": "6fce739a-9dca-45e2-b0a3-342736cee276",
@@ -831,7 +831,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        5584,
+        5120,
         -80
       ],
       "id": "d93b71ec-d354-4087-86b0-f610e2af3fc1",
@@ -908,7 +908,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        5680,
+        5216,
         -80
       ],
       "id": "7b5b0aac-1196-4622-966e-1d3ee098e20a",
@@ -931,7 +931,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        5872,
+        5408,
         -80
       ],
       "id": "4492660c-ec06-4c26-b192-0dc5db83319d",
@@ -965,7 +965,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        6256,
+        5792,
         -80
       ],
       "id": "eabf2db5-6757-4ec9-892f-f9dd405913ca",
@@ -1053,7 +1053,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        6064,
+        5600,
         -80
       ],
       "name": "write clip prompt1",
@@ -1130,7 +1130,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        4608,
+        4144,
         128
       ],
       "id": "c937d9fa-a260-4b6b-96e8-39cd289d28b4",
@@ -1153,7 +1153,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4800,
+        4336,
         128
       ],
       "id": "bf9a627a-9054-466b-8db3-9c2698448796",
@@ -1176,7 +1176,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4320,
+        3856,
         128
       ],
       "id": "5ff53f15-36c1-449d-bcbb-0ec03ae4efab",
@@ -1264,7 +1264,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4992,
+        4528,
         128
       ],
       "name": "write starting frame1",
@@ -1352,7 +1352,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        5184,
+        4720,
         128
       ],
       "name": "read1",
@@ -1375,7 +1375,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        5376,
+        4912,
         128
       ],
       "id": "d53bb567-2c79-4089-8e09-10f0224a431c",
@@ -1452,7 +1452,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        5680,
+        5216,
         128
       ],
       "id": "2572ac85-41fa-43ff-a6d3-7797d2c1eb9d",
@@ -1475,7 +1475,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        5872,
+        5408,
         128
       ],
       "id": "96414c1b-b26e-4454-a7d4-2e827162037f",
@@ -1509,7 +1509,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        6256,
+        5792,
         128
       ],
       "id": "15903eee-8eea-42e0-b897-79228e22d614",
@@ -1597,7 +1597,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        6064,
+        5600,
         128
       ],
       "name": "write clip prompt2",
@@ -1632,7 +1632,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4512,
+        4048,
         128
       ],
       "id": "28b6b1e3-36f7-46a7-8454-0712c2dada0a",
@@ -1667,11 +1667,72 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        5584,
+        5120,
         128
       ],
       "id": "62dee027-322c-4a96-8536-216076204207",
       "name": "form request5"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "jN0HNmDZY1IKD2vM-oIO3",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/jN0HNmDZY1IKD2vM-oIO3",
+          "cachedResultName": "Text file works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClipsAndStartFramesPrompts/{{ $('Start').item.json.videoFolderName.split('_').last() }}_{{ ($('Start').first().json.textPartIndex).toString().padStart(5,'0') }}_READY.txt",
+            "fileAction": "write",
+            "text": "temp file"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            },
+            {
+              "id": "text",
+              "displayName": "text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        6192,
+        16
+      ],
+      "name": "write tmp ready file",
+      "id": "d62651b1-df59-4c7a-9efe-4af999699744",
+      "alwaysOutputData": true
     }
   ],
   "connections": {
@@ -1861,7 +1922,13 @@
     },
     "If last prompt": {
       "main": [
-        [],
+        [
+          {
+            "node": "write tmp ready file",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "read",
@@ -1972,7 +2039,13 @@
     },
     "If last prompt1": {
       "main": [
-        [],
+        [
+          {
+            "node": "write tmp ready file",
+            "type": "main",
+            "index": 0
+          }
+        ],
         [
           {
             "node": "read1",
@@ -2023,10 +2096,28 @@
   },
   "staticData": null,
   "meta": null,
-  "pinData": {},
-  "versionId": "2033cd08-b1c4-49e9-b402-ba468a009440",
-  "activeVersionId": "2033cd08-b1c4-49e9-b402-ba468a009440",
-  "versionCounter": 1062,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "channelsFolderPath": "C:/Users/V/Desktop/Channels",
+          "channelName": "LifeOfAPirate",
+          "videoFolderName": "2026-04-04_Amogs",
+          "previousTextPart": "Но классические морские платформы остаются вершиной технологической мысли.",
+          "currentTextPart": "Они доказывают, что строгий инженерный расчет, материаловедение и дисциплина способны подчинить себе самые экстремальные условия на планете, обеспечивая мир необходимой энергией.",
+          "nextTextPart": "[No next text part! This is a last request.]",
+          "partDurationMs": 12814,
+          "textPartIndex": 82
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "c18a51b0-132b-4832-8745-6f63fa80b08e",
+  "activeVersionId": "c18a51b0-132b-4832-8745-6f63fa80b08e",
+  "versionCounter": 1132,
   "triggerCount": 0,
   "tags": [],
   "shared": [

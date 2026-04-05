@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-05T01:04:55.246Z",
+  "updatedAt": "2026-04-05T15:06:34.511Z",
   "createdAt": "2026-02-03T20:08:34.562Z",
   "id": "AmF6XaTnjkk9w41P",
   "name": "Main",
@@ -3038,7 +3038,7 @@
             {
               "id": "cbae57df-33ce-4f18-8f27-a46d854341c5",
               "name": "hours",
-              "value": 7,
+              "value": 1,
               "type": "number"
             }
           ]
@@ -3863,6 +3863,11 @@
             "node": "Get Channel Folder",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Connect me to next nodes to use",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -4199,7 +4204,13 @@
     },
     "unlock clips": {
       "main": [
-        []
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "If Session Lock Exist": {
@@ -4528,7 +4539,13 @@
     },
     "unlock start frames": {
       "main": [
-        []
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "unlock voiceover": {
@@ -4581,9 +4598,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "1d885a49-7e1b-4864-bfd6-2b94067519a2",
+  "versionId": "f780f6e6-2a8e-4604-a524-780337ad575c",
   "activeVersionId": null,
-  "versionCounter": 1335,
+  "versionCounter": 1341,
   "triggerCount": 0,
   "tags": [],
   "shared": [

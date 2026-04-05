@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-05T00:58:48.712Z",
+  "updatedAt": "2026-04-05T15:10:32.697Z",
   "createdAt": "2026-03-14T12:24:48.695Z",
   "id": "FRgyLjNPqMix6o6C",
   "name": "generate starting frames",
@@ -371,7 +371,7 @@
       "typeVersion": 1.3,
       "position": [
         3200,
-        240
+        416
       ],
       "id": "ef95d70a-ebd9-4f1c-8643-81368690f962",
       "name": "runpod generations manager"
@@ -438,7 +438,7 @@
       "typeVersion": 3.4,
       "position": [
         3600,
-        432
+        608
       ],
       "id": "09376da7-bb43-4b51-96bf-6656d6557104",
       "name": "Switch"
@@ -451,7 +451,7 @@
       "typeVersion": 1.1,
       "position": [
         3696,
-        528
+        704
       ],
       "id": "d09f08a8-7fdb-4980-b2db-728b48a3e85e",
       "name": "Wait",
@@ -525,7 +525,7 @@
       "typeVersion": 1.3,
       "position": [
         3408,
-        432
+        608
       ],
       "id": "e333e991-06b2-4d1b-8930-abf11fa9cc57",
       "name": "check ready clips files"
@@ -536,7 +536,7 @@
       "typeVersion": 1,
       "position": [
         3392,
-        240
+        416
       ],
       "id": "f20d1564-e692-4219-a2e7-f485ec6c2dd1",
       "name": "Limit1"
@@ -897,6 +897,12 @@
               "name": "styleLoraTriggerWord",
               "value": "={{ $('get all workflow params').first().json.startFrameStyleLoraTriggerWord }}",
               "type": "string"
+            },
+            {
+              "id": "b6d6989d-774f-4455-a1f8-ec0d5ded4901",
+              "name": "seed",
+              "value": "={{ (()=>{\n  const varsForId = [\n    $json.startingFramePrompt,\n  ];\n\n  const MIN_LEN = 1;\n  const MAX_LEN = 15;\n\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k) + \":\" + stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i = 0; i < str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return h >>> 0;\n  }\n\n  const seed1 = fnv1a32(s);\n  const seed2 = fnv1a32(\"salt|\" + s);\n\n  const len = MIN_LEN + (seed1 % (MAX_LEN - MIN_LEN + 1));\n\n  let state = (seed1 ^ seed2) >>> 0;\n  function nextRand(){\n    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;\n    return state;\n  }\n\n  let out = \"\";\n  out += String((nextRand() % 9) + 1);\n\n  while (out.length < len){\n    out += String(nextRand() % 10);\n  }\n\n  return out;\n})() }}",
+              "type": "number"
             }
           ]
         },
@@ -994,7 +1000,7 @@
       "typeVersion": 1.2,
       "position": [
         3792,
-        432
+        608
       ],
       "name": "set start frames ready",
       "id": "c2f65d12-eca1-48e0-ba80-55487374eb64"
@@ -1072,7 +1078,7 @@
       "typeVersion": 1,
       "position": [
         3216,
-        432
+        608
       ],
       "id": "8393fe63-6368-490b-bb7b-0e97ebb4949d",
       "name": "Limit2"
@@ -1205,7 +1211,7 @@
           "mappingMode": "defineBelow",
           "value": {
             "workflow": "={{ $json.workflow }}",
-            "actions": "={{ (()=>{\n\n//Function for rand noise generation\nfunction stringToNumbers(str) {\n  let hash = 0;\n  for (let i = 0; i < str.length; i++) {\n    hash = (hash * 31 + str.charCodeAt(i)) >>> 0;\n  }\n  const result = (hash * 1664525 + 1013904223) >>> 0;;\n  return result;\n}\n\nlet actions = []\n\nconst positivePrompt = $('filter ready start frames').item.json.positivePrompt\n\nconst negativePrompt = $('filter ready start frames').item.json.negativePrompt\n\nconst imageWidth = $('filter ready start frames').item.json.clipWidth\n\nconst imageHeight = $('filter ready start frames').item.json.clipHeight\n\nconst useLora = $('get all workflow params').first().json.useStyleLoraForStartFrame\n\nconst loraName = $('filter ready start frames').item.json.styleLoraName\n\nconst loraTriggerWord = $('filter ready start frames').item.json.styleLoraTriggerWord\n\nconst combinedInputString = positivePrompt+negativePrompt+imageWidth+imageHeight+useLora+loraName+loraTriggerWord\n\nconst changeImageResolitonAction = \n  {\n    type: \"addNode\",\n    id: \"113\",\n    overwrite: true,\n    node: {\n      class_type: \"EmptyFlux2LatentImage\",\n      _meta: { title: \"Empty Flux 2 Latent\" },\n      inputs: {\n        width: imageWidth,\n        height: imageHeight,\n        batch_size: 1\n      }\n    }\n  }\n\nconst addPostitivePromptAction = \n  {\n    type: \"addNode\",\n    id: \"115\",\n    overwrite: true,\n    node: {\n      class_type: \"CLIPTextEncode\",\n      _meta: { title: \"CLIP Text Encode (Positive Prompt)\" },\n      inputs: {\n        text: (useLora ? (loraTriggerWord+', ') : '') + positivePrompt,\n        clip: [\"111\", 0]\n      }\n    }\n  }\n\nconst removeLoraNodeAction = [\n  {\n    type: \"connect\",\n    fromNodeId: \"122\",\n    fromOutput: 0,\n    toNodeId: \"105\",\n    toInput: \"model\"\n  },\n  {\n    type: \"removeNode\",\n    nodeId: \"116\"\n  }\n]\n\nactions.push(changeImageResolitonAction)\nactions.push(addPostitivePromptAction)\n\nif (!$('get all workflow params').first().json.useStyleLoraForStartFrame){\n  actions.push(...removeLoraNodeAction)\n}\n\nreturn actions\n})() }}"
+            "actions": "={{ (()=>{\n\nlet actions = []\n\nconst positivePrompt = $('filter ready start frames').item.json.positivePrompt\nconst negativePrompt = $('filter ready start frames').item.json.negativePrompt\nconst imageWidth = $('filter ready start frames').item.json.clipWidth\nconst imageHeight = $('filter ready start frames').item.json.clipHeight\nconst useLora = $('get all workflow params').first().json.useStyleLoraForStartFrame\nconst loraName = $('filter ready start frames').item.json.styleLoraName\nconst loraTriggerWord = $('filter ready start frames').item.json.styleLoraTriggerWord\nconst seed = $('filter ready start frames').item.json.seed\n\nconst changeImageResolitonAction = {\n  type: \"addNode\",\n  id: \"113\",\n  overwrite: true,\n  node: {\n    class_type: \"EmptyFlux2LatentImage\",\n    _meta: { title: \"Empty Flux 2 Latent\" },\n    inputs: {\n      width: imageWidth,\n      height: imageHeight,\n      batch_size: 1\n    }\n  }\n}\n\nconst changeSeedAction = {\n  type: \"addNode\",\n  id: \"114\",\n  overwrite: true,\n  node: {\n    class_type: \"RandomNoise\",\n    _meta: { title: \"RandomNoise\" },\n    inputs: {\n      noise_seed: seed\n    }\n  }\n}\n\nconst addPostitivePromptAction = {\n  type: \"addNode\",\n  id: \"115\",\n  overwrite: true,\n  node: {\n    class_type: \"CLIPTextEncode\",\n    _meta: { title: \"CLIP Text Encode (Positive Prompt)\" },\n    inputs: {\n      text: (useLora ? (loraTriggerWord + ', ') : '') + positivePrompt,\n      clip: [\"111\", 0]\n    }\n  }\n}\n\nconst removeLoraNodeAction = [\n  {\n    type: \"connect\",\n    fromNodeId: \"122\",\n    fromOutput: 0,\n    toNodeId: \"105\",\n    toInput: \"model\"\n  },\n  {\n    type: \"removeNode\",\n    nodeId: \"116\"\n  }\n]\n\nactions.push(changeImageResolitonAction)\nactions.push(changeSeedAction)\nactions.push(addPostitivePromptAction)\n\nif (!useLora){\n  actions.push(...removeLoraNodeAction)\n}\n\nreturn actions\n\n})() }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -1246,6 +1252,203 @@
       ],
       "id": "4034c76f-cc75-4844-93db-9c217a9ba3ff",
       "name": "SET d8swfnb44q T2I workflow image size, lora"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "wwicZuqjISFsTY3n",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/wwicZuqjISFsTY3n",
+          "cachedResultName": "ComfyUI Json Workflow Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "workflow": "={{ $json.workflow }}",
+            "actions": "={{ (()=>{\n\n//Function for rand noise generation\nfunction stringToNumbers(str) {\n  let hash = 0;\n  for (let i = 0; i < str.length; i++) {\n    hash = (hash * 31 + str.charCodeAt(i)) >>> 0;\n  }\n  const result = (hash * 1664525 + 1013904223) >>> 0;;\n  return result;\n}\n\nlet actions = []\n\nconst positivePrompt = $('filter ready start frames').item.json.positivePrompt\n\nconst negativePrompt = $('filter ready start frames').item.json.negativePrompt\n\nconst imageWidth = $('filter ready start frames').item.json.clipWidth\n\nconst imageHeight = $('filter ready start frames').item.json.clipHeight\n\nconst useLora = $('get all workflow params').first().json.useStyleLoraForStartFrame\n\nconst loraName = $('filter ready start frames').item.json.styleLoraName\n\nconst loraTriggerWord = $('filter ready start frames').item.json.styleLoraTriggerWord\n\nconst combinedInputString = positivePrompt+negativePrompt+imageWidth+imageHeight+useLora+loraName+loraTriggerWord\n\nconst changeImageResolitonAction = \n  {\n    type: \"addNode\",\n    id: \"113\",\n    overwrite: true,\n    node: {\n      class_type: \"EmptyFlux2LatentImage\",\n      _meta: { title: \"Empty Flux 2 Latent\" },\n      inputs: {\n        width: imageWidth,\n        height: imageHeight,\n        batch_size: 1\n      }\n    }\n  }\n\nconst addPostitivePromptAction = \n  {\n    type: \"addNode\",\n    id: \"115\",\n    overwrite: true,\n    node: {\n      class_type: \"CLIPTextEncode\",\n      _meta: { title: \"CLIP Text Encode (Positive Prompt)\" },\n      inputs: {\n        text: (useLora ? (loraTriggerWord+', ') : '') + positivePrompt,\n        clip: [\"111\", 0]\n      }\n    }\n  }\n\nconst removeLoraNodeAction = [\n  {\n    type: \"connect\",\n    fromNodeId: \"122\",\n    fromOutput: 0,\n    toNodeId: \"105\",\n    toInput: \"model\"\n  },\n  {\n    type: \"removeNode\",\n    nodeId: \"116\"\n  }\n]\n\nactions.push(changeImageResolitonAction)\nactions.push(addPostitivePromptAction)\n\nif (!$('get all workflow params').first().json.useStyleLoraForStartFrame){\n  actions.push(...removeLoraNodeAction)\n}\n\nreturn actions\n})() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "workflow",
+              "displayName": "workflow",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "actions",
+              "displayName": "actions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2880,
+        -48
+      ],
+      "id": "32d31c47-acab-47f2-a34b-b0b6878c1a46",
+      "name": "Static seed SET d8swfnb44q T2I workflow image size, lora1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "sendComfyUiT2IGenerationRequest",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "comfyUiRequest": "={{ $json.workflow }}",
+            "index": "={{ $('get prompts, filenames, indexes').item.json.fileName.slice(-10,-5).toNumber() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "request",
+              "displayName": "request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        3200,
+        240
+      ],
+      "id": "7f0ed7f3-3639-4071-8d92-b5318ad8bb8b",
+      "name": "send runpod gen request"
     }
   ],
   "connections": {
@@ -1258,7 +1461,13 @@
             "index": 0
           }
         ],
-        []
+        [
+          {
+            "node": "start runpod pod",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "get start/end ms of each scentance from transcript": {
@@ -1285,13 +1494,7 @@
     },
     "get prompts, filenames, indexes": {
       "main": [
-        [
-          {
-            "node": "set start frame params",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "runpod generations manager": {
@@ -1475,6 +1678,11 @@
             "node": "Limit2",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "send runpod gen request",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -1493,17 +1701,14 @@
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-03-24_MbcCf"
-        },
-        "pairedItem": {
-          "item": 0
+          "videoFolderName": "2026-04-04_Amogs"
         }
       }
     ]
   },
-  "versionId": "47508d5b-6275-4721-a88a-5d6eb9b19135",
-  "activeVersionId": "47508d5b-6275-4721-a88a-5d6eb9b19135",
-  "versionCounter": 741,
+  "versionId": "229b4784-4c4a-45a0-b0b6-a482ec5c8bf4",
+  "activeVersionId": "229b4784-4c4a-45a0-b0b6-a482ec5c8bf4",
+  "versionCounter": 791,
   "triggerCount": 0,
   "tags": [],
   "shared": [

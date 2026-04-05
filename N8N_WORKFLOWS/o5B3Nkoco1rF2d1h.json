@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-05T00:05:51.283Z",
+  "updatedAt": "2026-04-05T15:02:23.928Z",
   "createdAt": "2026-02-05T16:30:06.860Z",
   "id": "o5B3Nkoco1rF2d1h",
   "name": "runpod works",
@@ -1626,7 +1626,7 @@
             {
               "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
               "name": "route",
-              "value": "=https://{{ $('read pod id1').last().json.podMeta.id }}-{{ $('get all workflow params').first().json.runpodDashboardPort }}.proxy.runpod.net/api/services",
+              "value": "=https://{{ $('read pod id1').last().json.podMeta.id }}-8084.proxy.runpod.net/api/services",
               "type": "string"
             },
             {
@@ -1736,7 +1736,7 @@
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"mode\": \"status\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodT2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"t2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
+              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"comfyUiPort\": \"3000\",\n\"mode\": \"auto\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodT2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"t2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
               "type": "object"
             }
           ]
@@ -3279,7 +3279,7 @@
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"mode\": \"status\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodI2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"i2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
+              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"comfyUiPort\": \"3000\",\n\"mode\": \"auto\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodI2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"i2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
               "type": "object"
             }
           ]
@@ -4722,16 +4722,193 @@
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
           "videoFolderName": "2026-04-04_Amogs",
-          "index": 0,
-          "method": "uploadFile",
-          "comfyUiRequest": {},
-          "request": {
-            "localFilePath": "C:/Users/V/Desktop/Channels/LifeOfAPirate/VIDEOS/2026-04-04_Amogs/VOICE/Amogs_00009.mp3",
-            "destinationFilePath": "input",
-            "filename": "Amogs_00009.mp3",
-            "overwrite": true
+          "index": 31,
+          "method": "sendComfyUiT2IGenerationRequest",
+          "comfyUiRequest": {
+            "9": {
+              "inputs": {
+                "filename_prefix": "Flux2_dev",
+                "images": [
+                  "110",
+                  0
+                ]
+              },
+              "class_type": "SaveImage",
+              "_meta": {
+                "title": "Save Image"
+              }
+            },
+            "105": {
+              "inputs": {
+                "model": [
+                  "122",
+                  0
+                ],
+                "conditioning": [
+                  "106",
+                  0
+                ]
+              },
+              "class_type": "BasicGuider",
+              "_meta": {
+                "title": "BasicGuider"
+              }
+            },
+            "106": {
+              "inputs": {
+                "guidance": 4,
+                "conditioning": [
+                  "115",
+                  0
+                ]
+              },
+              "class_type": "FluxGuidance",
+              "_meta": {
+                "title": "FluxGuidance"
+              }
+            },
+            "107": {
+              "inputs": {
+                "sampler_name": "euler"
+              },
+              "class_type": "KSamplerSelect",
+              "_meta": {
+                "title": "KSamplerSelect"
+              }
+            },
+            "108": {
+              "inputs": {
+                "vae_name": "flux2-vae.safetensors"
+              },
+              "class_type": "VAELoader",
+              "_meta": {
+                "title": "Load VAE"
+              }
+            },
+            "109": {
+              "inputs": {
+                "noise": [
+                  "114",
+                  0
+                ],
+                "guider": [
+                  "105",
+                  0
+                ],
+                "sampler": [
+                  "107",
+                  0
+                ],
+                "sigmas": [
+                  "112",
+                  0
+                ],
+                "latent_image": [
+                  "113",
+                  0
+                ]
+              },
+              "class_type": "SamplerCustomAdvanced",
+              "_meta": {
+                "title": "SamplerCustomAdvanced"
+              }
+            },
+            "110": {
+              "inputs": {
+                "samples": [
+                  "109",
+                  0
+                ],
+                "vae": [
+                  "108",
+                  0
+                ]
+              },
+              "class_type": "VAEDecode",
+              "_meta": {
+                "title": "VAE Decode"
+              }
+            },
+            "111": {
+              "inputs": {
+                "clip_name": "mistral_3_small_flux2_bf16.safetensors",
+                "type": "flux2",
+                "device": "default"
+              },
+              "class_type": "CLIPLoader",
+              "_meta": {
+                "title": "Load CLIP"
+              }
+            },
+            "112": {
+              "inputs": {
+                "steps": [
+                  "118",
+                  0
+                ],
+                "width": 1024,
+                "height": 1024
+              },
+              "class_type": "Flux2Scheduler",
+              "_meta": {
+                "title": "Flux2Scheduler"
+              }
+            },
+            "113": {
+              "class_type": "EmptyFlux2LatentImage",
+              "_meta": {
+                "title": "Empty Flux 2 Latent"
+              },
+              "inputs": {
+                "width": 1280,
+                "height": 720,
+                "batch_size": 1
+              }
+            },
+            "114": {
+              "class_type": "RandomNoise",
+              "_meta": {
+                "title": "RandomNoise"
+              },
+              "inputs": {
+                "noise_seed": 947438147
+              }
+            },
+            "115": {
+              "class_type": "CLIPTextEncode",
+              "_meta": {
+                "title": "CLIP Text Encode (Positive Prompt)"
+              },
+              "inputs": {
+                "text": "{'shot':{'composition':'The shot is taken from a slightly unstable, handheld perspective, mimicking an amateur iPhone 6 recording. The camera is positioned at chest height, capturing a wide view of the expansive oil platform deck. In the foreground, there are slightly out-of-focus metal railings. The midground shows the long, rusted industrial deck leading towards the far edge where the residential block is located. The background shows the distant, blurred horizon where the dark ocean meets a overcast, cloudy sky.','film_grain':'Subtle digital noise and characteristic iPhone 6 sensor grain, with slight motion blur due to handheld instability.','focus':'The visual focus is sharp on the massive, weathered residential block structure in the mid-to-background, while the immediate foreground railings have a soft, natural depth-of-field falloff.'},'subject':{'description':'The main subject is a large, boxy, multi-story residential block made of industrial corrugated metal, painted in peeling, faded beige and grey paint. It features multiple small, barred windows and external steel staircases running along its sides. The structure looks utilitarian, heavy, and built to withstand harsh maritime conditions, appearing somewhat isolated and austere against the rest of the industrial platform. Several satellite dishes and ventilation pipes are mounted on the roof of the block, adding to its complex, functional appearance.','wardrobe':'No human subjects are present in this specific shot, focusing instead on the architectural and structural details of the residential block.','pose':'The residential block stands firmly fixed to the platform deck, its vertical lines contrasting with the horizontal expanse of the metal floor.'},'scene':{'location':'The deck of a large, aging offshore oil platform, specifically looking toward the isolated residential living quarters.','time_of_day':'Dull, overcast daylight, likely late afternoon, casting diffuse, flat light across the metallic surfaces.','environment':'The environment is a vast, industrial maritime facility. The deck is constructed from heavy, riveted steel plates with visible signs of salt corrosion and patches of rust. The atmosphere is hazy and damp with sea spray, with the infinite, dark, choppy ocean visible in the deep background beyond the safety railings.','visual_details':'props: Industrial steel railings with peeling yellow safety paint, thick black electrical cables snaking along the deck floor, a few scattered metal barrels, and heavy-duty industrial floodlights mounted on tall poles. The surface of the deck has visible puddles and greasy stains, indicating constant mechanical activity.'},'cinematography':{'lighting':'Natural, flat, and diffuse light characteristic of a heavily overcast day. There are no harsh shadows, as the light wraps around the industrial structures. Subtle highlights are present on the wet patches of the steel deck and metallic piping, creating a sense of realism.','tone':'Gritty, authentic, and somewhat lonely. The aesthetic is heavily influenced by the low-fidelity, candid look of a mobile phone camera, evoking a sense of raw, unpolished reality.'},'color_palette':'Dominated by desaturated cool tones: slate greys, rusted oranges, metallic beiges, and the deep, dark blue-grey of the churning ocean.'}",
+                "clip": [
+                  "111",
+                  0
+                ]
+              }
+            },
+            "118": {
+              "inputs": {
+                "value": 20
+              },
+              "class_type": "PrimitiveInt",
+              "_meta": {
+                "title": "Steps"
+              }
+            },
+            "122": {
+              "inputs": {
+                "unet_name": "flux2_dev_fp8mixed.safetensors",
+                "weight_dtype": "default"
+              },
+              "class_type": "UNETLoader",
+              "_meta": {
+                "title": "Load Diffusion Model"
+              }
+            }
           },
-          "runpodTemplateId": "y4h0gu0eo4",
+          "request": null,
+          "runpodTemplateId": "liqhn0gkqo",
           "runpodGpuList": [],
           "runpodCountryCodes": []
         },
@@ -4741,9 +4918,9 @@
       }
     ]
   },
-  "versionId": "d2507902-7442-4216-b5e1-3bcfe3c654ea",
-  "activeVersionId": "d2507902-7442-4216-b5e1-3bcfe3c654ea",
-  "versionCounter": 3687,
+  "versionId": "8ba3a157-3724-4f30-8aeb-4d3ebc2d0393",
+  "activeVersionId": "6940ad7b-02aa-4ae5-a705-7eb3a4921d69",
+  "versionCounter": 3699,
   "triggerCount": 0,
   "tags": [],
   "shared": [

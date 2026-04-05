@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-01T00:44:11.425Z",
+  "updatedAt": "2026-04-05T01:55:11.654Z",
   "createdAt": "2026-02-05T01:25:42.639Z",
   "id": "C4PCujSuMWddLkKC",
   "name": "generate starting frames and clips prompts",
@@ -17,7 +17,7 @@
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        128,
+        144,
         352
       ]
     },
@@ -29,7 +29,7 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        1280,
+        1104,
         352
       ],
       "id": "1536454c-c9a1-4245-9904-48c4bffebc85",
@@ -63,33 +63,19 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
       "position": [
-        1472,
+        1296,
         352
       ],
       "id": "04f73a7c-fd3a-46a8-97bd-d98c50bb8335",
       "name": "Filter"
     },
     {
-      "parameters": {
-        "amount": 15
-      },
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        1584,
-        608
-      ],
-      "id": "b2eaec50-d048-4712-92d9-13f73fa3b34a",
-      "name": "Wait",
-      "webhookId": "acf3fd65-1471-4d76-af5f-1c5dd091db93"
-    },
-    {
       "parameters": {},
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        1680,
-        512
+        1488,
+        528
       ],
       "id": "edda7806-d17f-4b68-8bee-2f3503d28695",
       "name": "Limit1"
@@ -189,7 +175,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1088,
+        912,
         352
       ],
       "id": "594e8d73-a46f-4f4f-a959-608c4429c75c",
@@ -282,40 +268,6 @@
       ],
       "name": "get all workflow params",
       "id": "1ac9e22c-7827-408f-bd32-4d39da6a13db"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "e75bcbea-1374-432d-a6cd-6b9f2cc42c78",
-              "leftValue": "={{ $json.filesReady }}",
-              "rightValue": "",
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        1488,
-        512
-      ],
-      "id": "f1f10aaf-bbeb-41c8-bde4-fdae24790d9c",
-      "name": "If starting frames && clips prompts || clips prompts ready"
     },
     {
       "parameters": {
@@ -447,84 +399,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1664,
+        1488,
         352
       ],
       "name": "generate starting frames and clips prompts - paralleling",
       "id": "fa07d9a1-209a-43b7-b246-6e74ba90b6b2"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "N2bXusYBgofvRBlH",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/N2bXusYBgofvRBlH",
-          "cachedResultName": "check files quantity in directory"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "directoryPath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClipsAndStartFramesPrompts",
-            "fileExtentionToSearch": ".json",
-            "expectedFilesCount": "={{ $('Define Visuals Duration(normalized) and Text Part').first().json.parts.length }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "directoryPath",
-              "displayName": "directoryPath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileExtentionToSearch",
-              "displayName": "fileExtentionToSearch",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileNameToSearch",
-              "displayName": "fileNameToSearch",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "expectedFilesCount",
-              "displayName": "expectedFilesCount",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        1280,
-        512
-      ],
-      "id": "8c9f6cd8-e44e-49fe-8845-ed5c376de904",
-      "name": "check if prompts ready"
     },
     {
       "parameters": {
@@ -608,8 +487,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1872,
-        512
+        1712,
+        528
       ],
       "name": "set startFramesClips prompts ready",
       "id": "a194b8b3-e44b-47e3-a031-17ff1a607ba4"
@@ -686,6 +565,139 @@
       ],
       "id": "d77378f0-876a-4ab1-aa54-722b2ed98c37",
       "name": "get ready starting frames and clips prompts"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "e75bcbea-1374-432d-a6cd-6b9f2cc42c78",
+              "leftValue": "={{ $json.filesReady }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        1296,
+        528
+      ],
+      "id": "f1f10aaf-bbeb-41c8-bde4-fdae24790d9c",
+      "name": "if none is generating"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "N2bXusYBgofvRBlH",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/N2bXusYBgofvRBlH",
+          "cachedResultName": "check files quantity in directory"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "directoryPath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClipsAndStartFramesPrompts",
+            "fileExtentionToSearch": ".txt",
+            "expectedFilesCount": "={{ $('Define Visuals Duration(normalized) and Text Part').first().json.parts.length }}",
+            "fileNameToSearch": "READY"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "directoryPath",
+              "displayName": "directoryPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileExtentionToSearch",
+              "displayName": "fileExtentionToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileNameToSearch",
+              "displayName": "fileNameToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "expectedFilesCount",
+              "displayName": "expectedFilesCount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1104,
+        528
+      ],
+      "id": "df22a014-5b65-49f4-b6aa-8321459570cf",
+      "name": "check if prompts ready"
+    },
+    {
+      "parameters": {
+        "command": "=powershell -NoProfile -Command \"$folder='C:/Users/V/Desktop/Channels/LifeOfAPirate/VIDEOS/2026-04-04_Amogs/CLIPS/videoClipsAndStartFramesPrompts'; if (Test-Path -LiteralPath $folder) { @('Amogs_00000_READY.txt','Amogs_00001_READY.txt','Amogs_00002_READY.txt','Amogs_00003_READY.txt','Amogs_00004_READY.txt','Amogs_00005_READY.txt','Amogs_00006_READY.txt','Amogs_00007_READY.txt','Amogs_00008_READY.txt','Amogs_00009_READY.txt','Amogs_00010_READY.txt','Amogs_00011_READY.txt','Amogs_00012_READY.txt','Amogs_00013_READY.txt','Amogs_00014_READY.txt','Amogs_00015_READY.txt','Amogs_00016_READY.txt','Amogs_00017_READY.txt','Amogs_00018_READY.txt','Amogs_00019_READY.txt','Amogs_00020_READY.txt','Amogs_00021_READY.txt','Amogs_00022_READY.txt','Amogs_00023_READY.txt','Amogs_00024_READY.txt','Amogs_00025_READY.txt','Amogs_00026_READY.txt','Amogs_00027_READY.txt','Amogs_00028_READY.txt','Amogs_00029_READY.txt','Amogs_00030_READY.txt','Amogs_00031_READY.txt','Amogs_00032_READY.txt','Amogs_00033_READY.txt','Amogs_00034_READY.txt','Amogs_00035_READY.txt','Amogs_00036_READY.txt','Amogs_00037_READY.txt','Amogs_00038_READY.txt','Amogs_00039_READY.txt','Amogs_00040_READY.txt','Amogs_00041_READY.txt','Amogs_00042_READY.txt','Amogs_00043_READY.txt','Amogs_00044_READY.txt','Amogs_00045_READY.txt','Amogs_00046_READY.txt','Amogs_00047_READY.txt','Amogs_00048_READY.txt','Amogs_00049_READY.txt','Amogs_00050_READY.txt','Amogs_00051_READY.txt','Amogs_00052_READY.txt','Amogs_00053_READY.txt','Amogs_00054_READY.txt','Amogs_00055_READY.txt','Amogs_00056_READY.txt','Amogs_00057_READY.txt','Amogs_00058_READY.txt','Amogs_00059_READY.txt','Amogs_00060_READY.txt','Amogs_00061_READY.txt','Amogs_00062_READY.txt','Amogs_00063_READY.txt','Amogs_00064_READY.txt','Amogs_00065_READY.txt','Amogs_00066_READY.txt','Amogs_00067_READY.txt','Amogs_00068_READY.txt','Amogs_00069_READY.txt','Amogs_00070_READY.txt','Amogs_00071_READY.txt','Amogs_00072_READY.txt','Amogs_00073_READY.txt','Amogs_00074_READY.txt','Amogs_00075_READY.txt','Amogs_00076_READY.txt','Amogs_00077_READY.txt','Amogs_00078_READY.txt','Amogs_00079_READY.txt','Amogs_00080_READY.txt','Amogs_00081_READY.txt','Amogs_00082_READY.txt') | ForEach-Object { try { $p = Join-Path $folder $_; if (Test-Path -LiteralPath $p) { Remove-Item -LiteralPath $p -Force -ErrorAction Stop } } catch {} } }\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1872,
+        528
+      ],
+      "id": "d44922d3-bf2d-473b-a4b5-5bd1f4a61808",
+      "name": "delete tmp files"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1392,
+        640
+      ],
+      "id": "d94aab81-5104-4157-8cc1-ea02cdf798ed",
+      "name": "Wait",
+      "webhookId": "9ae0d57a-b3f3-4ad3-96d2-4f53cf02fb7d"
     }
   ],
   "connections": {
@@ -733,17 +745,6 @@
         ]
       ]
     },
-    "Wait": {
-      "main": [
-        [
-          {
-            "node": "check if prompts ready",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "get start/end ms of each scentance from transcript": {
       "main": [
         [
@@ -782,7 +783,18 @@
         ]
       ]
     },
-    "If starting frames && clips prompts || clips prompts ready": {
+    "get ready starting frames and clips prompts": {
+      "main": [
+        [
+          {
+            "node": "Define Visuals Duration(normalized) and Text Part",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "if none is generating": {
       "main": [
         [
           {
@@ -804,27 +816,44 @@
       "main": [
         [
           {
-            "node": "If starting frames && clips prompts || clips prompts ready",
+            "node": "if none is generating",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "get ready starting frames and clips prompts": {
+    "set startFramesClips prompts ready": {
       "main": [
         [
           {
-            "node": "Define Visuals Duration(normalized) and Text Part",
+            "node": "delete tmp files",
             "type": "main",
             "index": 0
           }
         ]
       ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "check if prompts ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "generate starting frames and clips prompts - paralleling": {
+      "main": [
+        []
+      ]
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -834,7 +863,7 @@
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-03-24_MbcCf"
+          "videoFolderName": "2026-04-04_Amogs"
         },
         "pairedItem": {
           "item": 0
@@ -842,9 +871,9 @@
       }
     ]
   },
-  "versionId": "10953789-6675-4025-accf-fbdbdbf011da",
-  "activeVersionId": "10953789-6675-4025-accf-fbdbdbf011da",
-  "versionCounter": 769,
+  "versionId": "4c8da4a8-5c76-476f-b4aa-157fb90f87ad",
+  "activeVersionId": "4c8da4a8-5c76-476f-b4aa-157fb90f87ad",
+  "versionCounter": 991,
   "triggerCount": 0,
   "tags": [],
   "shared": [
