@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-01T00:57:54.522Z",
+  "updatedAt": "2026-04-05T00:51:46.969Z",
   "createdAt": "2026-02-05T15:40:02.769Z",
   "id": "l0p4y5gFr4cklXjY",
   "name": "generate clips",
@@ -269,7 +269,8 @@
             "runpodGpuList": "={{ [] }}",
             "runpodCountryCodes": "={{ [] }}",
             "comfyUiRequest": "={{ {} }}",
-            "index": 0
+            "index": 0,
+            "request": "={{ {} }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -334,8 +335,8 @@
               "removed": false
             },
             {
-              "id": "jupiterRequest",
-              "displayName": "jupiterRequest",
+              "id": "request",
+              "displayName": "request",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -1713,7 +1714,8 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -1731,9 +1733,9 @@
       }
     ]
   },
-  "versionId": "eef69427-217c-4720-9693-5dd8e9a05c1c",
-  "activeVersionId": "eef69427-217c-4720-9693-5dd8e9a05c1c",
-  "versionCounter": 1775,
+  "versionId": "c655bfdf-cb4a-4555-a2c9-b13b2bd440c8",
+  "activeVersionId": "c655bfdf-cb4a-4555-a2c9-b13b2bd440c8",
+  "versionCounter": 1781,
   "triggerCount": 0,
   "tags": [],
   "shared": [

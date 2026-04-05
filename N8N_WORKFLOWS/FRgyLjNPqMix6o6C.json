@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-31T21:35:34.062Z",
+  "updatedAt": "2026-04-05T00:58:48.712Z",
   "createdAt": "2026-03-14T12:24:48.695Z",
   "id": "FRgyLjNPqMix6o6C",
   "name": "generate starting frames",
@@ -7,94 +7,6 @@
   "active": true,
   "isArchived": false,
   "nodes": [
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
-            "fileAction": "read",
-            "keysToReturn": "={{ [\"clipGenType\", \"clipGenerationService\"] }}",
-            "keysToWrite": "={{ {} }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        272,
-        -16
-      ],
-      "name": "get clips gen type",
-      "id": "362e747f-37d4-4e29-a00a-009cd9972147"
-    },
     {
       "parameters": {
         "rules": {
@@ -156,53 +68,11 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        1504,
+        1472,
         240
       ],
       "id": "90f63fa5-a1bb-431d-b495-2788700e2a82",
       "name": "if pod ready"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $('get all workflow params').first().json.runpodTemplateId == \"ubai7vcm50\" }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "f07341c6-def4-4873-a3e8-308976dfd7e7"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "my_template"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        3072,
-        80
-      ],
-      "id": "9ec96cea-adeb-40c9-9fbc-a953a80525ce",
-      "name": "Switch by Template Id"
     },
     {
       "parameters": {
@@ -286,7 +156,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1888,
+        1856,
         240
       ],
       "name": "get start/end ms of each scentance from transcript",
@@ -299,7 +169,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2080,
+        2048,
         240
       ],
       "id": "307a3cd0-95f9-49d2-8200-97b48e1ceddb",
@@ -379,166 +249,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        2288,
+        2240,
         240
       ],
       "id": "d4513809-367a-4815-9512-c1eacd26b8b2",
       "name": "get prompts, filenames, indexes"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "o5B3Nkoco1rF2d1h",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
-          "cachedResultName": "runpod works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
-            "channelName": "={{ $('Start').first().json.channelName }}",
-            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
-            "method": "sendComfyUiT2IGenerationRequest",
-            "runpodUseVolume": "={{ false }}",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTemplateId }}",
-            "runpodVolumeId": "={{ \"\" }}",
-            "runpodGpuList": "={{ [] }}",
-            "runpodCountryCodes": "={{ [] }}",
-            "comfyUiRequest": "={{ $json.workflow }}",
-            "index": "={{ $('get prompts, filenames, indexes').item.json.fileName.slice(-10,-5).toNumber() }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "channelsFolderPath",
-              "displayName": "channelsFolderPath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "channelName",
-              "displayName": "channelName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "videoFolderName",
-              "displayName": "videoFolderName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "index",
-              "displayName": "index",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
-              "removed": false
-            },
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "comfyUiRequest",
-              "displayName": "comfyUiRequest",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "runpodTemplateId",
-              "displayName": "runpodTemplateId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodUseVolume",
-              "displayName": "runpodUseVolume",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "boolean",
-              "removed": false
-            },
-            {
-              "id": "runpodVolumeId",
-              "displayName": "runpodVolumeId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodGpuList",
-              "displayName": "runpodGpuList",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "runpodCountryCodes",
-              "displayName": "runpodCountryCodes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": false
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        4208,
-        -16
-      ],
-      "id": "2037da94-ea0c-43d0-bb0e-f9967fa5e757",
-      "name": "send runpod gen request",
-      "disabled": true
     },
     {
       "parameters": {
@@ -655,7 +370,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        4208,
+        3200,
         240
       ],
       "id": "ef95d70a-ebd9-4f1c-8643-81368690f962",
@@ -722,8 +437,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        4416,
-        368
+        3600,
+        432
       ],
       "id": "09376da7-bb43-4b51-96bf-6656d6557104",
       "name": "Switch"
@@ -735,8 +450,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        4512,
-        464
+        3696,
+        528
       ],
       "id": "d09f08a8-7fdb-4980-b2db-728b48a3e85e",
       "name": "Wait",
@@ -809,8 +524,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        4208,
-        368
+        3408,
+        432
       ],
       "id": "e333e991-06b2-4d1b-8930-abf11fa9cc57",
       "name": "check ready clips files"
@@ -820,19 +535,7 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        3344,
-        96
-      ],
-      "id": "da13d527-5d82-4d5f-ad4a-14c5993f8beb",
-      "name": "Limit",
-      "disabled": true
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.limit",
-      "typeVersion": 1,
-      "position": [
-        4416,
+        3392,
         240
       ],
       "id": "f20d1564-e692-4219-a2e7-f485ec6c2dd1",
@@ -848,8 +551,8 @@
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        672,
-        208
+        704,
+        224
       ]
     },
     {
@@ -934,8 +637,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        864,
-        208
+        896,
+        224
       ],
       "name": "get all workflow params",
       "id": "100bbec4-b178-44a0-bf19-1885289b288a"
@@ -1076,7 +779,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1296,
+        1280,
         240
       ],
       "id": "77758c56-d6e5-4365-b1c4-6db4d2bc9d3d",
@@ -1149,7 +852,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1696,
+        1664,
         240
       ],
       "id": "5dff0e01-bc6c-4698-a05f-6908caf6d14b",
@@ -1202,7 +905,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2496,
+        2432,
         240
       ],
       "id": "cb59487b-0156-4560-9f9f-731678e0244b",
@@ -1290,8 +993,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4672,
-        368
+        3792,
+        432
       ],
       "name": "set start frames ready",
       "id": "c2f65d12-eca1-48e0-ba80-55487374eb64"
@@ -1357,7 +1060,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        2704,
+        2624,
         240
       ],
       "id": "7d679927-f635-4dc5-92e5-7b799c0ed45b",
@@ -1368,22 +1071,11 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        3968,
-        368
+        3216,
+        432
       ],
       "id": "8393fe63-6368-490b-bb7b-0e97ebb4949d",
       "name": "Limit2"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
-      "position": [
-        2928,
-        368
-      ],
-      "id": "80fa22f5-0f57-4f63-b23d-1e22ad215f5b",
-      "name": "No Operation, do nothing"
     },
     {
       "parameters": {
@@ -1479,61 +1171,6 @@
     },
     {
       "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "wwicZuqjISFsTY3n",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/wwicZuqjISFsTY3n",
-          "cachedResultName": "ComfyUI Json Workflow Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "workflow": "={{ $json.workflow }}",
-            "actions": "={{ (()=>{\n\n//Function for rand noise generation\nfunction stringToNumbers(str) {\n  let hash = 0;\n  for (let i = 0; i < str.length; i++) {\n    hash = (hash * 31 + str.charCodeAt(i)) >>> 0;\n  }\n  const result = (hash * 1664525 + 1013904223) >>> 0;;\n  return result;\n}\n\nlet actions = []\n\nconst positivePrompt = $('filter ready start frames').item.json.positivePrompt\n\nconst negativePrompt = $('filter ready start frames').item.json.negativePrompt\n\nconst imageWidth = $('filter ready start frames').item.json.clipWidth\n\nconst imageHeight = $('filter ready start frames').item.json.clipHeight\n\nconst useLora = $('get all workflow params').first().json.useStyleLoraForStartFrame\n\nconst loraName = $('filter ready start frames').item.json.styleLoraName\n\nconst loraTriggerWord = $('filter ready start frames').item.json.styleLoraTriggerWord\n\nconst combinedInputString = positivePrompt+negativePrompt+imageWidth+imageHeight+useLora+loraName+loraTriggerWord\n\nconst changeRandomSeedAction = \n  {\n    type: \"addNode\",\n    id: \"114\",\n    overwrite: true,\n    node: {\n      \"inputs\": {\n        \"noise_seed\": stringToNumbers(combinedInputString)\n      },\n      \"class_type\": \"RandomNoise\",\n      \"_meta\": {\n        \"title\": \"RandomNoise\"\n      }\n    }\n  }\n\nconst changeImageResolitonAction = \n  {\n    type: \"addNode\",\n    id: \"113\",\n    overwrite: true,\n    node: {\n      class_type: \"EmptyFlux2LatentImage\",\n      _meta: { title: \"Empty Flux 2 Latent\" },\n      inputs: {\n        width: imageWidth,\n        height: imageHeight,\n        batch_size: 1\n      }\n    }\n  }\n\nconst addPostitivePromptAction = \n  {\n    type: \"addNode\",\n    id: \"115\",\n    overwrite: true,\n    node: {\n      class_type: \"CLIPTextEncode\",\n      _meta: { title: \"CLIP Text Encode (Positive Prompt)\" },\n      inputs: {\n        text: (useLora ? (loraTriggerWord+', ') : '') + positivePrompt,\n        clip: [\"111\", 0]\n      }\n    }\n  }\n\nconst removeLoraNodeAction = [\n  {\n    type: \"connect\",\n    fromNodeId: \"122\",\n    fromOutput: 0,\n    toNodeId: \"105\",\n    toInput: \"model\"\n  },\n  {\n    type: \"removeNode\",\n    nodeId: \"116\"\n  }\n]\n\nactions.push(changeRandomSeedAction)\nactions.push(changeImageResolitonAction)\nactions.push(addPostitivePromptAction)\n\nif (!$('get all workflow params').first().json.useStyleLoraForStartFrame){\n  actions.push(...removeLoraNodeAction)\n}\n\nreturn actions\n})() }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "workflow",
-              "displayName": "workflow",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "actions",
-              "displayName": "actions",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": true
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        3776,
-        48
-      ],
-      "id": "dbef5792-eb0f-4c18-b3ac-855ea2b894fc",
-      "name": "SET ubai7vcm50 T2I workflow image size, lora1"
-    },
-    {
-      "parameters": {
         "assignments": {
           "assignments": [
             {
@@ -1549,7 +1186,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3520,
+        2816,
         240
       ],
       "id": "581f6a30-2510-4d32-bde4-dd7666ac3ccf",
@@ -1604,7 +1241,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        3776,
+        3008,
         240
       ],
       "id": "4034c76f-cc75-4844-93db-9c217a9ba3ff",
@@ -1612,11 +1249,6 @@
     }
   ],
   "connections": {
-    "get clips gen type": {
-      "main": [
-        []
-      ]
-    },
     "if pod ready": {
       "main": [
         [
@@ -1626,11 +1258,6 @@
             "index": 0
           }
         ],
-        []
-      ]
-    },
-    "Switch by Template Id": {
-      "main": [
         []
       ]
     },
@@ -1718,11 +1345,6 @@
         ]
       ]
     },
-    "Limit": {
-      "main": [
-        []
-      ]
-    },
     "Limit1": {
       "main": [
         []
@@ -1799,7 +1421,7 @@
         ],
         [
           {
-            "node": "No Operation, do nothing",
+            "node": "Limit2",
             "type": "main",
             "index": 0
           }
@@ -1811,17 +1433,6 @@
         [
           {
             "node": "check ready clips files",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "No Operation, do nothing": {
-      "main": [
-        [
-          {
-            "node": "Limit2",
             "type": "main",
             "index": 0
           }
@@ -1871,7 +1482,8 @@
   },
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -1889,9 +1501,9 @@
       }
     ]
   },
-  "versionId": "921ea89d-5ca3-4d0a-80fe-9ed3fda7d2b9",
-  "activeVersionId": "921ea89d-5ca3-4d0a-80fe-9ed3fda7d2b9",
-  "versionCounter": 699,
+  "versionId": "47508d5b-6275-4721-a88a-5d6eb9b19135",
+  "activeVersionId": "47508d5b-6275-4721-a88a-5d6eb9b19135",
+  "versionCounter": 741,
   "triggerCount": 0,
   "tags": [],
   "shared": [
