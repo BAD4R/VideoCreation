@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-04T19:35:07.581Z",
+  "updatedAt": "2026-04-05T16:16:03.665Z",
   "createdAt": "2026-04-01T18:55:47.951Z",
   "id": "WX9zbGAetahvUf2V",
   "name": "Cluster Works",
@@ -1788,25 +1788,9 @@
     },
     {
       "parameters": {
-        "content": "## Folders structure\nFor cluster extracting process to begin, prepare video data in this format:\n\n<CHANNELS_FOLDER_PATH from .env> / CLUSTERS / competitorsChannels / <analyzedChannelFolderName from $('Base Settings') node> / videos / <list videos folders named arbitrary> / <each video folder contains: thumbnail.jpeg; videoData.json>\n\nvideoData.json template:\n{\n    \"videoPerformanceLabel\": \"\", // \"successful\" or \"unsuccessful\"\n    \"videoTitle\":\"\",\n    \"videoDescription\": \"\",\n    \"videoTranscript\":\"\",\n    \"videoCommets\":\"\"\n}\n\nThe final clusters file exctracted from competitor channel will be placed in:\n<CHANNELS_FOLDER_PATH from .env> / CLUSTERS / competitorsChannels / <analyzedChannelFolderName from $('Base Settings') node> / channelClusters.json",
-        "height": 320,
-        "width": 1696,
-        "color": 7
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        848,
-        -864
-      ],
-      "id": "2f00cbc3-ff88-435c-91b7-5276cecb8d58",
-      "name": "Sticky Note1"
-    },
-    {
-      "parameters": {
         "content": "## Combining video evidences to channelEvidence",
         "height": 336,
-        "width": 2016,
+        "width": 2096,
         "color": 4
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -2490,7 +2474,7 @@
             {
               "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
               "name": "body",
-              "value": "={{ \n{\n  \"model\": $('Base Settings').item.json.analyzingModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\":  $('Base Settings').item.json.channelClustersExcrationPrompt\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('read channelEvidence.json1').item.json.toJsonString()\n        }\n      ]\n    }\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_schema\",\n      \"name\": \"channel_clusters_v1_0\",\n      \"strict\": true,\n      \"schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"schema_version\": {\n            \"type\": \"string\",\n            \"enum\": [\"1.0\"]\n          },\n          \"source_evidence_strength\": {\n            \"type\": \"string\",\n            \"enum\": [\"weak\", \"medium\", \"strong\"]\n          },\n          \"global_notes\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          },\n          \"clusters\": {\n            \"type\": \"array\",\n            \"minItems\": 1,\n            \"maxItems\": 5,\n            \"items\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"cluster_id\": {\n                  \"type\": \"string\"\n                },\n                \"cluster_label\": {\n                  \"type\": \"string\"\n                },\n                \"confidence\": {\n                  \"type\": \"number\"\n                },\n                \"source_strength\": {\n                  \"type\": \"string\",\n                  \"enum\": [\"weak\", \"medium\", \"strong\"]\n                },\n                \"self_identity\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"worldview\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"pain_growth\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"fears_desires\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"common_enemy\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"language_codes\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"visual_aesthetics\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"fit_packaging\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"fit_narrative_modes\": {\n                  \"type\": \"array\",\n                  \"items\": {\n                    \"type\": \"string\",\n                    \"enum\": [\n                      \"single_object_tour\",\n                      \"top_list\",\n                      \"process_explainer\",\n                      \"comparison\",\n                      \"broad_explainer\",\n                      \"story_case_studies\",\n                      \"life_inside_focus\"\n                    ]\n                  }\n                },\n                \"preferred_text_tone\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"fit_topics\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"stretch_topics\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"misfit_topics\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"supporting_signals\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"opposing_signals\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"usage_notes\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                }\n              },\n              \"required\": [\n                \"cluster_id\",\n                \"cluster_label\",\n                \"confidence\",\n                \"source_strength\",\n                \"self_identity\",\n                \"worldview\",\n                \"pain_growth\",\n                \"fears_desires\",\n                \"common_enemy\",\n                \"language_codes\",\n                \"visual_aesthetics\",\n                \"fit_packaging\",\n                \"fit_narrative_modes\",\n                \"preferred_text_tone\",\n                \"fit_topics\",\n                \"stretch_topics\",\n                \"misfit_topics\",\n                \"supporting_signals\",\n                \"opposing_signals\",\n                \"usage_notes\"\n              ],\n              \"additionalProperties\": false\n            }\n          }\n        },\n        \"required\": [\n          \"schema_version\",\n          \"source_evidence_strength\",\n          \"global_notes\",\n          \"clusters\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  }\n}\n}}",
+              "value": "={{ \n{\n  \"model\": $('Base Settings').item.json.analyzingModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\":  $('Base Settings').item.json.channelClustersExcrationPrompt\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('read channelEvidence.json').item.json.toJsonString()\n        }\n      ]\n    }\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_schema\",\n      \"name\": \"channel_clusters_v1_0\",\n      \"strict\": true,\n      \"schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"schema_version\": {\n            \"type\": \"string\",\n            \"enum\": [\"1.0\"]\n          },\n          \"source_evidence_strength\": {\n            \"type\": \"string\",\n            \"enum\": [\"weak\", \"medium\", \"strong\"]\n          },\n          \"global_notes\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          },\n          \"clusters\": {\n            \"type\": \"array\",\n            \"minItems\": 1,\n            \"maxItems\": 5,\n            \"items\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"cluster_id\": {\n                  \"type\": \"string\"\n                },\n                \"cluster_label\": {\n                  \"type\": \"string\"\n                },\n                \"confidence\": {\n                  \"type\": \"number\"\n                },\n                \"source_strength\": {\n                  \"type\": \"string\",\n                  \"enum\": [\"weak\", \"medium\", \"strong\"]\n                },\n                \"self_identity\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"worldview\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"pain_growth\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"fears_desires\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"common_enemy\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"language_codes\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"visual_aesthetics\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"fit_packaging\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"fit_narrative_modes\": {\n                  \"type\": \"array\",\n                  \"items\": {\n                    \"type\": \"string\",\n                    \"enum\": [\n                      \"single_object_tour\",\n                      \"top_list\",\n                      \"process_explainer\",\n                      \"comparison\",\n                      \"broad_explainer\",\n                      \"story_case_studies\",\n                      \"life_inside_focus\"\n                    ]\n                  }\n                },\n                \"preferred_text_tone\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"fit_topics\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"stretch_topics\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"misfit_topics\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"supporting_signals\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"opposing_signals\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"usage_notes\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                }\n              },\n              \"required\": [\n                \"cluster_id\",\n                \"cluster_label\",\n                \"confidence\",\n                \"source_strength\",\n                \"self_identity\",\n                \"worldview\",\n                \"pain_growth\",\n                \"fears_desires\",\n                \"common_enemy\",\n                \"language_codes\",\n                \"visual_aesthetics\",\n                \"fit_packaging\",\n                \"fit_narrative_modes\",\n                \"preferred_text_tone\",\n                \"fit_topics\",\n                \"stretch_topics\",\n                \"misfit_topics\",\n                \"supporting_signals\",\n                \"opposing_signals\",\n                \"usage_notes\"\n              ],\n              \"additionalProperties\": false\n            }\n          }\n        },\n        \"required\": [\n          \"schema_version\",\n          \"source_evidence_strength\",\n          \"global_notes\",\n          \"clusters\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  }\n}\n}}",
               "type": "object"
             }
           ]
@@ -2695,7 +2679,7 @@
       "parameters": {
         "content": "## Collect videos to analyze",
         "height": 336,
-        "width": 592,
+        "width": 384,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
@@ -2850,15 +2834,97 @@
       "name": "add performace_lable"
     },
     {
-      "parameters": {},
-      "type": "n8n-nodes-base.noOp",
-      "typeVersion": 1,
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{$env.CHANNELS_FOLDER_PATH + '/CLUSTERS/competitorsChannels/' + $('Base Settings').item.json.analyzedChannelFolderName}}/channelEvidence.json",
+            "fileAction": "=read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
       "position": [
-        1328,
-        -400
+        2832,
+        352
       ],
-      "id": "73788853-a550-4ff3-9bc1-21b3d2425709",
-      "name": "No Operation, do nothing"
+      "name": "read channelEvidence.json",
+      "id": "4e37bc21-7cd4-4727-8c4b-53161b38357b",
+      "alwaysOutputData": true,
+      "onError": "continueRegularOutput"
     }
   ],
   "connections": {
@@ -2875,13 +2941,7 @@
     },
     "Base Settings": {
       "main": [
-        [
-          {
-            "node": "Set list of video links",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Get Channel Videos Folders Paths": {
@@ -3109,7 +3169,13 @@
     },
     "Split Out Folder Paths": {
       "main": [
-        []
+        [
+          {
+            "node": "Get existing videoEvidences",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Are All Video Evidences Ready?": {
@@ -3288,7 +3354,7 @@
       "main": [
         [
           {
-            "node": "get random ID for request2",
+            "node": "read channelEvidence.json",
             "type": "main",
             "index": 0
           }
@@ -3512,11 +3578,11 @@
         []
       ]
     },
-    "No Operation, do nothing": {
+    "read channelEvidence.json": {
       "main": [
         [
           {
-            "node": "Get Channel Videos Folders Paths",
+            "node": "get random ID for request2",
             "type": "main",
             "index": 0
           }
@@ -3532,9 +3598,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "c0af644e-2d16-431e-9ac8-bb0e25a88379",
+  "versionId": "c8ce4c90-a560-42c7-a1dc-734f7731aed6",
   "activeVersionId": null,
-  "versionCounter": 1381,
+  "versionCounter": 1392,
   "triggerCount": 0,
   "tags": [],
   "shared": [

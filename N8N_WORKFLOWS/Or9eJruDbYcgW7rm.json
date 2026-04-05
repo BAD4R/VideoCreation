@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-30T21:54:14.497Z",
+  "updatedAt": "2026-04-05T18:43:58.392Z",
   "createdAt": "2026-02-06T02:56:56.529Z",
   "id": "Or9eJruDbYcgW7rm",
   "name": "runpod generations manager",
@@ -181,9 +181,7 @@
             "channelName": "={{ $('Start').first().json.channelName }}",
             "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
             "method": "={{ $('Start').first().json.comfyUiMethod }}",
-            "runpodUseVolume": "={{ false }}",
             "runpodTemplateId": "={{ $('Start').first().json.runpodTemplateId }}",
-            "runpodVolumeId": "={{ \"\" }}",
             "runpodGpuList": "={{ [] }}",
             "runpodCountryCodes": "={{ [] }}",
             "comfyUiRequest": "={{ $('Start').first().json.comfyUiRequest }}",
@@ -252,28 +250,18 @@
               "removed": false
             },
             {
+              "id": "request",
+              "displayName": "request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
               "id": "runpodTemplateId",
               "displayName": "runpodTemplateId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodUseVolume",
-              "displayName": "runpodUseVolume",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "boolean",
-              "removed": false
-            },
-            {
-              "id": "runpodVolumeId",
-              "displayName": "runpodVolumeId",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -1024,7 +1012,8 @@
   },
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -1034,65 +1023,735 @@
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-03-24_MbcCf",
+          "videoFolderName": "2026-04-04_Amogs",
           "comfyUiRequest": {
-            "47": {
+            "75": {
               "inputs": {
-                "audio": "elevenlabs_nikolay_calm.mp3"
+                "filename_prefix": "video/LTX_2.3_i2v",
+                "format": "auto",
+                "codec": "auto",
+                "video-preview": "",
+                "video": [
+                  "312",
+                  0
+                ]
               },
-              "class_type": "LoadAudio",
+              "class_type": "SaveVideo",
               "_meta": {
-                "title": "Load Audio"
+                "title": "Save Video"
               }
             },
-            "51": {
+            "269": {
               "inputs": {
-                "filename_prefix": "qwen3-tts/clone",
-                "quality": "320k",
-                "audioUI": "",
+                "image": "Amogs_00000.png"
+              },
+              "class_type": "LoadImage",
+              "_meta": {
+                "title": "Load Image"
+              }
+            },
+            "278": {
+              "inputs": {
+                "noise_seed": 42
+              },
+              "class_type": "RandomNoise",
+              "_meta": {
+                "title": "RandomNoise"
+              }
+            },
+            "279": {
+              "inputs": {
+                "noise_seed": 871927524295589
+              },
+              "class_type": "RandomNoise",
+              "_meta": {
+                "title": "RandomNoise"
+              }
+            },
+            "280": {
+              "inputs": {
+                "video_latent": [
+                  "290",
+                  0
+                ],
+                "audio_latent": [
+                  "309",
+                  1
+                ]
+              },
+              "class_type": "LTXVConcatAVLatent",
+              "_meta": {
+                "title": "LTXVConcatAVLatent"
+              }
+            },
+            "281": {
+              "inputs": {
+                "ckpt_name": "ltx-2.3-22b-dev-fp8.safetensors"
+              },
+              "class_type": "LTXVAudioVAELoader",
+              "_meta": {
+                "title": "LTXV Audio VAE Loader"
+              }
+            },
+            "282": {
+              "inputs": {
+                "sampler_name": "euler_cfg_pp"
+              },
+              "class_type": "KSamplerSelect",
+              "_meta": {
+                "title": "KSamplerSelect"
+              }
+            },
+            "283": {
+              "inputs": {
+                "sigmas": "0.85, 0.7250, 0.4219, 0.0"
+              },
+              "class_type": "ManualSigmas",
+              "_meta": {
+                "title": "ManualSigmas"
+              }
+            },
+            "284": {
+              "inputs": {
+                "cfg": 1,
+                "model": [
+                  "287",
+                  0
+                ],
+                "positive": [
+                  "286",
+                  0
+                ],
+                "negative": [
+                  "286",
+                  1
+                ]
+              },
+              "class_type": "CFGGuider",
+              "_meta": {
+                "title": "CFGGuider"
+              }
+            },
+            "285": {
+              "inputs": {
+                "noise": [
+                  "279",
+                  0
+                ],
+                "guider": [
+                  "316",
+                  0
+                ],
+                "sampler": [
+                  "293",
+                  0
+                ],
+                "sigmas": [
+                  "308",
+                  0
+                ],
+                "latent_image": [
+                  "324",
+                  0
+                ]
+              },
+              "class_type": "SamplerCustomAdvanced",
+              "_meta": {
+                "title": "SamplerCustomAdvanced"
+              }
+            },
+            "286": {
+              "inputs": {
+                "positive": [
+                  "306",
+                  0
+                ],
+                "negative": [
+                  "306",
+                  1
+                ],
+                "latent": [
+                  "309",
+                  0
+                ]
+              },
+              "class_type": "LTXVCropGuides",
+              "_meta": {
+                "title": "LTXVCropGuides"
+              }
+            },
+            "287": {
+              "inputs": {
+                "lora_name": "ltx-2.3-22b-distilled-lora-384.safetensors",
+                "strength_model": 0.5,
+                "model": [
+                  "318",
+                  0
+                ]
+              },
+              "class_type": "LoraLoaderModelOnly",
+              "_meta": {
+                "title": "Load LoRA"
+              }
+            },
+            "288": {
+              "inputs": {
+                "longer_edge": 1536,
+                "images": [
+                  "292",
+                  0
+                ]
+              },
+              "class_type": "ResizeImagesByLongerEdge",
+              "_meta": {
+                "title": "Resize Images by Longer Edge"
+              }
+            },
+            "289": {
+              "inputs": {
+                "samples": [
+                  "309",
+                  0
+                ],
+                "upscale_model": [
+                  "313",
+                  0
+                ],
+                "vae": [
+                  "318",
+                  2
+                ]
+              },
+              "class_type": "LTXVLatentUpsampler",
+              "_meta": {
+                "title": "LTXVLatentUpsampler"
+              }
+            },
+            "290": {
+              "inputs": {
+                "strength": 1,
+                "bypass": [
+                  "304",
+                  0
+                ],
+                "vae": [
+                  "318",
+                  2
+                ],
+                "image": [
+                  "291",
+                  0
+                ],
+                "latent": [
+                  "289",
+                  0
+                ]
+              },
+              "class_type": "LTXVImgToVideoInplace",
+              "_meta": {
+                "title": "LTXVImgToVideoInplace"
+              }
+            },
+            "291": {
+              "inputs": {
+                "img_compression": 18,
+                "image": [
+                  "288",
+                  0
+                ]
+              },
+              "class_type": "LTXVPreprocess",
+              "_meta": {
+                "title": "LTXVPreprocess"
+              }
+            },
+            "292": {
+              "inputs": {
+                "resize_type": "scale dimensions",
+                "resize_type.width": [
+                  "314",
+                  0
+                ],
+                "resize_type.height": [
+                  "301",
+                  0
+                ],
+                "resize_type.crop": "center",
+                "scale_method": "lanczos",
+                "input": [
+                  "269",
+                  0
+                ]
+              },
+              "class_type": "ResizeImageMaskNode",
+              "_meta": {
+                "title": "Resize Image/Mask"
+              }
+            },
+            "293": {
+              "inputs": {
+                "sampler_name": "euler_ancestral_cfg_pp"
+              },
+              "class_type": "KSamplerSelect",
+              "_meta": {
+                "title": "KSamplerSelect"
+              }
+            },
+            "294": {
+              "inputs": {
+                "expression": "a/2",
+                "values.a": [
+                  "314",
+                  0
+                ]
+              },
+              "class_type": "ComfyMathExpression",
+              "_meta": {
+                "title": "Math Expression"
+              }
+            },
+            "296": {
+              "inputs": {
+                "expression": "a/2",
+                "values.a": [
+                  "301",
+                  0
+                ]
+              },
+              "class_type": "ComfyMathExpression",
+              "_meta": {
+                "title": "Math Expression"
+              }
+            },
+            "297": {
+              "inputs": {
+                "width": [
+                  "294",
+                  1
+                ],
+                "height": [
+                  "296",
+                  1
+                ],
+                "length": [
+                  "303",
+                  0
+                ],
+                "batch_size": 1
+              },
+              "class_type": "EmptyLTXVLatentVideo",
+              "_meta": {
+                "title": "EmptyLTXVLatentVideo"
+              }
+            },
+            "298": {
+              "inputs": {
+                "strength": 0.7,
+                "bypass": [
+                  "304",
+                  0
+                ],
+                "vae": [
+                  "318",
+                  2
+                ],
+                "image": [
+                  "291",
+                  0
+                ],
+                "latent": [
+                  "297",
+                  0
+                ]
+              },
+              "class_type": "LTXVImgToVideoInplace",
+              "_meta": {
+                "title": "LTXVImgToVideoInplace"
+              }
+            },
+            "299": {
+              "inputs": {
+                "samples": [
+                  "311",
+                  1
+                ],
+                "audio_vae": [
+                  "281",
+                  0
+                ]
+              },
+              "class_type": "LTXVAudioVAEDecode",
+              "_meta": {
+                "title": "LTXV Audio VAE Decode"
+              }
+            },
+            "300": {
+              "inputs": {
+                "expression": "a",
+                "values.a": [
+                  "302",
+                  0
+                ]
+              },
+              "class_type": "ComfyMathExpression",
+              "_meta": {
+                "title": "Math Expression"
+              }
+            },
+            "301": {
+              "inputs": {
+                "value": 720
+              },
+              "class_type": "PrimitiveInt",
+              "_meta": {
+                "title": "Height"
+              }
+            },
+            "302": {
+              "inputs": {
+                "value": 24
+              },
+              "class_type": "PrimitiveInt",
+              "_meta": {
+                "title": "Frame Rate"
+              }
+            },
+            "303": {
+              "inputs": {
+                "value": 200
+              },
+              "class_type": "PrimitiveInt",
+              "_meta": {
+                "title": "Length"
+              }
+            },
+            "304": {
+              "inputs": {
+                "value": false
+              },
+              "class_type": "PrimitiveBoolean",
+              "_meta": {
+                "title": "Switch to Text to Video?"
+              }
+            },
+            "305": {
+              "inputs": {
+                "text": [
+                  "321",
+                  0
+                ],
+                "clip": [
+                  "319",
+                  0
+                ]
+              },
+              "class_type": "CLIPTextEncode",
+              "_meta": {
+                "title": "CLIP Text Encode (Prompt)"
+              }
+            },
+            "306": {
+              "inputs": {
+                "frame_rate": [
+                  "300",
+                  0
+                ],
+                "positive": [
+                  "305",
+                  0
+                ],
+                "negative": [
+                  "315",
+                  0
+                ]
+              },
+              "class_type": "LTXVConditioning",
+              "_meta": {
+                "title": "LTXVConditioning"
+              }
+            },
+            "307": {
+              "inputs": {
+                "frames_number": [
+                  "303",
+                  0
+                ],
+                "frame_rate": [
+                  "300",
+                  1
+                ],
+                "batch_size": 1,
+                "audio_vae": [
+                  "281",
+                  0
+                ]
+              },
+              "class_type": "LTXVEmptyLatentAudio",
+              "_meta": {
+                "title": "LTXV Empty Latent Audio"
+              }
+            },
+            "308": {
+              "inputs": {
+                "sigmas": "1.0, 0.99375, 0.9875, 0.98125, 0.975, 0.909375, 0.725, 0.421875, 0.0"
+              },
+              "class_type": "ManualSigmas",
+              "_meta": {
+                "title": "ManualSigmas"
+              }
+            },
+            "309": {
+              "inputs": {
+                "av_latent": [
+                  "285",
+                  0
+                ]
+              },
+              "class_type": "LTXVSeparateAVLatent",
+              "_meta": {
+                "title": "LTXVSeparateAVLatent"
+              }
+            },
+            "310": {
+              "inputs": {
+                "noise": [
+                  "278",
+                  0
+                ],
+                "guider": [
+                  "284",
+                  0
+                ],
+                "sampler": [
+                  "282",
+                  0
+                ],
+                "sigmas": [
+                  "283",
+                  0
+                ],
+                "latent_image": [
+                  "280",
+                  0
+                ]
+              },
+              "class_type": "SamplerCustomAdvanced",
+              "_meta": {
+                "title": "SamplerCustomAdvanced"
+              }
+            },
+            "311": {
+              "inputs": {
+                "av_latent": [
+                  "310",
+                  0
+                ]
+              },
+              "class_type": "LTXVSeparateAVLatent",
+              "_meta": {
+                "title": "LTXVSeparateAVLatent"
+              }
+            },
+            "312": {
+              "inputs": {
+                "fps": [
+                  "300",
+                  0
+                ],
+                "images": [
+                  "317",
+                  0
+                ],
                 "audio": [
-                  "53",
+                  "299",
                   0
                 ]
               },
-              "class_type": "SaveAudioMP3",
+              "class_type": "CreateVideo",
               "_meta": {
-                "title": "Save Audio (MP3)"
+                "title": "Create Video"
               }
             },
-            "53": {
+            "313": {
               "inputs": {
-                "target_text": "Она поражает тем фактом, что люди сумели превратить в полноценное рабочее место ту часть планеты, которая абсолютно не предназначена для жизни.\n\nЭтот стальной остров существует на тонкой грани между сокрушительным давлением океана, первобытной мощью подземных пластов, бушующим огнём, токсичными газами и постоянной усталостью механизмов. Вся логика этого плавучего завода направлена на одно. Не дать первобытному хаосу прорваться внутрь выверенной системы. Здесь нет права на слабость, нет места для небрежности. Глубоководный F P S O, это не просто скучный элемент глобальной нефтяной логистики. Это закрытый, жёсткий и невероятно сложный мир, который бросает вызов самой природе. Он не должен был бы существовать в таких условиях, но он существует, освещая океанскую мглу и доказывая, что человеческая воля и инженерная мысль способны удержать равновесие даже стоя над тёмной, холодной и смертельно опасной бездной.",
-                "model_size": "1.7B",
-                "device": "auto",
-                "precision": "fp32",
-                "language": "Russian",
-                "reference_text": "Сейчас перед нами современное морское судно, которое медленно движется по фарватеру, сохраняя устойчивый курс. На ходовом мостике работает навигационное оборудование: радиолокатор, эхолот, автопилот и система позиционирования. Капитан спокойно контролирует обстановку, а вахтенный помощник проверяет горизонт, глубину и метеоусловия. Внизу, в машинном отделении, слышна размеренная работа дизель-генераторов, компрессоров и насосного оборудования. Энергетика судна строится на точной и надёжной передаче мощности: вращается валопровод, работает редуктор, а гребной винт создаёт необходимую тягу. При этом инженеры внимательно следят за температурой подшипников, за давлением в магистрали и за уровнем вибрации, чтобы исключить перегрузку, кавитацию и преждевременный износ. На палубе расположены якорное устройство, швартовное оборудование, грузовые механизмы и трубопроводы, по которым могут перекачиваться вода, топливо или нефть. На танкерах и на платформах особое значение имеют герметичность, автоматика и противоаварийная защита. Любая утечка, искрение или повышение температуры должны быть обнаружены заранее. Поэтому операторы постоянно проверяют клапаны, датчики, турбины, кабели и распределительные щиты. Судостроение вообще объединяет множество сложных дисциплин. Здесь важны и прочностные расчёты, и гидродинамика, и электроника, и материаловедение. Конструкторы учитывают водоизмещение, остойчивость, осадку, центральную нагрузку и поведение корпуса на волне. Даже такие, казалось бы, узкоспециальные элементы, как шпангоут, стрингер, форпик или ахтерпик, играют важную роль в общей надёжности всей конструкции. Если говорить шире, то современные технологии давно вышли за пределы одного лишь флота. Они затрагивают энергетику, робототехнику, авиастроение, металлургию и автомобильную промышленность. Нам приходится всё чаще иметь дело с автоматизацией, с алгоритмическим управлением, с нейросетевыми моделями и с высокоточным оборудованием. И поэтому точное произношение терминов — не мелочь, а часть профессиональной культуры, где каждое слово должно звучать ясно, уверенно и безошибочно.",
-                "x_vector_only": false,
-                "max_new_tokens": 2048,
-                "do_sample": true,
-                "top_p": 0.9,
-                "top_k": 50,
-                "temperature": 0.9,
-                "repetition_penalty": 1,
-                "attention": "flash_attn",
-                "unload_models": false,
-                "seed": 1,
-                "reference_audio": [
-                  "47",
+                "model_name": "ltx-2.3-spatial-upscaler-x2-1.0.safetensors"
+              },
+              "class_type": "LatentUpscaleModelLoader",
+              "_meta": {
+                "title": "Load Latent Upscale Model"
+              }
+            },
+            "314": {
+              "inputs": {
+                "value": 1280
+              },
+              "class_type": "PrimitiveInt",
+              "_meta": {
+                "title": "Width"
+              }
+            },
+            "315": {
+              "inputs": {
+                "text": "music, speech, reportage, interview, banners, watemarks, animated logotype, nothing is happening, standing still, rigid body bends, rigid object deformation, unnatural bending of hard surfaces, static image, static fluid, statid liquid, warped mechanical parts, slowmo, reversed, walking backwards, noisy, film grain, blurred background, low-quality, standing idle, felt style, pixel art style, puppet animation, claymation style, stop-motion, watercolor painting, oil painting style, time-lapse, fade-out, fade-in, shot transition, scene transition, abrupt transition, jump cut, cut to another shot, multi-shot sequence, edit-like transition, dissolve transition, crossfade, montage, sudden scene change, frame blending between shots, jittery, shaky footage",
+                "clip": [
+                  "323",
+                  1
+                ]
+              },
+              "class_type": "CLIPTextEncode",
+              "_meta": {
+                "title": "CLIP Text Encode (Prompt)"
+              }
+            },
+            "316": {
+              "inputs": {
+                "cfg": 1,
+                "model": [
+                  "287",
+                  0
+                ],
+                "positive": [
+                  "306",
+                  0
+                ],
+                "negative": [
+                  "306",
+                  1
+                ]
+              },
+              "class_type": "CFGGuider",
+              "_meta": {
+                "title": "CFGGuider"
+              }
+            },
+            "317": {
+              "inputs": {
+                "tile_size": 768,
+                "overlap": 64,
+                "temporal_size": 4096,
+                "temporal_overlap": 4,
+                "samples": [
+                  "311",
+                  0
+                ],
+                "vae": [
+                  "318",
+                  2
+                ]
+              },
+              "class_type": "VAEDecodeTiled",
+              "_meta": {
+                "title": "VAE Decode (Tiled)"
+              }
+            },
+            "318": {
+              "inputs": {
+                "ckpt_name": "ltx-2.3-22b-dev.safetensors"
+              },
+              "class_type": "CheckpointLoaderSimple",
+              "_meta": {
+                "title": "Load Checkpoint"
+              }
+            },
+            "319": {
+              "inputs": {
+                "text_encoder": "gemma_3_12B_it_fp4_mixed.safetensors",
+                "ckpt_name": "ltx-2.3-22b-dev-fp8.safetensors",
+                "device": "default"
+              },
+              "class_type": "LTXAVTextEncoderLoader",
+              "_meta": {
+                "title": "LTXV Audio Text Encoder Loader"
+              }
+            },
+            "320": {
+              "inputs": {
+                "value": "{\"shot\":{\"composition\":\"The frame is a handheld low-angle shot from a small vessel, showing the rusted foreground railing slightly out of focus. The midground is dominated by the massive grey and yellow steel structure of the oil platform, rising vertically from the restless sea. The background features a vast, hazy horizon where the dark ocean meets a overcast, muted sky.\",\"camera_motion\":\"The camera exhibits a natural, amateurish handheld shake with slow, irregular swaying motion as if recorded from a moving boat. The camera performs a very subtle, slow push-in toward the central mass of the platform to emphasize its scale.\",\"film_grain\":\"The image contains visible digital noise and a slightly low-contrast texture typical of a 2014-era smartphone sensor.\",\"focus\":\"The visual focus is locked onto the complex iron lattice and service gantries of the platform, maintaining sharpness despite the subtle camera movement.\"},\"motion\":{\"primary_action\":\"The massive oil platform remains fixed and stationary, while the surrounding ocean surface exhibits rhythmic, heavy swells that move across the lower frame.\",\"secondary_motion\":\"The camera gently sways in rhythm with the waves, creating a slight shifting of the perspective against the distant horizon. Wisps of sea mist shift slowly across the middle levels of the structure.\",\"layered_motion\":\"The foreground railing moves slowly across the frame due to the boat's motion, while the massive platform in the midground remains largely stable. The background horizon exhibits a very slow, subtle vertical oscillation, creating a sense of depth and distance between the viewer and the platform.\"},\"continuity\":{\"anchored_elements\":\"The rusted metallic railing in the bottom foreground, the vertical posture of the platform's support columns, and the industrial yellow paint patches on the structure must remain consistent.\",\"spatial_consistency\":\"The camera maintains a stable eye-level of a person standing on a deck, with the composition axis aligned to the platform's vertical orientation. The relative distance between the boat's railing and the platform is preserved throughout the shot.\",\"readability\":\"The intricate steel girders of the platform and the horizontal line of the ocean horizon remain the clearest, most readable features in the frame.\"},\"cinematography\":{\"lighting\":\"Diffused, flat midday light creates soft, hazy shadows on the platform, emphasizing its cold, metallic texture and the atmospheric moisture in the air.\",\"tone\":\"The visual tone is authentic, gritty, and grounded in a utilitarian reality, characteristic of unedited mobile device footage.\"}}"
+              },
+              "class_type": "PrimitiveStringMultiline",
+              "_meta": {
+                "title": "Prompt"
+              }
+            },
+            "321": {
+              "inputs": {
+                "prompt": [
+                  "320",
+                  0
+                ],
+                "max_length": 256,
+                "sampling_mode": "on",
+                "sampling_mode.temperature": 0.7,
+                "sampling_mode.top_k": 64,
+                "sampling_mode.top_p": 0.95,
+                "sampling_mode.min_p": 0.05,
+                "sampling_mode.repetition_penalty": 1.05,
+                "sampling_mode.seed": 0,
+                "clip": [
+                  "323",
+                  1
+                ]
+              },
+              "class_type": "TextGenerateLTX2Prompt",
+              "_meta": {
+                "title": "TextGenerateLTX2Prompt"
+              }
+            },
+            "322": {
+              "inputs": {
+                "preview_markdown": "",
+                "preview_text": "",
+                "previewMode": null,
+                "source": [
+                  "321",
                   0
                 ]
               },
-              "class_type": "AILab_Qwen3TTSVoiceClone_Advanced",
+              "class_type": "PreviewAny",
               "_meta": {
-                "title": "Voice Clone (QwenTTS) Advanced"
+                "title": "Preview as Text"
+              }
+            },
+            "323": {
+              "inputs": {
+                "lora_name": "gemma-3-12b-it-abliterated_lora_rank64_bf16.safetensors",
+                "strength_model": 1,
+                "strength_clip": 1,
+                "model": [
+                  "318",
+                  0
+                ],
+                "clip": [
+                  "319",
+                  0
+                ]
+              },
+              "class_type": "LoraLoader",
+              "_meta": {
+                "title": "Load LoRA (Model and CLIP)"
+              }
+            },
+            "324": {
+              "inputs": {
+                "video_latent": [
+                  "298",
+                  0
+                ],
+                "audio_latent": [
+                  "307",
+                  0
+                ]
+              },
+              "class_type": "LTXVConcatAVLatent",
+              "_meta": {
+                "title": "LTXVConcatAVLatent"
               }
             }
           },
           "comfyUiMethod": "checkComfyUiI2VGenerationRequest",
-          "runpodTemplateId": "wbp3azfko8",
-          "saveFilePath": "C:/Users/V/Desktop/Channels/LifeOfAPirate/VIDEOS/2026-03-24_MbcCf/VOICE/MbcCf_00017.mp3",
-          "index": 17
+          "runpodTemplateId": "liqhn0gkqo",
+          "saveFilePath": "C:/Users/V/Desktop/Channels/LifeOfAPirate/VIDEOS/2026-04-04_Amogs/CLIPS/videoClips/Amogs_00000.mp4",
+          "index": 0
         },
         "pairedItem": {
           "item": 0
@@ -1100,9 +1759,9 @@
       }
     ]
   },
-  "versionId": "d8974d44-dd70-41e2-8bf4-caeadc991c54",
-  "activeVersionId": "d8974d44-dd70-41e2-8bf4-caeadc991c54",
-  "versionCounter": 265,
+  "versionId": "112b8e42-7e71-4712-b799-ac6f0567f480",
+  "activeVersionId": "112b8e42-7e71-4712-b799-ac6f0567f480",
+  "versionCounter": 273,
   "triggerCount": 0,
   "tags": [],
   "shared": [

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-05T15:10:32.697Z",
+  "updatedAt": "2026-04-05T15:43:26.000Z",
   "createdAt": "2026-03-14T12:24:48.695Z",
   "id": "FRgyLjNPqMix6o6C",
   "name": "generate starting frames",
@@ -1494,7 +1494,13 @@
     },
     "get prompts, filenames, indexes": {
       "main": [
-        []
+        [
+          {
+            "node": "set start frame params",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "runpod generations manager": {
@@ -1704,11 +1710,22 @@
           "videoFolderName": "2026-04-04_Amogs"
         }
       }
+    ],
+    "start runpod pod": [
+      {
+        "json": {
+          "podStatus": "ready",
+          "fileName": "podStatus.json"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
     ]
   },
-  "versionId": "229b4784-4c4a-45a0-b0b6-a482ec5c8bf4",
-  "activeVersionId": "229b4784-4c4a-45a0-b0b6-a482ec5c8bf4",
-  "versionCounter": 791,
+  "versionId": "94237173-07b2-4a8a-933a-b73688edf288",
+  "activeVersionId": "94237173-07b2-4a8a-933a-b73688edf288",
+  "versionCounter": 795,
   "triggerCount": 0,
   "tags": [],
   "shared": [

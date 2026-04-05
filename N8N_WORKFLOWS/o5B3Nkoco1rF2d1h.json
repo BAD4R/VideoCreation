@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-05T15:02:23.928Z",
+  "updatedAt": "2026-04-05T18:46:09.322Z",
   "createdAt": "2026-02-05T16:30:06.860Z",
   "id": "o5B3Nkoco1rF2d1h",
   "name": "runpod works",
@@ -123,7 +123,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "comfy t2i send request"
+              "outputKey": "t2i send request"
             },
             {
               "conditions": {
@@ -148,7 +148,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "comfy t2i check status"
+              "outputKey": "t2i check status"
             },
             {
               "conditions": {
@@ -173,7 +173,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "comfy i2v send request"
+              "outputKey": "i2v send request"
             },
             {
               "conditions": {
@@ -198,7 +198,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "comfy t2i check status"
+              "outputKey": "i2i check status"
             },
             {
               "conditions": {
@@ -1736,7 +1736,7 @@
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"comfyUiPort\": \"3000\",\n\"mode\": \"auto\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodT2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"t2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
+              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"comfyUiPort\": \"3000\",\n\"mode\": \"submit\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodT2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"t2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
               "type": "object"
             }
           ]
@@ -2348,7 +2348,7 @@
       "typeVersion": 3.4,
       "position": [
         1264,
-        1200
+        2320
       ],
       "id": "3cccbb35-6db3-4200-9e5d-2f87a7c0eb4d",
       "name": "form comfyui gen request1"
@@ -2432,7 +2432,7 @@
       "typeVersion": 1.3,
       "position": [
         1360,
-        1200
+        2320
       ],
       "id": "39b54526-21ba-4526-b4b0-2ba9676808d3",
       "name": "GET result"
@@ -3168,7 +3168,7 @@
       "typeVersion": 1.1,
       "position": [
         1264,
-        1408
+        2528
       ],
       "id": "c01f5718-574f-44d9-900f-6b0fbb87f3b6",
       "name": "Read File To Upload"
@@ -3176,7 +3176,7 @@
     {
       "parameters": {
         "method": "POST",
-        "url": "=https://{{ $('read pod id').last().json.podMeta.id }}-{{ $('get all workflow params').first().json.comfyUiPort }}.proxy.runpod.net/api/upload/image",
+        "url": "=https://{{ $('read pod id').last().json.podMeta.id }}-3000.proxy.runpod.net/api/upload/image",
         "sendBody": true,
         "contentType": "multipart-form-data",
         "bodyParameters": {
@@ -3202,7 +3202,7 @@
       "typeVersion": 4.4,
       "position": [
         1360,
-        1408
+        2528
       ],
       "id": "bccf58d6-56d2-4977-aaa5-325e79fe5a87",
       "name": "Upload Bianry File HTTP Request",
@@ -3226,7 +3226,7 @@
       "typeVersion": 3.4,
       "position": [
         1856,
-        1184
+        2208
       ],
       "id": "e61134ba-a5fb-40d2-a03d-f90e65518b58",
       "name": "output fail1"
@@ -3249,7 +3249,7 @@
       "typeVersion": 3.4,
       "position": [
         1856,
-        1088
+        2112
       ],
       "id": "096f0c11-640a-45a5-afe3-26b4784a7e1c",
       "name": "output success1"
@@ -3279,7 +3279,7 @@
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"comfyUiPort\": \"3000\",\n\"mode\": \"auto\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodI2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"i2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
+              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"comfyUiPort\": \"3000\",\n\"mode\": \"status\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodI2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"i2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
               "type": "object"
             }
           ]
@@ -3290,7 +3290,7 @@
       "typeVersion": 3.4,
       "position": [
         1264,
-        896
+        1920
       ],
       "id": "348b198e-8f6e-43fe-95cf-52d7a925613e",
       "name": "form comfyui gen request2"
@@ -3313,7 +3313,7 @@
       "typeVersion": 3.4,
       "position": [
         1856,
-        992
+        2016
       ],
       "id": "6a1c48f5-5972-4244-83fc-05ccf104aa3a",
       "name": "output generating1"
@@ -3336,7 +3336,7 @@
       "typeVersion": 3.4,
       "position": [
         1856,
-        896
+        1920
       ],
       "id": "3d0a2638-85eb-4707-80d5-db58f2a76a0e",
       "name": "output queued1"
@@ -3410,7 +3410,7 @@
       "typeVersion": 1.3,
       "position": [
         1360,
-        896
+        1920
       ],
       "id": "b66b5302-cd34-4006-9f70-705b9f5e1987",
       "name": "POST Prompt1"
@@ -3527,7 +3527,7 @@
       "typeVersion": 3.4,
       "position": [
         1568,
-        896
+        1920
       ],
       "id": "b7ab18e7-9312-4374-b5a5-9814628ecd88",
       "name": "Switch1"
@@ -3821,7 +3821,7 @@
       "typeVersion": 1.1,
       "position": [
         1264,
-        1808
+        2928
       ],
       "id": "288b0f77-e8c9-453e-8f37-6573a6e2b8af",
       "name": "Read File To Upload1"
@@ -3844,7 +3844,7 @@
       "typeVersion": 3.4,
       "position": [
         1936,
-        1568
+        2688
       ],
       "id": "a90799ea-b28f-432c-aed5-dfcf0a5d9bdd",
       "name": "output fileUploadedSuccessfully true"
@@ -3867,7 +3867,7 @@
       "typeVersion": 3.4,
       "position": [
         1936,
-        1664
+        2784
       ],
       "id": "ba01700c-1083-4c25-b61a-781334a7482e",
       "name": "output fileUploadedSuccessfully false"
@@ -3887,7 +3887,7 @@
       "typeVersion": 4.4,
       "position": [
         1360,
-        1808
+        2928
       ],
       "id": "2fb6a96d-1b9e-45a8-86dd-19653856e03c",
       "name": "Upload Bianry File HTTP Request1",
@@ -3902,11 +3902,659 @@
       "typeVersion": 4.4,
       "position": [
         1264,
-        1616
+        2736
       ],
       "id": "265cefdd-8645-408f-85fc-f6a1b6b40d1c",
       "name": "check file exits",
       "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "state",
+              "value": "fail",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        1760
+      ],
+      "id": "40fb5e36-897b-4697-b463-cbdfe59313c1",
+      "name": "output fail2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "state",
+              "value": "success",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        1664
+      ],
+      "id": "f6da19bc-3c64-4992-8f0c-f7ad7c05d809",
+      "name": "output success2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fb62633-4973-457b-9ff6-82b7e234c67c",
+              "name": "method",
+              "value": "POST",
+              "type": "string"
+            },
+            {
+              "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.COMFY_UI_ROUTE }}/prompts",
+              "type": "string"
+            },
+            {
+              "id": "924df8b7-5307-4367-a739-6b16477cea78",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\":$('get random ID').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
+              "name": "body",
+              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"comfyUiPort\": \"3000\",\n\"mode\": \"submit\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodI2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"i2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1264,
+        1760
+      ],
+      "id": "c56c6ba8-cb76-4b41-ac5e-d85244eba942",
+      "name": "form comfyui gen request3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "state",
+              "value": "generating",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        1568
+      ],
+      "id": "efeaa445-223d-4850-9817-9e8dba343ac5",
+      "name": "output generating2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "state",
+              "value": "queued",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        1472
+      ],
+      "id": "4a691448-c9da-4b30-847f-90904b7183f7",
+      "name": "output queued2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "={{ $json.method }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1360,
+        1760
+      ],
+      "id": "abc7a3d6-965c-4b42-8880-1826ce51ad8a",
+      "name": "POST Prompt2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "102bc47c-a719-4b6c-beac-1b5e54f85f65",
+                    "leftValue": "={{ (!$json.hasField('error')||$json.error.isEmpty()) && $json.state == \"queued\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "queued"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ (!$json.hasField('error')||$json.error.isEmpty()) && $json.state == \"generating\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "7aac6550-6f19-402a-a7af-30806f99a42c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "generating"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "63606ca7-b900-430e-9e2a-edbb2e2cee22",
+                    "leftValue": "={{ (!$json.hasField('error')||$json.error.isEmpty()) && $json.state == \"success\" }}",
+                    "rightValue": "success",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "119da85a-45c9-4129-bcd0-5d0fc142a707",
+                    "leftValue": "={{ (!$json.hasField('error')||!$json.error.isEmpty()) && $json.state == \"fail\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "fail"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1568,
+        1696
+      ],
+      "id": "adda53e9-8b8c-4d22-8193-92e22cea167a",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "state",
+              "value": "fail",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        1168
+      ],
+      "id": "2792e582-86ca-448f-a39b-9a40681acd47",
+      "name": "output fail3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "state",
+              "value": "success",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        1072
+      ],
+      "id": "fc1e5a66-6f1f-4921-aa34-e5af88c32807",
+      "name": "output success3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fb62633-4973-457b-9ff6-82b7e234c67c",
+              "name": "method",
+              "value": "POST",
+              "type": "string"
+            },
+            {
+              "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.COMFY_UI_ROUTE }}/prompts",
+              "type": "string"
+            },
+            {
+              "id": "924df8b7-5307-4367-a739-6b16477cea78",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\":$('get random ID').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
+              "name": "body",
+              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"comfyUiPort\": \"3000\",\n\"mode\": \"status\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodT2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"t2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1264,
+        880
+      ],
+      "id": "a809a7ba-e160-42e5-913e-6d8ad4a301b1",
+      "name": "form comfyui gen request4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "state",
+              "value": "generating",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        976
+      ],
+      "id": "f724acc4-0e6d-4f75-ac59-4dab0509bcdf",
+      "name": "output generating3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
+              "name": "state",
+              "value": "queued",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        880
+      ],
+      "id": "8af44e41-9517-42fc-8739-d05fee2d7943",
+      "name": "output queued3"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "={{ $json.method }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1360,
+        880
+      ],
+      "id": "618362e3-4a03-4d51-b8d6-ca85f05bfb4c",
+      "name": "POST Prompt3"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "102bc47c-a719-4b6c-beac-1b5e54f85f65",
+                    "leftValue": "={{ (!$json.hasField('error')||$json.error.isEmpty()) && $json.state == \"queued\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "queued"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ (!$json.hasField('error')||$json.error.isEmpty()) && $json.state == \"generating\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "7aac6550-6f19-402a-a7af-30806f99a42c"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "generating"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "63606ca7-b900-430e-9e2a-edbb2e2cee22",
+                    "leftValue": "={{ (!$json.hasField('error')||$json.error.isEmpty()) && $json.state == \"success\" }}",
+                    "rightValue": "success",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "119da85a-45c9-4129-bcd0-5d0fc142a707",
+                    "leftValue": "={{ (!$json.hasField('error')||!$json.error.isEmpty()) && $json.state == \"fail\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "fail"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1568,
+        880
+      ],
+      "id": "1eb9885b-c35e-456c-8213-80457f70c346",
+      "name": "Switch3"
     }
   ],
   "connections": {
@@ -3953,14 +4601,14 @@
         ],
         [
           {
-            "node": "form comfyui gen request",
+            "node": "form comfyui gen request4",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "form comfyui gen request2",
+            "node": "form comfyui gen request3",
             "type": "main",
             "index": 0
           }
@@ -4703,6 +5351,114 @@
         [],
         []
       ]
+    },
+    "form comfyui gen request3": {
+      "main": [
+        [
+          {
+            "node": "POST Prompt2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST Prompt2": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "output queued2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "output generating2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "output success2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "output fail2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form comfyui gen request4": {
+      "main": [
+        [
+          {
+            "node": "POST Prompt3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "POST Prompt3": {
+      "main": [
+        [
+          {
+            "node": "Switch3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch3": {
+      "main": [
+        [
+          {
+            "node": "output queued3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "output generating3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "output success3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "output fail3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -4722,89 +5478,136 @@
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
           "videoFolderName": "2026-04-04_Amogs",
-          "index": 31,
-          "method": "sendComfyUiT2IGenerationRequest",
+          "index": 0,
+          "method": "checkComfyUiI2VGenerationRequest",
           "comfyUiRequest": {
-            "9": {
+            "75": {
               "inputs": {
-                "filename_prefix": "Flux2_dev",
-                "images": [
-                  "110",
+                "filename_prefix": "video/LTX_2.3_i2v",
+                "format": "auto",
+                "codec": "auto",
+                "video-preview": "",
+                "video": [
+                  "312",
                   0
                 ]
               },
-              "class_type": "SaveImage",
+              "class_type": "SaveVideo",
               "_meta": {
-                "title": "Save Image"
+                "title": "Save Video"
               }
             },
-            "105": {
+            "269": {
               "inputs": {
-                "model": [
-                  "122",
+                "image": "Amogs_00000.png"
+              },
+              "class_type": "LoadImage",
+              "_meta": {
+                "title": "Load Image"
+              }
+            },
+            "278": {
+              "inputs": {
+                "noise_seed": 42
+              },
+              "class_type": "RandomNoise",
+              "_meta": {
+                "title": "RandomNoise"
+              }
+            },
+            "279": {
+              "inputs": {
+                "noise_seed": 871927524295589
+              },
+              "class_type": "RandomNoise",
+              "_meta": {
+                "title": "RandomNoise"
+              }
+            },
+            "280": {
+              "inputs": {
+                "video_latent": [
+                  "290",
                   0
                 ],
-                "conditioning": [
-                  "106",
-                  0
+                "audio_latent": [
+                  "309",
+                  1
                 ]
               },
-              "class_type": "BasicGuider",
+              "class_type": "LTXVConcatAVLatent",
               "_meta": {
-                "title": "BasicGuider"
+                "title": "LTXVConcatAVLatent"
               }
             },
-            "106": {
+            "281": {
               "inputs": {
-                "guidance": 4,
-                "conditioning": [
-                  "115",
-                  0
-                ]
+                "ckpt_name": "ltx-2.3-22b-dev-fp8.safetensors"
               },
-              "class_type": "FluxGuidance",
+              "class_type": "LTXVAudioVAELoader",
               "_meta": {
-                "title": "FluxGuidance"
+                "title": "LTXV Audio VAE Loader"
               }
             },
-            "107": {
+            "282": {
               "inputs": {
-                "sampler_name": "euler"
+                "sampler_name": "euler_cfg_pp"
               },
               "class_type": "KSamplerSelect",
               "_meta": {
                 "title": "KSamplerSelect"
               }
             },
-            "108": {
+            "283": {
               "inputs": {
-                "vae_name": "flux2-vae.safetensors"
+                "sigmas": "0.85, 0.7250, 0.4219, 0.0"
               },
-              "class_type": "VAELoader",
+              "class_type": "ManualSigmas",
               "_meta": {
-                "title": "Load VAE"
+                "title": "ManualSigmas"
               }
             },
-            "109": {
+            "284": {
+              "inputs": {
+                "cfg": 1,
+                "model": [
+                  "287",
+                  0
+                ],
+                "positive": [
+                  "286",
+                  0
+                ],
+                "negative": [
+                  "286",
+                  1
+                ]
+              },
+              "class_type": "CFGGuider",
+              "_meta": {
+                "title": "CFGGuider"
+              }
+            },
+            "285": {
               "inputs": {
                 "noise": [
-                  "114",
+                  "279",
                   0
                 ],
                 "guider": [
-                  "105",
+                  "316",
                   0
                 ],
                 "sampler": [
-                  "107",
+                  "293",
                   0
                 ],
                 "sigmas": [
-                  "112",
+                  "308",
                   0
                 ],
                 "latent_image": [
-                  "113",
+                  "324",
                   0
                 ]
               },
@@ -4813,97 +5616,591 @@
                 "title": "SamplerCustomAdvanced"
               }
             },
-            "110": {
+            "286": {
+              "inputs": {
+                "positive": [
+                  "306",
+                  0
+                ],
+                "negative": [
+                  "306",
+                  1
+                ],
+                "latent": [
+                  "309",
+                  0
+                ]
+              },
+              "class_type": "LTXVCropGuides",
+              "_meta": {
+                "title": "LTXVCropGuides"
+              }
+            },
+            "287": {
+              "inputs": {
+                "lora_name": "ltx-2.3-22b-distilled-lora-384.safetensors",
+                "strength_model": 0.5,
+                "model": [
+                  "318",
+                  0
+                ]
+              },
+              "class_type": "LoraLoaderModelOnly",
+              "_meta": {
+                "title": "Load LoRA"
+              }
+            },
+            "288": {
+              "inputs": {
+                "longer_edge": 1536,
+                "images": [
+                  "292",
+                  0
+                ]
+              },
+              "class_type": "ResizeImagesByLongerEdge",
+              "_meta": {
+                "title": "Resize Images by Longer Edge"
+              }
+            },
+            "289": {
               "inputs": {
                 "samples": [
-                  "109",
+                  "309",
+                  0
+                ],
+                "upscale_model": [
+                  "313",
                   0
                 ],
                 "vae": [
-                  "108",
-                  0
+                  "318",
+                  2
                 ]
               },
-              "class_type": "VAEDecode",
+              "class_type": "LTXVLatentUpsampler",
               "_meta": {
-                "title": "VAE Decode"
+                "title": "LTXVLatentUpsampler"
               }
             },
-            "111": {
+            "290": {
               "inputs": {
-                "clip_name": "mistral_3_small_flux2_bf16.safetensors",
-                "type": "flux2",
-                "device": "default"
-              },
-              "class_type": "CLIPLoader",
-              "_meta": {
-                "title": "Load CLIP"
-              }
-            },
-            "112": {
-              "inputs": {
-                "steps": [
-                  "118",
+                "strength": 1,
+                "bypass": [
+                  "304",
                   0
                 ],
-                "width": 1024,
-                "height": 1024
-              },
-              "class_type": "Flux2Scheduler",
-              "_meta": {
-                "title": "Flux2Scheduler"
-              }
-            },
-            "113": {
-              "class_type": "EmptyFlux2LatentImage",
-              "_meta": {
-                "title": "Empty Flux 2 Latent"
-              },
-              "inputs": {
-                "width": 1280,
-                "height": 720,
-                "batch_size": 1
-              }
-            },
-            "114": {
-              "class_type": "RandomNoise",
-              "_meta": {
-                "title": "RandomNoise"
-              },
-              "inputs": {
-                "noise_seed": 947438147
-              }
-            },
-            "115": {
-              "class_type": "CLIPTextEncode",
-              "_meta": {
-                "title": "CLIP Text Encode (Positive Prompt)"
-              },
-              "inputs": {
-                "text": "{'shot':{'composition':'The shot is taken from a slightly unstable, handheld perspective, mimicking an amateur iPhone 6 recording. The camera is positioned at chest height, capturing a wide view of the expansive oil platform deck. In the foreground, there are slightly out-of-focus metal railings. The midground shows the long, rusted industrial deck leading towards the far edge where the residential block is located. The background shows the distant, blurred horizon where the dark ocean meets a overcast, cloudy sky.','film_grain':'Subtle digital noise and characteristic iPhone 6 sensor grain, with slight motion blur due to handheld instability.','focus':'The visual focus is sharp on the massive, weathered residential block structure in the mid-to-background, while the immediate foreground railings have a soft, natural depth-of-field falloff.'},'subject':{'description':'The main subject is a large, boxy, multi-story residential block made of industrial corrugated metal, painted in peeling, faded beige and grey paint. It features multiple small, barred windows and external steel staircases running along its sides. The structure looks utilitarian, heavy, and built to withstand harsh maritime conditions, appearing somewhat isolated and austere against the rest of the industrial platform. Several satellite dishes and ventilation pipes are mounted on the roof of the block, adding to its complex, functional appearance.','wardrobe':'No human subjects are present in this specific shot, focusing instead on the architectural and structural details of the residential block.','pose':'The residential block stands firmly fixed to the platform deck, its vertical lines contrasting with the horizontal expanse of the metal floor.'},'scene':{'location':'The deck of a large, aging offshore oil platform, specifically looking toward the isolated residential living quarters.','time_of_day':'Dull, overcast daylight, likely late afternoon, casting diffuse, flat light across the metallic surfaces.','environment':'The environment is a vast, industrial maritime facility. The deck is constructed from heavy, riveted steel plates with visible signs of salt corrosion and patches of rust. The atmosphere is hazy and damp with sea spray, with the infinite, dark, choppy ocean visible in the deep background beyond the safety railings.','visual_details':'props: Industrial steel railings with peeling yellow safety paint, thick black electrical cables snaking along the deck floor, a few scattered metal barrels, and heavy-duty industrial floodlights mounted on tall poles. The surface of the deck has visible puddles and greasy stains, indicating constant mechanical activity.'},'cinematography':{'lighting':'Natural, flat, and diffuse light characteristic of a heavily overcast day. There are no harsh shadows, as the light wraps around the industrial structures. Subtle highlights are present on the wet patches of the steel deck and metallic piping, creating a sense of realism.','tone':'Gritty, authentic, and somewhat lonely. The aesthetic is heavily influenced by the low-fidelity, candid look of a mobile phone camera, evoking a sense of raw, unpolished reality.'},'color_palette':'Dominated by desaturated cool tones: slate greys, rusted oranges, metallic beiges, and the deep, dark blue-grey of the churning ocean.'}",
-                "clip": [
-                  "111",
+                "vae": [
+                  "318",
+                  2
+                ],
+                "image": [
+                  "291",
+                  0
+                ],
+                "latent": [
+                  "289",
                   0
                 ]
+              },
+              "class_type": "LTXVImgToVideoInplace",
+              "_meta": {
+                "title": "LTXVImgToVideoInplace"
               }
             },
-            "118": {
+            "291": {
               "inputs": {
-                "value": 20
+                "img_compression": 18,
+                "image": [
+                  "288",
+                  0
+                ]
+              },
+              "class_type": "LTXVPreprocess",
+              "_meta": {
+                "title": "LTXVPreprocess"
+              }
+            },
+            "292": {
+              "inputs": {
+                "resize_type": "scale dimensions",
+                "resize_type.width": [
+                  "314",
+                  0
+                ],
+                "resize_type.height": [
+                  "301",
+                  0
+                ],
+                "resize_type.crop": "center",
+                "scale_method": "lanczos",
+                "input": [
+                  "269",
+                  0
+                ]
+              },
+              "class_type": "ResizeImageMaskNode",
+              "_meta": {
+                "title": "Resize Image/Mask"
+              }
+            },
+            "293": {
+              "inputs": {
+                "sampler_name": "euler_ancestral_cfg_pp"
+              },
+              "class_type": "KSamplerSelect",
+              "_meta": {
+                "title": "KSamplerSelect"
+              }
+            },
+            "294": {
+              "inputs": {
+                "expression": "a/2",
+                "values.a": [
+                  "314",
+                  0
+                ]
+              },
+              "class_type": "ComfyMathExpression",
+              "_meta": {
+                "title": "Math Expression"
+              }
+            },
+            "296": {
+              "inputs": {
+                "expression": "a/2",
+                "values.a": [
+                  "301",
+                  0
+                ]
+              },
+              "class_type": "ComfyMathExpression",
+              "_meta": {
+                "title": "Math Expression"
+              }
+            },
+            "297": {
+              "inputs": {
+                "width": [
+                  "294",
+                  1
+                ],
+                "height": [
+                  "296",
+                  1
+                ],
+                "length": [
+                  "303",
+                  0
+                ],
+                "batch_size": 1
+              },
+              "class_type": "EmptyLTXVLatentVideo",
+              "_meta": {
+                "title": "EmptyLTXVLatentVideo"
+              }
+            },
+            "298": {
+              "inputs": {
+                "strength": 0.7,
+                "bypass": [
+                  "304",
+                  0
+                ],
+                "vae": [
+                  "318",
+                  2
+                ],
+                "image": [
+                  "291",
+                  0
+                ],
+                "latent": [
+                  "297",
+                  0
+                ]
+              },
+              "class_type": "LTXVImgToVideoInplace",
+              "_meta": {
+                "title": "LTXVImgToVideoInplace"
+              }
+            },
+            "299": {
+              "inputs": {
+                "samples": [
+                  "311",
+                  1
+                ],
+                "audio_vae": [
+                  "281",
+                  0
+                ]
+              },
+              "class_type": "LTXVAudioVAEDecode",
+              "_meta": {
+                "title": "LTXV Audio VAE Decode"
+              }
+            },
+            "300": {
+              "inputs": {
+                "expression": "a",
+                "values.a": [
+                  "302",
+                  0
+                ]
+              },
+              "class_type": "ComfyMathExpression",
+              "_meta": {
+                "title": "Math Expression"
+              }
+            },
+            "301": {
+              "inputs": {
+                "value": 720
               },
               "class_type": "PrimitiveInt",
               "_meta": {
-                "title": "Steps"
+                "title": "Height"
               }
             },
-            "122": {
+            "302": {
               "inputs": {
-                "unet_name": "flux2_dev_fp8mixed.safetensors",
-                "weight_dtype": "default"
+                "value": 24
               },
-              "class_type": "UNETLoader",
+              "class_type": "PrimitiveInt",
               "_meta": {
-                "title": "Load Diffusion Model"
+                "title": "Frame Rate"
+              }
+            },
+            "303": {
+              "inputs": {
+                "value": 200
+              },
+              "class_type": "PrimitiveInt",
+              "_meta": {
+                "title": "Length"
+              }
+            },
+            "304": {
+              "inputs": {
+                "value": false
+              },
+              "class_type": "PrimitiveBoolean",
+              "_meta": {
+                "title": "Switch to Text to Video?"
+              }
+            },
+            "305": {
+              "inputs": {
+                "text": [
+                  "321",
+                  0
+                ],
+                "clip": [
+                  "319",
+                  0
+                ]
+              },
+              "class_type": "CLIPTextEncode",
+              "_meta": {
+                "title": "CLIP Text Encode (Prompt)"
+              }
+            },
+            "306": {
+              "inputs": {
+                "frame_rate": [
+                  "300",
+                  0
+                ],
+                "positive": [
+                  "305",
+                  0
+                ],
+                "negative": [
+                  "315",
+                  0
+                ]
+              },
+              "class_type": "LTXVConditioning",
+              "_meta": {
+                "title": "LTXVConditioning"
+              }
+            },
+            "307": {
+              "inputs": {
+                "frames_number": [
+                  "303",
+                  0
+                ],
+                "frame_rate": [
+                  "300",
+                  1
+                ],
+                "batch_size": 1,
+                "audio_vae": [
+                  "281",
+                  0
+                ]
+              },
+              "class_type": "LTXVEmptyLatentAudio",
+              "_meta": {
+                "title": "LTXV Empty Latent Audio"
+              }
+            },
+            "308": {
+              "inputs": {
+                "sigmas": "1.0, 0.99375, 0.9875, 0.98125, 0.975, 0.909375, 0.725, 0.421875, 0.0"
+              },
+              "class_type": "ManualSigmas",
+              "_meta": {
+                "title": "ManualSigmas"
+              }
+            },
+            "309": {
+              "inputs": {
+                "av_latent": [
+                  "285",
+                  0
+                ]
+              },
+              "class_type": "LTXVSeparateAVLatent",
+              "_meta": {
+                "title": "LTXVSeparateAVLatent"
+              }
+            },
+            "310": {
+              "inputs": {
+                "noise": [
+                  "278",
+                  0
+                ],
+                "guider": [
+                  "284",
+                  0
+                ],
+                "sampler": [
+                  "282",
+                  0
+                ],
+                "sigmas": [
+                  "283",
+                  0
+                ],
+                "latent_image": [
+                  "280",
+                  0
+                ]
+              },
+              "class_type": "SamplerCustomAdvanced",
+              "_meta": {
+                "title": "SamplerCustomAdvanced"
+              }
+            },
+            "311": {
+              "inputs": {
+                "av_latent": [
+                  "310",
+                  0
+                ]
+              },
+              "class_type": "LTXVSeparateAVLatent",
+              "_meta": {
+                "title": "LTXVSeparateAVLatent"
+              }
+            },
+            "312": {
+              "inputs": {
+                "fps": [
+                  "300",
+                  0
+                ],
+                "images": [
+                  "317",
+                  0
+                ],
+                "audio": [
+                  "299",
+                  0
+                ]
+              },
+              "class_type": "CreateVideo",
+              "_meta": {
+                "title": "Create Video"
+              }
+            },
+            "313": {
+              "inputs": {
+                "model_name": "ltx-2.3-spatial-upscaler-x2-1.0.safetensors"
+              },
+              "class_type": "LatentUpscaleModelLoader",
+              "_meta": {
+                "title": "Load Latent Upscale Model"
+              }
+            },
+            "314": {
+              "inputs": {
+                "value": 1280
+              },
+              "class_type": "PrimitiveInt",
+              "_meta": {
+                "title": "Width"
+              }
+            },
+            "315": {
+              "inputs": {
+                "text": "music, speech, reportage, interview, banners, watemarks, animated logotype, nothing is happening, standing still, rigid body bends, rigid object deformation, unnatural bending of hard surfaces, static image, static fluid, statid liquid, warped mechanical parts, slowmo, reversed, walking backwards, noisy, film grain, blurred background, low-quality, standing idle, felt style, pixel art style, puppet animation, claymation style, stop-motion, watercolor painting, oil painting style, time-lapse, fade-out, fade-in, shot transition, scene transition, abrupt transition, jump cut, cut to another shot, multi-shot sequence, edit-like transition, dissolve transition, crossfade, montage, sudden scene change, frame blending between shots, jittery, shaky footage",
+                "clip": [
+                  "323",
+                  1
+                ]
+              },
+              "class_type": "CLIPTextEncode",
+              "_meta": {
+                "title": "CLIP Text Encode (Prompt)"
+              }
+            },
+            "316": {
+              "inputs": {
+                "cfg": 1,
+                "model": [
+                  "287",
+                  0
+                ],
+                "positive": [
+                  "306",
+                  0
+                ],
+                "negative": [
+                  "306",
+                  1
+                ]
+              },
+              "class_type": "CFGGuider",
+              "_meta": {
+                "title": "CFGGuider"
+              }
+            },
+            "317": {
+              "inputs": {
+                "tile_size": 768,
+                "overlap": 64,
+                "temporal_size": 4096,
+                "temporal_overlap": 4,
+                "samples": [
+                  "311",
+                  0
+                ],
+                "vae": [
+                  "318",
+                  2
+                ]
+              },
+              "class_type": "VAEDecodeTiled",
+              "_meta": {
+                "title": "VAE Decode (Tiled)"
+              }
+            },
+            "318": {
+              "inputs": {
+                "ckpt_name": "ltx-2.3-22b-dev.safetensors"
+              },
+              "class_type": "CheckpointLoaderSimple",
+              "_meta": {
+                "title": "Load Checkpoint"
+              }
+            },
+            "319": {
+              "inputs": {
+                "text_encoder": "gemma_3_12B_it_fp4_mixed.safetensors",
+                "ckpt_name": "ltx-2.3-22b-dev-fp8.safetensors",
+                "device": "default"
+              },
+              "class_type": "LTXAVTextEncoderLoader",
+              "_meta": {
+                "title": "LTXV Audio Text Encoder Loader"
+              }
+            },
+            "320": {
+              "inputs": {
+                "value": "{\"shot\":{\"composition\":\"The frame is a handheld low-angle shot from a small vessel, showing the rusted foreground railing slightly out of focus. The midground is dominated by the massive grey and yellow steel structure of the oil platform, rising vertically from the restless sea. The background features a vast, hazy horizon where the dark ocean meets a overcast, muted sky.\",\"camera_motion\":\"The camera exhibits a natural, amateurish handheld shake with slow, irregular swaying motion as if recorded from a moving boat. The camera performs a very subtle, slow push-in toward the central mass of the platform to emphasize its scale.\",\"film_grain\":\"The image contains visible digital noise and a slightly low-contrast texture typical of a 2014-era smartphone sensor.\",\"focus\":\"The visual focus is locked onto the complex iron lattice and service gantries of the platform, maintaining sharpness despite the subtle camera movement.\"},\"motion\":{\"primary_action\":\"The massive oil platform remains fixed and stationary, while the surrounding ocean surface exhibits rhythmic, heavy swells that move across the lower frame.\",\"secondary_motion\":\"The camera gently sways in rhythm with the waves, creating a slight shifting of the perspective against the distant horizon. Wisps of sea mist shift slowly across the middle levels of the structure.\",\"layered_motion\":\"The foreground railing moves slowly across the frame due to the boat's motion, while the massive platform in the midground remains largely stable. The background horizon exhibits a very slow, subtle vertical oscillation, creating a sense of depth and distance between the viewer and the platform.\"},\"continuity\":{\"anchored_elements\":\"The rusted metallic railing in the bottom foreground, the vertical posture of the platform's support columns, and the industrial yellow paint patches on the structure must remain consistent.\",\"spatial_consistency\":\"The camera maintains a stable eye-level of a person standing on a deck, with the composition axis aligned to the platform's vertical orientation. The relative distance between the boat's railing and the platform is preserved throughout the shot.\",\"readability\":\"The intricate steel girders of the platform and the horizontal line of the ocean horizon remain the clearest, most readable features in the frame.\"},\"cinematography\":{\"lighting\":\"Diffused, flat midday light creates soft, hazy shadows on the platform, emphasizing its cold, metallic texture and the atmospheric moisture in the air.\",\"tone\":\"The visual tone is authentic, gritty, and grounded in a utilitarian reality, characteristic of unedited mobile device footage.\"}}"
+              },
+              "class_type": "PrimitiveStringMultiline",
+              "_meta": {
+                "title": "Prompt"
+              }
+            },
+            "321": {
+              "inputs": {
+                "prompt": [
+                  "320",
+                  0
+                ],
+                "max_length": 256,
+                "sampling_mode": "on",
+                "sampling_mode.temperature": 0.7,
+                "sampling_mode.top_k": 64,
+                "sampling_mode.top_p": 0.95,
+                "sampling_mode.min_p": 0.05,
+                "sampling_mode.repetition_penalty": 1.05,
+                "sampling_mode.seed": 0,
+                "clip": [
+                  "323",
+                  1
+                ]
+              },
+              "class_type": "TextGenerateLTX2Prompt",
+              "_meta": {
+                "title": "TextGenerateLTX2Prompt"
+              }
+            },
+            "322": {
+              "inputs": {
+                "preview_markdown": "",
+                "preview_text": "",
+                "previewMode": null,
+                "source": [
+                  "321",
+                  0
+                ]
+              },
+              "class_type": "PreviewAny",
+              "_meta": {
+                "title": "Preview as Text"
+              }
+            },
+            "323": {
+              "inputs": {
+                "lora_name": "gemma-3-12b-it-abliterated_lora_rank64_bf16.safetensors",
+                "strength_model": 1,
+                "strength_clip": 1,
+                "model": [
+                  "318",
+                  0
+                ],
+                "clip": [
+                  "319",
+                  0
+                ]
+              },
+              "class_type": "LoraLoader",
+              "_meta": {
+                "title": "Load LoRA (Model and CLIP)"
+              }
+            },
+            "324": {
+              "inputs": {
+                "video_latent": [
+                  "298",
+                  0
+                ],
+                "audio_latent": [
+                  "307",
+                  0
+                ]
+              },
+              "class_type": "LTXVConcatAVLatent",
+              "_meta": {
+                "title": "LTXVConcatAVLatent"
               }
             }
           },
@@ -4918,9 +6215,9 @@
       }
     ]
   },
-  "versionId": "8ba3a157-3724-4f30-8aeb-4d3ebc2d0393",
-  "activeVersionId": "6940ad7b-02aa-4ae5-a705-7eb3a4921d69",
-  "versionCounter": 3699,
+  "versionId": "40c11d78-eea3-4e6a-be44-860f10249fdc",
+  "activeVersionId": "40c11d78-eea3-4e6a-be44-860f10249fdc",
+  "versionCounter": 3775,
   "triggerCount": 0,
   "tags": [],
   "shared": [

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-05T00:51:46.969Z",
+  "updatedAt": "2026-04-05T18:46:36.055Z",
   "createdAt": "2026-02-05T15:40:02.769Z",
   "id": "l0p4y5gFr4cklXjY",
   "name": "generate clips",
@@ -703,8 +703,7 @@
             "runpodGpuList": "={{ $('get all workflow params').first().json.runpodVisualsGenerationGPUList }}",
             "runpodCountryCodes": "={{ $('get all workflow params').first().json.runpodCountryCodes }}",
             "comfyUiRequest": "={{ {} }}",
-            "index": 0,
-            "jupiterRequest": "={{ {} }}"
+            "index": 0
           },
           "matchingColumns": [],
           "schema": [
@@ -769,8 +768,8 @@
               "removed": false
             },
             {
-              "id": "jupiterRequest",
-              "displayName": "jupiterRequest",
+              "id": "request",
+              "displayName": "request",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -1517,7 +1516,13 @@
             "index": 0
           }
         ],
-        []
+        [
+          {
+            "node": "start runpod pod",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Start": {
@@ -1725,7 +1730,18 @@
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-03-24_MbcCf"
+          "videoFolderName": "2026-04-04_Amogs"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "start runpod pod": [
+      {
+        "json": {
+          "podStatus": "ready",
+          "fileName": "podStatus.json"
         },
         "pairedItem": {
           "item": 0
@@ -1733,9 +1749,9 @@
       }
     ]
   },
-  "versionId": "c655bfdf-cb4a-4555-a2c9-b13b2bd440c8",
-  "activeVersionId": "c655bfdf-cb4a-4555-a2c9-b13b2bd440c8",
-  "versionCounter": 1781,
+  "versionId": "a1e5da15-f7f1-462b-9201-4a72f6583f5f",
+  "activeVersionId": "a1e5da15-f7f1-462b-9201-4a72f6583f5f",
+  "versionCounter": 1803,
   "triggerCount": 0,
   "tags": [],
   "shared": [

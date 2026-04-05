@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-30T20:28:15.128Z",
+  "updatedAt": "2026-04-05T18:31:54.907Z",
   "createdAt": "2026-03-27T18:43:39.108Z",
   "id": "14W8w4pXVuqk7Ciy",
   "name": "generate clips - paralleling",
@@ -157,12 +157,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1712,
-        320
+        2160,
+        432
       ],
       "id": "fe7b8a10-fb40-4020-9d75-c3a4480c009f",
-      "name": "send runpod gen request",
-      "disabled": true
+      "name": "send runpod gen request"
     },
     {
       "parameters": {
@@ -279,177 +278,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1600,
-        496
+        2160,
+        544
       ],
       "id": "7c2ba09d-a899-4b9b-bad4-1740fabf9a79",
       "name": "runpod generations manager"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.limit",
-      "typeVersion": 1,
-      "position": [
-        1696,
-        496
-      ],
-      "id": "6e1d9bfe-38dd-4bbd-8150-5c49b0d8c843",
-      "name": "Limit1"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "o5B3Nkoco1rF2d1h",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
-          "cachedResultName": "runpod works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
-            "channelName": "={{ $('Start').first().json.channelName }}",
-            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
-            "method": "uploadComfyUiFileRequest",
-            "runpodUseVolume": "={{ false }}",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
-            "runpodVolumeId": "={{ \"\" }}",
-            "runpodGpuList": "={{ [] }}",
-            "runpodCountryCodes": "={{ [] }}",
-            "comfyUiRequest": "={{ $json.filePath }}",
-            "index": "={{ 0 }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "channelsFolderPath",
-              "displayName": "channelsFolderPath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "channelName",
-              "displayName": "channelName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "videoFolderName",
-              "displayName": "videoFolderName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "index",
-              "displayName": "index",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
-              "removed": false
-            },
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "comfyUiRequest",
-              "displayName": "comfyUiRequest",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "runpodTemplateId",
-              "displayName": "runpodTemplateId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodUseVolume",
-              "displayName": "runpodUseVolume",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "boolean",
-              "removed": false
-            },
-            {
-              "id": "runpodVolumeId",
-              "displayName": "runpodVolumeId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodGpuList",
-              "displayName": "runpodGpuList",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "runpodCountryCodes",
-              "displayName": "runpodCountryCodes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": true
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        992,
-        432
-      ],
-      "id": "982b13a2-9944-4c46-9b17-dabcf43969a9",
-      "name": "upload runpod comfyui file",
-      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -469,7 +302,7 @@
       "typeVersion": 3.4,
       "position": [
         800,
-        432
+        976
       ],
       "id": "c80faeff-bcf4-465e-87ce-b021831c47f1",
       "name": "set filepath to upload from"
@@ -647,161 +480,6 @@
     },
     {
       "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "o5B3Nkoco1rF2d1h",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
-          "cachedResultName": "runpod works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
-            "channelName": "={{ $('Start').first().json.channelName }}",
-            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
-            "method": "uploadComfyUiFileRequest",
-            "runpodUseVolume": "={{ false }}",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
-            "runpodVolumeId": "={{ \"\" }}",
-            "runpodGpuList": "={{ [] }}",
-            "runpodCountryCodes": "={{ [] }}",
-            "comfyUiRequest": "={{ $json.filePath }}",
-            "index": "={{ 0 }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "channelsFolderPath",
-              "displayName": "channelsFolderPath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "channelName",
-              "displayName": "channelName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "videoFolderName",
-              "displayName": "videoFolderName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "index",
-              "displayName": "index",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
-              "removed": false
-            },
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "comfyUiRequest",
-              "displayName": "comfyUiRequest",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "runpodTemplateId",
-              "displayName": "runpodTemplateId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodUseVolume",
-              "displayName": "runpodUseVolume",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "boolean",
-              "removed": false
-            },
-            {
-              "id": "runpodVolumeId",
-              "displayName": "runpodVolumeId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodGpuList",
-              "displayName": "runpodGpuList",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "runpodCountryCodes",
-              "displayName": "runpodCountryCodes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": true
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        992,
-        592
-      ],
-      "id": "b79577fd-907d-41e1-b215-898e286f3b40",
-      "name": "upload runpod comfyui file1",
-      "alwaysOutputData": true
-    },
-    {
-      "parameters": {
         "assignments": {
           "assignments": [
             {
@@ -818,7 +496,7 @@
       "typeVersion": 3.4,
       "position": [
         800,
-        592
+        1136
       ],
       "id": "0b6d7508-e4a8-48dd-a25f-6b20ad3ba40e",
       "name": "set filepath to upload from1"
@@ -837,7 +515,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $('get all workflow params').item.json.runpodTemplateId == \"d8swfnb44q\" }}",
+                    "leftValue": "={{ $('get all workflow params').item.json.runpodVisualsGenerationTemplateId == \"d8swfnb44q\" }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -863,7 +541,7 @@
                 "conditions": [
                   {
                     "id": "5c1d0e05-328a-4936-89f4-cffca2f94b6b",
-                    "leftValue": "={{ $('get all workflow params').item.json.runpodTemplateId == \"liqhn0gkqo\" }}",
+                    "leftValue": "={{ $('get all workflow params').item.json.runpodVisualsGenerationTemplateId == \"liqhn0gkqo\" }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -884,7 +562,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        384,
+        368,
         544
       ],
       "id": "52132b9e-b9ac-4f6b-b4e2-81da20d21052",
@@ -939,7 +617,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1328,
+        1888,
         592
       ],
       "id": "bde1d3c7-43f1-4239-b96b-4101cc11fac2",
@@ -962,7 +640,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1232,
+        1792,
         592
       ],
       "id": "c1d846f2-0f40-432f-804f-cdcf50f7f0e3",
@@ -1097,7 +775,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1232,
+        1792,
         432
       ],
       "id": "faac0245-0f70-477c-86ec-0a1c49d095e9",
@@ -1152,11 +830,977 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1328,
+        1888,
         432
       ],
       "id": "0ae2ba79-45e4-4964-ac95-642e6c6c7b8f",
       "name": "SET d8swfnb44q I2V workflow image size, lora Chunk"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "uploadFile",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "comfyUiRequest": "={{ {} }}",
+            "index": 0,
+            "request": "={{ {\n\"localFilePath\":$('Start').first().json.channelsFolderPath +\"/\"+ $('Start').first().json.channelName +\"/VIDEOS/\"+ $('Start').first().json.videoFolderName + \"/CLIPS/startFrames/\"+  $('get prompts, filenames').item.json.fileName.slice(0,11) + \".png\",\n\n\"destinationFilePath\":\"ComfyUI/input\",\n\n\"filename\":$('get prompts, filenames').item.json.fileName.slice(0,11) + \".png\",\n\n\"overwrite\":true,\n\n} }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "request",
+              "displayName": "request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1312,
+        656
+      ],
+      "id": "b6bfb960-37b6-45ea-b9b6-17cf6934b6d8",
+      "name": "upload file via dashboard",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "uploadFile",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "comfyUiRequest": "={{ {} }}",
+            "index": 0,
+            "request": "={{ {\n\"localFilePath\":$('Start').first().json.channelsFolderPath +\"/\"+ $('Start').first().json.channelName +\"/VIDEOS/\"+ $('Start').first().json.videoFolderName + \"/CLIPS/startFrames/\"+  $('get prompts, filenames').item.json.fileName.slice(0,11) + \".png\",\n\n\"destinationFilePath\":\"ComfyUI/input\",\n\n\"filename\":$('get prompts, filenames').item.json.fileName.slice(0,11) + \".png\",\n\n\"overwrite\":true,\n\n} }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "request",
+              "displayName": "request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1312,
+        496
+      ],
+      "id": "a2b570fc-9a37-48e2-9b0e-efea25181d18",
+      "name": "upload file via dashboard1",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.status == \"ok\" && $json.exists }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "df0dd6b2-f078-4635-9d09-d8b97128d65a"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "41615180-7716-421f-9055-5a038cd56172",
+                    "leftValue": "={{ $json.status == \"ok\" && !$json.exists }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "fb47e4c6-22e1-4360-a5b6-b28d3ace2008",
+                    "leftValue": "={{ $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1520,
+        640
+      ],
+      "id": "f6d9454f-431c-47f9-b527-9cdcddae3a82",
+      "name": "Switch"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.status == \"ok\" && $json.exists }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "df0dd6b2-f078-4635-9d09-d8b97128d65a"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "41615180-7716-421f-9055-5a038cd56172",
+                    "leftValue": "={{ $json.status == \"ok\" && !$json.exists }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "fb47e4c6-22e1-4360-a5b6-b28d3ace2008",
+                    "leftValue": "={{ $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1520,
+        480
+      ],
+      "id": "b0a18f13-e699-463f-87e7-b35a02b1b66d",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Error uploading starting frame to runpod"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1520,
+        768
+      ],
+      "id": "a3533b97-ad42-4a78-8801-8fecf10d7bab",
+      "name": "Stop and Error"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "checkFileExist",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "comfyUiRequest": "={{ {} }}",
+            "index": 0,
+            "request": "={{ {\n\"filePath\":\"ComfyUI/input/\" + $('get prompts, filenames').item.json.fileName.slice(0,11) + \".png\",\n} }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "request",
+              "displayName": "request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        816,
+        592
+      ],
+      "id": "4e2529d0-85fe-4860-9877-4ca88419dd88",
+      "name": "check file exist via dashboard"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.status == \"ok\" && $json.exists }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "df0dd6b2-f078-4635-9d09-d8b97128d65a"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "41615180-7716-421f-9055-5a038cd56172",
+                    "leftValue": "={{ $json.status == \"ok\" && !$json.exists }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "fb47e4c6-22e1-4360-a5b6-b28d3ace2008",
+                    "leftValue": "={{ $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1024,
+        576
+      ],
+      "id": "3e809ce7-6ccf-45dc-b43a-19c532aa09ef",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Error checking start frame exist on runpod"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        1024,
+        704
+      ],
+      "id": "820f5a46-6c45-4281-8a3f-bc689ca0f4c5",
+      "name": "Stop and Error1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.status == \"ok\" && $json.exists }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "df0dd6b2-f078-4635-9d09-d8b97128d65a"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "41615180-7716-421f-9055-5a038cd56172",
+                    "leftValue": "={{ $json.status == \"ok\" && !$json.exists }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "fb47e4c6-22e1-4360-a5b6-b28d3ace2008",
+                    "leftValue": "={{ $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1024,
+        416
+      ],
+      "id": "7280277f-cb35-470c-a9fd-8c7f545acea5",
+      "name": "Switch3"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "checkFileExist",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "comfyUiRequest": "={{ {} }}",
+            "index": 0,
+            "request": "={{ {\n\"filePath\":\"ComfyUI/input/\" + $('get prompts, filenames').item.json.fileName.slice(0,11) + \".png\",\n} }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "request",
+              "displayName": "request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        816,
+        432
+      ],
+      "id": "e3ef827d-f757-4fb5-bb22-af029ca09bfe",
+      "name": "check file exist via dashboard1"
     }
   ],
   "connections": {
@@ -1173,35 +1817,12 @@
     },
     "runpod generations manager": {
       "main": [
-        [
-          {
-            "node": "Limit1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "upload runpod comfyui file": {
-      "main": [
-        [
-          {
-            "node": "Set d8swfnb44q I2V Workflow Base",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "set filepath to upload from": {
       "main": [
-        [
-          {
-            "node": "upload runpod comfyui file",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "get prompts, filenames": {
@@ -1226,26 +1847,9 @@
         ]
       ]
     },
-    "upload runpod comfyui file1": {
-      "main": [
-        [
-          {
-            "node": "Set liqhn0gkqo I2V Workflow Base",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "set filepath to upload from1": {
       "main": [
-        [
-          {
-            "node": "upload runpod comfyui file1",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "runpodTemplateId": {
@@ -1281,7 +1885,7 @@
       "main": [
         [
           {
-            "node": "set filepath to upload from1",
+            "node": "check file exist via dashboard",
             "type": "main",
             "index": 0
           }
@@ -1292,7 +1896,7 @@
       "main": [
         [
           {
-            "node": "set filepath to upload from",
+            "node": "check file exist via dashboard1",
             "type": "main",
             "index": 0
           }
@@ -1314,12 +1918,12 @@
       "main": [
         [
           {
-            "node": "send runpod gen request",
+            "node": "runpod generations manager",
             "type": "main",
             "index": 0
           },
           {
-            "node": "runpod generations manager",
+            "node": "send runpod gen request",
             "type": "main",
             "index": 0
           }
@@ -1330,12 +1934,156 @@
       "main": [
         [
           {
-            "node": "send runpod gen request",
+            "node": "runpod generations manager",
             "type": "main",
             "index": 0
           },
           {
-            "node": "runpod generations manager",
+            "node": "send runpod gen request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upload file via dashboard": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "upload file via dashboard1": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "Set d8swfnb44q I2V Workflow Base",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch": {
+      "main": [
+        [
+          {
+            "node": "Set liqhn0gkqo I2V Workflow Base",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check file exist via dashboard": {
+      "main": [
+        [
+          {
+            "node": "Switch2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "Set liqhn0gkqo I2V Workflow Base",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "upload file via dashboard",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check file exist via dashboard1": {
+      "main": [
+        [
+          {
+            "node": "Switch3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch3": {
+      "main": [
+        [
+          {
+            "node": "Set d8swfnb44q I2V Workflow Base",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "upload file via dashboard1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error1",
             "type": "main",
             "index": 0
           }
@@ -1345,7 +2093,8 @@
   },
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -1355,9 +2104,9 @@
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-03-24_MbcCf",
-          "partIndex": 102,
-          "durMs": 11538
+          "videoFolderName": "2026-04-04_Amogs",
+          "partIndex": 0,
+          "durMs": 8030
         },
         "pairedItem": {
           "item": 0
@@ -1365,9 +2114,9 @@
       }
     ]
   },
-  "versionId": "d24d012c-0ef3-455f-9159-66865c625ce8",
-  "activeVersionId": "d24d012c-0ef3-455f-9159-66865c625ce8",
-  "versionCounter": 232,
+  "versionId": "9269a79e-3e04-4055-90d9-3bfe42307d66",
+  "activeVersionId": "9269a79e-3e04-4055-90d9-3bfe42307d66",
+  "versionCounter": 327,
   "triggerCount": 0,
   "tags": [],
   "shared": [
