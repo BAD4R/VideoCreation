@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-24T10:34:05.118Z",
+  "updatedAt": "2026-04-05T00:37:16.237Z",
   "createdAt": "2026-02-04T18:29:54.759Z",
   "id": "CEAr7nSqMwURqKDg",
   "name": "generate video meta",
@@ -942,7 +942,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\n\"videoCreationMode\",\n\n\"summarizeFullText\",\n\n\"openAIApiKey\",\n\"googleApiKey\",\n\"proxyServerIP\",\n\"proxyServerPort\",\n\n\"openAiResponsesRoute\",\n\"openAiImagesRoute\",\n\"geminiAiResponsesRoute\",\n\n\"metaTextGenService\",\n\"metaTextGenModel\",\n\"baseMetaOnVideoText\",\n\n\"generateThumbnail\",\n\"baseNewThumbnailOnOriginal\",\n\n\"imageGenerationService\",\n\"imageBase\",\n\"imagePromptGenerationPrompt\",\n\n\"thumbnailPromptsGenService\",\n\"thumbnailPromptsGenModel\",\n\n\"thumbnailBase\",\n\"thumbnailPromptGenerationPrompt\",\n\"thumbnailPromptRegenerationPrompt\",\n\n\"thumbnailGenerationService\",\n\n\"geminiThumbnailModel\",\n\"thumbnailGeminiAspectRatio\",\n\"thumbnailGeminiQuality\",\n\n\"openaiThumbnailModel\",\n\"thumbnailOpenaiSize\",\n\"thumbnailOpenaiQuality\",\n\n\"metaDataSystemPrompt\"\n] }}",
+            "keysToReturn": "={{ [\n\"videoCreationMode\",\n\n\"summarizeFullText\",\n\n\"metaTextGenService\",\n\"metaTextGenModel\",\n\"baseMetaOnVideoText\",\n\n\"generateThumbnail\",\n\"baseNewThumbnailOnOriginal\",\n\n\"imageGenerationService\",\n\"imageBase\",\n\"imagePromptGenerationPrompt\",\n\n\"thumbnailPromptsGenService\",\n\"thumbnailPromptsGenModel\",\n\n\"thumbnailBase\",\n\"thumbnailPromptGenerationPrompt\",\n\"thumbnailPromptRegenerationPrompt\",\n\n\"thumbnailGenerationService\",\n\n\"geminiThumbnailModel\",\n\"thumbnailGeminiAspectRatio\",\n\"thumbnailGeminiQuality\",\n\n\"openaiThumbnailModel\",\n\"thumbnailOpenaiSize\",\n\"thumbnailOpenaiQuality\",\n\n\"metaDataSystemPrompt\"\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -1177,13 +1177,13 @@
             {
               "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.geminiAiResponsesRoute }}",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
               "type": "string"
             },
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').last().json.googleApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -1745,13 +1745,13 @@
             {
               "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.openAiImagesRoute }}",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.OPENAI_IMAGES_ROUTE }}",
               "type": "string"
             },
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').last().json.openAIApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.OPENAI_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -2630,41 +2630,6 @@
         "assignments": {
           "assignments": [
             {
-              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
-              "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.geminiAiResponsesRoute }}",
-              "type": "string"
-            },
-            {
-              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
-              "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').first().json.googleApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
-              "name": "body",
-              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.metaTextGenModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('get all workflow params').first().json.metaDataSystemPrompt }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": \"Full video text: \" + $('Switch Text Gen Service').first().json.normalizedFullText }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseSchema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"previewText\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"videoTitle\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"videoDescription\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } }\n      },\n      \"required\": [\"previewText\", \"videoTitle\", \"videoDescription\"]\n    }\n  },\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"BLOCK_NONE\" }\n  ]\n} }}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1952,
-        -544
-      ],
-      "id": "ccb4641a-0357-47c3-b967-e0ce0789cbe3",
-      "name": "form gemini request"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
               "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.metaDataSystemPrompt,\n    $('get all workflow params').first().json.metaTextGenService,\n    $('get all workflow params').first().json.metaTextGenModel,\n    $('Normalize Text').first().json.normalizedFullText\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
@@ -2787,13 +2752,13 @@
             {
               "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.openAiResponsesRoute }}",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.OPENAI_RESPONSES_ROUTE }}",
               "type": "string"
             },
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').first().json.openAIApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.OPENAI_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -2997,13 +2962,13 @@
             {
               "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.openAiResponsesRoute }}",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.OPENAI_RESPONSES_ROUTE }}",
               "type": "string"
             },
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').last().json.openAIApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.OPENAI_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -3224,13 +3189,13 @@
             {
               "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.geminiAiResponsesRoute }}",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
               "type": "string"
             },
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').last().json.googleApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -3503,13 +3468,13 @@
             {
               "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.geminiAiResponsesRoute }}",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
               "type": "string"
             },
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').last().json.googleApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -3538,13 +3503,13 @@
             {
               "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.openAiResponsesRoute }}",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
               "type": "string"
             },
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').last().json.openAIApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.OPENAI_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -3650,6 +3615,41 @@
       "id": "d3d5f304-5d6c-46ee-80cb-465211650eff",
       "name": "Wait",
       "webhookId": "445a317f-3766-45df-b66e-0255cb83820d"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.metaTextGenModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('get all workflow params').first().json.metaDataSystemPrompt }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": \"Full video text: \" + $('Switch Text Gen Service').first().json.normalizedFullText }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseSchema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"previewText\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"videoTitle\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } },\n        \"videoDescription\": { \"type\": \"array\", \"items\": { \"type\": \"string\" } }\n      },\n      \"required\": [\"previewText\", \"videoTitle\", \"videoDescription\"]\n    }\n  },\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"BLOCK_NONE\" }\n  ]\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1952,
+        -544
+      ],
+      "id": "ccb4641a-0357-47c3-b967-e0ce0789cbe3",
+      "name": "form gemini request"
     }
   ],
   "connections": {
@@ -4185,17 +4185,6 @@
         ]
       ]
     },
-    "form gemini request": {
-      "main": [
-        [
-          {
-            "node": "Send HTTP Request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "get gemini random ID": {
       "main": [
         [
@@ -4521,10 +4510,22 @@
           }
         ]
       ]
+    },
+    "form gemini request": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -4542,9 +4543,9 @@
       }
     ]
   },
-  "versionId": "19a7cb04-11b8-4e33-88b2-a884d8728b4f",
-  "activeVersionId": "19a7cb04-11b8-4e33-88b2-a884d8728b4f",
-  "versionCounter": 2117,
+  "versionId": "ef6f997b-c75a-47f1-8467-d8cd52c4c41c",
+  "activeVersionId": "ef6f997b-c75a-47f1-8467-d8cd52c4c41c",
+  "versionCounter": 2143,
   "triggerCount": 0,
   "tags": [],
   "shared": [

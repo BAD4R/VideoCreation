@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-02T16:31:11.533Z",
+  "updatedAt": "2026-04-04T23:30:00.957Z",
   "createdAt": "2026-02-04T01:37:01.806Z",
   "id": "0OFd1hjz5qxMmwa1",
   "name": "generate video text",
@@ -195,7 +195,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3632,
+        3264,
         352
       ],
       "name": "set text ready",
@@ -397,8 +397,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        1456,
-        368
+        1408,
+        352
       ],
       "id": "1744cae1-6bc3-4e2d-89f0-b460b4d1834d",
       "name": "Switch1"
@@ -420,8 +420,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2080,
-        256
+        2032,
+        240
       ],
       "id": "2b4229db-dcb5-45de-be0c-74fb5eab6921",
       "name": "get random ID"
@@ -494,8 +494,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        2464,
-        96
+        2416,
+        80
       ],
       "id": "16a5eec0-7dc9-430a-afd4-757a1d047b95",
       "name": "Send HTTP Request"
@@ -586,8 +586,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        1856,
-        240
+        1808,
+        224
       ],
       "id": "a668693f-0211-4a32-b42f-a32a494e6415",
       "name": "Switch Text Gen Service"
@@ -609,8 +609,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2080,
-        96
+        2032,
+        80
       ],
       "id": "da9017de-eaee-475f-b03c-faaaca1da0c1",
       "name": "get random ID1"
@@ -683,8 +683,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        2464,
-        256
+        2416,
+        240
       ],
       "id": "51223e9c-fbdb-4013-9569-de07344f8de5",
       "name": "Send HTTP Request1"
@@ -696,13 +696,13 @@
             {
               "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.openAiResponsesRoute }}",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.OPENAI_RESPONSES_ROUTE }}",
               "type": "string"
             },
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').first().json.openAIApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.OPENAI_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -718,8 +718,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2272,
-        256
+        2224,
+        240
       ],
       "id": "35fe414c-f97e-4c6e-ad27-0c3a69aaa1ff",
       "name": "form openai request"
@@ -731,13 +731,13 @@
             {
               "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.geminiAiResponsesRoute }}",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
               "type": "string"
             },
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').first().json.googleApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -753,8 +753,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2272,
-        96
+        2224,
+        80
       ],
       "id": "1e64028d-e129-4c66-90bb-b1227287b9b6",
       "name": "form gemini request"
@@ -812,8 +812,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1664,
-        256
+        1616,
+        240
       ],
       "name": "get full text",
       "id": "605096bc-1cf7-445d-83bb-e43228811bec"
@@ -879,8 +879,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        2640,
-        96
+        2592,
+        80
       ],
       "id": "89193941-0221-40c4-8438-822bb7796151",
       "name": "was error"
@@ -946,8 +946,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        2640,
-        256
+        2592,
+        240
       ],
       "id": "c7b0ece3-db72-42ee-b6d5-89c1025dca31",
       "name": "was error1"
@@ -969,8 +969,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2864,
-        256
+        2816,
+        240
       ],
       "id": "ef72c50f-9543-4aeb-8dac-e901e6f3c59d",
       "name": "set openai summarized text"
@@ -992,8 +992,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2864,
-        96
+        2816,
+        80
       ],
       "id": "deb78585-0e85-4580-bb58-91f6e2caf655",
       "name": "set gemini summarized text"
@@ -1055,8 +1055,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3056,
-        256
+        3008,
+        240
       ],
       "name": "write summarized text file",
       "id": "baa8789d-ea03-48b2-8577-1dd046e3af75"
@@ -1071,8 +1071,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        1616,
-        48
+        1568,
+        32
       ],
       "id": "0f13a188-e5ff-44b4-aee9-06a08097c5a8",
       "name": "Sticky Note1"
@@ -1179,7 +1179,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\n\"videoCreationMode\",\n\n\n\n\"openAIApiKey\",\n\"googleApiKey\",\n\"proxyServerIP\",\n\"proxyServerPort\",\n\n\"openAiResponsesRoute\",\n\"openAiImagesRoute\",\n\"geminiAiResponsesRoute\",\n\n\"videoTextGenService\",\n\"videoTextGenModel\",\n\n\"summarizeFullText\",\n\"summarizeFullTextSystemPrompt\",\n] }}",
+            "keysToReturn": "={{ [\n\"videoCreationMode\",\n\n\"videoTextGenService\",\n\"videoTextGenModel\",\n\n\"summarizeFullText\",\n\"summarizeFullTextSystemPrompt\",\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -1252,6 +1252,110 @@
       ],
       "name": "get all workflow params",
       "id": "08f7fdcb-e1ae-4f74-a7be-93708675608c"
+    },
+    {
+      "parameters": {
+        "content": "## Text generation",
+        "height": 288,
+        "width": 656
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        672,
+        208
+      ],
+      "id": "bd4e0f63-3fcd-483d-8c8d-b88dea8a2a7f",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/stagesProgress.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\"stages.text.progress.currentNumberOfReadyItems\"] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        208,
+        544
+      ],
+      "name": "read PM stage",
+      "id": "6227ba5f-99b2-411b-bccb-9328327ee438",
+      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -1389,128 +1493,24 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        272,
-        800
+        384,
+        544
       ],
       "id": "a7e30316-965c-49e9-84e5-953f0f7426a4",
       "name": "PM - started"
     },
     {
       "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/stagesProgress.json",
-            "fileAction": "read",
-            "keysToReturn": "={{ [\"stages.text.progress.currentNumberOfReadyItems\"] }}",
-            "keysToWrite": "={{ {} }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
+        "errorMessage": "Error summarizing text"
       },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        96,
-        800
-      ],
-      "name": "read PM stage",
-      "id": "6227ba5f-99b2-411b-bccb-9328327ee438",
-      "alwaysOutputData": true
-    },
-    {
-      "parameters": {
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        3632,
-        544
-      ],
-      "id": "c62bad45-c541-4edd-be3f-c027ae4b96ea",
-      "name": "set error generating text"
-    },
-    {
-      "parameters": {
-        "content": "## Text generation",
-        "height": 288,
-        "width": 656
-      },
-      "type": "n8n-nodes-base.stickyNote",
+      "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        672,
-        208
+        2816,
+        432
       ],
-      "id": "bd4e0f63-3fcd-483d-8c8d-b88dea8a2a7f",
-      "name": "Sticky Note"
+      "id": "0856c4f2-a66e-4fcd-b779-03cd9989de8c",
+      "name": "Stop and Error3"
     }
   ],
   "connections": {
@@ -1684,7 +1684,7 @@
         ],
         [
           {
-            "node": "set error generating text",
+            "node": "Stop and Error3",
             "type": "main",
             "index": 0
           }
@@ -1702,7 +1702,7 @@
         ],
         [
           {
-            "node": "set error generating text",
+            "node": "Stop and Error3",
             "type": "main",
             "index": 0
           }
@@ -1788,7 +1788,8 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -1806,9 +1807,9 @@
       }
     ]
   },
-  "versionId": "0d8b92e8-6e94-4864-b42f-f68902565f7c",
-  "activeVersionId": "0d8b92e8-6e94-4864-b42f-f68902565f7c",
-  "versionCounter": 1125,
+  "versionId": "902cd04c-14bb-4ed2-8e23-10105d7fcedb",
+  "activeVersionId": "902cd04c-14bb-4ed2-8e23-10105d7fcedb",
+  "versionCounter": 1161,
   "triggerCount": 0,
   "tags": [],
   "shared": [

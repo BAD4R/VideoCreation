@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-03T11:10:59.384Z",
+  "updatedAt": "2026-04-04T23:33:59.008Z",
   "createdAt": "2026-02-08T18:59:24.653Z",
   "id": "sNLnQQaHRoWWXZbH",
   "name": "single request",
@@ -35,8 +35,8 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        1424,
-        368
+        1344,
+        432
       ],
       "id": "9cbe3b3d-beb3-4a0d-94e2-b48290ecf715",
       "name": "If Text Exists"
@@ -98,8 +98,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1616,
-        368
+        1536,
+        432
       ],
       "name": "write empty text",
       "id": "4bfaa060-ec00-4f9f-970b-62d3b504035e"
@@ -186,8 +186,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1792,
-        368
+        1728,
+        432
       ],
       "name": "get whole themes JSON file",
       "id": "87218dea-2fd0-4594-a700-457894601e29"
@@ -249,8 +249,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1216,
-        368
+        1152,
+        432
       ],
       "name": "get whole text file",
       "id": "ee98640b-0214-4f86-af59-d3733aeb8f47"
@@ -337,8 +337,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        2352,
-        368
+        2288,
+        432
       ],
       "name": "write new themes JSON",
       "id": "2caca17e-5e12-45c3-ace0-09fe77ed0673"
@@ -366,8 +366,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1968,
-        368
+        1920,
+        432
       ],
       "id": "6641b26d-1650-4d4d-bee2-172c9d5de644",
       "name": "Set New Themes Json"
@@ -454,8 +454,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        2544,
-        368
+        2464,
+        432
       ],
       "name": "write video theme to video meta",
       "id": "e12d67ad-f430-4dda-9e79-a0ee7f8baa42"
@@ -467,7 +467,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read video clusters').isExecuted?\n$('read video clusters').item.json:\"\",\n\n    $('get all workflow params').first().json.singleRequestSystemPrompt,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n    $('get video theme').first().json.videoTheme,\n    $('get all workflow params').first().json.wantedTextLength,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read script blueprint').item.json,\n    $('get all workflow params').first().json.singleRequestSystemPrompt,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -477,8 +477,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4800,
-        128
+        7136,
+        -112
       ],
       "id": "4e7b5456-a28d-436c-bee1-59f0d6d22a9b",
       "name": "get random ID"
@@ -500,8 +500,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        5568,
-        128
+        7904,
+        -112
       ],
       "id": "b875e517-a089-4b72-82a8-21a4e1266762",
       "name": "set video text"
@@ -563,8 +563,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        5984,
-        128
+        8096,
+        -112
       ],
       "name": "write text",
       "id": "e116409a-0c82-428a-9f0a-ddf804ec22c1"
@@ -637,8 +637,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        5184,
-        128
+        7520,
+        -112
       ],
       "id": "daf34949-6184-43a7-87d4-4a6f57a306b8",
       "name": "Send HTTP Request"
@@ -653,8 +653,8 @@
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        528,
-        368
+        576,
+        432
       ]
     },
     {
@@ -674,8 +674,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        6192,
-        128
+        8288,
+        -112
       ],
       "id": "ffdabacb-ecff-42b6-acf6-1123d2cb4fe0",
       "name": "out text status ready"
@@ -766,8 +766,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        4576,
-        112
+        6944,
+        -128
       ],
       "id": "1c1a2a2e-635d-4a4f-b3d5-1a170dcb6b7a",
       "name": "Switch Text Gen Service"
@@ -779,7 +779,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read video clusters').item.json,\n    $('get all workflow params').first().json.singleRequestSystemPrompt,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n    $('get video theme').first().json.videoTheme,\n    $('get all workflow params').first().json.wantedTextLength,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read script blueprint').item.json,\n    $('get all workflow params').first().json.singleRequestSystemPrompt,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -789,8 +789,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4800,
-        -48
+        7136,
+        -288
       ],
       "id": "a3f38468-914e-4bac-bb46-3250d175c4cd",
       "name": "get random ID1"
@@ -812,8 +812,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        5568,
-        -48
+        7904,
+        -288
       ],
       "id": "31a33688-2376-4a27-b0ed-97bcb0ec06a3",
       "name": "set video text1"
@@ -886,8 +886,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        5184,
-        -48
+        7520,
+        -288
       ],
       "id": "1d3617e8-4e0c-4fe8-b206-8d718681ac04",
       "name": "Send HTTP Request1"
@@ -982,105 +982,24 @@
     },
     {
       "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "37ae45db-ca7f-4d52-9279-09ac4e37224b",
-                    "leftValue": "={{ $json.text.length >= $('get wanted text length').first().json.wantedTextLength/2 }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Ok text"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.text.length < $('get wanted text length').first().json.wantedTextLength/2 }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "1fb16de2-0ea3-42c6-88d7-4f2cd92ea863"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "Short text"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        5776,
-        128
-      ],
-      "id": "1cba197e-81b3-4fdf-8934-b7d4a913534e",
-      "name": "Switch",
-      "disabled": true
-    },
-    {
-      "parameters": {
-        "errorMessage": "short text genrated"
-      },
-      "type": "n8n-nodes-base.stopAndError",
-      "typeVersion": 1,
-      "position": [
-        5984,
-        272
-      ],
-      "id": "1a1de7aa-5ea4-4d6a-87d9-1111c00f0e49",
-      "name": "Stop and Error"
-    },
-    {
-      "parameters": {
         "assignments": {
           "assignments": [
             {
               "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.openAiResponsesRoute }}",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.OPENAI_RESPONSES_ROUTE }}",
               "type": "string"
             },
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').first().json.openAIApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.OPENAI_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
               "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
               "name": "body",
-              "value": "={{ \n(() => {\n  const params = $('get all workflow params').first().json;\n  const theme = $('get video theme').first().json.videoTheme;\n\n  const obj = {\n    \"model\": params.videoTextGenModel,\n    \"input\": [\n      {\n        \"role\": \"system\",\n        \"content\": [\n          {\n            \"type\": \"input_text\",\n            \"text\": params.singleRequestSystemPrompt\n          }\n        ]\n      },\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_text\",\n            \"text\": \"Video theme: \" + theme\n          },\n          {\n            \"type\": \"input_text\",\n            \"text\": \"Wanted text length (characters): \" + params.wantedTextLength \n          }\n        ]\n      }\n    ]\n  };\n\nif ($('get all workflow params').item.json.useClustersLibrary){\n  obj.input[1].content.push({\"type\": \"input_text\", \"text\": $('read video clusters').item.json.toJsonString()})\n}\n\n  return obj;\n})()\n}}",
+              "value": "={{ \n(() => {\n  const params = $('get all workflow params').first().json;\n  const theme = $('get video theme').first().json.videoTheme;\n\n  const obj = {\n    \"model\": params.videoTextGenModel,\n    \"input\": [\n      {\n        \"role\": \"system\",\n        \"content\": [\n          {\n            \"type\": \"input_text\",\n            \"text\": params.singleRequestSystemPrompt\n          }\n        ]\n      },\n      {\n        \"role\": \"user\",\n        \"content\": [\n          {\n            \"type\": \"input_text\",\n            \"text\": $('read script blueprint').item.json.toJsonString()\n          }\n        ]\n      }\n    ]\n  };\n\n  return obj;\n})()\n}}",
               "type": "object"
             }
           ]
@@ -1090,8 +1009,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4992,
-        128
+        7328,
+        -112
       ],
       "id": "3755c257-e74f-47fa-a1eb-7fd5ccb61cd5",
       "name": "form openai request"
@@ -1103,19 +1022,19 @@
             {
               "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.geminiAiResponsesRoute }}",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
               "type": "string"
             },
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').first().json.googleApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
               "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
               "name": "body",
-              "value": "={{\n{\n  \"model\": $('get all workflow params').first().json.videoTextGenModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('get all workflow params').first().json.singleRequestSystemPrompt }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": \"Video theme: \" + $('get video theme').first().json.videoTheme }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": \"Wanted text length (characters): \"+$('get all workflow params').first().json.wantedTextLength }\n      ]\n    },\n  ],\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"BLOCK_NONE\" }\n  ]\n}\n}}",
+              "value": "={{\n{\n  \"model\": $('get all workflow params').first().json.videoTextGenModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('get all workflow params').first().json.singleRequestSystemPrompt }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": $('read script blueprint').item.json.toJsonString() }\n      ]\n    },\n  ],\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"BLOCK_NONE\" }\n  ]\n}\n}}",
               "type": "object"
             }
           ]
@@ -1125,8 +1044,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4992,
-        -48
+        7328,
+        -288
       ],
       "id": "c7fb58ae-1e4e-4041-97a3-eff73d04061a",
       "name": "form gemini request"
@@ -1192,8 +1111,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        5360,
-        -48
+        7712,
+        -288
       ],
       "id": "440d5284-c23f-4e65-8cfd-f822f061b45a",
       "name": "was error"
@@ -1205,8 +1124,8 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        5568,
-        272
+        7904,
+        16
       ],
       "id": "2d2264e6-5423-46a1-b472-33686df4aab9",
       "name": "Stop and Error1"
@@ -1272,8 +1191,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        5360,
-        128
+        7712,
+        -112
       ],
       "id": "56a23980-bb5c-4f49-ad50-868e07a3addf",
       "name": "was error1"
@@ -1360,8 +1279,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        736,
-        368
+        768,
+        432
       ],
       "name": "get product key",
       "id": "774ad81f-6cde-45a1-ab72-5020f9376115"
@@ -1380,7 +1299,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\n\"useClustersLibrary\",\n\"selectClustersPrompt\",\n\n\"openAIApiKey\",\n\"googleApiKey\",\n\"proxyServerIP\",\n\"proxyServerPort\",\n\n\"openAiResponsesRoute\",\n\"openAiImagesRoute\",\n\"geminiAiResponsesRoute\",\n\n\"videoTextGenService\",\n\"videoTextGenModel\",\n\n\"singleRequestSystemPrompt\",\n\"wantedTextLength\"\n] }}",
+            "keysToReturn": "={{ [\n\"useClustersLibrary\",\n\"selectClustersPrompt\",\n\"generateScriptBlueprint\",\n\n\"videoTextGenService\",\n\"videoTextGenModel\",\n\n\"singleRequestSystemPrompt\",\n\"wantedTextLength\"\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -1448,8 +1367,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        976,
-        368
+        960,
+        432
       ],
       "name": "get all workflow params",
       "id": "cfa9dac5-5008-4130-9b1e-aedad57a0505"
@@ -1528,7 +1447,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read channel clusters'),\n$('get video theme').item.json.videoTheme,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n$('get all workflow params').item.json.selectClustersPrompt\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read channel clusters').item,\n$('get video theme').item.json.videoTheme,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n$('get all workflow params').item.json.selectClustersPrompt\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -1538,8 +1457,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3008,
-        0
+        3312,
+        -112
       ],
       "id": "18499def-4cf5-495b-be04-6660cf68a7d1",
       "name": "get random ID2"
@@ -1612,8 +1531,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        3392,
-        -160
+        3696,
+        -272
       ],
       "id": "fcc343d7-5133-47fc-a2fe-61f7af524d0b",
       "name": "Send HTTP Request2"
@@ -1704,8 +1623,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        2784,
-        -16
+        3088,
+        -128
       ],
       "id": "b82a83ee-ebc1-4e50-a35e-4b22efd35f15",
       "name": "Switch Text Gen Service1"
@@ -1717,7 +1636,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read channel clusters'),\n$('get video theme').item.json.videoTheme,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n$('get all workflow params').item.json.selectClustersPrompt\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read channel clusters').item,\n$('get video theme').item.json.videoTheme,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n$('get all workflow params').item.json.selectClustersPrompt\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -1727,8 +1646,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3008,
-        -160
+        3312,
+        -272
       ],
       "id": "c7cde2a5-bb56-41ce-ae8f-b5784fc9d78a",
       "name": "get random ID3"
@@ -1801,8 +1720,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        3392,
-        0
+        3696,
+        -112
       ],
       "id": "24e5f145-6665-4aea-a2df-ba3b44644522",
       "name": "Send HTTP Request3"
@@ -1814,13 +1733,13 @@
             {
               "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.openAiResponsesRoute }}",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.OPENAI_RESPONSES_ROUTE }}",
               "type": "string"
             },
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').first().json.openAIApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.OPENAI_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -1836,8 +1755,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3200,
-        0
+        3504,
+        -112
       ],
       "id": "9afc297e-841d-47f2-8b23-55a764bce770",
       "name": "form openai request1"
@@ -1849,13 +1768,13 @@
             {
               "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.geminiAiResponsesRoute }}",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
               "type": "string"
             },
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$('get all workflow params').first().json.googleApiKey,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -1871,8 +1790,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3200,
-        -160
+        3504,
+        -272
       ],
       "id": "8d5f0820-bfdc-47b6-bc1d-1e56fbafd838",
       "name": "form gemini request1"
@@ -1938,8 +1857,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        3568,
-        -160
+        3888,
+        -272
       ],
       "id": "cac95833-842f-4713-bd83-1da52dff3335",
       "name": "was error2"
@@ -2005,8 +1924,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        3568,
-        0
+        3888,
+        -112
       ],
       "id": "d96215c7-e375-4438-825c-17a7987e99f6",
       "name": "was error3"
@@ -2094,7 +2013,7 @@
       "typeVersion": 1.2,
       "position": [
         2512,
-        0
+        -112
       ],
       "name": "read channel clusters",
       "id": "a5885801-f9d4-40e8-90b4-b3f355525b49"
@@ -2116,8 +2035,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3776,
-        0
+        4080,
+        -112
       ],
       "id": "50aea211-d9b7-4ef8-aa9e-09e2c5b7796a",
       "name": "Parse Openai Responce1"
@@ -2139,8 +2058,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3776,
-        -160
+        4080,
+        -272
       ],
       "id": "564cc87d-b2f6-410b-a6a1-bee7bb181d8c",
       "name": "Parse Gemini Responce1"
@@ -2227,8 +2146,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4000,
-        0
+        4272,
+        -112
       ],
       "name": "write video clusters",
       "id": "61b4da58-5e6e-429e-9816-5c4681d90233"
@@ -2315,8 +2234,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4224,
-        0
+        4464,
+        -112
       ],
       "name": "read video clusters",
       "id": "74c25945-788f-401e-95ee-f4ab6d64eb6c"
@@ -2382,8 +2301,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        2176,
-        368
+        2112,
+        432
       ],
       "id": "8dd820ce-4442-4bd8-af6a-d4f329d1cc5e",
       "name": "Switch1"
@@ -2395,8 +2314,8 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        2352,
-        256
+        2288,
+        320
       ],
       "id": "4898024f-0c16-4dbe-97b2-41c5adb53e70",
       "name": "Stop and Error2"
@@ -2408,11 +2327,1303 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        3792,
-        192
+        4080,
+        16
       ],
       "id": "638cb8b9-795e-4619-89b6-2f9900dbb462",
       "name": "Stop and Error3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read video clusters').item.json,\n$('get video theme').item.json.videoTheme,\n    $('get all workflow params').first().json.wantedTextLength,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n$('get all workflow params').item.json.generateScriptBlueprint\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5232,
+        -112
+      ],
+      "id": "0619dec8-5567-4eda-91c7-7c73099f5102",
+      "name": "get random ID4"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        5616,
+        -272
+      ],
+      "id": "c7b8824a-a0e0-4c55-9355-42b7d190b596",
+      "name": "Send HTTP Request4"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').last().json.videoTextGenService == \"gemini\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "5ee75887-7518-4802-9c6e-47f913300963"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "gemini"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c4c3ce37-169a-4d45-bf04-1fbf84efb151",
+                    "leftValue": "={{ $('get all workflow params').last().json.videoTextGenService == \"openai\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "openai"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "05f5648d-1a6e-4f8d-97aa-2f4f035e56c5",
+                    "leftValue": "={{ $('get all workflow params').last().json.textGenService == \"runpod\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "runpod"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        5040,
+        -128
+      ],
+      "id": "dec3a377-e5e7-46aa-bf67-e9d765d47615",
+      "name": "Switch Text Gen Service2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read video clusters').item.json,\n$('get video theme').item.json.videoTheme,\n    $('get all workflow params').first().json.wantedTextLength,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n$('get all workflow params').item.json.generateScriptBlueprint\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5232,
+        -272
+      ],
+      "id": "2d0ff975-b359-4ea4-b697-8e297eb82cc7",
+      "name": "get random ID5"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        5616,
+        -112
+      ],
+      "id": "fa2ca2c1-b354-49f8-b111-bd596050c40c",
+      "name": "Send HTTP Request5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.OPENAI_RESPONSES_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.OPENAI_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.videoTextGenModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\":  $('get all workflow params').first().json.generateScriptBlueprint\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('read video clusters').item.json.toJsonString()\n        },\n        {\n          \"type\": \"input_text\",\n          \"text\": $('get video theme').item.json.videoTheme\n        },\n        {\n          \"type\": \"input_text\",\n          \"text\": $('get all workflow params').item.json.wantedTextLength.toString()\n        },\n      ]\n    },\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_schema\",\n      \"name\": \"script_blueprint\",\n      \"strict\": true,\n      \"schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"schema_version\": { \"type\": \"string\" },\n          \"topic_idea\": { \"type\": \"string\" },\n          \"target_length\": { \"type\": \"string\" },\n          \"selected_cluster_id\": { \"type\": \"string\" },\n          \"selected_cluster_label\": { \"type\": \"string\" },\n          \"selected_narrative_mode\": { \"type\": \"string\" },\n          \"core_angle\": { \"type\": \"string\" },\n          \"viewer_promise\": { \"type\": \"string\" },\n          \"retention_strategy\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"opening_hook_job\": { \"type\": \"string\" },\n              \"why_keep_watching\": { \"type\": \"string\" },\n              \"midpoint_refresh_job\": { \"type\": \"string\" },\n              \"ending_payoff_job\": { \"type\": \"string\" }\n            },\n            \"required\": [\n              \"opening_hook_job\",\n              \"why_keep_watching\",\n              \"midpoint_refresh_job\",\n              \"ending_payoff_job\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"tone_profile\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"base_tone\": { \"type\": \"string\" },\n              \"secondary_tones\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"language_style\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"must_feel_like\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"must_not_feel_like\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              }\n            },\n            \"required\": [\n              \"base_tone\",\n              \"secondary_tones\",\n              \"language_style\",\n              \"must_feel_like\",\n              \"must_not_feel_like\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"content_priorities\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          },\n          \"cluster_application\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"self_identity_use\": { \"type\": \"string\" },\n              \"worldview_use\": { \"type\": \"string\" },\n              \"pain_growth_use\": { \"type\": \"string\" },\n              \"fears_desires_use\": { \"type\": \"string\" },\n              \"common_enemy_use\": { \"type\": \"string\" },\n              \"language_codes_use\": { \"type\": \"string\" }\n            },\n            \"required\": [\n              \"self_identity_use\",\n              \"worldview_use\",\n              \"pain_growth_use\",\n              \"fears_desires_use\",\n              \"common_enemy_use\",\n              \"language_codes_use\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"structure_rules\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          },\n          \"blocks\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"block_id\": { \"type\": \"string\" },\n                \"block_role\": { \"type\": \"string\" },\n                \"goal\": { \"type\": \"string\" },\n                \"why_it_matters\": { \"type\": \"string\" },\n                \"content_to_cover\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"cluster_job\": { \"type\": \"string\" },\n                \"retention_job\": { \"type\": \"string\" },\n                \"transition_to_next\": { \"type\": \"string\" },\n                \"size_weight\": { \"type\": \"string\" }\n              },\n              \"required\": [\n                \"block_id\",\n                \"block_role\",\n                \"goal\",\n                \"why_it_matters\",\n                \"content_to_cover\",\n                \"cluster_job\",\n                \"retention_job\",\n                \"transition_to_next\",\n                \"size_weight\"\n              ],\n              \"additionalProperties\": false\n            }\n          },\n          \"ending_strategy\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"final_message_job\": { \"type\": \"string\" },\n              \"last_emotional_note\": { \"type\": \"string\" },\n              \"what_should_linger\": { \"type\": \"string\" }\n            },\n            \"required\": [\n              \"final_message_job\",\n              \"last_emotional_note\",\n              \"what_should_linger\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"hard_constraints\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          },\n          \"soft_constraints\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          }\n        },\n        \"required\": [\n          \"schema_version\",\n          \"topic_idea\",\n          \"target_length\",\n          \"selected_cluster_id\",\n          \"selected_cluster_label\",\n          \"selected_narrative_mode\",\n          \"core_angle\",\n          \"viewer_promise\",\n          \"retention_strategy\",\n          \"tone_profile\",\n          \"content_priorities\",\n          \"cluster_application\",\n          \"structure_rules\",\n          \"blocks\",\n          \"ending_strategy\",\n          \"hard_constraints\",\n          \"soft_constraints\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  }\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5424,
+        -112
+      ],
+      "id": "3588933a-b200-4394-b1eb-f197ed8e8876",
+      "name": "form openai request2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.videoTextGenModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('get all workflow params').first().json.generateScriptBlueprint }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": $('read video clusters').item.json.toJsonString()\n        },\n        { \"text\": $('get video theme').item.json.videoTheme\n        },\n        { \"text\": $('get all workflow params').item.json.wantedTextLength.toString()\n        },\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseSchema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"schema_version\": { \"type\": \"string\" },\n        \"topic_idea\": { \"type\": \"string\" },\n        \"target_length\": { \"type\": \"string\" },\n        \"selected_cluster_id\": { \"type\": \"string\" },\n        \"selected_cluster_label\": { \"type\": \"string\" },\n        \"selected_narrative_mode\": { \"type\": \"string\" },\n        \"core_angle\": { \"type\": \"string\" },\n        \"viewer_promise\": { \"type\": \"string\" },\n        \"retention_strategy\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"opening_hook_job\": { \"type\": \"string\" },\n            \"why_keep_watching\": { \"type\": \"string\" },\n            \"midpoint_refresh_job\": { \"type\": \"string\" },\n            \"ending_payoff_job\": { \"type\": \"string\" }\n          },\n          \"required\": [\n            \"opening_hook_job\",\n            \"why_keep_watching\",\n            \"midpoint_refresh_job\",\n            \"ending_payoff_job\"\n          ]\n        },\n        \"tone_profile\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"base_tone\": { \"type\": \"string\" },\n            \"secondary_tones\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"language_style\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"must_feel_like\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"must_not_feel_like\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            }\n          },\n          \"required\": [\n            \"base_tone\",\n            \"secondary_tones\",\n            \"language_style\",\n            \"must_feel_like\",\n            \"must_not_feel_like\"\n          ]\n        },\n        \"content_priorities\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        },\n        \"cluster_application\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"self_identity_use\": { \"type\": \"string\" },\n            \"worldview_use\": { \"type\": \"string\" },\n            \"pain_growth_use\": { \"type\": \"string\" },\n            \"fears_desires_use\": { \"type\": \"string\" },\n            \"common_enemy_use\": { \"type\": \"string\" },\n            \"language_codes_use\": { \"type\": \"string\" }\n          },\n          \"required\": [\n            \"self_identity_use\",\n            \"worldview_use\",\n            \"pain_growth_use\",\n            \"fears_desires_use\",\n            \"common_enemy_use\",\n            \"language_codes_use\"\n          ]\n        },\n        \"structure_rules\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        },\n        \"blocks\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"block_id\": { \"type\": \"string\" },\n              \"block_role\": { \"type\": \"string\" },\n              \"goal\": { \"type\": \"string\" },\n              \"why_it_matters\": { \"type\": \"string\" },\n              \"content_to_cover\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"cluster_job\": { \"type\": \"string\" },\n              \"retention_job\": { \"type\": \"string\" },\n              \"transition_to_next\": { \"type\": \"string\" },\n              \"size_weight\": { \"type\": \"string\" }\n            },\n            \"required\": [\n              \"block_id\",\n              \"block_role\",\n              \"goal\",\n              \"why_it_matters\",\n              \"content_to_cover\",\n              \"cluster_job\",\n              \"retention_job\",\n              \"transition_to_next\",\n              \"size_weight\"\n            ]\n          }\n        },\n        \"ending_strategy\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"final_message_job\": { \"type\": \"string\" },\n            \"last_emotional_note\": { \"type\": \"string\" },\n            \"what_should_linger\": { \"type\": \"string\" }\n          },\n          \"required\": [\n            \"final_message_job\",\n            \"last_emotional_note\",\n            \"what_should_linger\"\n          ]\n        },\n        \"hard_constraints\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        },\n        \"soft_constraints\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        }\n      },\n      \"required\": [\n        \"schema_version\",\n        \"topic_idea\",\n        \"target_length\",\n        \"selected_cluster_id\",\n        \"selected_cluster_label\",\n        \"selected_narrative_mode\",\n        \"core_angle\",\n        \"viewer_promise\",\n        \"retention_strategy\",\n        \"tone_profile\",\n        \"content_priorities\",\n        \"cluster_application\",\n        \"structure_rules\",\n        \"blocks\",\n        \"ending_strategy\",\n        \"hard_constraints\",\n        \"soft_constraints\"\n      ]\n    }\n  },\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"BLOCK_NONE\" }\n  ]\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5424,
+        -272
+      ],
+      "id": "cbe96e37-4c7d-41be-aef8-c57599af308a",
+      "name": "form gemini request2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        5792,
+        -272
+      ],
+      "id": "4d0b404f-0294-4127-b26d-3ace43ec4a98",
+      "name": "was error4"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ $json.hasField('error') ? $json.error==null : !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') ? !$json.error==null : $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        5792,
+        -112
+      ],
+      "id": "9bc20a59-7f60-40a4-b8d7-bc2125ec9d5a",
+      "name": "was error5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "scriptBlueprint",
+              "value": "={{ $json.output[1].content[0].text.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5984,
+        -112
+      ],
+      "id": "f44b833b-c2d2-49be-a193-965b8ad7ee50",
+      "name": "Parse Openai Responce"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "scriptBlueprint",
+              "value": "={{ $json.candidates[0].content.parts[0].text.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5984,
+        -272
+      ],
+      "id": "a6ca8306-737c-4232-a228-31933cae9a44",
+      "name": "Parse Gemini Responce"
+    },
+    {
+      "parameters": {
+        "content": "## Generate scriptBlueprint",
+        "height": 336,
+        "width": 1872,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        4432,
+        -320
+      ],
+      "id": "042cb876-a3c2-488b-af60-1cc2e291fda8",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## Choose video clusters from channel clusters",
+        "height": 336,
+        "width": 1920,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        -320
+      ],
+      "id": "b0f97c08-ecf2-410f-83cd-875ef16a2817",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Error generating scriptBlueprint"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        5984,
+        16
+      ],
+      "id": "d5046582-3e9b-4fb4-a0e8-16fad2b376a1",
+      "name": "Stop and Error4"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/TEXTS/scriptBlueprint.json",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}",
+            "fileAction": "read"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        6368,
+        -112
+      ],
+      "name": "read script blueprint",
+      "id": "9cd4269c-62d6-4849-be9c-5258a1958480"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Сейчас воркфлоу рассчитан на работу ТОЛЬКО с кластерами"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        2464,
+        176
+      ],
+      "id": "c06a1012-878e-499d-90ee-c366d7a97bf3",
+      "name": "Stop and Error5"
+    },
+    {
+      "parameters": {
+        "content": "## Generate text",
+        "height": 336,
+        "width": 1872,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        6336,
+        -320
+      ],
+      "id": "79c7f170-e914-4136-b192-577135a04166",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/TEXTS/scriptBlueprint.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ $json.scriptBlueprint }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        6176,
+        -112
+      ],
+      "name": "write script blueprint",
+      "id": "bf9ebd57-988d-4189-ba40-ba96d58903de"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoClusters.json",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}",
+            "fileAction": "read"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2704,
+        -112
+      ],
+      "name": "read video clusters1",
+      "id": "3735e30e-2fab-431b-9fd3-714f3b8f3dd7"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "5c063f82-db9b-4266-a438-4dd16eeb65b0",
+                    "leftValue": "={{ $json.isEmpty() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ !$json.isEmpty() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "5a492bc0-d832-4987-8c26-af89224ba8fe"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "exist"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2896,
+        -112
+      ],
+      "id": "519b2985-e68e-4b98-8130-5795d3275b52",
+      "name": "if video clusters exist"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        4272,
+        80
+      ],
+      "id": "35ce1d8c-72cb-479c-9a50-753dd376a1bb",
+      "name": "No Operation, do nothing"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2992,
+        80
+      ],
+      "id": "8e30327d-4ea2-4c98-a6ae-150aacd4e34b",
+      "name": "No Operation, do nothing1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/TEXTS/scriptBlueprint.json",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}",
+            "fileAction": "read"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4656,
+        -112
+      ],
+      "name": "read script blueprint1",
+      "id": "7548b83a-4a78-4db3-8e94-0d03a03ffd5b"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        4944,
+        80
+      ],
+      "id": "b099b19b-7ea4-472e-98c6-b7d22e1f4233",
+      "name": "No Operation, do nothing2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "5c063f82-db9b-4266-a438-4dd16eeb65b0",
+                    "leftValue": "={{ $json.isEmpty() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ !$json.isEmpty() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "5a492bc0-d832-4987-8c26-af89224ba8fe"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "exist"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        4848,
+        -112
+      ],
+      "id": "905db1e7-0e3f-4cc6-8fca-3b2810c646bc",
+      "name": "if script blueprint clusters exist"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        6176,
+        80
+      ],
+      "id": "46166852-4120-4ab4-885d-e9b73d1aeaf5",
+      "name": "No Operation, do nothing3"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "jN0HNmDZY1IKD2vM-oIO3",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/jN0HNmDZY1IKD2vM-oIO3",
+          "cachedResultName": "Text file works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/TEXTS/{{ $('Start').first().json.videoFolderName }}.txt",
+            "fileAction": "=read",
+            "text": "="
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "text",
+              "displayName": "text",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        6560,
+        -112
+      ],
+      "name": "read text",
+      "id": "ee16ab57-47f5-4110-9251-23cd9f095364"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "5c063f82-db9b-4266-a438-4dd16eeb65b0",
+                    "leftValue": "={{ $json.isEmpty }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ !$json.isEmpty }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "5a492bc0-d832-4987-8c26-af89224ba8fe"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "exist"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        6752,
+        -112
+      ],
+      "id": "924e1b6f-a9cd-46a9-81ad-6f5f2047dbba",
+      "name": "if script blueprint clusters exist1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        6848,
+        80
+      ],
+      "id": "d9c21b20-eb7f-40a2-902f-7a8631c87856",
+      "name": "No Operation, do nothing4"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        8096,
+        80
+      ],
+      "id": "36a144e6-2345-44fa-98d5-7ad00b03a58a",
+      "name": "No Operation, do nothing5"
     }
   ],
   "connections": {
@@ -2515,7 +3726,7 @@
       "main": [
         [
           {
-            "node": "Switch",
+            "node": "write text",
             "type": "main",
             "index": 0
           }
@@ -2610,25 +3821,7 @@
       "main": [
         [
           {
-            "node": "Switch",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Switch": {
-      "main": [
-        [
-          {
             "node": "write text",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Stop and Error",
             "type": "main",
             "index": 0
           }
@@ -2726,7 +3919,7 @@
         ],
         [
           {
-            "node": "Switch Text Gen Service",
+            "node": "Stop and Error5",
             "type": "main",
             "index": 0
           }
@@ -2857,7 +4050,7 @@
       "main": [
         [
           {
-            "node": "Switch Text Gen Service1",
+            "node": "read video clusters1",
             "type": "main",
             "index": 0
           }
@@ -2901,7 +4094,7 @@
       "main": [
         [
           {
-            "node": "Switch Text Gen Service",
+            "node": "read script blueprint1",
             "type": "main",
             "index": 0
           }
@@ -2925,6 +4118,323 @@
           }
         ]
       ]
+    },
+    "get random ID4": {
+      "main": [
+        [
+          {
+            "node": "form openai request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "was error4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Text Gen Service2": {
+      "main": [
+        [
+          {
+            "node": "get random ID5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get random ID4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID5": {
+      "main": [
+        [
+          {
+            "node": "form gemini request2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "was error5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form openai request2": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form gemini request2": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "was error4": {
+      "main": [
+        [
+          {
+            "node": "Parse Gemini Responce",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "was error5": {
+      "main": [
+        [
+          {
+            "node": "Parse Openai Responce",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Openai Responce": {
+      "main": [
+        [
+          {
+            "node": "write script blueprint",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Gemini Responce": {
+      "main": [
+        [
+          {
+            "node": "write script blueprint",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read script blueprint": {
+      "main": [
+        [
+          {
+            "node": "read text",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write script blueprint": {
+      "main": [
+        [
+          {
+            "node": "read script blueprint",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read video clusters1": {
+      "main": [
+        [
+          {
+            "node": "if video clusters exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "if video clusters exist": {
+      "main": [
+        [
+          {
+            "node": "Switch Text Gen Service1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing": {
+      "main": [
+        [
+          {
+            "node": "read video clusters",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing1": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read script blueprint1": {
+      "main": [
+        [
+          {
+            "node": "if script blueprint clusters exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "if script blueprint clusters exist": {
+      "main": [
+        [
+          {
+            "node": "Switch Text Gen Service2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing2": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing3": {
+      "main": [
+        [
+          {
+            "node": "read script blueprint",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read text": {
+      "main": [
+        [
+          {
+            "node": "if script blueprint clusters exist1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "if script blueprint clusters exist1": {
+      "main": [
+        [
+          {
+            "node": "Switch Text Gen Service",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "No Operation, do nothing4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing4": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "No Operation, do nothing5": {
+      "main": [
+        [
+          {
+            "node": "out text status ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -2940,7 +4450,199 @@
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-03-24_MbcCf"
+          "videoFolderName": "2026-04-04_Amogs"
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ],
+    "Switch Text Gen Service": [
+      {
+        "json": {
+          "schema_version": "1.0",
+          "topic_idea": "Что находится внутри наводных нефтянных вышках? Как они строятся на глубоководье? Какие есть отсеки/части? Как добывается и траспортируются с вышек продукты их деятельности?",
+          "target_length": "14000",
+          "selected_cluster_id": "accuracy_guarded_factchecker",
+          "selected_cluster_label": "техно-фактчекер доверия",
+          "selected_narrative_mode": "broad_explainer",
+          "core_angle": "Детальный инженерный разбор морской нефтяной платформы как автономного мегасооружения: от технологий глубоководного позиционирования до сепарации фаз и логистики углеводородов.",
+          "viewer_promise": "Зритель получит исчерпывающее, технически грамотное понимание того, как устроена, удерживается на воде и функционирует нефтяная платформа, опираясь на строгие факты и терминологию.",
+          "retention_strategy": {
+            "opening_hook_job": "Захватить внимание масштабом инженерной задачи: показать платформу как автономный город на воде, работающий в экстремальных условиях, сразу задав строгий документально-энциклопедический тон.",
+            "why_keep_watching": "Обещание последовательно разобрать весь жизненный цикл и архитектуру объекта: от того, как многотысячетонная конструкция фиксируется на глубине, до того, как сырая смесь превращается в товарную нефть.",
+            "midpoint_refresh_job": "Смена фокуса с макро-масштаба (морская архитектура и опоры) на микро-масштаб (внутренняя логика модулей, жилые блоки и процесс сепарации).",
+            "ending_payoff_job": "Собрать все изученные подсистемы воедино, показав непрерывную логистическую цепь от скважины до танкера или берегового терминала, подтвердив надежность инженерии."
+          },
+          "tone_profile": {
+            "base_tone": "Спокойный, академичный, энциклопедический",
+            "secondary_tones": [
+              "Уважительный к сложности инженерии",
+              "Документально-отстраненный",
+              "Аналитический"
+            ],
+            "language_style": [
+              "Строгая отраслевая терминология (райзеры, манифольды, сепараторы)",
+              "Объективные формулировки без эмоционального окраса",
+              "Структурированное, последовательное изложение мыслей"
+            ],
+            "must_feel_like": [
+              "Чтение подробной статьи в профильном инженерном журнале",
+              "Просмотр качественного документального фильма",
+              "Разговор с инженером-проектировщиком"
+            ],
+            "must_not_feel_like": [
+              "Шоу о катастрофах и выживании",
+              "Поверхностный топ фактов для развлечения",
+              "Теория заговора или критика нефтяных корпораций"
+            ]
+          },
+          "content_priorities": [
+            "Принципы глубоководного строительства и типы оснований (гравитационные, полупогружные, натяжные, Spar)",
+            "Архитектура верхних строений (Topsides): разделение на технологическую и жилую зоны",
+            "Связь платформы с морским дном (устьевое оборудование, противовыбросовые превенторы, райзеры)",
+            "Процесс первичной подготовки: сепарация нефти, попутного газа и пластовой воды",
+            "Логистические цепочки: подводные трубопроводы, системы FPSO, челночные танкеры"
+          ],
+          "cluster_application": {
+            "self_identity_use": "Обращаться к зрителю как к человеку, который ценит точные знания; не развлекать его, а погружать в сложную фактуру с уважением к его интеллекту.",
+            "worldview_use": "Транслировать идею, что за каждым процессом добычи стоят строгие расчеты, физика и технологическая эволюция, а не слепой случай.",
+            "pain_growth_use": "Снимать раздражение зрителя от дилетантских обзоров путем интеграции точных цифр (глубины, давление, тоннаж) и корректного описания процессов.",
+            "fears_desires_use": "Удовлетворить желание понять 'как это работает на самом деле', предоставляя словесные чертежи и схемы вместо расплывчатых метафор.",
+            "common_enemy_use": "Избегать небрежных фраз ('они просто качают нефть'), противопоставляя тексту глубокий инженерный ресерч.",
+            "language_codes_use": "Строгое соблюдение нефтегазовой номенклатуры. Каждый новый термин вводится органично, с кратким функциональным пояснением."
+          },
+          "structure_rules": [
+            "Двигаться логически: от фундамента (основания в воде) к верхушке (платформе), затем вглубь (бурение) и наружу (транспортировка).",
+            "Обеспечить высокую плотность фактов: каждый абзац должен содержать конкретную техническую информацию или описывать механизм.",
+            "Использовать сравнения только для передачи масштаба (например, размеры основания), но не для упрощения физических процессов.",
+            "Разделять длинный текст на четкие смысловые главы для удержания внимания на больших объемах."
+          ],
+          "blocks": [
+            {
+              "block_id": "intro_scope",
+              "block_role": "hook_and_setup",
+              "goal": "Задать масштаб темы и определить предмет разговора.",
+              "why_it_matters": "Зрителю нужно сразу понять, что речь пойдет не просто о 'трубе в море', а о сложнейшем автономном комплексе.",
+              "content_to_cover": [
+                "Определение морской нефтяной платформы как мегасооружения.",
+                "Функциональные задачи: бурение, добыча, первичная переработка, проживание персонала.",
+                "Обозначение плана: разбор от подводного фундамента до экспортного трубопровода."
+              ],
+              "cluster_job": "Сразу устанавливает энциклопедический тон и обещает детальный инженерный разбор без кликбейта.",
+              "retention_job": "Интригует заявленной сложностью объекта, заставляя зрителя хотеть узнать, как решаются такие инженерные задачи.",
+              "transition_to_next": "Переход от общего описания платформы к первой фундаментальной проблеме: как закрепить эту массу в открытом океане.",
+              "size_weight": "medium"
+            },
+            {
+              "block_id": "subsea_foundations",
+              "block_role": "process_explainer_layer",
+              "goal": "Объяснить технологии установки платформ в зависимости от глубины моря.",
+              "why_it_matters": "Отвечает на первый вопрос запроса ('Как они строятся на глубоководье?'), показывая эволюцию инженерной мысли.",
+              "content_to_cover": [
+                "Мелководье: платформы на жестких опорах (Jacket) и гравитационного типа (GBS).",
+                "Глубоководье: полупогружные платформы (Semi-submersible), платформы на натяжных опорах (TLP) и цилиндрические платформы (Spar).",
+                "Принципы позиционирования: якорные системы и динамическое позиционирование (трастеры)."
+              ],
+              "cluster_job": "Демонстрирует классификацию и точную терминологию, что критически важно для фактчекерского кластера.",
+              "retention_job": "Погружает в технические детали, удовлетворяя запрос аудитории на проверяемую фактуру.",
+              "transition_to_next": "От того, что удерживает платформу в воде, к тому, что находится на ее поверхности.",
+              "size_weight": "large"
+            },
+            {
+              "block_id": "topsides_architecture",
+              "block_role": "inside_system",
+              "goal": "Разобрать устройство верхних строений (Topsides).",
+              "why_it_matters": "Прямой ответ на вопрос 'Какие есть отсеки/части?', показывающий внутреннюю логику и безопасность автономного объекта.",
+              "content_to_cover": [
+                "Модульный принцип строительства (постройка на суше, транспортировка и монтаж крановыми судами).",
+                "Зонирование: буровой модуль, технологический модуль (процессинг), энергетический модуль (генераторы).",
+                "Жилой блок (Accommodations): изоляция от опасных зон, вертолетная площадка, системы жизнеобеспечения."
+              ],
+              "cluster_job": "Детализация внутреннего устройства с акцентом на безопасность, логику компоновки и прагматизм инженеров.",
+              "retention_job": "Обновляет внимание за счет перехода от абстрактных морских конструкций к 'человеческому' измерению платформы.",
+              "transition_to_next": "От описания модулей к их главному функционалу — соединению с пластом.",
+              "size_weight": "large"
+            },
+            {
+              "block_id": "drilling_and_connection",
+              "block_role": "process_explainer_layer",
+              "goal": "Объяснить, как платформа связывается с месторождением на дне.",
+              "why_it_matters": "Ключевой этап понимания добычи — преодоление толщи воды.",
+              "content_to_cover": [
+                "Устьевое оборудование на морском дне (Subsea trees / подводные манифольды).",
+                "Функция противовыбросового превентора (BOP) как главного элемента контроля давления.",
+                "Райзеры (морские стояки) — транспортные артерии, соединяющие дно и платформу; компенсация качки."
+              ],
+              "cluster_job": "Раскрывает сложную механику через точные термины, разрушая миф о 'просто опущенной трубе'.",
+              "retention_job": "Создает напряжение через описание контроля высоких давлений (сугубо в инженерном, а не катастрофическом ключе).",
+              "transition_to_next": "Смесь поднята на платформу. Что с ней происходит дальше?",
+              "size_weight": "medium"
+            },
+            {
+              "block_id": "processing_separation",
+              "block_role": "core_mechanism",
+              "goal": "Детально описать процесс первичной переработки добываемой жидкости.",
+              "why_it_matters": "Отвечает на вопрос 'Как добываются продукты?', объясняя, что из скважины идет не чистая нефть, а сложная смесь.",
+              "content_to_cover": [
+                "Поступление скважинного флюида (нефть, попутный газ, пластовая вода, песок).",
+                "Работа сепараторов высокого и низкого давления: физические принципы гравитационного разделения.",
+                "Очистка воды перед сбросом в море или обратной закачкой в пласт.",
+                "Осушка и компримирование газа."
+              ],
+              "cluster_job": "Глубокое погружение в технологию процессинга, что является вершиной компетентности в данной теме.",
+              "retention_job": "Поддерживает интерес за счет объяснения невидимых глазу физико-химических процессов.",
+              "transition_to_next": "Продукты разделены и подготовлены. Теперь их нужно доставить потребителю.",
+              "size_weight": "large"
+            },
+            {
+              "block_id": "logistics_and_export",
+              "block_role": "system_completion",
+              "goal": "Объяснить логистику углеводородов с морского объекта.",
+              "why_it_matters": "Закрывает последний вопрос запроса ('Как транспортируются продукты?'), показывая интеграцию платформы в мировую экономику.",
+              "content_to_cover": [
+                "Экспортные подводные трубопроводы (укладка, защита, насосные станции).",
+                "Альтернатива трубопроводам: системы FPSO (плавучие установки для добычи, хранения и отгрузки).",
+                "Отгрузка на челночные танкеры (Shuttle tankers) в открытом море с помощью выносных причальных устройств (SPM)."
+              ],
+              "cluster_job": "Завершает картину строго логичным описанием транспортной инфраструктуры.",
+              "retention_job": "Собирает пазл воедино, подводя зрителя к финальному пониманию всего цикла.",
+              "transition_to_next": "Переход к итоговому выводу о масштабе системы.",
+              "size_weight": "medium"
+            },
+            {
+              "block_id": "conclusion_synthesis",
+              "block_role": "payoff",
+              "goal": "Подвести итог сложности и надежности морской добычи.",
+              "why_it_matters": "Закрепляет полученные знания и подтверждает компетенцию автора.",
+              "content_to_cover": [
+                "Резюме: морская платформа — это симбиоз кораблестроения, строительства, бурения и химической переработки.",
+                "Указание на постоянное развитие технологий (уход на все большие глубины, автоматизация)."
+              ],
+              "cluster_job": "Оставляет чувство удовлетворения от получения структурированной, энциклопедической информации.",
+              "retention_job": "Вознаграждает зрителя за внимание четким, кратким и емким финалом без лишней воды.",
+              "transition_to_next": "None",
+              "size_weight": "small"
+            }
+          ],
+          "ending_strategy": {
+            "final_message_job": "Утвердить мысль, что морская нефтяная платформа является одним из самых сложных инженерных сооружений, созданных человеком, работающим как безупречный механизм.",
+            "last_emotional_note": "Спокойное восхищение торжеством человеческого разума и строгих математических расчетов над стихией.",
+            "what_should_linger": "Уверенность зрителя в том, что теперь он досконально и правильно понимает устройство процесса морской нефтедобычи."
+          },
+          "hard_constraints": [
+            "Запрет на использование катастроф (например, аварии Deepwater Horizon) для нагнетания драмы или как основного крючка удержания.",
+            "Никаких риторических вопросов, заигрываний со зрителем или кликбейтных переходов.",
+            "Обязательное использование корректных терминов (флюид, сепарация, манифольд, превентор) с их расшифровкой, запрет на бытовые синонимы.",
+            "Запрет на выдумывание фактов и цифр: описывать процессы только в рамках известных законов физики и инженерии.",
+            "Структура текста должна соответствовать заявленному объему (14000 символов), обеспечивая глубокое, а не поверхностное раскрытие каждого блока."
+          ],
+          "soft_constraints": [
+            "Приводить реальные примеры размеров или глубин для понимания масштаба (например, вес верхних строений в десятках тысяч тонн).",
+            "Поддерживать плавные логические связки между абзацами, чтобы текст воспринимался как единая технологическая цепочка.",
+            "Избегать чрезмерного использования оценочных прилагательных, заменяя их функциональными описаниями."
+          ],
+          "fileName": "scriptBlueprint.json"
         },
         "pairedItem": {
           "item": 0
@@ -2948,9 +4650,9 @@
       }
     ]
   },
-  "versionId": "de94cc3a-1f8a-4ad6-bbac-99df240ae367",
-  "activeVersionId": "76ca0a45-9744-4de4-82b3-7368beb7e1b6",
-  "versionCounter": 765,
+  "versionId": "fd7a2bb3-428a-45bd-b843-c3443569ac85",
+  "activeVersionId": "fd7a2bb3-428a-45bd-b843-c3443569ac85",
+  "versionCounter": 1095,
   "triggerCount": 0,
   "tags": [],
   "shared": [

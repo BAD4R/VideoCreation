@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-02T15:41:25.627Z",
+  "updatedAt": "2026-04-04T23:59:48.387Z",
   "createdAt": "2026-02-04T19:31:36.029Z",
   "id": "du4UzkaJt01yiEEG",
   "name": "generate voiceover",
@@ -2144,7 +2144,8 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -2157,22 +2158,11 @@
           "videoFolderName": "2026-03-24_MbcCf"
         }
       }
-    ],
-    "start runpod voicegen pod": [
-      {
-        "json": {
-          "podStatus": "ready",
-          "fileName": "podStatus.json"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
     ]
   },
   "versionId": "c6f6ee70-a081-4406-a928-f2ddbd6f8cb0",
   "activeVersionId": "c6f6ee70-a081-4406-a928-f2ddbd6f8cb0",
-  "versionCounter": 689,
+  "versionCounter": 693,
   "triggerCount": 0,
   "tags": [],
   "shared": [

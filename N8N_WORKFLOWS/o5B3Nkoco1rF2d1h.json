@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-01T17:07:30.441Z",
+  "updatedAt": "2026-04-05T00:05:51.283Z",
   "createdAt": "2026-02-05T16:30:06.860Z",
   "id": "o5B3Nkoco1rF2d1h",
   "name": "runpod works",
@@ -10,7 +10,7 @@
     {
       "parameters": {
         "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"index\":0,\n  \"method\":\"\",\n\n  \"comfyUiRequest\":{},\n  \"jupiterRequest\":{},\n  \"request\":{},\n  \n  \"runpodTemplateId\":\"\",\n  \n  \"runpodGpuList\":[],\n  \"runpodCountryCodes\":[]\n}"
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"index\":0,\n  \"method\":\"\",\n\n  \"comfyUiRequest\":{},\n  \"request\":{},\n  \n  \"runpodTemplateId\":\"\",\n  \n  \"runpodGpuList\":[],\n  \"runpodCountryCodes\":[]\n}"
       },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
@@ -261,7 +261,7 @@
                 "conditions": [
                   {
                     "id": "11db66b0-abda-4b63-8350-61c7a16411b1",
-                    "leftValue": "={{ $('Start').first().json.method == \"checkFileOnJupiter\" }}",
+                    "leftValue": "={{ $('Start').first().json.method == \"checkFileExist\" }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -273,7 +273,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "check file on jupiter"
+              "outputKey": "checkFileExist"
             },
             {
               "conditions": {
@@ -286,7 +286,7 @@
                 "conditions": [
                   {
                     "id": "5b548c25-3ab3-4451-add7-9fb449a9d87f",
-                    "leftValue": "={{ $('Start').first().json.method == \"uploadFileToJupiter\" }}",
+                    "leftValue": "={{ $('Start').first().json.method == \"uploadFile\" }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -298,7 +298,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "upload file to jupiter"
+              "outputKey": "upload file"
             },
             {
               "conditions": {
@@ -449,7 +449,7 @@
             {
               "id": "924df8b7-5307-4367-a739-6b16477cea78",
               "name": "headers",
-              "value": "={{ {\"Authorization\": \"Bearer \" + $('get all workflow params').first().json.runpodApiKey} }}",
+              "value": "={{ {\"Authorization\": \"Bearer \" + $env.RUNPOD_API_KEY} }}",
               "type": "object"
             },
             {
@@ -490,7 +490,7 @@
             {
               "id": "924df8b7-5307-4367-a739-6b16477cea78",
               "name": "headers",
-              "value": "={{ {\"Authorization\": \"Bearer \" + $('get all workflow params').first().json.runpodApiKey} }}",
+              "value": "={{ {\"Authorization\": \"Bearer \" + $env.RUNPOD_API_KEY} }}",
               "type": "object"
             }
           ]
@@ -1352,7 +1352,7 @@
             {
               "id": "924df8b7-5307-4367-a739-6b16477cea78",
               "name": "headers",
-              "value": "={{ {\"Authorization\": \"Bearer \" + $('get all workflow params').first().json.runpodApiKey} }}",
+              "value": "={{ {\"Authorization\": \"Bearer \" + $env.RUNPOD_API_KEY } }}",
               "type": "object"
             },
             {
@@ -1724,13 +1724,13 @@
             {
               "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.comfyUiRoute }}/prompts",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.COMFY_UI_ROUTE }}/prompts",
               "type": "string"
             },
             {
               "id": "924df8b7-5307-4367-a739-6b16477cea78",
               "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\":$('get random ID').item.json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"X-Request-ID\":$('get random ID').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -2325,13 +2325,13 @@
             {
               "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.comfyUiRoute }}/prompts",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.COMFY_UI_ROUTE }}/prompts",
               "type": "string"
             },
             {
               "id": "924df8b7-5307-4367-a739-6b16477cea78",
               "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $('get random ID').item.json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -2451,95 +2451,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\"productKey\"] }}",
-            "keysToWrite": "={{ {} }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        -240,
-        416
-      ],
-      "name": "get product key",
-      "id": "75d5f44c-27e5-429c-9619-71da95e1be64"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
-            "fileAction": "read",
-            "keysToReturn": "={{ [\n\"runpodApiKey\",\n\"comfyUiPort\",\n\"runpodDashboardPort\",\n\"proxyServerIP\",\n\"proxyServerPort\",\n\"comfyUiRoute\",\n\"runpodT2VWorkloadKey\",\n\"clipWidth\",\n\"clipHeight\",\n\"clipFps\",\n\n\"runpodT2IWorkloadKey\",\n\"runpodI2VWorkloadKey\",\n] }}",
+            "keysToReturn": "={{ [\n\"clipWidth\",\n\"clipHeight\",\n\"clipFps\",\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -3355,13 +3267,13 @@
             {
               "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
               "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.comfyUiRoute }}/prompts",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.COMFY_UI_ROUTE }}/prompts",
               "type": "string"
             },
             {
               "id": "924df8b7-5307-4367-a739-6b16477cea78",
               "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\":$('get random ID').item.json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"X-Request-ID\":$('get random ID').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -3809,7 +3721,7 @@
             {
               "id": "924df8b7-5307-4367-a739-6b16477cea78",
               "name": "headers",
-              "value": "={{ {\"Authorization\": \"Bearer \" + $('get all workflow params').first().json.runpodApiKey} }}",
+              "value": "={{ {\"Authorization\": \"Bearer \" + $env.RUNPOD_API_KEY } }}",
               "type": "object"
             }
           ]
@@ -3902,53 +3814,7 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
-              "name": "fileExist",
-              "value": true,
-              "type": "boolean"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1552,
-        1568
-      ],
-      "id": "40d71c13-191e-43bb-9394-e6729df2387c",
-      "name": "output fileExist true"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "5be087cc-df8d-4cb9-975f-f505d956281d",
-              "name": "fileExist",
-              "value": false,
-              "type": "boolean"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1552,
-        1664
-      ],
-      "id": "cf3eb594-69cf-4163-9cad-aab74aa6be16",
-      "name": "output fileExist false"
-    },
-    {
-      "parameters": {
-        "fileSelector": "={{ $('Start').item.json.jupiterRequest.localFilePath }}",
+        "fileSelector": "={{ $('Start').item.json.request.localFilePath }}",
         "options": {}
       },
       "type": "n8n-nodes-base.readWriteFile",
@@ -4008,28 +3874,14 @@
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "=https://{{ $('read pod id').last().json.podMeta.id }}-8091.proxy.runpod.net/api/files/upload",
+        "method": "PUT",
+        "url": "=https://{{ $('read pod id').last().json.podMeta.id }}-8084.proxy.runpod.net/api/files/content?path={{ $('Start').item.json.request.destinationFilePath }}/{{ $('Start').item.json.request.filename }}&overwrite={{ $('Start').item.json.request.overwrite }}",
         "sendBody": true,
-        "contentType": "multipart-form-data",
-        "bodyParameters": {
-          "parameters": [
-            {
-              "parameterType": "formBinaryData",
-              "name": "file",
-              "inputDataFieldName": "data"
-            },
-            {
-              "name": "type",
-              "value": "input"
-            },
-            {
-              "name": "overwrite",
-              "value": "true"
-            }
-          ]
-        },
-        "options": {}
+        "contentType": "binaryData",
+        "inputDataFieldName": "data",
+        "options": {
+          "timeout": 600000
+        }
       },
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.4,
@@ -4043,7 +3895,7 @@
     },
     {
       "parameters": {
-        "url": "=https://{{ $('read pod id').last().json.podMeta.id }}-8888.proxy.runpod.net/api/contents/{{ $('Start').first().json.jupiterRequest.filePathOnJupiter }}?content=0",
+        "url": "=https://{{ $('read pod id').last().json.podMeta.id }}-8084.proxy.runpod.net/api/files/exists?path={{ $('Start').first().json.request.filePath }}",
         "options": {}
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -4062,7 +3914,7 @@
       "main": [
         [
           {
-            "node": "get product key",
+            "node": "get all workflow params",
             "type": "main",
             "index": 0
           }
@@ -4573,17 +4425,6 @@
         []
       ]
     },
-    "get product key": {
-      "main": [
-        [
-          {
-            "node": "get all workflow params",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "get all workflow params": {
       "main": [
         [
@@ -4771,7 +4612,7 @@
       "main": [
         [
           {
-            "node": "get product key",
+            "node": "get all workflow params",
             "type": "main",
             "index": 0
           }
@@ -4853,38 +4694,14 @@
     },
     "Upload Bianry File HTTP Request1": {
       "main": [
-        [
-          {
-            "node": "output fileUploadedSuccessfully true",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "output fileUploadedSuccessfully false",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        [],
+        []
       ]
     },
     "check file exits": {
       "main": [
-        [
-          {
-            "node": "output fileExist true",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "output fileExist false",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        [],
+        []
       ]
     }
   },
@@ -4904,13 +4721,15 @@
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-03-24_MbcCf",
+          "videoFolderName": "2026-04-04_Amogs",
           "index": 0,
-          "method": "uploadFileToJupiter",
+          "method": "uploadFile",
           "comfyUiRequest": {},
-          "jupiterRequest": {
-            "filePathOnJupiter": "/workspace/input/MbcCf_00001.mp3",
-            "localFilePath": "C:/Users/V/Desktop/Channels/LifeOfAPirate/VIDEOS/2026-03-24_MbcCf/VOICE/MbcCf_00001.mp3"
+          "request": {
+            "localFilePath": "C:/Users/V/Desktop/Channels/LifeOfAPirate/VIDEOS/2026-04-04_Amogs/VOICE/Amogs_00009.mp3",
+            "destinationFilePath": "input",
+            "filename": "Amogs_00009.mp3",
+            "overwrite": true
           },
           "runpodTemplateId": "y4h0gu0eo4",
           "runpodGpuList": [],
@@ -4922,9 +4741,9 @@
       }
     ]
   },
-  "versionId": "fda8770f-9acd-443a-814e-72c7ca9ef7ee",
-  "activeVersionId": "fda8770f-9acd-443a-814e-72c7ca9ef7ee",
-  "versionCounter": 3566,
+  "versionId": "d2507902-7442-4216-b5e1-3bcfe3c654ea",
+  "activeVersionId": "d2507902-7442-4216-b5e1-3bcfe3c654ea",
+  "versionCounter": 3687,
   "triggerCount": 0,
   "tags": [],
   "shared": [

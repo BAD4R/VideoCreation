@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-02T20:34:21.726Z",
+  "updatedAt": "2026-04-05T00:15:09.668Z",
   "createdAt": "2026-02-03T20:08:34.562Z",
   "id": "AmF6XaTnjkk9w41P",
   "name": "Main",
@@ -776,8 +776,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        1120,
-        2960
+        1680,
+        2976
       ],
       "id": "557fe5b3-f52b-4790-b852-3a0067c39f19",
       "name": "No Operation, do nothing"
@@ -2367,7 +2367,7 @@
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "command": "=powershell -NoProfile -ExecutionPolicy Bypass -Command \"$paths = @({{ (()=>{\n  // --- 5-символьный id из timestamp ($now) ---\n  const alphabet = \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\";\n  let n = Math.floor(Date.parse($now)); // ms\n  let randId = \"\";\n  for (let i = 0; i < 5; i++) {\n    randId = alphabet[n % 52] + randId;\n    n = Math.floor(n / 52);\n  }\n\n  // --- базовый путь видео-папки ---\n  const baseSettings = $('Base Settings').item.json;\n  const root = `${baseSettings.channelsFolderPath}/${baseSettings.channelName}/VIDEOS/${$now.format('yyyy-MM-dd')}_${randId}`;\n\n  // --- дерево папок ---\n  const tree = {\n    \"TEXTS\":  [\"\"],\n    \"VOICE\":  [\"audioData\", \"transcript\"],\n    \"IMAGES\": [\"imagePrompts\", \"images\", \"textParts\"],\n    \"CLIPS\":  [\"startFrames\", \"videoClipsAndStartFramesPrompts\", \"videoClips\"],\n  };\n\n  // --- разворачиваем в полный список путей ---\n  const paths = [root];\n\n  for (const [main, subs] of Object.entries(tree)) {\n    const mainPath = `${root}/${main}`;\n    paths.push(mainPath);\n\n    for (const sub of subs) {\n      if (!sub) continue; // пропускаем пустые\n      paths.push(`${mainPath}/${sub}`);\n    }\n  }\n\n  // Если тебе нужны PowerShell-литералы строк (в одинарных кавычках):\n  // return paths.map(p => `'${p.replace(/'/g, \"''\")}'`);\n\n  // Если нужен просто массив путей (лучше для дальнейшей обработки):\n  return paths.map(i=>\"'\"+i+\"'\");\n})() }}); foreach($p in $paths){ New-Item -ItemType Directory -Path $p -Force | Out-Null}\""
+            "command": "=powershell -NoProfile -ExecutionPolicy Bypass -Command \"$paths = @({{ (()=>{\n  // --- 5-символьный id из timestamp ($now) ---\n  const alphabet = \"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ\";\n  let n = Math.floor(Date.parse($now)); // ms\n  let randId = \"\";\n  for (let i = 0; i < 5; i++) {\n    randId = alphabet[n % 52] + randId;\n    n = Math.floor(n / 52);\n  }\n\n  // --- базовый путь видео-папки ---\n  const baseSettings = $('Base Settings').item.json;\n  const root = `${baseSettings.channelsFolderPath}/${baseSettings.channelName}/VIDEOS/${$now.format('yyyy-MM-dd')}_${randId}`;\n\n  // --- дерево папок ---\n  const tree = {\n    \"TEXTS\":  [\"\"],\n    \"VOICE\":  [\"audioData\", \"transcript\"],\n    \"CLIPS\":  [\"startFrames\", \"videoClipsAndStartFramesPrompts\", \"videoClips\"],\n  };\n\n  // --- разворачиваем в полный список путей ---\n  const paths = [root];\n\n  for (const [main, subs] of Object.entries(tree)) {\n    const mainPath = `${root}/${main}`;\n    paths.push(mainPath);\n\n    for (const sub of subs) {\n      if (!sub) continue; // пропускаем пустые\n      paths.push(`${mainPath}/${sub}`);\n    }\n  }\n\n  // Если тебе нужны PowerShell-литералы строк (в одинарных кавычках):\n  // return paths.map(p => `'${p.replace(/'/g, \"''\")}'`);\n\n  // Если нужен просто массив путей (лучше для дальнейшей обработки):\n  return paths.map(i=>\"'\"+i+\"'\");\n})() }}); foreach($p in $paths){ New-Item -ItemType Directory -Path $p -Force | Out-Null}\""
           },
           "matchingColumns": [
             "command"
@@ -2662,13 +2662,13 @@
       "parameters": {
         "content": "## Clears user's cache from DB for last N hours\nmight be used if stuck mid-workflow",
         "height": 304,
-        "width": 1280,
+        "width": 1296,
         "color": 5
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        -496,
+        -512,
         832
       ],
       "id": "6a411b5f-f063-442c-bc68-fd3e720128ef",
@@ -3214,7 +3214,7 @@
             {
               "id": "cbae57df-33ce-4f18-8f27-a46d854341c5",
               "name": "hours",
-              "value": 2,
+              "value": 1,
               "type": "number"
             }
           ]
@@ -4353,12 +4353,24 @@
     },
     "unlock meta": {
       "main": [
-        []
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "unlock transcription": {
       "main": [
-        []
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "unlock clips": {
@@ -4719,7 +4731,13 @@
     },
     "unlock voiceover": {
       "main": [
-        []
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "lock starting frames and clips prompts": {
@@ -4761,9 +4779,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "cd9589e1-1233-4910-8582-bed5b2585552",
+  "versionId": "8d399415-5abb-4b23-8ad0-869c7c8d687b",
   "activeVersionId": null,
-  "versionCounter": 1271,
+  "versionCounter": 1302,
   "triggerCount": 0,
   "tags": [],
   "shared": [

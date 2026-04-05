@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-17T20:44:12.730Z",
+  "updatedAt": "2026-04-05T00:01:25.147Z",
   "createdAt": "2026-02-04T19:51:18.685Z",
   "id": "QGwzjOX1i2qj5DPR",
   "name": "generate elevenlabs audio - paralleling",
@@ -51,13 +51,13 @@
             {
               "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
               "name": "route",
-              "value": "=http://{{ $('get elevenlabs request params').first().json.proxyServerIP }}:{{ $('get elevenlabs request params').first().json.proxyServerPort }}/{{ $('get elevenlabs request params').first().json.elevenlabsRoute }}",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.ELEVENLABS_ROUTE }}",
               "type": "string"
             },
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $('get product key').first().json.productKey\n} }}",
+              "value": "={{ {\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -145,7 +145,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\"proxyServerIP\", \"proxyServerPort\", \"elevenlabsRoute\", \"elevenLabsVoiceId\", \"elevenLabsModel\"] }}",
+            "keysToReturn": "={{ [\n\"elevenLabsVoiceId\",\n\"elevenLabsModel\"\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -292,94 +292,6 @@
       ],
       "id": "ec699041-ebcd-4174-96dc-8fe1e3ff04cf",
       "name": "Send HTTP Request"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
-            "fileAction": "read",
-            "keysToReturn": "={{ [\"productKey\"] }}",
-            "keysToWrite": "={{ {} }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        480,
-        352
-      ],
-      "name": "get product key",
-      "id": "508c40ec-1e7d-440e-89d6-45e58adea9f5"
     }
   ],
   "connections": {
@@ -387,7 +299,7 @@
       "main": [
         [
           {
-            "node": "get product key",
+            "node": "get elevenlabs request params",
             "type": "main",
             "index": 0
           }
@@ -437,22 +349,12 @@
           }
         ]
       ]
-    },
-    "get product key": {
-      "main": [
-        [
-          {
-            "node": "get elevenlabs request params",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
     }
   },
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -472,9 +374,9 @@
       }
     ]
   },
-  "versionId": "922cd714-138f-4a1e-a6a0-15e61bf173a4",
-  "activeVersionId": "e1cf39e4-0e63-45c2-8b02-f294515da709",
-  "versionCounter": 186,
+  "versionId": "806361fb-3214-480f-b574-ca4031d1e5ff",
+  "activeVersionId": "806361fb-3214-480f-b574-ca4031d1e5ff",
+  "versionCounter": 202,
   "triggerCount": 0,
   "tags": [],
   "shared": [

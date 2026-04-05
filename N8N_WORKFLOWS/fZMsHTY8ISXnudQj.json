@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-01T17:39:39.473Z",
+  "updatedAt": "2026-04-05T00:34:40.163Z",
   "createdAt": "2026-02-05T00:33:05.372Z",
   "id": "fZMsHTY8ISXnudQj",
   "name": "transcribe voiceover",
@@ -17,7 +17,7 @@
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        64,
+        -64,
         352
       ]
     },
@@ -469,7 +469,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        256,
+        128,
         352
       ],
       "name": "get all workflow params",
@@ -536,7 +536,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        672,
+        544,
         352
       ],
       "id": "f70452ef-a0aa-47cf-bf5d-10e8b0930be9",
@@ -603,7 +603,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        1056,
+        928,
         528
       ],
       "id": "ebed1ffa-f013-40f6-b86d-ae7d59c36e54",
@@ -694,6 +694,16 @@
               "removed": false
             },
             {
+              "id": "request",
+              "displayName": "request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
               "id": "runpodTemplateId",
               "displayName": "runpodTemplateId",
               "required": false,
@@ -734,7 +744,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        864,
+        736,
         528
       ],
       "id": "5d262d60-c6a9-4c3b-92ec-93489bed5483",
@@ -742,519 +752,10 @@
     },
     {
       "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "o5B3Nkoco1rF2d1h",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
-          "cachedResultName": "runpod works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
-            "channelName": "={{ $('Start').first().json.channelName }}",
-            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
-            "method": "checkFileOnJupiter",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTextAudioAlignTemplateId }}",
-            "runpodGpuList": "={{ [] }}",
-            "runpodCountryCodes": "={{ [] }}",
-            "comfyUiRequest": "={{ {} }}",
-            "index": 0,
-            "jupiterRequest": "={{ {\n\"filePathOnJupiter\":\"/workspace/input/\"+$('Split Out').item.json.existingFilesNames\n} }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "channelsFolderPath",
-              "displayName": "channelsFolderPath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "channelName",
-              "displayName": "channelName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "videoFolderName",
-              "displayName": "videoFolderName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "index",
-              "displayName": "index",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
-              "removed": false
-            },
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "comfyUiRequest",
-              "displayName": "comfyUiRequest",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "jupiterRequest",
-              "displayName": "jupiterRequest",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "runpodTemplateId",
-              "displayName": "runpodTemplateId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodGpuList",
-              "displayName": "runpodGpuList",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "runpodCountryCodes",
-              "displayName": "runpodCountryCodes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": true
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        1664,
-        528
-      ],
-      "id": "f00702e1-d472-4252-99c1-3f0e37e0a16e",
-      "name": "check file on jupiter"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "8d28d703-c38a-48c9-a039-7591752e7df0",
-              "leftValue": "={{ $json.fileExist }}",
-              "rightValue": "",
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        1888,
-        528
-      ],
-      "id": "e322d7b4-4461-4b2f-bd7d-5880213bcdb7",
-      "name": "If file exists"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "o5B3Nkoco1rF2d1h",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
-          "cachedResultName": "runpod works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
-            "channelName": "={{ $('Start').first().json.channelName }}",
-            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
-            "method": "uploadFileToJupiter",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTextAudioAlignTemplateId }}",
-            "runpodGpuList": "={{ [] }}",
-            "runpodCountryCodes": "={{ [] }}",
-            "comfyUiRequest": "={{ {} }}",
-            "index": 0,
-            "jupiterRequest": "={{ {\n\"filePathOnJupiter\":\"/workspace/input/\"+$('Split Out').item.json.existingFilesNames,\n\"localFilePath\":$('Start').item.json.channelsFolderPath+'/'+$('Start').item.json.channelName+'/VIDEOS/'+ $('Start').item.json.videoFolderName + '/VOICE/' + $('Split Out').item.json.existingFilesNames\n} }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "channelsFolderPath",
-              "displayName": "channelsFolderPath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "channelName",
-              "displayName": "channelName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "videoFolderName",
-              "displayName": "videoFolderName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "index",
-              "displayName": "index",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
-              "removed": false
-            },
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "comfyUiRequest",
-              "displayName": "comfyUiRequest",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "jupiterRequest",
-              "displayName": "jupiterRequest",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "runpodTemplateId",
-              "displayName": "runpodTemplateId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodGpuList",
-              "displayName": "runpodGpuList",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "runpodCountryCodes",
-              "displayName": "runpodCountryCodes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": false
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        1984,
-        624
-      ],
-      "id": "1921c41e-40a6-4bd6-877b-d845d564f2e2",
-      "name": "upload file to jupiter"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "o5B3Nkoco1rF2d1h",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
-          "cachedResultName": "runpod works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
-            "channelName": "={{ $('Start').first().json.channelName }}",
-            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
-            "method": "checkFileOnJupiter",
-            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTextAudioAlignTemplateId }}",
-            "runpodGpuList": "={{ [] }}",
-            "runpodCountryCodes": "={{ [] }}",
-            "comfyUiRequest": "={{ {} }}",
-            "index": 0,
-            "jupiterRequest": "={{ {\n\"filePathOnJupiter\":\"/workspace/input/\"+$('Split Out').item.json.existingFilesNames\n} }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "channelsFolderPath",
-              "displayName": "channelsFolderPath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "channelName",
-              "displayName": "channelName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "videoFolderName",
-              "displayName": "videoFolderName",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "index",
-              "displayName": "index",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
-              "removed": false
-            },
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "comfyUiRequest",
-              "displayName": "comfyUiRequest",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "jupiterRequest",
-              "displayName": "jupiterRequest",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "runpodTemplateId",
-              "displayName": "runpodTemplateId",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "runpodGpuList",
-              "displayName": "runpodGpuList",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "runpodCountryCodes",
-              "displayName": "runpodCountryCodes",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": true
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        2256,
-        720
-      ],
-      "id": "6a40d402-139e-4794-9fcf-cc0a71008723",
-      "name": "check file on jupiter1"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "8d28d703-c38a-48c9-a039-7591752e7df0",
-              "leftValue": "={{ $json.fileExist }}",
-              "rightValue": "",
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        2448,
-        720
-      ],
-      "id": "85228338-9dd0-49e9-927f-cb5519dc3233",
-      "name": "If file exists1"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        2080,
-        720
-      ],
-      "id": "a35d53d9-8519-4550-bc5a-6ae95332bc43",
-      "name": "Wait2",
-      "webhookId": "77c3b5b3-c289-4078-96d2-b269790364ef"
-    },
-    {
-      "parameters": {
         "fieldsToAggregate": {
           "fieldToAggregate": [
             {
-              "fieldToAggregate": "fileExist"
+              "fieldToAggregate": "exists"
             }
           ]
         },
@@ -1268,40 +769,6 @@
       ],
       "id": "92862c68-fcfa-4f50-9e67-0021faf3dcc2",
       "name": "Aggregate"
-    },
-    {
-      "parameters": {
-        "conditions": {
-          "options": {
-            "caseSensitive": true,
-            "leftValue": "",
-            "typeValidation": "strict",
-            "version": 3
-          },
-          "conditions": [
-            {
-              "id": "d1f632fe-f33b-4def-b20b-a85cfb57dc8f",
-              "leftValue": "={{ $json.fileExist.filter(item => true).length == $('get voiceover file names').item.json.existingFilesNames.length }}",
-              "rightValue": "",
-              "operator": {
-                "type": "boolean",
-                "operation": "true",
-                "singleValue": true
-              }
-            }
-          ],
-          "combinator": "and"
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.if",
-      "typeVersion": 2.3,
-      "position": [
-        3088,
-        528
-      ],
-      "id": "ec131de0-21a0-4c49-960b-58d018400236",
-      "name": "If All Ready"
     },
     {
       "parameters": {
@@ -1375,47 +842,6 @@
       ],
       "id": "2ae635bd-e9ad-4f07-8bb1-ce2ee67ef45a",
       "name": "get voiceover file names"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "2fb62633-4973-457b-9ff6-82b7e234c67c",
-              "name": "method",
-              "value": "POST",
-              "type": "string"
-            },
-            {
-              "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
-              "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.textAudioAlignerRoute }}",
-              "type": "string"
-            },
-            {
-              "id": "924df8b7-5307-4367-a739-6b16477cea78",
-              "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $('get random ID1').item.json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
-              "name": "body",
-              "value": "={{ \n{\n  \"podId\": $('read pod id').item.json.podMeta.id,\n  \"alignmentPort\": \"8091\",\n  \"autoRetry\": true,\n  \"maxRetries\": 1,\n  \"timeoutSeconds\": 120,\n  \"alignmentRequest\": {\n    \"backend\": \"whisperx\",\n    \"channelName\": \"n8n\",\n    \"videoFolderName\": $('get product key').first().json.productKey,\n    \"device\": \"cuda\",\n    \"language\": $('get all workflow params').first().json.channelLanguage,\n    \"text\": $('get whole text from TXT file').item.json.text,\n    \"audioPaths\": $('get voiceover file names').item.json.existingFilesNames.map(i => \"/workspace/input/\" + i),\n    \"mode\": \"default\",\n    \"chunkLimit\": $('get all workflow params').first().json.textPartsLength,\n    \"asrWorkers\": 1,\n    \"minIndexChars\": 35\n  }\n}\n}}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        3888,
-        528
-      ],
-      "id": "d16a4ff4-1420-4011-9150-685a09919819",
-      "name": "form transcription request"
     },
     {
       "parameters": {
@@ -1584,7 +1010,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        448,
+        320,
         352
       ],
       "name": "get product key",
@@ -1614,81 +1040,6 @@
       ],
       "id": "eb5d1a09-926d-4498-8e2d-0b345c23bd09",
       "name": "Split Out"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ljH0uamrMfc4IBJx",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "http works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "route": "={{ $json.route }}",
-            "headers": "={{ $json.headers }}",
-            "body": "={{ $json.body }}",
-            "method": "={{ $json.method }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route",
-              "displayName": "route",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        4064,
-        528
-      ],
-      "id": "c8201e73-9050-4c1f-8265-bc7964f3ba49",
-      "name": "POST Deploy",
-      "onError": "continueErrorOutput"
     },
     {
       "parameters": {
@@ -1781,6 +1132,149 @@
     },
     {
       "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "checkFileExist",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTextAudioAlignTemplateId }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "comfyUiRequest": "={{ {} }}",
+            "index": 0,
+            "request": "={{ {\n\"filePath\":\"input/\"+$('Split Out').item.json.existingFilesNames\n} }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "request",
+              "displayName": "request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1664,
+        528
+      ],
+      "id": "f00702e1-d472-4252-99c1-3f0e37e0a16e",
+      "name": "check file exist via dashboard"
+    },
+    {
+      "parameters": {
         "rules": {
           "values": [
             {
@@ -1793,20 +1287,20 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $json.meta.progress.status == \"success\" }}",
+                    "leftValue": "={{ $json.status == \"ok\" && $json.exists }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
                       "operation": "true",
                       "singleValue": true
                     },
-                    "id": "d60c8143-431c-42fd-ae00-f85786c31554"
+                    "id": "df0dd6b2-f078-4635-9d09-d8b97128d65a"
                   }
                 ],
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "success"
+              "outputKey": "exist"
             },
             {
               "conditions": {
@@ -1818,8 +1312,8 @@
                 },
                 "conditions": [
                   {
-                    "id": "5ec1d134-810d-4c82-9941-feb3666d7d37",
-                    "leftValue": "={{ $json.meta.progress.status == \"processing\" }}",
+                    "id": "41615180-7716-421f-9055-5a038cd56172",
+                    "leftValue": "={{ $json.status == \"ok\" && !$json.exists }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -1831,7 +1325,7 @@
                 "combinator": "and"
               },
               "renameOutput": true,
-              "outputKey": "processing"
+              "outputKey": "not exist"
             },
             {
               "conditions": {
@@ -1843,33 +1337,8 @@
                 },
                 "conditions": [
                   {
-                    "id": "943af9e6-26ab-48e3-824d-ef5e5e9f6691",
-                    "leftValue": "={{ $json.isEmpty() }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "no progress file yet"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "dce3399f-3414-4508-9339-94a56f2d91eb",
-                    "leftValue": "={{ $json.meta.progress.status == \"error\" }}",
+                    "id": "fb47e4c6-22e1-4360-a5b6-b28d3ace2008",
+                    "leftValue": "={{ $json.hasField('error') }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -1890,25 +1359,1014 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        5280,
-        624
+        1872,
+        512
       ],
-      "id": "80d4fc55-e94a-4bc5-aa8e-0960b0caa507",
-      "name": "Switch by status1"
+      "id": "20bbf0a7-1801-45d5-a44f-e6ee76876b1f",
+      "name": "Switch"
     },
     {
       "parameters": {
-        "amount": 15
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "uploadFile",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodTextAudioAlignTemplateId }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "comfyUiRequest": "={{ {} }}",
+            "index": 0,
+            "request": "={{ {\n\"localFilePath\":$('Start').item.json.channelsFolderPath+'/'+$('Start').item.json.channelName+'/VIDEOS/'+ $('Start').item.json.videoFolderName + '/VOICE/' + $('Split Out').item.json.existingFilesNames,\n\n\"destinationFilePath\":\"input\",\n\n\"filename\":$('Split Out').item.json.existingFilesNames,\n\n\"overwrite\":true,\n\n} }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "request",
+              "displayName": "request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
       },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2064,
+        624
+      ],
+      "id": "1921c41e-40a6-4bd6-877b-d845d564f2e2",
+      "name": "upload file via dashboard"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        1136,
+        528
+      ],
+      "id": "1fb94b9d-3f53-4443-b404-191dad960982",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.status == \"ok\" && $json.exists }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "df0dd6b2-f078-4635-9d09-d8b97128d65a"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "41615180-7716-421f-9055-5a038cd56172",
+                    "leftValue": "={{ $json.status == \"ok\" && !$json.exists }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "fb47e4c6-22e1-4360-a5b6-b28d3ace2008",
+                    "leftValue": "={{ $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2256,
+        608
+      ],
+      "id": "ec818b6a-0af5-4118-97a2-7f86bd2fe077",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.exists.filter(item => false).length == 0 }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "df0dd6b2-f078-4635-9d09-d8b97128d65a"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "all exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "41615180-7716-421f-9055-5a038cd56172",
+                    "leftValue": "={{ $json.exists.filter(item => false).length > 0 }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "some not exist"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "fb47e4c6-22e1-4360-a5b6-b28d3ace2008",
+                    "leftValue": "={{ $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3088,
+        512
+      ],
+      "id": "9331a0af-8475-473f-9016-1b025750f740",
+      "name": "Switch2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "={{ $json.method }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4064,
+        528
+      ],
+      "id": "c8201e73-9050-4c1f-8265-bc7964f3ba49",
+      "name": "send text audio align req",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fb62633-4973-457b-9ff6-82b7e234c67c",
+              "name": "method",
+              "value": "POST",
+              "type": "string"
+            },
+            {
+              "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.TEXT_AUDIO_ALIGNER_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "924df8b7-5307-4367-a739-6b16477cea78",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID1').item.json.id+\"tesst\",\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
+              "name": "body",
+              "value": "={{ \n{\n  \"podId\": $('read pod id').item.json.podMeta.id,\n  \"alignmentPort\": \"8091\",\n  \"autoRetry\": true,\n  \"maxRetries\": 1,\n  \"timeoutSeconds\": 120,\n  \"alignmentRequest\": {\n    \"backend\": \"whisperx\",\n    \"channelName\": \"n8n\",\n    \"videoFolderName\": $('get product key').first().json.productKey,\n    \"device\": \"cuda\",\n    \"language\": $('get all workflow params').first().json.channelLanguage,\n    \"text\": $('get whole text from TXT file').item.json.text,\n    \"audioPaths\": $('get voiceover file names').item.json.existingFilesNames.map(i => \"input/\" + i),\n    \"mode\": \"default\",\n    \"chunkLimit\": $('get all workflow params').first().json.textPartsLength,\n    \"asrWorkers\": 1,\n    \"minIndexChars\": 35\n  }\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3888,
+        528
+      ],
+      "id": "d16a4ff4-1420-4011-9150-685a09919819",
+      "name": "form text audio align req"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fb62633-4973-457b-9ff6-82b7e234c67c",
+              "name": "method",
+              "value": "POST",
+              "type": "string"
+            },
+            {
+              "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.TEXT_AUDIO_ALIGNER_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "924df8b7-5307-4367-a739-6b16477cea78",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID1').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
+              "name": "body",
+              "value": "={{ \n{\n\"mode\":\"status\"\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4480,
+        640
+      ],
+      "id": "4c052136-1c84-441e-a3e2-9a6ec171c395",
+      "name": "form text audio align status req"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "={{ $json.method }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4656,
+        640
+      ],
+      "id": "f8a2f414-b745-4b88-9107-fe25e5213c9d",
+      "name": "send text audio align status req",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "6bc0290a-02d1-4194-af9e-cf365d81ea70",
+                    "leftValue": "={{ $json.state == \"success\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.state == \"new\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "df7a1c31-0e56-4ec1-9ce9-a62b0c8e60ac"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "new"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "81080fc0-49c7-48ff-8cf1-61d12c5d5e2c",
+                    "leftValue": "={{ $json.state == \"submitting\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "=submitting"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "9963fc19-6bce-4a34-ada6-d8e083a81c49",
+                    "leftValue": "={{ $json.state == \"queued\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "queued"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "f9b1eb30-d85a-4410-8738-589fc76e07c1",
+                    "leftValue": "={{ $json.state == \"running\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "running"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "16f42c5c-7bb9-453c-90fe-28ae24b218c4",
+                    "leftValue": "={{ $json.state == \"fail\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "fail"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "dfaa92e7-46d7-40d1-aba6-d7020dcca920",
+                    "leftValue": "={{ $json.state == \"missing\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "missing"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        4864,
+        544
+      ],
+      "id": "aa6a5010-683d-4793-8169-99ed978f1d69",
+      "name": "Switch State"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Error transcribing audio"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        5072,
+        1024
+      ],
+      "id": "2a6645b0-5f77-45b7-ba6d-f63670f83e04",
+      "name": "Stop and Error"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VOICE/transcript/{{ $('Start').first().json.videoFolderName }}_transcript.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ $json.transcript }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        5520,
+        544
+      ],
+      "name": "write transcript file",
+      "id": "10b021d2-a8e8-400a-9511-8c3972826b56"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fb62633-4973-457b-9ff6-82b7e234c67c",
+              "name": "method",
+              "value": "POST",
+              "type": "string"
+            },
+            {
+              "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.TEXT_AUDIO_ALIGNER_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "924df8b7-5307-4367-a739-6b16477cea78",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID1').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
+              "name": "body",
+              "value": "={{ \n{\n\"mode\":\"download\"\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        5136,
+        544
+      ],
+      "id": "e065b029-7afe-407a-be2a-c8784952b100",
+      "name": "form text audio align status req1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "={{ $json.method }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        5328,
+        544
+      ],
+      "id": "4f7bafcf-decd-4954-afe4-352c88b3eed5",
+      "name": "send text audio align status req1",
+      "onError": "continueErrorOutput"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Error downloading transcribation result"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        5456,
+        704
+      ],
+      "id": "2ec87cd4-343c-421c-a19e-af181b81a600",
+      "name": "Stop and Error1"
+    },
+    {
+      "parameters": {},
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        5376,
-        784
+        5104,
+        768
       ],
-      "id": "2f267dbe-1b63-4a2f-ad14-d4dfa9b92c35",
-      "name": "Wait3",
-      "webhookId": "e8358e3c-9375-49e1-abb9-588c5b6a8520"
+      "id": "43e7b539-914c-4409-b4a9-3d728980bebc",
+      "name": "Wait2",
+      "webhookId": "c2eb7030-7b2f-4667-81a1-68e581bfbd5c"
     },
     {
       "parameters": {
@@ -1992,243 +2450,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        5584,
-        656
+        5712,
+        544
       ],
-      "name": "set voiceover ready1",
+      "name": "set transcription ready",
       "id": "00737f3b-28a8-4bc8-ad44-87c65b410e8f"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "2fb62633-4973-457b-9ff6-82b7e234c67c",
-              "name": "method",
-              "value": "POST",
-              "type": "string"
-            },
-            {
-              "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
-              "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.textAudioAlignerRoute }}",
-              "type": "string"
-            },
-            {
-              "id": "924df8b7-5307-4367-a739-6b16477cea78",
-              "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $('get random ID1').first().json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
-              "name": "body",
-              "value": "={{ \n{\n\"mode\":\"status\"\n}\n}}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        4480,
-        640
-      ],
-      "id": "4c052136-1c84-441e-a3e2-9a6ec171c395",
-      "name": "form transcription request1"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ljH0uamrMfc4IBJx",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "http works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "route": "={{ $json.route }}",
-            "headers": "={{ $json.headers }}",
-            "body": "={{ $json.body }}",
-            "method": "={{ $json.method }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route",
-              "displayName": "route",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        4656,
-        640
-      ],
-      "id": "f8a2f414-b745-4b88-9107-fe25e5213c9d",
-      "name": "POST Deploy1",
-      "onError": "continueErrorOutput"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "2fb62633-4973-457b-9ff6-82b7e234c67c",
-              "name": "method",
-              "value": "POST",
-              "type": "string"
-            },
-            {
-              "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
-              "name": "route",
-              "value": "=http://{{ $('get all workflow params').first().json.proxyServerIP }}:{{ $('get all workflow params').first().json.proxyServerPort }}/{{ $('get all workflow params').first().json.textAudioAlignerRoute }}",
-              "type": "string"
-            },
-            {
-              "id": "924df8b7-5307-4367-a739-6b16477cea78",
-              "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $('get random ID1').first().json.id,\n\"X-Product-Key\" : $('get product key').first().json.productKey\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
-              "name": "body",
-              "value": "={{ \n{\n\"mode\":\"download\"\n}\n}}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        4864,
-        640
-      ],
-      "id": "e943aa0e-b02c-4c99-b890-d14cfa7bcc6b",
-      "name": "form transcription request2"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ljH0uamrMfc4IBJx",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "http works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "route": "={{ $json.route }}",
-            "headers": "={{ $json.headers }}",
-            "body": "={{ $json.body }}",
-            "method": "={{ $json.method }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route",
-              "displayName": "route",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        5040,
-        640
-      ],
-      "id": "e51df516-b738-492a-8990-0f4605c25046",
-      "name": "POST Deploy2",
-      "onError": "continueErrorOutput"
     }
   ],
   "connections": {
@@ -2340,7 +2566,7 @@
       "main": [
         [
           {
-            "node": "get voiceover file names",
+            "node": "Limit",
             "type": "main",
             "index": 0
           }
@@ -2365,91 +2591,11 @@
         ]
       ]
     },
-    "check file on jupiter": {
-      "main": [
-        [
-          {
-            "node": "If file exists",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If file exists": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "upload file to jupiter",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "upload file to jupiter": {
-      "main": [
-        [
-          {
-            "node": "Wait2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "check file on jupiter1": {
-      "main": [
-        [
-          {
-            "node": "If file exists1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If file exists1": {
-      "main": [
-        [
-          {
-            "node": "Merge",
-            "type": "main",
-            "index": 1
-          }
-        ],
-        [
-          {
-            "node": "Wait2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Wait2": {
-      "main": [
-        [
-          {
-            "node": "check file on jupiter1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Aggregate": {
       "main": [
         [
           {
-            "node": "If All Ready",
+            "node": "Switch2",
             "type": "main",
             "index": 0
           }
@@ -2461,28 +2607,6 @@
         [
           {
             "node": "Split Out",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "If All Ready": {
-      "main": [
-        [
-          {
-            "node": "get whole text from TXT file",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "form transcription request": {
-      "main": [
-        [
-          {
-            "node": "POST Deploy",
             "type": "main",
             "index": 0
           }
@@ -2504,7 +2628,7 @@
       "main": [
         [
           {
-            "node": "form transcription request",
+            "node": "form text audio align req",
             "type": "main",
             "index": 0
           }
@@ -2537,7 +2661,7 @@
       "main": [
         [
           {
-            "node": "check file on jupiter",
+            "node": "check file exist via dashboard",
             "type": "main",
             "index": 0
           }
@@ -2555,74 +2679,236 @@
         ]
       ]
     },
-    "Switch by status1": {
+    "check file exist via dashboard": {
       "main": [
         [
           {
-            "node": "set voiceover ready1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Wait3",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Wait3",
+            "node": "Switch",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Wait3": {
+    "Switch": {
       "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "upload file via dashboard",
+            "type": "main",
+            "index": 0
+          }
+        ],
         []
       ]
     },
-    "POST Deploy": {
+    "upload file via dashboard": {
       "main": [
         [
           {
-            "node": "form transcription request1",
+            "node": "Switch1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "form transcription request1": {
+    "Limit": {
       "main": [
         [
           {
-            "node": "POST Deploy1",
+            "node": "get voiceover file names",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "form transcription request2": {
+    "Switch1": {
       "main": [
         [
           {
-            "node": "POST Deploy2",
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Switch2": {
+      "main": [
+        [
+          {
+            "node": "get whole text from TXT file",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "POST Deploy1": {
+    "send text audio align req": {
       "main": [
         [
           {
-            "node": "form transcription request2",
+            "node": "form text audio align status req",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form text audio align req": {
+      "main": [
+        [
+          {
+            "node": "send text audio align req",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form text audio align status req": {
+      "main": [
+        [
+          {
+            "node": "send text audio align status req",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send text audio align status req": {
+      "main": [
+        [
+          {
+            "node": "Switch State",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch State": {
+      "main": [
+        [
+          {
+            "node": "form text audio align status req1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form text audio align status req1": {
+      "main": [
+        [
+          {
+            "node": "send text audio align status req1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "send text audio align status req1": {
+      "main": [
+        [
+          {
+            "node": "write transcript file",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "form text audio align status req",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write transcript file": {
+      "main": [
+        [
+          {
+            "node": "set transcription ready",
             "type": "main",
             "index": 0
           }
@@ -2631,7 +2917,8 @@
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -2641,916 +2928,14 @@
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-03-24_MbcCf"
-        }
-      }
-    ],
-    "start runpod voicegen pod": [
-      {
-        "json": {
-          "podStatus": "ready",
-          "fileName": "podStatus.json"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ],
-    "check file on jupiter": [
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      },
-      {
-        "json": {
-          "fileExist": true
-        },
-        "pairedItem": {
-          "item": 1
-        }
-      }
-    ],
-    "POST Deploy2": [
-      {
-        "json": {
-          "id": "0d34-5c25-a166-0ce7",
-          "state": "success",
-          "jobId": "84076f52d92e4cbabf3fef46dbe361b1",
-          "status": {
-            "job_id": "84076f52d92e4cbabf3fef46dbe361b1",
-            "status": "completed",
-            "backend": "whisperx",
-            "created_at": "2026-04-01T17:37:36Z",
-            "started_at": "2026-04-01T17:37:36Z",
-            "finished_at": "2026-04-01T17:38:07Z",
-            "pid": 743,
-            "return_code": null,
-            "error": null,
-            "result_path": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/result/transcript.json",
-            "progress_path": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/result/transcriptProgress.json",
-            "log_path": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/logs/transcribe.log",
-            "dataset_info": {
-              "mainFolderPath": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/dataset",
-              "channelName": "n8n",
-              "videoFolderName": "pk_live_qQtRdoPVyQEtupktOboHQtgkMzHFQXHU",
-              "textPartsPath": null,
-              "materialized": true,
-              "copiedAudioFiles": [
-                "MbcCf_00000.mp3",
-                "MbcCf_00001.mp3"
-              ]
-            },
-            "progress_meta": {
-              "channel": "n8n",
-              "video": "pk_live_qQtRdoPVyQEtupktOboHQtgkMzHFQXHU",
-              "language": "ru",
-              "num_sentences_total": 21,
-              "progress": {
-                "status": "success",
-                "total": 21,
-                "current": 21,
-                "audios_total": 2,
-                "audios_done": 2,
-                "last_audio": "MbcCf_00001.mp3",
-                "total_duration_sec": 145.110204,
-                "problem_audio": null,
-                "unrecognized_text": null,
-                "time_spent": 24.15
-              },
-              "processed_audio": [
-                [
-                  "MbcCf_00000.mp3",
-                  15.19,
-                  15.19
-                ],
-                [
-                  "MbcCf_00001.mp3",
-                  7.83,
-                  7.83
-                ]
-              ]
-            },
-            "transcript_exists": true,
-            "urls": {
-              "self": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1",
-              "transcript": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/result/transcript",
-              "progress": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/result/progress",
-              "log": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/log",
-              "cancel": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/cancel"
-            },
-            "log_tail": "Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\ntrue\ntrue\n"
-          },
-          "transcript": {
-            "meta": {
-              "channel": "n8n",
-              "video": "pk_live_qQtRdoPVyQEtupktOboHQtgkMzHFQXHU",
-              "language": "ru",
-              "num_sentences_total": 21,
-              "progress": {
-                "status": "success",
-                "total": 21,
-                "current": 21,
-                "audios_total": 2,
-                "audios_done": 2,
-                "last_audio": "MbcCf_00001.mp3",
-                "total_duration_sec": 145.110204,
-                "problem_audio": null,
-                "unrecognized_text": null,
-                "time_spent": 24.15
-              },
-              "processed_audio": [
-                [
-                  "MbcCf_00000.mp3",
-                  15.19,
-                  15.19
-                ],
-                [
-                  "MbcCf_00001.mp3",
-                  7.83,
-                  7.83
-                ]
-              ]
-            },
-            "items": [
-              {
-                "idx": 0,
-                "text": "Город шумит целые сутки, а найти уголок для двоих всё равно можно.",
-                "normalized": "gorod shumit tselye sutki, a naiti ugolok dlia dvoikh vsio ravno mozhno.",
-                "tokens": [
-                  "gorod",
-                  "shumit",
-                  "tselye",
-                  "sutki",
-                  "a",
-                  "naiti",
-                  "ugolok",
-                  "dlia",
-                  "dvoikh",
-                  "vsio",
-                  "ravno",
-                  "mozhno"
-                ],
-                "start_ms": 31,
-                "end_ms": 2966,
-                "audio_file": "MbcCf_00000.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 0
-              },
-              {
-                "idx": 1,
-                "text": "Где в переполненной Москве тишина переключается на шёпот и какой маршрут превращает обычный вечер в историю, к которой захочется вернуться?",
-                "normalized": "gde v perepolnennoi moskve tishina perekliuchaetsia na shiopot i kakoi marshrut prevrashchaet obychnyi vecher v istoriiu, k kotoroi zakhochetsia vernut'sia?",
-                "tokens": [
-                  "gde",
-                  "v",
-                  "perepolnennoi",
-                  "moskve",
-                  "tishina",
-                  "perekliuchaetsia",
-                  "na",
-                  "shiopot",
-                  "i",
-                  "kakoi",
-                  "marshrut",
-                  "prevrashchaet",
-                  "obychnyi",
-                  "vecher",
-                  "v",
-                  "istoriiu",
-                  "k",
-                  "kotoroi",
-                  "zakhochetsia",
-                  "vernut'sia"
-                ],
-                "start_ms": 5062,
-                "end_ms": 7997,
-                "audio_file": "MbcCf_00000.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 0
-              },
-              {
-                "idx": 2,
-                "text": "Начинаем с места, где воздух пахнет свежей травой и слегка... льдом.",
-                "normalized": "nachinaem s mesta, gde vozdukh pakhnet svezhei travoi i slegka... l'dom.",
-                "tokens": [
-                  "nachinaem",
-                  "s",
-                  "mesta",
-                  "gde",
-                  "vozdukh",
-                  "pakhnet",
-                  "svezhei",
-                  "travoi",
-                  "i",
-                  "slegka",
-                  "l'dom"
-                ],
-                "start_ms": 14965,
-                "end_ms": 20562,
-                "audio_file": "MbcCf_00000.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 0
-              },
-              {
-                "idx": 3,
-                "text": "Зарядье держит главный трюк - парящий мост нависает над Москвой-рекой, будто завис.",
-                "normalized": "zariad'e derzhit glavnyi triuk - pariashchii most navisaet nad moskvoi-rekoi, budto zavis.",
-                "tokens": [
-                  "zariad'e",
-                  "derzhit",
-                  "glavnyi",
-                  "triuk",
-                  "-",
-                  "pariashchii",
-                  "most",
-                  "navisaet",
-                  "nad",
-                  "moskvoi-rekoi",
-                  "budto",
-                  "zavis"
-                ],
-                "start_ms": 20563,
-                "end_ms": 22597,
-                "audio_file": "MbcCf_00000.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 0
-              },
-              {
-                "idx": 4,
-                "text": "Стекло под ногами заставляет сердце подпрыгнуть, а закат на фоне кремлёвских башен делает фото без фильтров.",
-                "normalized": "steklo pod nogami zastavliaet serdtse podprygnut', a zakat na fone kremliovskikh bashen delaet foto bez fil'trov.",
-                "tokens": [
-                  "steklo",
-                  "pod",
-                  "nogami",
-                  "zastavliaet",
-                  "serdtse",
-                  "podprygnut'",
-                  "a",
-                  "zakat",
-                  "na",
-                  "fone",
-                  "kremliovskikh",
-                  "bashen",
-                  "delaet",
-                  "foto",
-                  "bez",
-                  "fil'trov"
-                ],
-                "start_ms": 26668,
-                "end_ms": 31756,
-                "audio_file": "MbcCf_00000.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 0
-              },
-              {
-                "idx": 5,
-                "text": "Если станет прохладно - рядом ледяная пещера, внутри всегда минус пять и повод прижаться ближе.",
-                "normalized": "esli stanet prokhladno - riadom ledianaia peshchera, vnutri vsegda minus piat' i povod prizhat'sia blizhe.",
-                "tokens": [
-                  "esli",
-                  "stanet",
-                  "prokhladno",
-                  "-",
-                  "riadom",
-                  "ledianaia",
-                  "peshchera",
-                  "vnutri",
-                  "vsegda",
-                  "minus",
-                  "piat'",
-                  "i",
-                  "povod",
-                  "prizhat'sia",
-                  "blizhe"
-                ],
-                "start_ms": 34300,
-                "end_ms": 41932,
-                "audio_file": "MbcCf_00000.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 0
-              },
-              {
-                "idx": 6,
-                "text": "Доступ свободный, вечером людей заметно меньше. Дальше - Патриаршие пруды.",
-                "normalized": "dostup svobodnyi, vecherom liudei zametno men'she. dal'she - patriarshie prudy.",
-                "tokens": [
-                  "dostup",
-                  "svobodnyi",
-                  "vecherom",
-                  "liudei",
-                  "zametno",
-                  "men'she",
-                  "dal'she",
-                  "-",
-                  "patriarshie",
-                  "prudy"
-                ],
-                "start_ms": 42016,
-                "end_ms": 45706,
-                "audio_file": "MbcCf_00000.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 0
-              },
-              {
-                "idx": 7,
-                "text": "Летом здесь лениво скользят утки, зимой - коньки и глинтвейн в одноразовом стакане.",
-                "normalized": "letom zdes' lenivo skol'ziat utki, zimoi - kon'ki i glintvein v odnorazovom stakane.",
-                "tokens": [
-                  "letom",
-                  "zdes'",
-                  "lenivo",
-                  "skol'ziat",
-                  "utki",
-                  "zimoi",
-                  "-",
-                  "kon'ki",
-                  "i",
-                  "glintvein",
-                  "v",
-                  "odnorazovom",
-                  "stakane"
-                ],
-                "start_ms": 46760,
-                "end_ms": 53612,
-                "audio_file": "MbcCf_00000.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 0
-              },
-              {
-                "idx": 8,
-                "text": "Скамейки у воды скрыты каштанами, музыка не орёт, фонари жёлтые.",
-                "normalized": "skameiki u vody skryty kashtanami, muzyka ne oriot, fonari zhioltye.",
-                "tokens": [
-                  "skameiki",
-                  "u",
-                  "vody",
-                  "skryty",
-                  "kashtanami",
-                  "muzyka",
-                  "ne",
-                  "oriot",
-                  "fonari",
-                  "zhioltye"
-                ],
-                "start_ms": 53613,
-                "end_ms": 58883,
-                "audio_file": "MbcCf_00000.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 0
-              },
-              {
-                "idx": 9,
-                "text": "Пушкинский маршрут бонусом: десять минут пешком - и вы уже на крошечных кривых улицах старой Москвы. Хотите драматической высоты?",
-                "normalized": "pushkinskii marshrut bonusom: desiat' minut peshkom - i vy uzhe na kroshechnykh krivykh ulitsakh staroi moskvy. khotite dramaticheskoi vysoty?",
-                "tokens": [
-                  "pushkinskii",
-                  "marshrut",
-                  "bonusom",
-                  "desiat'",
-                  "minut",
-                  "peshkom",
-                  "-",
-                  "i",
-                  "vy",
-                  "uzhe",
-                  "na",
-                  "kroshechnykh",
-                  "krivykh",
-                  "ulitsakh",
-                  "staroi",
-                  "moskvy",
-                  "khotite",
-                  "dramaticheskoi",
-                  "vysoty"
-                ],
-                "start_ms": 58884,
-                "end_ms": 68898,
-                "audio_file": "MbcCf_00000.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 0
-              },
-              {
-                "idx": 10,
-                "text": "Смотровая Москва-Сити на восемьдесят девятом этаже даёт обзор в триста шестьдесят градусов.",
-                "normalized": "smotrovaia moskva-siti na vosem'desiat deviatom etazhe daiot obzor v trista shest'desiat gradusov.",
-                "tokens": [
-                  "smotrovaia",
-                  "moskva-siti",
-                  "na",
-                  "vosem'desiat",
-                  "deviatom",
-                  "etazhe",
-                  "daiot",
-                  "obzor",
-                  "v",
-                  "trista",
-                  "shest'desiat",
-                  "gradusov"
-                ],
-                "start_ms": 68942,
-                "end_ms": 70572,
-                "audio_file": "MbcCf_00001.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 1
-              },
-              {
-                "idx": 11,
-                "text": "Небо почти на уровне ладони, а огни Третьего транспортного кольца уходят в бесконечность.",
-                "normalized": "nebo pochti na urovne ladoni, a ogni tret'ego transportnogo kol'tsa ukhodiat v beskonechnost'.",
-                "tokens": [
-                  "nebo",
-                  "pochti",
-                  "na",
-                  "urovne",
-                  "ladoni",
-                  "a",
-                  "ogni",
-                  "tret'ego",
-                  "transportnogo",
-                  "kol'tsa",
-                  "ukhodiat",
-                  "v",
-                  "beskonechnost'"
-                ],
-                "start_ms": 74375,
-                "end_ms": 81437,
-                "audio_file": "MbcCf_00001.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 1
-              },
-              {
-                "idx": 12,
-                "text": "Билеты бронируйте заранее онлайн - так уйдёте от очередей и сэкономите примерно четверть стоимости.",
-                "normalized": "bilety broniruite zaranee onlain - tak uidiote ot ocheredei i sekonomite primerno chetvert' stoimosti.",
-                "tokens": [
-                  "bilety",
-                  "broniruite",
-                  "zaranee",
-                  "onlain",
-                  "-",
-                  "tak",
-                  "uidiote",
-                  "ot",
-                  "ocheredei",
-                  "i",
-                  "sekonomite",
-                  "primerno",
-                  "chetvert'",
-                  "stoimosti"
-                ],
-                "start_ms": 82524,
-                "end_ms": 88500,
-                "audio_file": "MbcCf_00001.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 1
-              },
-              {
-                "idx": 13,
-                "text": "Для тех, кто ценит тишину без бетона, подходит Коломенское.",
-                "normalized": "dlia tekh, kto tsenit tishinu bez betona, podkhodit kolomenskoe.",
-                "tokens": [
-                  "dlia",
-                  "tekh",
-                  "kto",
-                  "tsenit",
-                  "tishinu",
-                  "bez",
-                  "betona",
-                  "podkhodit",
-                  "kolomenskoe"
-                ],
-                "start_ms": 90979,
-                "end_ms": 94458,
-                "audio_file": "MbcCf_00001.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 1
-              },
-              {
-                "idx": 14,
-                "text": "Дубравы, деревянные мостки к Москва-реке, яблоневый сад весной.",
-                "normalized": "dubravy, dereviannye mostki k moskva-reke, iablonevyi sad vesnoi.",
-                "tokens": [
-                  "dubravy",
-                  "dereviannye",
-                  "mostki",
-                  "k",
-                  "moskva-reke",
-                  "iablonevyi",
-                  "sad",
-                  "vesnoi"
-                ],
-                "start_ms": 94459,
-                "end_ms": 95452,
-                "audio_file": "MbcCf_00001.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 1
-              },
-              {
-                "idx": 15,
-                "text": "Плед, термос с чаем, и вдруг слышно, как по воде хлопает ладонь рыбака.",
-                "normalized": "pled, termos s chaem, i vdrug slyshno, kak po vode khlopaet ladon' rybaka.",
-                "tokens": [
-                  "pled",
-                  "termos",
-                  "s",
-                  "chaem",
-                  "i",
-                  "vdrug",
-                  "slyshno",
-                  "kak",
-                  "po",
-                  "vode",
-                  "khlopaet",
-                  "ladon'",
-                  "rybaka"
-                ],
-                "start_ms": 99925,
-                "end_ms": 104894,
-                "audio_file": "MbcCf_00001.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 1
-              },
-              {
-                "idx": 16,
-                "text": "До станции метро пять минут, но кажется, что город остался в другой реальности.",
-                "normalized": "do stantsii metro piat' minut, no kazhetsia, chto gorod ostalsia v drugoi real'nosti.",
-                "tokens": [
-                  "do",
-                  "stantsii",
-                  "metro",
-                  "piat'",
-                  "minut",
-                  "no",
-                  "kazhetsia",
-                  "chto",
-                  "gorod",
-                  "ostalsia",
-                  "v",
-                  "drugoi",
-                  "real'nosti"
-                ],
-                "start_ms": 106385,
-                "end_ms": 111355,
-                "audio_file": "MbcCf_00001.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 1
-              },
-              {
-                "idx": 17,
-                "text": "Финальный акцент - ночной теплоход от Парка Горького.",
-                "normalized": "final'nyi aktsent - nochnoi teplokhod ot parka gor'kogo.",
-                "tokens": [
-                  "final'nyi",
-                  "aktsent",
-                  "-",
-                  "nochnoi",
-                  "teplokhod",
-                  "ot",
-                  "parka",
-                  "gor'kogo"
-                ],
-                "start_ms": 111356,
-                "end_ms": 115331,
-                "audio_file": "MbcCf_00001.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 1
-              },
-              {
-                "idx": 18,
-                "text": "Две с половиной часы лайнер медленно режет чёрную воду, Катерина Второй воплощается в подсвеченных фасадах, а тихий диджей сет не перебивает разговор.",
-                "normalized": "dve s polovinoi chasy lainer medlenno rezhet chiornuiu vodu, katerina vtoroi voploshchaetsia v podsvechennykh fasadakh, a tikhii didzhei set ne perebivaet razgovor.",
-                "tokens": [
-                  "dve",
-                  "s",
-                  "polovinoi",
-                  "chasy",
-                  "lainer",
-                  "medlenno",
-                  "rezhet",
-                  "chiornuiu",
-                  "vodu",
-                  "katerina",
-                  "vtoroi",
-                  "voploshchaetsia",
-                  "v",
-                  "podsvechennykh",
-                  "fasadakh",
-                  "a",
-                  "tikhii",
-                  "didzhei",
-                  "set",
-                  "ne",
-                  "perebivaet",
-                  "razgovor"
-                ],
-                "start_ms": 117561,
-                "end_ms": 126394,
-                "audio_file": "MbcCf_00001.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 1
-              },
-              {
-                "idx": 19,
-                "text": "Ветер расправляет волосы, и внезапно понимаешь: вот оно - свидание без права забыть. Пять точек, пять настроений.",
-                "normalized": "veter raspravliaet volosy, i vnezapno ponimaesh': vot ono - svidanie bez prava zabyt'. piat' tochek, piat' nastroenii.",
-                "tokens": [
-                  "veter",
-                  "raspravliaet",
-                  "volosy",
-                  "i",
-                  "vnezapno",
-                  "ponimaesh'",
-                  "vot",
-                  "ono",
-                  "-",
-                  "svidanie",
-                  "bez",
-                  "prava",
-                  "zabyt'",
-                  "piat'",
-                  "tochek",
-                  "piat'",
-                  "nastroenii"
-                ],
-                "start_ms": 127953,
-                "end_ms": 134707,
-                "audio_file": "MbcCf_00001.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 1
-              },
-              {
-                "idx": 20,
-                "text": "Общая нитка простая: выбирайте место, где можно говорить тихо и всё равно слышать друг друга. Остальное Москва берёт на себя.",
-                "normalized": "obshchaia nitka prostaia: vybiraite mesto, gde mozhno govorit' tikho i vsio ravno slyshat' drug druga. ostal'noe moskva beriot na sebia.",
-                "tokens": [
-                  "obshchaia",
-                  "nitka",
-                  "prostaia",
-                  "vybiraite",
-                  "mesto",
-                  "gde",
-                  "mozhno",
-                  "govorit'",
-                  "tikho",
-                  "i",
-                  "vsio",
-                  "ravno",
-                  "slyshat'",
-                  "drug",
-                  "druga",
-                  "ostal'noe",
-                  "moskva",
-                  "beriot",
-                  "na",
-                  "sebia"
-                ],
-                "start_ms": 134708,
-                "end_ms": 139903,
-                "audio_file": "MbcCf_00001.mp3",
-                "merged_with": null,
-                "preMergedText": null,
-                "order": null,
-                "suborder": null,
-                "chunk": 1
-              }
-            ]
-          },
-          "transcriptProgress": {
-            "meta": {
-              "channel": "n8n",
-              "video": "pk_live_qQtRdoPVyQEtupktOboHQtgkMzHFQXHU",
-              "language": "ru",
-              "num_sentences_total": 21,
-              "progress": {
-                "status": "success",
-                "total": 21,
-                "current": 21,
-                "audios_total": 2,
-                "audios_done": 2,
-                "last_audio": "MbcCf_00001.mp3",
-                "total_duration_sec": 145.110204,
-                "problem_audio": null,
-                "unrecognized_text": null,
-                "time_spent": 24.15
-              },
-              "processed_audio": [
-                [
-                  "MbcCf_00000.mp3",
-                  15.19,
-                  15.19
-                ],
-                [
-                  "MbcCf_00001.mp3",
-                  7.83,
-                  7.83
-                ]
-              ]
-            }
-          },
-          "log": {
-            "job_id": "84076f52d92e4cbabf3fef46dbe361b1",
-            "log_path": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/logs/transcribe.log",
-            "log": "Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\ntrue\ntrue\n"
-          },
-          "completedAt": "2026-04-01T17:38:07Z"
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ],
-    "POST Deploy1": [
-      {
-        "json": {
-          "alignmentPort": "8091",
-          "artifactAvailable": true,
-          "error": null,
-          "generationConfiguration": {
-            "gpuCount": 1,
-            "gpuTypeId": "",
-            "modality": "",
-            "podCostUsdPerHour": 0,
-            "tags": {},
-            "workloadKey": ""
-          },
-          "id": "0d34-5c25-a166-0ce7",
-          "jobId": "84076f52d92e4cbabf3fef46dbe361b1",
-          "podId": "ptx7qlmniyyamk",
-          "retries": 4,
-          "state": "success",
-          "status": {
-            "backend": "whisperx",
-            "created_at": "2026-04-01T17:37:36Z",
-            "dataset_info": {
-              "channelName": "n8n",
-              "copiedAudioFiles": [
-                "MbcCf_00000.mp3",
-                "MbcCf_00001.mp3"
-              ],
-              "mainFolderPath": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/dataset",
-              "materialized": true,
-              "textPartsPath": null,
-              "videoFolderName": "pk_live_qQtRdoPVyQEtupktOboHQtgkMzHFQXHU"
-            },
-            "error": null,
-            "finished_at": "2026-04-01T17:38:07Z",
-            "job_id": "84076f52d92e4cbabf3fef46dbe361b1",
-            "log_path": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/logs/transcribe.log",
-            "log_tail": "Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.\ntrue\ntrue\n",
-            "pid": 743,
-            "progress_meta": {
-              "channel": "n8n",
-              "language": "ru",
-              "num_sentences_total": 21,
-              "processed_audio": [
-                [
-                  "MbcCf_00000.mp3",
-                  15.19,
-                  15.19
-                ],
-                [
-                  "MbcCf_00001.mp3",
-                  7.83,
-                  7.83
-                ]
-              ],
-              "progress": {
-                "audios_done": 2,
-                "audios_total": 2,
-                "current": 21,
-                "last_audio": "MbcCf_00001.mp3",
-                "problem_audio": null,
-                "status": "success",
-                "time_spent": 24.15,
-                "total": 21,
-                "total_duration_sec": 145.110204,
-                "unrecognized_text": null
-              },
-              "video": "pk_live_qQtRdoPVyQEtupktOboHQtgkMzHFQXHU"
-            },
-            "progress_path": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/result/transcriptProgress.json",
-            "result_path": "/workspace/runtime/alignment_jobs/84076f52d92e4cbabf3fef46dbe361b1/result/transcript.json",
-            "return_code": null,
-            "started_at": "2026-04-01T17:37:36Z",
-            "status": "completed",
-            "transcript_exists": true,
-            "urls": {
-              "cancel": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/cancel",
-              "log": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/log",
-              "progress": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/result/progress",
-              "self": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1",
-              "transcript": "https://ptx7qlmniyyamk-8091.proxy.runpod.net/api/alignment/jobs/84076f52d92e4cbabf3fef46dbe361b1/result/transcript"
-            }
-          },
-          "transcriptAvailable": true,
-          "transcriptProgress": {
-            "meta": {
-              "channel": "n8n",
-              "language": "ru",
-              "num_sentences_total": 21,
-              "processed_audio": [
-                [
-                  "MbcCf_00000.mp3",
-                  15.19,
-                  15.19
-                ],
-                [
-                  "MbcCf_00001.mp3",
-                  7.83,
-                  7.83
-                ]
-              ],
-              "progress": {
-                "audios_done": 2,
-                "audios_total": 2,
-                "current": 21,
-                "last_audio": "MbcCf_00001.mp3",
-                "problem_audio": null,
-                "status": "success",
-                "time_spent": 24.15,
-                "total": 21,
-                "total_duration_sec": 145.110204,
-                "unrecognized_text": null
-              },
-              "video": "pk_live_qQtRdoPVyQEtupktOboHQtgkMzHFQXHU"
-            }
-          },
-          "transcriptProgressAvailable": true
-        },
-        "pairedItem": {
-          "item": 0
+          "videoFolderName": "2026-04-04_Amogs"
         }
       }
     ]
   },
-  "versionId": "257d883f-4741-4f2a-8ec3-26732f864aba",
-  "activeVersionId": "854a3e86-96f5-4d82-8c17-e76c6fc1bfe9",
-  "versionCounter": 658,
+  "versionId": "4d5da0d2-b9f9-4e94-baef-24d30b2fefee",
+  "activeVersionId": "4d5da0d2-b9f9-4e94-baef-24d30b2fefee",
+  "versionCounter": 930,
   "triggerCount": 0,
   "tags": [],
   "shared": [
