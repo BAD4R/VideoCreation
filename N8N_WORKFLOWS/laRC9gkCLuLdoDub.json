@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-05T17:43:11.597Z",
+  "updatedAt": "2026-04-06T09:40:24.685Z",
   "createdAt": "2026-02-05T03:23:05.635Z",
   "id": "laRC9gkCLuLdoDub",
   "name": "generate starting frames and clips prompts - paralleling",
@@ -498,7 +498,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n\n    $('get all workflow params').first().json.geminiAiResponsesRoute,\n\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -513,95 +513,6 @@
       ],
       "id": "29df351a-5b9e-417f-be6d-e50d3ebe67c1",
       "name": "get random ID for gemini starting frame prompt gen"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClipsAndStartFramesPrompts/{{ $('Start').item.json.videoFolderName.split('_').last() }}_{{ ($('Start').first().json.textPartIndex).toString().padStart(5,'0') }}.json",
-            "fileAction": "write",
-            "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {} }}",
-            "keysToDelete": "={{ [\"startingFramePrompt\",\"videoClipPrompts\"] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        2864,
-        240
-      ],
-      "name": "write prompts2",
-      "id": "fa6d8ab3-e20d-4fcd-bf3b-1077f6be1f80",
-      "alwaysOutputData": true
     },
     {
       "parameters": {
@@ -786,7 +697,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $json,\n\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n\n    $('get all workflow params').first().json.geminiAiResponsesRoute,\n\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $json,\n\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -986,7 +897,7 @@
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClipsAndStartFramesPrompts/{{ $('Start').item.json.videoFolderName.split('_').last() }}_{{ ($('Start').first().json.textPartIndex).toString().padStart(5,'0') }}.json",
             "fileAction": "write",
             "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {\"videoClipPrompts[-1*]\": $json.response} }}",
+            "keysToWrite": "={{ {\"videoClipPrompts[-1*]\": $json.response.parseJson().hasField('prompt')?$json.response.parseJson().prompt:$json.response} }}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -1166,7 +1077,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n\n    $('get all workflow params').first().json.openAiResponsesRoute,\n\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -1365,7 +1276,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $json,\n\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n\n    $('get all workflow params').first().json.openAiResponsesRoute,\n\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $json,\n\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -1530,7 +1441,7 @@
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClipsAndStartFramesPrompts/{{ $('Start').item.json.videoFolderName.split('_').last() }}_{{ ($('Start').first().json.textPartIndex).toString().padStart(5,'0') }}.json",
             "fileAction": "write",
             "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {\"videoClipPrompts[-1*]\": $json.response} }}",
+            "keysToWrite": "={{ {\"videoClipPrompts[-1*]\": $json.response.parseJson().hasField('prompt')?$json.response.parseJson().prompt:$json.response} }}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -1733,6 +1644,95 @@
       "name": "write tmp ready file",
       "id": "d62651b1-df59-4c7a-9efe-4af999699744",
       "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClipsAndStartFramesPrompts/{{ $('Start').item.json.videoFolderName.split('_').last() }}_{{ ($('Start').first().json.textPartIndex).toString().padStart(5,'0') }}.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [\"startingFramePrompt\",\"videoClipPrompts\"] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2864,
+        240
+      ],
+      "name": "clear prompts2",
+      "id": "fa6d8ab3-e20d-4fcd-bf3b-1077f6be1f80",
+      "alwaysOutputData": true
     }
   ],
   "connections": {
@@ -1762,7 +1762,7 @@
       "main": [
         [
           {
-            "node": "write prompts2",
+            "node": "clear prompts2",
             "type": "main",
             "index": 0
           }
@@ -1837,17 +1837,6 @@
         [
           {
             "node": "form request1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "write prompts2": {
-      "main": [
-        [
-          {
-            "node": "Switch",
             "type": "main",
             "index": 0
           }
@@ -2087,6 +2076,17 @@
           }
         ]
       ]
+    },
+    "clear prompts2": {
+      "main": [
+        [
+          {
+            "node": "Switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -2115,9 +2115,9 @@
       }
     ]
   },
-  "versionId": "ad0e67be-b3d3-4561-b541-055522da6a8b",
-  "activeVersionId": "ad0e67be-b3d3-4561-b541-055522da6a8b",
-  "versionCounter": 1138,
+  "versionId": "cc273b0c-4a18-41b8-84bb-b29e62635ec3",
+  "activeVersionId": "cc273b0c-4a18-41b8-84bb-b29e62635ec3",
+  "versionCounter": 1169,
   "triggerCount": 0,
   "tags": [],
   "shared": [
