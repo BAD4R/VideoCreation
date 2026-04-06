@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-06T09:40:24.685Z",
+  "updatedAt": "2026-04-06T10:27:53.915Z",
   "createdAt": "2026-02-05T03:23:05.635Z",
   "id": "laRC9gkCLuLdoDub",
   "name": "generate starting frames and clips prompts - paralleling",
@@ -293,7 +293,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4048,
+        3952,
         -80
       ],
       "id": "23d6a120-0d10-4db3-96d2-27d4fcbbc5ca",
@@ -490,29 +490,6 @@
       ],
       "id": "b6dc953d-19ee-48e3-9f34-87435dd7f780",
       "name": "extract json obj from response"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
-              "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        3856,
-        -80
-      ],
-      "id": "29df351a-5b9e-417f-be6d-e50d3ebe67c1",
-      "name": "get random ID for gemini starting frame prompt gen"
     },
     {
       "parameters": {
@@ -1072,29 +1049,6 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
-              "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        3856,
-        128
-      ],
-      "id": "5ff53f15-36c1-449d-bcbb-0ec03ae4efab",
-      "name": "get random ID for gemini starting frame prompt gen1"
-    },
-    {
-      "parameters": {
         "workflowId": {
           "__rl": true,
           "value": "qwG1pltFOQqqJLyh",
@@ -1543,7 +1497,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4048,
+        3952,
         128
       ],
       "id": "28b6b1e3-36f7-46a7-8454-0712c2dada0a",
@@ -1733,6 +1687,52 @@
       "name": "clear prompts2",
       "id": "fa6d8ab3-e20d-4fcd-bf3b-1077f6be1f80",
       "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n\n    $('get all workflow params').first().json.geminiAiResponsesRoute,\n\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3760,
+        -80
+      ],
+      "id": "bee7b77e-92b6-49b0-a1db-148469ac3f9c",
+      "name": "get random ID for gemini starting frame prompt gen"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n\n    $('get all workflow params').first().json.openAiResponsesRoute,\n\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3760,
+        128
+      ],
+      "id": "d21c330d-f0d2-4c9b-afc8-5b2d359fe7df",
+      "name": "get random ID for gemini starting frame prompt gen1"
     }
   ],
   "connections": {
@@ -1826,17 +1826,6 @@
         [
           {
             "node": "write starting frame",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "get random ID for gemini starting frame prompt gen": {
-      "main": [
-        [
-          {
-            "node": "form request1",
             "type": "main",
             "index": 0
           }
@@ -1960,17 +1949,6 @@
         ]
       ]
     },
-    "get random ID for gemini starting frame prompt gen1": {
-      "main": [
-        [
-          {
-            "node": "form request4",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "write starting frame1": {
       "main": [
         [
@@ -2087,6 +2065,28 @@
           }
         ]
       ]
+    },
+    "get random ID for gemini starting frame prompt gen": {
+      "main": [
+        [
+          {
+            "node": "form request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID for gemini starting frame prompt gen1": {
+      "main": [
+        [
+          {
+            "node": "form request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -2115,9 +2115,9 @@
       }
     ]
   },
-  "versionId": "cc273b0c-4a18-41b8-84bb-b29e62635ec3",
-  "activeVersionId": "cc273b0c-4a18-41b8-84bb-b29e62635ec3",
-  "versionCounter": 1169,
+  "versionId": "b0ebb5f3-2b12-4d7d-b1b1-41e8aa6679ae",
+  "activeVersionId": "b0ebb5f3-2b12-4d7d-b1b1-41e8aa6679ae",
+  "versionCounter": 1185,
   "triggerCount": 0,
   "tags": [],
   "shared": [
