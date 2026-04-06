@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-06T10:06:29.256Z",
+  "updatedAt": "2026-04-06T12:52:24.726Z",
   "createdAt": "2026-03-27T18:43:39.108Z",
   "id": "14W8w4pXVuqk7Ciy",
   "name": "generate clips - paralleling",
@@ -619,7 +619,7 @@
             {
               "id": "c855e136-51a3-4efb-a159-d4c616716aca",
               "name": "negativePrompt",
-              "value": "={{ $json.hasField('negativePrompt') ? $json.negativePrompt : \"music, speech, reportage, interview, banners, watemarks, animated logotype, nothing is happening, standing still, rigid body bends, rigid object deformation, unnatural bending of hard surfaces, static image, static fluid, statid liquid, warped mechanical parts, slowmo, reversed, walking backwards, noisy, film grain, blurred background, low-quality, standing idle, felt style, pixel art style, puppet animation, claymation style, stop-motion, watercolor painting, oil painting style, time-lapse, fade-out, fade-in, shot transition, scene transition, abrupt transition, jump cut, cut to another shot, multi-shot sequence, edit-like transition, dissolve transition, crossfade, montage, sudden scene change, frame blending between shots, jittery, shaky footage\" }}",
+              "value": "={{ $json.hasField('negativePrompt') ? $json.negativePrompt : \"blurry, out of focus, overexposed, underexposed, low contrast, washed out colors, excessive noise, grainy texture, poor lighting, flickering, motion blur, distorted proportions, unnatural skin tones, deformed facial features, asymmetrical face, missing facial features, extra limbs, disfigured hands, wrong hand count, artifacts around text, unreadable text on shirt or hat, incorrect lettering on cap (“PNTR”), incorrect t-shirt slogan (“JUST DO IT”), missing microphone, misplaced microphone, inconsistent perspective, camera shake, incorrect depth of field, background too sharp, background clutter, distracting reflections, harsh shadows, inconsistent lighting direction, color banding, cartoonish rendering, 3D CGI look, unrealistic materials, uncanny valley effect, incorrect ethnicity, wrong gender, exaggerated expressions, smiling, laughing, exaggerated sadness, wrong gaze direction, eyes looking at camera, mismatched lip sync, silent or muted audio, distorted voice, robotic voice, echo, background noise, off-sync audio, missing sniff sounds, incorrect dialogue, added dialogue, repetitive speech, jittery movement, awkward pauses, incorrect timing, unnatural transitions, inconsistent framing, tilted camera, missing door or shelves, missing shallow depth of field, flat lighting, inconsistent tone, cinematic oversaturation, stylized filters, or AI artifacts.\" }}",
               "type": "string"
             },
             {
@@ -2149,9 +2149,9 @@
       }
     ]
   },
-  "versionId": "012a8c0e-4f6e-49b2-869a-25d5613110f0",
-  "activeVersionId": "012a8c0e-4f6e-49b2-869a-25d5613110f0",
-  "versionCounter": 341,
+  "versionId": "a180c31a-23c0-4885-b556-1e5fc9f113cd",
+  "activeVersionId": "a180c31a-23c0-4885-b556-1e5fc9f113cd",
+  "versionCounter": 344,
   "triggerCount": 0,
   "tags": [],
   "shared": [

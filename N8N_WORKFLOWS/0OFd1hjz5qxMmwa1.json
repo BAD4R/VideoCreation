@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-04T23:30:00.957Z",
+  "updatedAt": "2026-04-06T14:13:26.934Z",
   "createdAt": "2026-02-04T01:37:01.806Z",
   "id": "0OFd1hjz5qxMmwa1",
   "name": "generate video text",
@@ -1091,94 +1091,6 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\"productKey\"] }}",
-            "keysToWrite": "={{ {} }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        208,
-        352
-      ],
-      "name": "get product key",
-      "id": "d973f47b-3182-4fcf-9801-d40d04fa2c01"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
-            "fileAction": "read",
             "keysToReturn": "={{ [\n\"videoCreationMode\",\n\n\"videoTextGenService\",\n\"videoTextGenModel\",\n\n\"summarizeFullText\",\n\"summarizeFullTextSystemPrompt\",\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
@@ -1518,7 +1430,7 @@
       "main": [
         [
           {
-            "node": "get product key",
+            "node": "get all workflow params",
             "type": "main",
             "index": 0
           }
@@ -1742,17 +1654,6 @@
         ]
       ]
     },
-    "get product key": {
-      "main": [
-        [
-          {
-            "node": "get all workflow params",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "get all workflow params": {
       "main": [
         [
@@ -1807,9 +1708,9 @@
       }
     ]
   },
-  "versionId": "902cd04c-14bb-4ed2-8e23-10105d7fcedb",
-  "activeVersionId": "902cd04c-14bb-4ed2-8e23-10105d7fcedb",
-  "versionCounter": 1161,
+  "versionId": "76d9e1c9-c65b-41d2-b72f-6e5c8d1b9a99",
+  "activeVersionId": "76d9e1c9-c65b-41d2-b72f-6e5c8d1b9a99",
+  "versionCounter": 1164,
   "triggerCount": 0,
   "tags": [],
   "shared": [

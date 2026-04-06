@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-06T10:27:53.915Z",
+  "updatedAt": "2026-04-06T13:20:31.864Z",
   "createdAt": "2026-02-05T03:23:05.635Z",
   "id": "laRC9gkCLuLdoDub",
   "name": "generate starting frames and clips prompts - paralleling",
@@ -874,7 +874,7 @@
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClipsAndStartFramesPrompts/{{ $('Start').item.json.videoFolderName.split('_').last() }}_{{ ($('Start').first().json.textPartIndex).toString().padStart(5,'0') }}.json",
             "fileAction": "write",
             "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {\"videoClipPrompts[-1*]\": $json.response.parseJson().hasField('prompt')?$json.response.parseJson().prompt:$json.response} }}",
+            "keysToWrite": "={{ (() => {\n  const raw = $json.response;\n\n  try {\n    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;\n\n    return {\n      \"videoClipPrompts[-1*]\":\n        parsed && typeof parsed === 'object' && parsed.prompt !== undefined\n          ? parsed.prompt\n          : raw\n    };\n  } catch (e) {\n    return {\n      \"videoClipPrompts[-1*]\": raw\n    };\n  }\n})() }}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -1395,7 +1395,7 @@
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClipsAndStartFramesPrompts/{{ $('Start').item.json.videoFolderName.split('_').last() }}_{{ ($('Start').first().json.textPartIndex).toString().padStart(5,'0') }}.json",
             "fileAction": "write",
             "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {\"videoClipPrompts[-1*]\": $json.response.parseJson().hasField('prompt')?$json.response.parseJson().prompt:$json.response} }}",
+            "keysToWrite": "={{ (() => {\n  const raw = $json.response;\n\n  try {\n    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;\n\n    return {\n      \"videoClipPrompts[-1*]\":\n        parsed && typeof parsed === 'object' && parsed.prompt !== undefined\n          ? parsed.prompt\n          : raw\n    };\n  } catch (e) {\n    return {\n      \"videoClipPrompts[-1*]\": raw\n    };\n  }\n})() }}{{ (() => {\n  const raw = $json.response;\n\n  try {\n    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;\n\n    return {\n      \"videoClipPrompts[-1*]\":\n        parsed && typeof parsed === 'object' && parsed.prompt !== undefined\n          ? parsed.prompt\n          : raw\n    };\n  } catch (e) {\n    return {\n      \"videoClipPrompts[-1*]\": raw\n    };\n  }\n})() }}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -2115,9 +2115,9 @@
       }
     ]
   },
-  "versionId": "b0ebb5f3-2b12-4d7d-b1b1-41e8aa6679ae",
-  "activeVersionId": "b0ebb5f3-2b12-4d7d-b1b1-41e8aa6679ae",
-  "versionCounter": 1185,
+  "versionId": "5222220e-ec5c-4124-a2c6-6b7605ef7184",
+  "activeVersionId": "5222220e-ec5c-4124-a2c6-6b7605ef7184",
+  "versionCounter": 1189,
   "triggerCount": 0,
   "tags": [],
   "shared": [

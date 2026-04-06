@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-05T16:16:03.665Z",
+  "updatedAt": "2026-04-06T13:34:53.172Z",
   "createdAt": "2026-04-01T18:55:47.951Z",
   "id": "WX9zbGAetahvUf2V",
   "name": "Cluster Works",
@@ -1037,7 +1037,7 @@
         "fieldsToAggregate": {
           "fieldToAggregate": [
             {
-              "fieldToAggregate": "analysis_confidence",
+              "fieldToAggregate": "schema_version",
               "renameField": true,
               "outputFieldName": "evidenceConfidence"
             }
@@ -2793,7 +2793,7 @@
           "assignments": [
             {
               "id": "1af68585-863a-4943-bff7-f35629ad285f",
-              "name": "videoEvidence",
+              "name": "channelEvidence",
               "value": "={{ $json.candidates[0].content.parts[0].text.parseJson() }}",
               "type": "object"
             }
@@ -3383,7 +3383,7 @@
         ],
         [
           {
-            "node": "get random ID for request2",
+            "node": "read channelEvidence.json",
             "type": "main",
             "index": 0
           }
@@ -3598,9 +3598,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "c8ce4c90-a560-42c7-a1dc-734f7731aed6",
+  "versionId": "3e3f7586-f0f4-46e6-90f1-a301083596d9",
   "activeVersionId": null,
-  "versionCounter": 1392,
+  "versionCounter": 1397,
   "triggerCount": 0,
   "tags": [],
   "shared": [
