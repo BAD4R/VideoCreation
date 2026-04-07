@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-06T13:40:00.364Z",
+  "updatedAt": "2026-04-06T22:24:28.545Z",
   "createdAt": "2026-02-08T18:59:24.653Z",
   "id": "sNLnQQaHRoWWXZbH",
   "name": "single request",
@@ -2024,7 +2024,7 @@
           "assignments": [
             {
               "id": "1af68585-863a-4943-bff7-f35629ad285f",
-              "name": "videoClusters",
+              "name": "selectedClusterPlan",
               "value": "={{ $json.output[1].content[0].text.parseJson() }}",
               "type": "object"
             }
@@ -2047,7 +2047,7 @@
           "assignments": [
             {
               "id": "1af68585-863a-4943-bff7-f35629ad285f",
-              "name": "videoClusters",
+              "name": "selectedClusterPlan",
               "value": "={{ $json.candidates[0].content.parts[0].text.parseJson() }}",
               "type": "object"
             }
@@ -2063,182 +2063,6 @@
       ],
       "id": "564cc87d-b2f6-410b-a6a1-bee7bb181d8c",
       "name": "Parse Gemini Responce1"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoClusters.json",
-            "fileAction": "write",
-            "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ $json.videoClusters }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        4272,
-        -112
-      ],
-      "name": "write video clusters",
-      "id": "61b4da58-5e6e-429e-9816-5c4681d90233"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoClusters.json",
-            "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {} }}",
-            "keysToDelete": "={{ [] }}",
-            "fileAction": "read"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        4464,
-        -112
-      ],
-      "name": "read video clusters",
-      "id": "74c25945-788f-401e-95ee-f4ab6d64eb6c"
     },
     {
       "parameters": {
@@ -2340,7 +2164,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read video clusters').item.json,\n$('get video theme').item.json.videoTheme,\n    $('get all workflow params').first().json.wantedTextLength,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n$('get all workflow params').item.json.generateScriptBlueprint\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read selectedClusterPlan').item.json,\n$('get video theme').item.json.videoTheme,\n    $('get all workflow params').first().json.wantedTextLength,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n$('get all workflow params').item.json.generateScriptBlueprint\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -2529,7 +2353,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read video clusters').item.json,\n$('get video theme').item.json.videoTheme,\n    $('get all workflow params').first().json.wantedTextLength,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n$('get all workflow params').item.json.generateScriptBlueprint\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('read selectedClusterPlan').item.json,\n$('get video theme').item.json.videoTheme,\n    $('get all workflow params').first().json.wantedTextLength,\n    $('get all workflow params').first().json.videoTextGenService,\n    $('get all workflow params').first().json.videoTextGenModel,\n$('get all workflow params').item.json.generateScriptBlueprint\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -2638,7 +2462,7 @@
             {
               "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
               "name": "body",
-              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.videoTextGenModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\":  $('get all workflow params').first().json.generateScriptBlueprint\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('read video clusters').item.json.toJsonString()\n        },\n        {\n          \"type\": \"input_text\",\n          \"text\": $('get video theme').item.json.videoTheme\n        },\n        {\n          \"type\": \"input_text\",\n          \"text\": $('get all workflow params').item.json.wantedTextLength.toString()\n        },\n      ]\n    },\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_schema\",\n      \"name\": \"script_blueprint\",\n      \"strict\": true,\n      \"schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"schema_version\": { \"type\": \"string\" },\n          \"topic_idea\": { \"type\": \"string\" },\n          \"target_length\": { \"type\": \"string\" },\n          \"selected_cluster_id\": { \"type\": \"string\" },\n          \"selected_cluster_label\": { \"type\": \"string\" },\n          \"selected_narrative_mode\": { \"type\": \"string\" },\n          \"core_angle\": { \"type\": \"string\" },\n          \"viewer_promise\": { \"type\": \"string\" },\n          \"retention_strategy\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"opening_hook_job\": { \"type\": \"string\" },\n              \"why_keep_watching\": { \"type\": \"string\" },\n              \"midpoint_refresh_job\": { \"type\": \"string\" },\n              \"ending_payoff_job\": { \"type\": \"string\" }\n            },\n            \"required\": [\n              \"opening_hook_job\",\n              \"why_keep_watching\",\n              \"midpoint_refresh_job\",\n              \"ending_payoff_job\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"tone_profile\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"base_tone\": { \"type\": \"string\" },\n              \"secondary_tones\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"language_style\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"must_feel_like\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"must_not_feel_like\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              }\n            },\n            \"required\": [\n              \"base_tone\",\n              \"secondary_tones\",\n              \"language_style\",\n              \"must_feel_like\",\n              \"must_not_feel_like\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"content_priorities\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          },\n          \"cluster_application\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"self_identity_use\": { \"type\": \"string\" },\n              \"worldview_use\": { \"type\": \"string\" },\n              \"pain_growth_use\": { \"type\": \"string\" },\n              \"fears_desires_use\": { \"type\": \"string\" },\n              \"common_enemy_use\": { \"type\": \"string\" },\n              \"language_codes_use\": { \"type\": \"string\" }\n            },\n            \"required\": [\n              \"self_identity_use\",\n              \"worldview_use\",\n              \"pain_growth_use\",\n              \"fears_desires_use\",\n              \"common_enemy_use\",\n              \"language_codes_use\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"structure_rules\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          },\n          \"blocks\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"block_id\": { \"type\": \"string\" },\n                \"block_role\": { \"type\": \"string\" },\n                \"goal\": { \"type\": \"string\" },\n                \"why_it_matters\": { \"type\": \"string\" },\n                \"content_to_cover\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"cluster_job\": { \"type\": \"string\" },\n                \"retention_job\": { \"type\": \"string\" },\n                \"transition_to_next\": { \"type\": \"string\" },\n                \"size_weight\": { \"type\": \"string\" }\n              },\n              \"required\": [\n                \"block_id\",\n                \"block_role\",\n                \"goal\",\n                \"why_it_matters\",\n                \"content_to_cover\",\n                \"cluster_job\",\n                \"retention_job\",\n                \"transition_to_next\",\n                \"size_weight\"\n              ],\n              \"additionalProperties\": false\n            }\n          },\n          \"ending_strategy\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"final_message_job\": { \"type\": \"string\" },\n              \"last_emotional_note\": { \"type\": \"string\" },\n              \"what_should_linger\": { \"type\": \"string\" }\n            },\n            \"required\": [\n              \"final_message_job\",\n              \"last_emotional_note\",\n              \"what_should_linger\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"hard_constraints\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          },\n          \"soft_constraints\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          }\n        },\n        \"required\": [\n          \"schema_version\",\n          \"topic_idea\",\n          \"target_length\",\n          \"selected_cluster_id\",\n          \"selected_cluster_label\",\n          \"selected_narrative_mode\",\n          \"core_angle\",\n          \"viewer_promise\",\n          \"retention_strategy\",\n          \"tone_profile\",\n          \"content_priorities\",\n          \"cluster_application\",\n          \"structure_rules\",\n          \"blocks\",\n          \"ending_strategy\",\n          \"hard_constraints\",\n          \"soft_constraints\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  }\n}\n}}",
+              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.videoTextGenModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\":  $('get all workflow params').first().json.generateScriptBlueprint\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('read selectedClusterPlan').item.json.toJsonString()\n        },\n        {\n          \"type\": \"input_text\",\n          \"text\": $('get video theme').item.json.videoTheme\n        },\n        {\n          \"type\": \"input_text\",\n          \"text\": $('get all workflow params').item.json.wantedTextLength.toString()\n        },\n      ]\n    },\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_schema\",\n      \"name\": \"script_blueprint\",\n      \"strict\": true,\n      \"schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"schema_version\": { \"type\": \"string\" },\n          \"topic_idea\": { \"type\": \"string\" },\n          \"target_length\": { \"type\": \"string\" },\n          \"selected_cluster_id\": { \"type\": \"string\" },\n          \"selected_cluster_label\": { \"type\": \"string\" },\n          \"selected_narrative_mode\": { \"type\": \"string\" },\n          \"core_angle\": { \"type\": \"string\" },\n          \"viewer_promise\": { \"type\": \"string\" },\n          \"retention_strategy\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"opening_hook_job\": { \"type\": \"string\" },\n              \"why_keep_watching\": { \"type\": \"string\" },\n              \"midpoint_refresh_job\": { \"type\": \"string\" },\n              \"ending_payoff_job\": { \"type\": \"string\" }\n            },\n            \"required\": [\n              \"opening_hook_job\",\n              \"why_keep_watching\",\n              \"midpoint_refresh_job\",\n              \"ending_payoff_job\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"tone_profile\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"base_tone\": { \"type\": \"string\" },\n              \"secondary_tones\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"language_style\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"must_feel_like\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"must_not_feel_like\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              }\n            },\n            \"required\": [\n              \"base_tone\",\n              \"secondary_tones\",\n              \"language_style\",\n              \"must_feel_like\",\n              \"must_not_feel_like\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"content_priorities\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          },\n          \"cluster_application\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"self_identity_use\": { \"type\": \"string\" },\n              \"worldview_use\": { \"type\": \"string\" },\n              \"pain_growth_use\": { \"type\": \"string\" },\n              \"fears_desires_use\": { \"type\": \"string\" },\n              \"common_enemy_use\": { \"type\": \"string\" },\n              \"language_codes_use\": { \"type\": \"string\" }\n            },\n            \"required\": [\n              \"self_identity_use\",\n              \"worldview_use\",\n              \"pain_growth_use\",\n              \"fears_desires_use\",\n              \"common_enemy_use\",\n              \"language_codes_use\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"structure_rules\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          },\n          \"blocks\": {\n            \"type\": \"array\",\n            \"items\": {\n              \"type\": \"object\",\n              \"properties\": {\n                \"block_id\": { \"type\": \"string\" },\n                \"block_role\": { \"type\": \"string\" },\n                \"goal\": { \"type\": \"string\" },\n                \"why_it_matters\": { \"type\": \"string\" },\n                \"content_to_cover\": {\n                  \"type\": \"array\",\n                  \"items\": { \"type\": \"string\" }\n                },\n                \"cluster_job\": { \"type\": \"string\" },\n                \"retention_job\": { \"type\": \"string\" },\n                \"transition_to_next\": { \"type\": \"string\" },\n                \"size_weight\": { \"type\": \"string\" }\n              },\n              \"required\": [\n                \"block_id\",\n                \"block_role\",\n                \"goal\",\n                \"why_it_matters\",\n                \"content_to_cover\",\n                \"cluster_job\",\n                \"retention_job\",\n                \"transition_to_next\",\n                \"size_weight\"\n              ],\n              \"additionalProperties\": false\n            }\n          },\n          \"ending_strategy\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"final_message_job\": { \"type\": \"string\" },\n              \"last_emotional_note\": { \"type\": \"string\" },\n              \"what_should_linger\": { \"type\": \"string\" }\n            },\n            \"required\": [\n              \"final_message_job\",\n              \"last_emotional_note\",\n              \"what_should_linger\"\n            ],\n            \"additionalProperties\": false\n          },\n          \"hard_constraints\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          },\n          \"soft_constraints\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          }\n        },\n        \"required\": [\n          \"schema_version\",\n          \"topic_idea\",\n          \"target_length\",\n          \"selected_cluster_id\",\n          \"selected_cluster_label\",\n          \"selected_narrative_mode\",\n          \"core_angle\",\n          \"viewer_promise\",\n          \"retention_strategy\",\n          \"tone_profile\",\n          \"content_priorities\",\n          \"cluster_application\",\n          \"structure_rules\",\n          \"blocks\",\n          \"ending_strategy\",\n          \"hard_constraints\",\n          \"soft_constraints\"\n        ],\n        \"additionalProperties\": false\n      }\n    }\n  }\n}\n}}",
               "type": "object"
             }
           ]
@@ -2673,7 +2497,7 @@
             {
               "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
               "name": "body",
-              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.videoTextGenModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('get all workflow params').first().json.generateScriptBlueprint }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": $('read video clusters').item.json.toJsonString()\n        },\n        { \"text\": $('get video theme').item.json.videoTheme\n        },\n        { \"text\": $('get all workflow params').item.json.wantedTextLength.toString()\n        },\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseSchema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"schema_version\": { \"type\": \"string\" },\n        \"topic_idea\": { \"type\": \"string\" },\n        \"target_length\": { \"type\": \"string\" },\n        \"selected_cluster_id\": { \"type\": \"string\" },\n        \"selected_cluster_label\": { \"type\": \"string\" },\n        \"selected_narrative_mode\": { \"type\": \"string\" },\n        \"core_angle\": { \"type\": \"string\" },\n        \"viewer_promise\": { \"type\": \"string\" },\n        \"retention_strategy\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"opening_hook_job\": { \"type\": \"string\" },\n            \"why_keep_watching\": { \"type\": \"string\" },\n            \"midpoint_refresh_job\": { \"type\": \"string\" },\n            \"ending_payoff_job\": { \"type\": \"string\" }\n          },\n          \"required\": [\n            \"opening_hook_job\",\n            \"why_keep_watching\",\n            \"midpoint_refresh_job\",\n            \"ending_payoff_job\"\n          ]\n        },\n        \"tone_profile\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"base_tone\": { \"type\": \"string\" },\n            \"secondary_tones\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"language_style\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"must_feel_like\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"must_not_feel_like\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            }\n          },\n          \"required\": [\n            \"base_tone\",\n            \"secondary_tones\",\n            \"language_style\",\n            \"must_feel_like\",\n            \"must_not_feel_like\"\n          ]\n        },\n        \"content_priorities\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        },\n        \"cluster_application\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"self_identity_use\": { \"type\": \"string\" },\n            \"worldview_use\": { \"type\": \"string\" },\n            \"pain_growth_use\": { \"type\": \"string\" },\n            \"fears_desires_use\": { \"type\": \"string\" },\n            \"common_enemy_use\": { \"type\": \"string\" },\n            \"language_codes_use\": { \"type\": \"string\" }\n          },\n          \"required\": [\n            \"self_identity_use\",\n            \"worldview_use\",\n            \"pain_growth_use\",\n            \"fears_desires_use\",\n            \"common_enemy_use\",\n            \"language_codes_use\"\n          ]\n        },\n        \"structure_rules\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        },\n        \"blocks\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"block_id\": { \"type\": \"string\" },\n              \"block_role\": { \"type\": \"string\" },\n              \"goal\": { \"type\": \"string\" },\n              \"why_it_matters\": { \"type\": \"string\" },\n              \"content_to_cover\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"cluster_job\": { \"type\": \"string\" },\n              \"retention_job\": { \"type\": \"string\" },\n              \"transition_to_next\": { \"type\": \"string\" },\n              \"size_weight\": { \"type\": \"string\" }\n            },\n            \"required\": [\n              \"block_id\",\n              \"block_role\",\n              \"goal\",\n              \"why_it_matters\",\n              \"content_to_cover\",\n              \"cluster_job\",\n              \"retention_job\",\n              \"transition_to_next\",\n              \"size_weight\"\n            ]\n          }\n        },\n        \"ending_strategy\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"final_message_job\": { \"type\": \"string\" },\n            \"last_emotional_note\": { \"type\": \"string\" },\n            \"what_should_linger\": { \"type\": \"string\" }\n          },\n          \"required\": [\n            \"final_message_job\",\n            \"last_emotional_note\",\n            \"what_should_linger\"\n          ]\n        },\n        \"hard_constraints\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        },\n        \"soft_constraints\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        }\n      },\n      \"required\": [\n        \"schema_version\",\n        \"topic_idea\",\n        \"target_length\",\n        \"selected_cluster_id\",\n        \"selected_cluster_label\",\n        \"selected_narrative_mode\",\n        \"core_angle\",\n        \"viewer_promise\",\n        \"retention_strategy\",\n        \"tone_profile\",\n        \"content_priorities\",\n        \"cluster_application\",\n        \"structure_rules\",\n        \"blocks\",\n        \"ending_strategy\",\n        \"hard_constraints\",\n        \"soft_constraints\"\n      ]\n    }\n  },\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"BLOCK_NONE\" }\n  ]\n}\n}}",
+              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.videoTextGenModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('get all workflow params').first().json.generateScriptBlueprint }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": $('read selectedClusterPlan').item.json.toJsonString()\n        },\n        { \"text\": $('get video theme').item.json.videoTheme\n        },\n        { \"text\": $('get all workflow params').item.json.wantedTextLength.toString()\n        },\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseSchema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"schema_version\": { \"type\": \"string\" },\n        \"topic_idea\": { \"type\": \"string\" },\n        \"target_length\": { \"type\": \"string\" },\n        \"selected_cluster_id\": { \"type\": \"string\" },\n        \"selected_cluster_label\": { \"type\": \"string\" },\n        \"selected_narrative_mode\": { \"type\": \"string\" },\n        \"core_angle\": { \"type\": \"string\" },\n        \"viewer_promise\": { \"type\": \"string\" },\n        \"retention_strategy\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"opening_hook_job\": { \"type\": \"string\" },\n            \"why_keep_watching\": { \"type\": \"string\" },\n            \"midpoint_refresh_job\": { \"type\": \"string\" },\n            \"ending_payoff_job\": { \"type\": \"string\" }\n          },\n          \"required\": [\n            \"opening_hook_job\",\n            \"why_keep_watching\",\n            \"midpoint_refresh_job\",\n            \"ending_payoff_job\"\n          ]\n        },\n        \"tone_profile\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"base_tone\": { \"type\": \"string\" },\n            \"secondary_tones\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"language_style\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"must_feel_like\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            },\n            \"must_not_feel_like\": {\n              \"type\": \"array\",\n              \"items\": { \"type\": \"string\" }\n            }\n          },\n          \"required\": [\n            \"base_tone\",\n            \"secondary_tones\",\n            \"language_style\",\n            \"must_feel_like\",\n            \"must_not_feel_like\"\n          ]\n        },\n        \"content_priorities\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        },\n        \"cluster_application\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"self_identity_use\": { \"type\": \"string\" },\n            \"worldview_use\": { \"type\": \"string\" },\n            \"pain_growth_use\": { \"type\": \"string\" },\n            \"fears_desires_use\": { \"type\": \"string\" },\n            \"common_enemy_use\": { \"type\": \"string\" },\n            \"language_codes_use\": { \"type\": \"string\" }\n          },\n          \"required\": [\n            \"self_identity_use\",\n            \"worldview_use\",\n            \"pain_growth_use\",\n            \"fears_desires_use\",\n            \"common_enemy_use\",\n            \"language_codes_use\"\n          ]\n        },\n        \"structure_rules\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        },\n        \"blocks\": {\n          \"type\": \"array\",\n          \"items\": {\n            \"type\": \"object\",\n            \"properties\": {\n              \"block_id\": { \"type\": \"string\" },\n              \"block_role\": { \"type\": \"string\" },\n              \"goal\": { \"type\": \"string\" },\n              \"why_it_matters\": { \"type\": \"string\" },\n              \"content_to_cover\": {\n                \"type\": \"array\",\n                \"items\": { \"type\": \"string\" }\n              },\n              \"cluster_job\": { \"type\": \"string\" },\n              \"retention_job\": { \"type\": \"string\" },\n              \"transition_to_next\": { \"type\": \"string\" },\n              \"size_weight\": { \"type\": \"string\" }\n            },\n            \"required\": [\n              \"block_id\",\n              \"block_role\",\n              \"goal\",\n              \"why_it_matters\",\n              \"content_to_cover\",\n              \"cluster_job\",\n              \"retention_job\",\n              \"transition_to_next\",\n              \"size_weight\"\n            ]\n          }\n        },\n        \"ending_strategy\": {\n          \"type\": \"object\",\n          \"properties\": {\n            \"final_message_job\": { \"type\": \"string\" },\n            \"last_emotional_note\": { \"type\": \"string\" },\n            \"what_should_linger\": { \"type\": \"string\" }\n          },\n          \"required\": [\n            \"final_message_job\",\n            \"last_emotional_note\",\n            \"what_should_linger\"\n          ]\n        },\n        \"hard_constraints\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        },\n        \"soft_constraints\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        }\n      },\n      \"required\": [\n        \"schema_version\",\n        \"topic_idea\",\n        \"target_length\",\n        \"selected_cluster_id\",\n        \"selected_cluster_label\",\n        \"selected_narrative_mode\",\n        \"core_angle\",\n        \"viewer_promise\",\n        \"retention_strategy\",\n        \"tone_profile\",\n        \"content_priorities\",\n        \"cluster_application\",\n        \"structure_rules\",\n        \"blocks\",\n        \"ending_strategy\",\n        \"hard_constraints\",\n        \"soft_constraints\"\n      ]\n    }\n  },\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"BLOCK_NONE\" }\n  ]\n}\n}}",
               "type": "object"
             }
           ]
@@ -3121,95 +2945,6 @@
     },
     {
       "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoClusters.json",
-            "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {} }}",
-            "keysToDelete": "={{ [] }}",
-            "fileAction": "read"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        2704,
-        -112
-      ],
-      "name": "read video clusters1",
-      "id": "3735e30e-2fab-431b-9fd3-714f3b8f3dd7",
-      "alwaysOutputData": true
-    },
-    {
-      "parameters": {
         "rules": {
           "values": [
             {
@@ -3627,6 +3362,271 @@
       ],
       "id": "36a144e6-2345-44fa-98d5-7ad00b03a58a",
       "name": "No Operation, do nothing5"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/selectedClusterPlan.json",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}",
+            "fileAction": "read"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4464,
+        -112
+      ],
+      "name": "read selectedClusterPlan",
+      "id": "74c25945-788f-401e-95ee-f4ab6d64eb6c"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/selectedClusterPlan.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ $json.videoClusters }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4272,
+        -112
+      ],
+      "name": "write selectedClusterPlan",
+      "id": "61b4da58-5e6e-429e-9816-5c4681d90233"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/selectedClusterPlan.json",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}",
+            "fileAction": "read"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2704,
+        -112
+      ],
+      "name": "read selectedClusterPlan1",
+      "id": "3735e30e-2fab-431b-9fd3-714f3b8f3dd7",
+      "alwaysOutputData": true
     }
   ],
   "connections": {
@@ -4053,7 +4053,7 @@
       "main": [
         [
           {
-            "node": "read video clusters1",
+            "node": "read selectedClusterPlan1",
             "type": "main",
             "index": 0
           }
@@ -4064,7 +4064,7 @@
       "main": [
         [
           {
-            "node": "write video clusters",
+            "node": "write selectedClusterPlan",
             "type": "main",
             "index": 0
           }
@@ -4075,29 +4075,7 @@
       "main": [
         [
           {
-            "node": "write video clusters",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "write video clusters": {
-      "main": [
-        [
-          {
-            "node": "read video clusters",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "read video clusters": {
-      "main": [
-        [
-          {
-            "node": "read script blueprint1",
+            "node": "write selectedClusterPlan",
             "type": "main",
             "index": 0
           }
@@ -4286,17 +4264,6 @@
         ]
       ]
     },
-    "read video clusters1": {
-      "main": [
-        [
-          {
-            "node": "if video clusters exist",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "if video clusters exist": {
       "main": [
         [
@@ -4319,7 +4286,7 @@
       "main": [
         [
           {
-            "node": "read video clusters",
+            "node": "read selectedClusterPlan",
             "type": "main",
             "index": 0
           }
@@ -4438,6 +4405,39 @@
           }
         ]
       ]
+    },
+    "read selectedClusterPlan": {
+      "main": [
+        [
+          {
+            "node": "read script blueprint1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write selectedClusterPlan": {
+      "main": [
+        [
+          {
+            "node": "read selectedClusterPlan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read selectedClusterPlan1": {
+      "main": [
+        [
+          {
+            "node": "if video clusters exist",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -4461,9 +4461,9 @@
       }
     ]
   },
-  "versionId": "3f4bcaf9-c89c-4fd0-bbac-327b67637157",
-  "activeVersionId": "3f4bcaf9-c89c-4fd0-bbac-327b67637157",
-  "versionCounter": 1114,
+  "versionId": "dbb9369c-c1fc-4648-aaaa-295c728c196f",
+  "activeVersionId": "dbb9369c-c1fc-4648-aaaa-295c728c196f",
+  "versionCounter": 1129,
   "triggerCount": 0,
   "tags": [],
   "shared": [

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-19T13:32:55.819Z",
+  "updatedAt": "2026-04-06T19:34:55.895Z",
   "createdAt": "2026-03-18T23:37:51.202Z",
   "id": "qjuK57TR8IKSKuv9",
   "name": "Video Creation Progress Manager",
@@ -10,7 +10,7 @@
     {
       "parameters": {
         "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \n  \"stage\": \"\",\n  \"status\": \"\",\n  \"error\": \"\",\n  \"expectedReadyTimeMinutes\": \"\",\n  \"currentNumberOfReadyItems\": 0,\n  \"requiredNumberOfReadyItems\": 0,\n  \"items\": []\n}"
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \n  \"stage\": \"\",\n  \"status\": \"\",\n  \"error\": \"\",\n  \"message\":\"\",\n  \"expectedReadyTimeMinutes\": \"\",\n  \"currentNumberOfReadyItems\": 0,\n  \"requiredNumberOfReadyItems\": 0,\n  \"items\": []\n}"
       },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
@@ -159,7 +159,7 @@
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/stagesProgress.json",
             "fileAction": "write",
             "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ (()=>{\nreturn {\n\"stages\":{\n  \"text\":{\n    \"stageExecutions\": [\n//      {\n//        \"executionStatus\":\"not_started\",\n//        \"executionError\":null,\n//        \"executionStartedAt\":\"\",\n//        \"executionExpectedReadyTimeMinutes\":null,\n//        \"executionProgress\":{\n//          \"currentNumberOfReadyItems\":0,\n//          \"requiredNumberOfReadyItems\":null,\n//        },\n//    \"executionItems\":[\n//      {\n//       \"itemStatus\":null,\n//       \"itemError\": null,\n//       \"itemMetadata\":{\n//          \"itemName\":null,\n//          \"itemFilePath\":null,\n//        },\n//        \"itemContent\":{},\n//      }\n//    ]\n//      }\n    ]\n  },\n  \"meta\":{\n    \"stageExecutions\": []\n  },\n  \"voiceover\":{\n    \"stageExecutions\": []\n  },\n  \"transcription\":{\n    \"stageExecutions\": []\n  },\n  \"imagesPrompts\":{\n    \"stageExecutions\": []\n  },\n  \"images\":{\n    \"stageExecutions\": []\n  },\n  \"startFramesClipsPrompts\":{\n    \"stageExecutions\": []\n  },\n  \"startFrames\":{\n    \"stageExecutions\": []\n  },\n  \"clips\":{\n    \"stageExecutions\": []\n  },\n  \"render\":{\n    \"stageExecutions\": []\n  },\n  \"publication\":{\n    \"stageExecutions\": []\n  },\n}\n}\n})() }}",
+            "keysToWrite": "={{ (()=>{\nreturn {\n\"stages\":{\n//  \"text\":{\n//    \"stageExecutions\": [\n//      {\n//        \"executionStatus\":\"not_started\",\n//        \"executionError\":null,\n//        \"executionStartedAt\":\"\",\n//        \"executionExpectedReadyTimeMinutes\":null,\n//        \"executionProgress\":{\n//          \"currentNumberOfReadyItems\":0,\n//          \"requiredNumberOfReadyItems\":null,\n//        },\n//    \"executionItems\":[\n//      {\n//       \"itemStatus\":null,\n//       \"itemError\": null,\n//       \"itemMetadata\":{\n//          \"itemName\":null,\n//          \"itemFilePath\":null,\n//        },\n//        \"itemContent\":{},\n//      }\n//    ]\n//      }\n//    ]\n//  },\n}\n}\n})() }}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -248,7 +248,7 @@
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/stagesProgress.json",
             "fileAction": "write",
             "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {} }}",
+            "keysToWrite": "={{ $json }}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -315,7 +315,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1088,
+        1152,
         352
       ],
       "name": "write stages progress",
@@ -324,12 +324,25 @@
     },
     {
       "parameters": {
+        "jsCode": "const currentStages = $('read stages progress').item.json.stages\nconst thisStage = $('Start').item.json.stage;\nconst thisExecution = {}\n\nthisExecution.status = $('Start').item.json.status\nthisExecution.error = $('Start').item.json.error\nthisExecution.expectedReadyTime = $('Start').item.json.expectedReadyTimeMinutes\nthisExecution.requiredNumberOfReadyItems = $('Start').item.json.requiredNumberOfReadyItems\nthisExecution.currentNumberOfReadyItems = $('Start').item.json.currentNumberOfReadyItems\nthisExecution.lastMessage = $('Start').item.json.message\nthisExecution.messages = currentStages[thisStage].messages ?? []\nthisExecution.messages.unshift(thisExecution.lastMessage)\n\n\nconst stageExecutions = currentStages[thisStage].stageExecutions ?? []\nstageExecutions.unshift(thisExecution)\nreturn {\n  stages: {\n    [thisStage]: {\n      stageExecutions: stageExecutions,\n    },\n  },\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        928,
+        192
+      ],
+      "id": "47095937-0a7f-4440-b933-6b4fedcc04ae",
+      "name": "Code in JavaScript"
+    },
+    {
+      "parameters": {
         "assignments": {
           "assignments": [
             {
-              "id": "b7aa9496-9493-46b5-92c5-3a073009363e",
-              "name": "obj",
-              "value": "={{ (() => {\n  const thisStage = $('Start').first().json.stage;\n\n  const thisExecution = {}\n\n  thisExecution\n\n  return {\n    stages: {\n      [thisStage]: {\n        stageExecutions: [thisExecution],\n      },\n    },\n  };\n})() }}",
+              "id": "acc06f79-68cb-41e9-86a0-90e60127954b",
+              "name": "stages",
+              "value": "={{ (()=>{\nconst start = $('Start').first().json\nconst stages = {}\n\nstages[start.stage] = {\n\"status\":start.status,\n\"error\":start.error,\n\"rror\":start.expectedNumberOfReadyItems,\n}\n\nreturn stages\n})() }}",
               "type": "object"
             }
           ]
@@ -339,11 +352,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        864,
+        928,
         352
       ],
-      "id": "9c4e4769-7b32-4958-8371-506e90a6b8a8",
-      "name": "form new stages obj"
+      "id": "45d46fe7-c6e7-4c8d-b058-b384727d85eb",
+      "name": "Form Stage"
     }
   ],
   "connections": {
@@ -360,14 +373,20 @@
     },
     "read stages progress": {
       "main": [
-        []
+        [
+          {
+            "node": "If file exists",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "If file exists": {
       "main": [
         [
           {
-            "node": "form new stages obj",
+            "node": "Form Stage",
             "type": "main",
             "index": 0
           }
@@ -385,14 +404,19 @@
       "main": [
         [
           {
-            "node": "form new stages obj",
+            "node": "Form Stage",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "form new stages obj": {
+    "Code in JavaScript": {
+      "main": [
+        []
+      ]
+    },
+    "Form Stage": {
       "main": [
         [
           {
@@ -406,7 +430,8 @@
   },
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -415,15 +440,16 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "NewChannel",
-          "videoFolderName": "2026-03-17_pWLve",
+          "channelName": "LifeOfAPirate",
+          "videoFolderName": "2026-04-04_Amogs",
           "stage": "text",
-          "stageStatus": "started",
-          "stageError": "null",
+          "status": "started",
+          "error": "",
+          "message": "Starting text generation workflow",
           "expectedReadyTimeMinutes": "5",
           "currentNumberOfReadyItems": 0,
-          "requiredNumberOfReadyItems": 2,
-          "items": null
+          "requiredNumberOfReadyItems": 5,
+          "items": []
         },
         "pairedItem": {
           "item": 0
@@ -431,9 +457,9 @@
       }
     ]
   },
-  "versionId": "3ec497ec-123a-4ef5-a698-f495203e12d3",
-  "activeVersionId": "4d6e76ca-21ed-4c7c-9872-ca2b3bf9302e",
-  "versionCounter": 509,
+  "versionId": "d3223f7d-f7f8-407a-a2aa-052b550edb2d",
+  "activeVersionId": "993157e8-93f7-426e-9f10-5084e5340ad2",
+  "versionCounter": 700,
   "triggerCount": 0,
   "tags": [],
   "shared": [

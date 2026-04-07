@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-06T13:20:31.864Z",
+  "updatedAt": "2026-04-06T21:48:49.362Z",
   "createdAt": "2026-02-05T03:23:05.635Z",
   "id": "laRC9gkCLuLdoDub",
   "name": "generate starting frames and clips prompts - paralleling",
@@ -258,7 +258,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        3200,
+        3488,
         240
       ],
       "id": "eca4a873-7282-4828-aab1-1f03339e58eb",
@@ -293,7 +293,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3952,
+        4240,
         -80
       ],
       "id": "23d6a120-0d10-4db3-96d2-27d4fcbbc5ca",
@@ -370,7 +370,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        4144,
+        4432,
         -80
       ],
       "id": "2d1d7fa2-60f1-40c0-81f6-b2f00d42c9e4",
@@ -462,7 +462,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        3424,
+        3712,
         160
       ],
       "id": "393a4b73-addd-4bd1-99ab-d3a7e8ee3c38",
@@ -485,7 +485,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4336,
+        4624,
         -80
       ],
       "id": "b6dc953d-19ee-48e3-9f34-87435dd7f780",
@@ -573,7 +573,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4528,
+        4816,
         -80
       ],
       "name": "write starting frame",
@@ -661,7 +661,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4720,
+        5008,
         -80
       ],
       "name": "read",
@@ -684,7 +684,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4912,
+        5200,
         -80
       ],
       "id": "6fce739a-9dca-45e2-b0a3-342736cee276",
@@ -719,7 +719,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        5120,
+        5408,
         -80
       ],
       "id": "d93b71ec-d354-4087-86b0-f610e2af3fc1",
@@ -796,7 +796,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        5216,
+        5504,
         -80
       ],
       "id": "7b5b0aac-1196-4622-966e-1d3ee098e20a",
@@ -819,7 +819,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        5408,
+        5696,
         -80
       ],
       "id": "4492660c-ec06-4c26-b192-0dc5db83319d",
@@ -853,7 +853,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        5792,
+        6080,
         -80
       ],
       "id": "eabf2db5-6757-4ec9-892f-f9dd405913ca",
@@ -941,7 +941,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        5600,
+        5888,
         -80
       ],
       "name": "write clip prompt1",
@@ -1018,7 +1018,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        4144,
+        4432,
         128
       ],
       "id": "c937d9fa-a260-4b6b-96e8-39cd289d28b4",
@@ -1041,7 +1041,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4336,
+        4624,
         128
       ],
       "id": "bf9a627a-9054-466b-8db3-9c2698448796",
@@ -1129,7 +1129,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4528,
+        4816,
         128
       ],
       "name": "write starting frame1",
@@ -1217,7 +1217,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4720,
+        5008,
         128
       ],
       "name": "read1",
@@ -1240,7 +1240,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4912,
+        5200,
         128
       ],
       "id": "d53bb567-2c79-4089-8e09-10f0224a431c",
@@ -1317,7 +1317,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        5216,
+        5504,
         128
       ],
       "id": "2572ac85-41fa-43ff-a6d3-7797d2c1eb9d",
@@ -1340,7 +1340,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        5408,
+        5696,
         128
       ],
       "id": "96414c1b-b26e-4454-a7d4-2e827162037f",
@@ -1374,7 +1374,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.3,
       "position": [
-        5792,
+        6080,
         128
       ],
       "id": "15903eee-8eea-42e0-b897-79228e22d614",
@@ -1462,7 +1462,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        5600,
+        5888,
         128
       ],
       "name": "write clip prompt2",
@@ -1497,7 +1497,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3952,
+        4240,
         128
       ],
       "id": "28b6b1e3-36f7-46a7-8454-0712c2dada0a",
@@ -1532,7 +1532,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        5120,
+        5408,
         128
       ],
       "id": "62dee027-322c-4a96-8536-216076204207",
@@ -1592,7 +1592,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        6192,
+        6480,
         16
       ],
       "name": "write tmp ready file",
@@ -1695,7 +1695,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n\n    $('get all workflow params').first().json.geminiAiResponsesRoute,\n\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -1705,7 +1705,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3760,
+        4048,
         -80
       ],
       "id": "bee7b77e-92b6-49b0-a1db-148469ac3f9c",
@@ -1718,7 +1718,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n\n    $('get all workflow params').first().json.openAiResponsesRoute,\n\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.clipsPromptsGenService,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n    $('get all workflow params').first().json.startingFrameRequirementsAndRestrictions,\n    $('get all workflow params').first().json.startingFramePromptGenerationPrompt,\n    $('get all workflow params').first().json.finalClipRequirementsAndRestrictions,\n    $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt,\n    $('get all workflow params').first().json.clipFps,\n\n    $('Start').first().json.previousTextPart,\n    $('Start').first().json.currentTextPart,\n    $('Start').first().json.nextTextPart,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -1728,7 +1728,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        3760,
+        4048,
         128
       ],
       "id": "d21c330d-f0d2-4c9b-afc8-5b2d359fe7df",
@@ -2102,22 +2102,19 @@
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-04-04_Amogs",
-          "previousTextPart": "Но классические морские платформы остаются вершиной технологической мысли.",
-          "currentTextPart": "Они доказывают, что строгий инженерный расчет, материаловедение и дисциплина способны подчинить себе самые экстремальные условия на планете, обеспечивая мир необходимой энергией.",
-          "nextTextPart": "[No next text part! This is a last request.]",
-          "partDurationMs": 12814,
-          "textPartIndex": 82
-        },
-        "pairedItem": {
-          "item": 0
+          "videoFolderName": "2026-04-04_Amog2",
+          "previousTextPart": "Первый и главный вызов морской нефтедобычи заключается в том, чтобы надежно зафиксировать платформу над месторождением. Выбор конструкции основания напрямую зависит от глубины моря.",
+          "currentTextPart": "На мелководье, где глубина не превышает нескольких сотен метров, инженеры используют стальные сквозные опоры. Эта конструкция представляет собой решетчатую башню из труб, которая прикрепляется ко дну длинными сваями.",
+          "nextTextPart": "Вода свободно проходит сквозь стальные фермы, что снижает нагрузку от волн и подводных течений. В суровых условиях, где часто встречаются льды или штормы, применяются платформы гравитационного типа.",
+          "partDurationMs": 14790,
+          "textPartIndex": 7
         }
       }
     ]
   },
-  "versionId": "5222220e-ec5c-4124-a2c6-6b7605ef7184",
-  "activeVersionId": "5222220e-ec5c-4124-a2c6-6b7605ef7184",
-  "versionCounter": 1189,
+  "versionId": "10ea580b-980c-4ec0-bf05-9b13acec50d2",
+  "activeVersionId": "10ea580b-980c-4ec0-bf05-9b13acec50d2",
+  "versionCounter": 1210,
   "triggerCount": 0,
   "tags": [],
   "shared": [
