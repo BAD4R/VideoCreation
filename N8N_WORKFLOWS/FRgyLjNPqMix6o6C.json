@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-05T15:43:26.000Z",
+  "updatedAt": "2026-04-16T11:06:09.517Z",
   "createdAt": "2026-03-14T12:24:48.695Z",
   "id": "FRgyLjNPqMix6o6C",
   "name": "generate starting frames",
@@ -68,8 +68,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        1472,
-        240
+        4272,
+        784
       ],
       "id": "90f63fa5-a1bb-431d-b495-2788700e2a82",
       "name": "if pod ready"
@@ -156,8 +156,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1856,
-        240
+        2144,
+        -96
       ],
       "name": "get start/end ms of each scentance from transcript",
       "id": "5d271f45-4390-4010-89bb-321f04f5ddf5"
@@ -169,8 +169,8 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        2048,
-        240
+        2336,
+        -96
       ],
       "id": "307a3cd0-95f9-49d2-8200-97b48e1ceddb",
       "name": "Define Visuals Duration(normalized)"
@@ -249,8 +249,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        2240,
-        240
+        2528,
+        -96
       ],
       "id": "d4513809-367a-4815-9512-c1eacd26b8b2",
       "name": "get prompts, filenames, indexes"
@@ -370,8 +370,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        3200,
-        416
+        3488,
+        96
       ],
       "id": "ef95d70a-ebd9-4f1c-8643-81368690f962",
       "name": "runpod generations manager"
@@ -437,8 +437,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        3600,
-        608
+        5248,
+        1136
       ],
       "id": "09376da7-bb43-4b51-96bf-6656d6557104",
       "name": "Switch"
@@ -450,8 +450,8 @@
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
       "position": [
-        3696,
-        704
+        5344,
+        1232
       ],
       "id": "d09f08a8-7fdb-4980-b2db-728b48a3e85e",
       "name": "Wait",
@@ -469,7 +469,7 @@
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "expectedFilesCount": "={{ $('Define Visuals Duration(normalized)').item.json.parts.length }}",
+            "expectedFilesCount": "={{ $('Define Visuals Duration(normalized)1').item.json.parts.length }}",
             "directoryPath": "={{ $('Start').item.json.channelsFolderPath }}/{{ $('Start').item.json.channelName }}/VIDEOS/{{ $('Start').item.json.videoFolderName }}/CLIPS/startFrames",
             "fileExtentionToSearch": ".png"
           },
@@ -524,22 +524,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        3408,
-        608
+        5056,
+        1136
       ],
       "id": "e333e991-06b2-4d1b-8930-abf11fa9cc57",
       "name": "check ready clips files"
-    },
-    {
-      "parameters": {},
-      "type": "n8n-nodes-base.limit",
-      "typeVersion": 1,
-      "position": [
-        3392,
-        416
-      ],
-      "id": "f20d1564-e692-4219-a2e7-f485ec6c2dd1",
-      "name": "Limit1"
     },
     {
       "parameters": {
@@ -551,8 +540,8 @@
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        704,
-        224
+        1040,
+        240
       ]
     },
     {
@@ -569,7 +558,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\n\"clipGenerationService\",\n\n\"runpodVisualsGenerationTemplateId\",\n\"runpodVisualsGenerationGPUList\",\n\"runpodCountryCodes\",\n\n\"civitAiApiKey\",\n\n\"eachVisualMinScreenTimeMs\",\n\"eachVisualMaxScreenTimeMs\",\n\n\"startFrameWidth\",\n\"startFrameHeight\",\n\n\"useStyleLoraForStartFrame\",\n\"startFrameStyleLoraName\",\n\"startFrameStyleLoraTriggerWord\",\n\n] }}",
+            "keysToReturn": "={{ [\n\"clipGenerationService\",\n\n\"runpodVisualsGenerationTemplateId\",\n\"runpodVisualsGenerationGPUList\",\n\"runpodCountryCodes\",\n\n\"civitAiApiKey\",\n\n\"useComplexVisualNarration\",\n\n\"eachVisualMinScreenTimeMs\",\n\"eachVisualMaxScreenTimeMs\",\n\n\"textAndDiagramsStartingFramesGenService\",\n\n\"startFrameWidth\",\n\"startFrameHeight\",\n\n\"useStyleLoraForStartFrame\",\n\"startFrameStyleLoraName\",\n\"startFrameStyleLoraTriggerWord\",\n\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -637,8 +626,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        896,
-        224
+        1232,
+        240
       ],
       "name": "get all workflow params",
       "id": "100bbec4-b178-44a0-bf19-1885289b288a"
@@ -663,8 +652,7 @@
             "runpodGpuList": "={{ $('get all workflow params').first().json.runpodVisualsGenerationGPUList }}",
             "runpodCountryCodes": "={{ $('get all workflow params').first().json.runpodCountryCodes }}",
             "comfyUiRequest": "={{ {} }}",
-            "index": 0,
-            "jupiterRequest": "={{ {} }}"
+            "index": 0
           },
           "matchingColumns": [],
           "schema": [
@@ -729,8 +717,8 @@
               "removed": false
             },
             {
-              "id": "jupiterRequest",
-              "displayName": "jupiterRequest",
+              "id": "request",
+              "displayName": "request",
               "required": false,
               "defaultMatch": false,
               "display": true,
@@ -779,8 +767,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1280,
-        240
+        4080,
+        784
       ],
       "id": "77758c56-d6e5-4365-b1c4-6db4d2bc9d3d",
       "name": "start runpod pod"
@@ -911,8 +899,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2432,
-        240
+        2720,
+        -96
       ],
       "id": "cb59487b-0156-4560-9f9f-731678e0244b",
       "name": "set start frame params"
@@ -999,8 +987,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3792,
-        608
+        5440,
+        1136
       ],
       "name": "set start frames ready",
       "id": "c2f65d12-eca1-48e0-ba80-55487374eb64"
@@ -1066,8 +1054,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        2624,
-        240
+        2912,
+        -96
       ],
       "id": "7d679927-f635-4dc5-92e5-7b799c0ed45b",
       "name": "filter ready start frames"
@@ -1077,8 +1065,8 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        3216,
-        608
+        4864,
+        1136
       ],
       "id": "8393fe63-6368-490b-bb7b-0e97ebb4949d",
       "name": "Limit2"
@@ -1169,8 +1157,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        1088,
-        192
+        976,
+        384
       ],
       "id": "883d2336-9451-40d5-ae06-f2add4900184",
       "name": "clip gen service"
@@ -1192,8 +1180,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2816,
-        240
+        3104,
+        -96
       ],
       "id": "581f6a30-2510-4d32-bde4-dd7666ac3ccf",
       "name": "Set d8swfnb44q T2I Workflow Base"
@@ -1247,66 +1235,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        3008,
-        240
+        3296,
+        -96
       ],
       "id": "4034c76f-cc75-4844-93db-9c217a9ba3ff",
       "name": "SET d8swfnb44q T2I workflow image size, lora"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "wwicZuqjISFsTY3n",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/wwicZuqjISFsTY3n",
-          "cachedResultName": "ComfyUI Json Workflow Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "workflow": "={{ $json.workflow }}",
-            "actions": "={{ (()=>{\n\n//Function for rand noise generation\nfunction stringToNumbers(str) {\n  let hash = 0;\n  for (let i = 0; i < str.length; i++) {\n    hash = (hash * 31 + str.charCodeAt(i)) >>> 0;\n  }\n  const result = (hash * 1664525 + 1013904223) >>> 0;;\n  return result;\n}\n\nlet actions = []\n\nconst positivePrompt = $('filter ready start frames').item.json.positivePrompt\n\nconst negativePrompt = $('filter ready start frames').item.json.negativePrompt\n\nconst imageWidth = $('filter ready start frames').item.json.clipWidth\n\nconst imageHeight = $('filter ready start frames').item.json.clipHeight\n\nconst useLora = $('get all workflow params').first().json.useStyleLoraForStartFrame\n\nconst loraName = $('filter ready start frames').item.json.styleLoraName\n\nconst loraTriggerWord = $('filter ready start frames').item.json.styleLoraTriggerWord\n\nconst combinedInputString = positivePrompt+negativePrompt+imageWidth+imageHeight+useLora+loraName+loraTriggerWord\n\nconst changeImageResolitonAction = \n  {\n    type: \"addNode\",\n    id: \"113\",\n    overwrite: true,\n    node: {\n      class_type: \"EmptyFlux2LatentImage\",\n      _meta: { title: \"Empty Flux 2 Latent\" },\n      inputs: {\n        width: imageWidth,\n        height: imageHeight,\n        batch_size: 1\n      }\n    }\n  }\n\nconst addPostitivePromptAction = \n  {\n    type: \"addNode\",\n    id: \"115\",\n    overwrite: true,\n    node: {\n      class_type: \"CLIPTextEncode\",\n      _meta: { title: \"CLIP Text Encode (Positive Prompt)\" },\n      inputs: {\n        text: (useLora ? (loraTriggerWord+', ') : '') + positivePrompt,\n        clip: [\"111\", 0]\n      }\n    }\n  }\n\nconst removeLoraNodeAction = [\n  {\n    type: \"connect\",\n    fromNodeId: \"122\",\n    fromOutput: 0,\n    toNodeId: \"105\",\n    toInput: \"model\"\n  },\n  {\n    type: \"removeNode\",\n    nodeId: \"116\"\n  }\n]\n\nactions.push(changeImageResolitonAction)\nactions.push(addPostitivePromptAction)\n\nif (!$('get all workflow params').first().json.useStyleLoraForStartFrame){\n  actions.push(...removeLoraNodeAction)\n}\n\nreturn actions\n})() }}"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "workflow",
-              "displayName": "workflow",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "actions",
-              "displayName": "actions",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": true
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        2880,
-        -48
-      ],
-      "id": "32d31c47-acab-47f2-a34b-b0b6878c1a46",
-      "name": "Static seed SET d8swfnb44q T2I workflow image size, lora1"
     },
     {
       "parameters": {
@@ -1444,11 +1377,1345 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        3200,
-        240
+        3488,
+        -96
       ],
       "id": "7f0ed7f3-3639-4071-8d92-b5318ad8bb8b",
       "name": "send runpod gen request"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "d6222fe2-74bb-4d1e-91ae-8ab1541cb07b",
+                    "leftValue": "={{ !$('get all workflow params').item.json.useComplexVisualNarration }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "default"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').item.json.useComplexVisualNarration }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "d0220fce-dd63-4966-8e98-ee558c0ce7f9"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "complex"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1856,
+        240
+      ],
+      "id": "b3daac8c-fa2d-4651-bc4c-62d4b56e6fc8",
+      "name": "Switch complex visuals"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "existingFilesNames",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        2720,
+        480
+      ],
+      "id": "c6f24b95-7c55-416d-93dc-aa2e62db155a",
+      "name": "Split Out Window Indexes1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $json.existingFilesNames }}",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}",
+            "fileAction": "read"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2912,
+        480
+      ],
+      "name": "read visualSegment",
+      "id": "0833586b-ba12-4957-95c0-fa36f9cee39f"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "N2bXusYBgofvRBlH",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/N2bXusYBgofvRBlH",
+          "cachedResultName": "check files quantity in directory"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "directoryPath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS",
+            "fileExtentionToSearch": ".json",
+            "expectedFilesCount": -1
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "directoryPath",
+              "displayName": "directoryPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileExtentionToSearch",
+              "displayName": "fileExtentionToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileNameToSearch",
+              "displayName": "fileNameToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "expectedFilesCount",
+              "displayName": "expectedFilesCount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2528,
+        480
+      ],
+      "name": "get existing segments",
+      "id": "57a90207-44fb-44a3-989b-5644fa7e3a9a"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ (() => {\n  const existingFileIndexes = $('check ready start frames').last().json.existingFilesNames\n    .map(item => item.slice(6, -4));\n\n  const expectedFileIndexes = $('get existing segments').item.json.existingFilesNames\n    .map(item => item.split('_')[0]);\n\n  const currentIndex = expectedFileIndexes[$itemIndex];\n\n  return !existingFileIndexes.includes(currentIndex)\n})() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "a798e700-5905-49f8-bb11-8dbada169803"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not ready"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c9ca3313-dde7-490a-b0ab-50db59a8e1cf",
+                    "leftValue": "={{ (() => {\n  const existingFileIndexes = $('check ready start frames').last().json.existingFilesNames\n    .map(item => item.slice(6, -4));\n\n  const expectedFileIndexes = $('get existing segments').item.json.existingFilesNames\n    .map(item => item.split('_')[0]);\n\n  const currentIndex = expectedFileIndexes[$itemIndex];\n\n  return existingFileIndexes.includes(currentIndex)\n})() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ready"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3296,
+        480
+      ],
+      "id": "91f32816-fe40-4348-8a0e-8ceedc11c03f",
+      "name": "filter ready start frames1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "023b77a2-462e-40f0-bd72-df1bfb68ba03",
+              "name": "workflow",
+              "value": "={{ {\n  \"9\": {\n    \"inputs\": {\n      \"filename_prefix\": \"Flux2_dev\",\n      \"images\": [\n        \"110\",\n        0\n      ]\n    },\n    \"class_type\": \"SaveImage\",\n    \"_meta\": {\n      \"title\": \"Save Image\"\n    }\n  },\n  \"105\": {\n    \"inputs\": {\n      \"model\": [\n        \"116\",\n        0\n      ],\n      \"conditioning\": [\n        \"106\",\n        0\n      ]\n    },\n    \"class_type\": \"BasicGuider\",\n    \"_meta\": {\n      \"title\": \"BasicGuider\"\n    }\n  },\n  \"106\": {\n    \"inputs\": {\n      \"guidance\": 4,\n      \"conditioning\": [\n        \"115\",\n        0\n      ]\n    },\n    \"class_type\": \"FluxGuidance\",\n    \"_meta\": {\n      \"title\": \"FluxGuidance\"\n    }\n  },\n  \"107\": {\n    \"inputs\": {\n      \"sampler_name\": \"euler\"\n    },\n    \"class_type\": \"KSamplerSelect\",\n    \"_meta\": {\n      \"title\": \"KSamplerSelect\"\n    }\n  },\n  \"108\": {\n    \"inputs\": {\n      \"vae_name\": \"flux2-vae.safetensors\"\n    },\n    \"class_type\": \"VAELoader\",\n    \"_meta\": {\n      \"title\": \"Load VAE\"\n    }\n  },\n  \"109\": {\n    \"inputs\": {\n      \"noise\": [\n        \"114\",\n        0\n      ],\n      \"guider\": [\n        \"105\",\n        0\n      ],\n      \"sampler\": [\n        \"107\",\n        0\n      ],\n      \"sigmas\": [\n        \"112\",\n        0\n      ],\n      \"latent_image\": [\n        \"113\",\n        0\n      ]\n    },\n    \"class_type\": \"SamplerCustomAdvanced\",\n    \"_meta\": {\n      \"title\": \"SamplerCustomAdvanced\"\n    }\n  },\n  \"110\": {\n    \"inputs\": {\n      \"samples\": [\n        \"109\",\n        0\n      ],\n      \"vae\": [\n        \"108\",\n        0\n      ]\n    },\n    \"class_type\": \"VAEDecode\",\n    \"_meta\": {\n      \"title\": \"VAE Decode\"\n    }\n  },\n  \"111\": {\n    \"inputs\": {\n      \"clip_name\": \"mistral_3_small_flux2_bf16.safetensors\",\n      \"type\": \"flux2\",\n      \"device\": \"default\"\n    },\n    \"class_type\": \"CLIPLoader\",\n    \"_meta\": {\n      \"title\": \"Load CLIP\"\n    }\n  },\n  \"112\": {\n    \"inputs\": {\n      \"steps\": [\n        \"118\",\n        0\n      ],\n      \"width\": 1024,\n      \"height\": 1024\n    },\n    \"class_type\": \"Flux2Scheduler\",\n    \"_meta\": {\n      \"title\": \"Flux2Scheduler\"\n    }\n  },\n  \"113\": {\n    \"inputs\": {\n      \"width\": 1280, \n      \"height\": 720,\n      \"batch_size\": 1\n    },\n    \"class_type\": \"EmptyFlux2LatentImage\",\n    \"_meta\": {\n      \"title\": \"Empty Flux 2 Latent\"\n    }\n  },\n  \"114\": {\n    \"inputs\": {\n      \"noise_seed\": 8\n    },\n    \"class_type\": \"RandomNoise\",\n    \"_meta\": {\n      \"title\": \"RandomNoise\"\n    }\n  },\n  \"115\": {\n    \"inputs\": {\n      \"text\": \"POSITIVE PROMPTS GOES HERE\",\n      \"clip\": [\n        \"111\",\n        0\n      ]\n    },\n    \"class_type\": \"CLIPTextEncode\",\n    \"_meta\": {\n      \"title\": \"CLIP Text Encode (Positive Prompt)\"\n    }\n  },\n  \"116\": {\n    \"inputs\": {\n      \"lora_name\": \"geminicomics_style.safetensors\",\n      \"strength_model\": 1,\n      \"model\": [\n        \"122\",\n        0\n      ]\n    },\n    \"class_type\": \"LoraLoaderModelOnly\",\n    \"_meta\": {\n      \"title\": \"Load LoRA\"\n    }\n  },\n  \"118\": {\n    \"inputs\": {\n      \"value\": 20\n    },\n    \"class_type\": \"PrimitiveInt\",\n    \"_meta\": {\n      \"title\": \"Steps\"\n    }\n  },\n  \"122\": {\n    \"inputs\": {\n      \"unet_name\": \"flux2_dev_fp8mixed.safetensors\",\n      \"weight_dtype\": \"default\"\n    },\n    \"class_type\": \"UNETLoader\",\n    \"_meta\": {\n      \"title\": \"Load Diffusion Model\"\n    }\n  }\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4672,
+        784
+      ],
+      "id": "c93e7824-0f5c-4a49-ab20-af054213a64b",
+      "name": "Set d8swfnb44q T2I Workflow Base1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "wwicZuqjISFsTY3n",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/wwicZuqjISFsTY3n",
+          "cachedResultName": "ComfyUI Json Workflow Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "workflow": "={{ $json.workflow }}",
+            "actions": "={{ (()=>{\n\nlet actions = []\n\nconst positivePrompt = $('filter ready start frames1').item.json.positivePrompt\nconst negativePrompt = $('filter ready start frames1').item.json.negativePrompt\nconst imageWidth = $('filter ready start frames1').item.json.clipWidth\nconst imageHeight = $('filter ready start frames1').item.json.clipHeight\nconst useLora = $('get all workflow params').first().json.useStyleLoraForStartFrame\nconst loraName = $('filter ready start frames1').item.json.styleLoraName\nconst loraTriggerWord = $('filter ready start frames1').item.json.styleLoraTriggerWord\nconst seed = $('filter ready start frames1').item.json.seed\n\nconst changeImageResolitonAction = {\n  type: \"addNode\",\n  id: \"113\",\n  overwrite: true,\n  node: {\n    class_type: \"EmptyFlux2LatentImage\",\n    _meta: { title: \"Empty Flux 2 Latent\" },\n    inputs: {\n      width: imageWidth,\n      height: imageHeight,\n      batch_size: 1\n    }\n  }\n}\n\nconst changeSeedAction = {\n  type: \"addNode\",\n  id: \"114\",\n  overwrite: true,\n  node: {\n    class_type: \"RandomNoise\",\n    _meta: { title: \"RandomNoise\" },\n    inputs: {\n      noise_seed: seed\n    }\n  }\n}\n\nconst addPostitivePromptAction = {\n  type: \"addNode\",\n  id: \"115\",\n  overwrite: true,\n  node: {\n    class_type: \"CLIPTextEncode\",\n    _meta: { title: \"CLIP Text Encode (Positive Prompt)\" },\n    inputs: {\n      text: (useLora ? (loraTriggerWord + ', ') : '') + positivePrompt,\n      clip: [\"111\", 0]\n    }\n  }\n}\n\nconst removeLoraNodeAction = [\n  {\n    type: \"connect\",\n    fromNodeId: \"122\",\n    fromOutput: 0,\n    toNodeId: \"105\",\n    toInput: \"model\"\n  },\n  {\n    type: \"removeNode\",\n    nodeId: \"116\"\n  }\n]\n\nactions.push(changeImageResolitonAction)\nactions.push(changeSeedAction)\nactions.push(addPostitivePromptAction)\n\nif (!useLora){\n  actions.push(...removeLoraNodeAction)\n}\n\nreturn actions\n\n})() }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "workflow",
+              "displayName": "workflow",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "actions",
+              "displayName": "actions",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4864,
+        784
+      ],
+      "id": "8438f12a-7b56-40f4-a434-42d8798c71a9",
+      "name": "SET d8swfnb44q T2I workflow image size, lora1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "o5B3Nkoco1rF2d1h",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/o5B3Nkoco1rF2d1h",
+          "cachedResultName": "runpod works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "method": "sendComfyUiT2IGenerationRequest",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
+            "runpodGpuList": "={{ [] }}",
+            "runpodCountryCodes": "={{ [] }}",
+            "comfyUiRequest": "={{ $json.workflow }}",
+            "index": "={{ $('read visualSegment').item.json.segment_meta.partIndex }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            },
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "request",
+              "displayName": "request",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuList",
+              "displayName": "runpodGpuList",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodCountryCodes",
+              "displayName": "runpodCountryCodes",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        5056,
+        784
+      ],
+      "id": "9bf96ca7-2104-4187-bd5c-36757d53a0ae",
+      "name": "send runpod gen request1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VOICE/transcript/{{ $('Start').first().json.videoFolderName }}_transcript.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\"items[n].text\",\"items[n].start_ms\",\"items[n].end_ms\"] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2144,
+        480
+      ],
+      "name": "get start/end ms of each scentance from transcript1",
+      "id": "95daa687-8e69-4d61-985d-2183d0ce4ac1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ===============================\n// ✅ INPUT VARIABLES (что подать на вход)\n// ===============================\n\n// 1) СЕГМЕНТЫ ТРАНСКРИПТА (массив объектов)\nconst RAW_SEGMENTS = $('get start/end ms of each scentance from transcript1').first().json.items;\n\n// 2) MIN / MAX экранного времени (миллисекунды)\nconst EACH_IMAGE_MIN_SCREEN_TIME_MS = $('get all workflow params').first().json.eachVisualMinScreenTimeMs;\nconst EACH_IMAGE_MAX_SCREEN_TIME_MS = $('get all workflow params').first().json.eachVisualMaxScreenTimeMs;\n\n// 3) “Мягкий перелёт” — ЗАПРЕЩЕН (строго не выходим за max)\nconst SOFT_OVERFLOW_MS = 0;\n\n// 4) Какие ключи использовать в RAW_SEGMENTS\nconst TEXT_KEY   = 'text';\nconst START_KEYS = ['start_ms', 'start'];\nconst END_KEYS   = ['end_ms', 'end'];\n\n// 5) Единицы времени\nconst TIME_UNIT = 'auto'; // 'auto' | 'ms' | 's'\n\n// 6) Общая длительность трека (в мс). Если не найдём — возьмём max(end_ms) после нормализации.\nconst TOTAL_DUR_MS = (() => {\n  try {\n    const j = $('get start/end ms of each scentance from transcript1').first().json;\n\n    const candidates = [\n      j.total_dur_ms,\n      j.totalDurMs,\n      j.total_duration_ms,\n      (Number(j.total_duration_sec) * 1000),\n      (Number(j.meta?.progress?.total_duration_sec) * 1000),\n      (Number(j.meta?.total_duration_sec) * 1000),\n    ];\n\n    for (const c of candidates) {\n      const n = Number(c);\n      if (Number.isFinite(n) && n > 0) return Math.round(n);\n    }\n  } catch (_) {}\n\n  return null;\n})();\n\n\n// ===============================\n// 🔧 Implementation\n// ===============================\n\nfunction cleanText(s) {\n  return String(s ?? \"\")\n    .replace(/\\r?\\n/g, \" \")\n    .replace(/\\s+/g, \" \")\n    .trim();\n}\n\nfunction pickFirst(obj, keys) {\n  for (const k of keys) {\n    if (obj && obj[k] != null) return obj[k];\n  }\n  return null;\n}\n\nfunction toNumber(x) {\n  const n = typeof x === \"number\" ? x : parseFloat(String(x));\n  return Number.isFinite(n) ? n : null;\n}\n\n// Нормализация start/end в МС (а не только durMs)\nfunction normalizeStartEndMs(rawSeg) {\n  // 1) start_ms/end_ms -> считаем что это ms\n  const sMs = toNumber(rawSeg?.start_ms);\n  const eMs = toNumber(rawSeg?.end_ms);\n  if (sMs != null && eMs != null) {\n    const start = Math.max(0, Math.round(sMs));\n    const end = Math.max(start, Math.round(eMs));\n    return { startMs: start, endMs: end };\n  }\n\n  // 2) start/end -> auto/ms/s\n  const s = toNumber(rawSeg?.start);\n  const e = toNumber(rawSeg?.end);\n  if (s == null || e == null) return { startMs: 0, endMs: 0 };\n\n  let factor = 1;\n  if (TIME_UNIT === 's') factor = 1000;\n  else if (TIME_UNIT === 'ms') factor = 1;\n  else {\n    const diff = e - s;\n    const looksLikeSeconds = diff > 0 && diff <= 120 && e <= 20000;\n    factor = looksLikeSeconds ? 1000 : 1;\n  }\n\n  const start = Math.max(0, Math.round(s * factor));\n  const end = Math.max(start, Math.round(e * factor));\n  return { startMs: start, endMs: end };\n}\n\n// ===============================\n// ✅ GAP FILL LOGIC\n// ===============================\nfunction fillGapsInPlace(segs, totalDurMs) {\n  if (!Array.isArray(segs) || segs.length === 0) return { totalDurMs: totalDurMs ?? 0 };\n\n  segs.sort((a, b) => (a.startMs - b.startMs) || (a._origIndex - b._origIndex));\n\n  if (segs[0].startMs > 0) segs[0].startMs = 0;\n  if (segs[0].startMs < 0) segs[0].startMs = 0;\n  if (segs[0].endMs < segs[0].startMs) segs[0].endMs = segs[0].startMs;\n\n  if (!Number.isFinite(totalDurMs) || totalDurMs == null || totalDurMs <= 0) {\n    let mx = 0;\n    for (const s of segs) mx = Math.max(mx, s.endMs);\n    totalDurMs = mx;\n  } else {\n    totalDurMs = Math.max(0, Math.round(totalDurMs));\n  }\n\n  for (let i = 0; i < segs.length - 1; i++) {\n    const cur = segs[i];\n    const next = segs[i + 1];\n\n    if (cur.startMs < 0) cur.startMs = 0;\n    if (next.startMs < 0) next.startMs = 0;\n\n    if (cur.endMs < cur.startMs) cur.endMs = cur.startMs;\n    if (next.endMs < next.startMs) next.endMs = next.startMs;\n\n    let desiredEnd = next.startMs - 1;\n    if (desiredEnd < cur.startMs) desiredEnd = cur.startMs;\n    cur.endMs = desiredEnd;\n\n    if (cur.endMs < cur.startMs) cur.endMs = cur.startMs;\n  }\n\n  const last = segs[segs.length - 1];\n  if (last.startMs < 0) last.startMs = 0;\n  if (last.endMs < last.startMs) last.endMs = last.startMs;\n\n  if (last.endMs < totalDurMs) last.endMs = totalDurMs;\n  if (last.endMs < last.startMs) last.endMs = last.startMs;\n\n  return { totalDurMs };\n}\n\n// --- границы предложений ---\nconst END_CHARS = new Set([\".\", \"!\", \"?\", \"…\", \"。\", \"！\", \"？\"]);\nconst CLOSERS = new Set(['\"', \"”\", \"’\", \"'\", \")\", \"]\", \"}\", \"»\", \"›\", \"）\", \"】\", \"』\", \"」\"]);\n\nconst ABBREV = new Set([\n  // EN\n  \"mr\",\"mrs\",\"ms\",\"mx\",\"dr\",\"prof\",\"sr\",\"jr\",\"st\",\"mt\",\"ft\",\"vs\",\n  \"etc\",\"eg\",\"ie\",\"fig\",\"eq\",\"ref\",\"refs\",\"no\",\"nos\",\"dept\",\"inc\",\"ltd\",\"corp\",\"co\",\"bros\",\n  \"est\",\"misc\",\"approx\",\"appt\",\"avg\",\"min\",\"max\",\"temp\",\"vol\",\"ch\",\"sec\",\"pp\",\"p\",\n  \"jan\",\"feb\",\"mar\",\"apr\",\"may\",\"jun\",\"jul\",\"aug\",\"sep\",\"sept\",\"oct\",\"nov\",\"dec\",\n  \"am\",\"pm\",\"a.m\",\"p.m\",\"u.s\",\"u.k\",\"e.u\",\"u.n\",\n\n  // RU\n  \"г\",\"гг\",\"ул\",\"д\",\"кв\",\"стр\",\"рис\",\"пр\",\"просп\",\"наб\",\"бул\",\"пер\",\"пл\",\"пос\",\"обл\",\"р-н\",\n  \"им\",\"акад\",\"доц\",\"проф\",\"см\",\"т.д\",\"т.п\",\"и т.д\",\"и т.п\",\"др\",\n  \"мин\",\"сек\",\"ч\",\"мес\",\"гл\",\"ст\",\"пп\",\"п\",\"млн\",\"млрд\",\"тыс\",\"руб\",\"коп\",\n\n  // PL\n  \"np\",\"itp\",\"itd\",\"m.in\",\"tzn\",\"tj\",\"wg\",\"ok\",\"nr\",\"ul\",\"al\",\"pl\",\"r\",\n  \"godz\",\"min\",\"sek\",\"str\",\"rys\",\"tab\",\"rozdz\",\"pkt\",\"ppkt\",\n  \"dr\",\"hab\",\"mgr\",\"inz\",\"prof\",\n\n  // CZ\n  \"např\",\"napr\",\"tzv\",\"atd\",\"apod\",\"tj\",\"tzn\",\"cl\",\"odst\",\"str\",\"obr\",\"tab\",\"kap\",\n  \"ing\",\"mgr\",\"mudr\",\"judr\",\"phdr\",\"bc\",\"dis\",\n\n  // SP (ES)\n  \"sr\",\"sra\",\"srta\",\"dr\",\"dra\",\"ud\",\"uds\",\"pag\",\"pags\",\"num\",\"nro\",\n  \"aprox\",\"etc\",\"av\",\"pto\",\"dpto\",\"art\",\"cap\",\"eeuu\",\n\n  // IT\n  \"sig\",\"sigg\",\"sigra\",\"sigre\",\"dr\",\"dott\",\"dssa\",\"ing\",\"avv\",\"prof\",\n  \"pag\",\"pagg\",\"num\",\"art\",\"cap\",\"ecc\",\"ca\",\"circa\",\"vle\",\"pza\",\"pzza\",\"cso\",\n\n  // FR\n  \"m\",\"mm\",\"mme\",\"mlle\",\"mlles\",\"dr\",\"pr\",\"etc\",\"env\",\"av\",\"bd\",\"st\",\"ste\",\n  \"no\",\"num\",\"art\",\"chap\",\"pag\",\"tel\",\"tva\",\n\n  // GE (DE)\n  \"hr\",\"fr\",\"dr\",\"prof\",\"bzw\",\"z.b\",\"zb\",\"bsp\",\"bspw\",\"usw\",\"vgl\",\"ca\",\n  \"d.h\",\"dh\",\"u.a\",\"ua\",\"u.ä\",\"ue\",\"str\",\"nr\",\"s\",\"abb\",\"ggf\",\"dipl\",\"ing\",\"dipl-ing\",\n\n  // SW\n  \"bl.a\",\"bla\",\"t.ex\",\"tex\",\"dvs\",\"m.fl\",\"mfl\",\"m.m\",\"mm\",\"osv\",\n  \"ca\",\"nr\",\"sid\",\"kap\",\"fig\",\"kl\",\"dr\",\"prof\",\"ing\",\"fru\",\"herr\",\n\n  // HE\n  \"דר\",\"פרופ\",\"גב\",\"מר\",\"מס\",\"עמ\",\"וכו\",\"לדוג\",\"רח\",\"טל\",\"סע\",\"פרק\"\n]);\n\n\nfunction isLetterOrDigit(ch) {\n  return /[0-9A-Za-zÀ-ÖØ-öø-ÿА-Яа-яЁё]/.test(ch);\n}\n\nfunction isAbbrevDot(text, dotPos) {\n  let i = dotPos - 1;\n  while (i >= 0 && text[i] === \" \") i--;\n\n  const end = i + 1;\n  while (i >= 0 && (isLetterOrDigit(text[i]) || text[i] === \"-\" )) i--;\n  const start = i + 1;\n\n  const word = text.slice(start, end).toLowerCase();\n  if (!word) return false;\n  if (word.length === 1) return true;\n  if (ABBREV.has(word)) return true;\n\n  const lookback = text.slice(Math.max(0, start - 4), dotPos + 1).toLowerCase();\n  if (lookback.includes(\".\") && lookback.length <= 6) return true;\n  return false;\n}\n\nfunction findSentenceBoundaries(text) {\n  const out = [];\n  const n = text.length;\n\n  for (let i = 0; i < n; i++) {\n    const ch = text[i];\n    if (!END_CHARS.has(ch)) continue;\n\n    let j = i;\n    while (j + 1 < n && END_CHARS.has(text[j + 1])) j++;\n\n    if (text[j] === \".\" && isAbbrevDot(text, j)) {\n      i = j;\n      continue;\n    }\n\n    let k = j + 1;\n    while (k < n && CLOSERS.has(text[k])) k++;\n\n    if (k === n || /\\s/.test(text[k])) out.push(k);\n    i = j;\n  }\n  return out;\n}\n\nfunction lastWhitespaceBefore(text, idx) {\n  for (let i = Math.min(idx, text.length - 1); i >= 0; i--) {\n    if (/\\s/.test(text[i])) return i;\n  }\n  return -1;\n}\n\nfunction firstWhitespaceAfter(text, idx) {\n  for (let i = Math.max(0, idx); i < text.length; i++) {\n    if (/\\s/.test(text[i])) return i;\n  }\n  return -1;\n}\n\n// ===============================\n// ✅ STRICT MIN/MAX REBALANCE PATCH\n// ===============================\n\nfunction splitDurStrict(totalDur, minMs, maxMs) {\n  const total = Math.max(0, Math.round(totalDur));\n  if (total === 0) return [];\n  if (total >= minMs && total <= maxMs) return [total];\n\n  // Можно ли сделать все части в [min..max]\n  const nMin = Math.ceil(total / maxMs);\n  const nMax = Math.floor(total / minMs);\n\n  if (nMin <= nMax && nMin > 0) {\n    const n = nMin;\n    const base = Math.floor(total / n);\n    let rem = total - base * n;\n    const out = Array(n).fill(base);\n    for (let i = 0; i < n && rem > 0; i++, rem--) out[i]++;\n    return out;\n  }\n\n  // Иначе строго выполнить диапазон невозможно — режем по max, хвост оставляем\n  const out = [];\n  let rem = total;\n  while (rem > maxMs) {\n    out.push(maxMs);\n    rem -= maxMs;\n  }\n  if (rem > 0) out.push(rem);\n  return out;\n}\n\nfunction nearestBoundary(boundaries, minPos, maxPos, idealPos) {\n  let best = -1;\n  let bestDist = Infinity;\n  for (const b of boundaries) {\n    if (b < minPos || b > maxPos) continue;\n    const d = Math.abs(b - idealPos);\n    if (d < bestDist) {\n      bestDist = d;\n      best = b;\n    }\n  }\n  return best;\n}\n\nfunction splitTextByDurations(text, durations) {\n  const t = cleanText(text);\n  if (!durations.length) return [];\n  if (!t) return durations.map(() => \"\");\n  if (durations.length === 1) return [t];\n\n  const out = [];\n  const boundaries = findSentenceBoundaries(t);\n  const totalDur = durations.reduce((a, b) => a + b, 0);\n\n  let start = 0;\n  let accDur = 0;\n\n  for (let i = 0; i < durations.length - 1; i++) {\n    accDur += durations[i];\n\n    let ideal = Math.round((accDur / Math.max(1, totalDur)) * t.length);\n    ideal = Math.max(start + 1, Math.min(t.length - 1, ideal));\n\n    const minPos = start + 1;\n    const maxPos = t.length - 1;\n\n    let cut = nearestBoundary(boundaries, minPos, maxPos, ideal);\n\n    if (cut < 0) {\n      const wsLeft = lastWhitespaceBefore(t, ideal);\n      const wsRight = firstWhitespaceAfter(t, ideal);\n\n      const leftOk = wsLeft >= minPos && wsLeft <= maxPos;\n      const rightOk = wsRight >= minPos && wsRight <= maxPos;\n\n      if (leftOk && rightOk) {\n        cut = (Math.abs(wsLeft - ideal) <= Math.abs(wsRight - ideal)) ? wsLeft + 1 : wsRight + 1;\n      } else if (leftOk) {\n        cut = wsLeft + 1;\n      } else if (rightOk) {\n        cut = wsRight + 1;\n      } else {\n        cut = ideal;\n      }\n    }\n\n    cut = Math.max(minPos, Math.min(maxPos, cut));\n    out.push(cleanText(t.slice(start, cut)));\n    start = cut;\n  }\n\n  out.push(cleanText(t.slice(start)));\n  return out;\n}\n\nfunction splitPartStrict(part, minMs, maxMs) {\n  const dur = Math.max(0, Math.round(part?.meta?.durMs || 0));\n  if (dur <= 0) return [];\n\n  const durs = splitDurStrict(dur, minMs, maxMs);\n  const texts = splitTextByDurations(part?.text || \"\", durs);\n\n  return durs.map((d, i) => ({\n    text: cleanText(texts[i] || \"\"),\n    meta: { durMs: d }\n  }));\n}\n\nfunction mergeParts(a, b) {\n  const ta = cleanText(a?.text || \"\");\n  const tb = cleanText(b?.text || \"\");\n  return {\n    text: cleanText((ta && tb) ? (ta + \" \" + tb) : (ta || tb)),\n    meta: {\n      durMs: Math.max(0, Math.round((a?.meta?.durMs || 0) + (b?.meta?.durMs || 0)))\n    }\n  };\n}\n\nfunction rebalancePartsStrict(inputParts, minMs, maxMs) {\n  let parts = (Array.isArray(inputParts) ? inputParts : [])\n    .map(p => ({\n      text: cleanText(p?.text || \"\"),\n      meta: { durMs: Math.max(0, Math.round(p?.meta?.durMs || 0)) }\n    }))\n    .filter(p => p.meta.durMs > 0);\n\n  if (!parts.length) return [];\n\n  for (let iter = 0; iter < 300; iter++) {\n    let changed = false;\n\n    // 1) Все > max режем сразу\n    let next = [];\n    for (const p of parts) {\n      if (p.meta.durMs > maxMs) {\n        next.push(...splitPartStrict(p, minMs, maxMs));\n        changed = true;\n      } else {\n        next.push(p);\n      }\n    }\n    parts = next;\n\n    // 2) Ищем первый кусок < min\n    const shortIdx = parts.findIndex(p => p.meta.durMs < minMs);\n    if (shortIdx === -1) {\n      if (!changed) break;\n      continue;\n    }\n\n    if (parts.length === 1) break; // total < min — неизбежно\n\n    const leftIdx = shortIdx - 1;\n    const rightIdx = shortIdx + 1;\n    const cur = parts[shortIdx];\n\n    let pickLeft = false;\n    if (leftIdx < 0) {\n      pickLeft = false;\n    } else if (rightIdx >= parts.length) {\n      pickLeft = true;\n    } else {\n      const leftDur = parts[leftIdx].meta.durMs + cur.meta.durMs;\n      const rightDur = parts[rightIdx].meta.durMs + cur.meta.durMs;\n\n      const leftOver = Math.max(0, leftDur - maxMs);\n      const rightOver = Math.max(0, rightDur - maxMs);\n\n      if (leftOver !== rightOver) {\n        pickLeft = leftOver < rightOver;\n      } else {\n        const target = (minMs + maxMs) / 2;\n        pickLeft = Math.abs(leftDur - target) <= Math.abs(rightDur - target);\n      }\n    }\n\n    if (pickLeft) {\n      parts[leftIdx] = mergeParts(parts[leftIdx], cur);\n      parts.splice(shortIdx, 1);\n    } else {\n      parts[rightIdx] = mergeParts(cur, parts[rightIdx]);\n      parts.splice(shortIdx, 1);\n    }\n\n    changed = true;\n    if (!changed) break;\n  }\n\n  // Финальный защитный проход по max\n  const final = [];\n  for (const p of parts) {\n    if (p.meta.durMs <= maxMs) final.push(p);\n    else final.push(...splitPartStrict(p, minMs, maxMs));\n  }\n\n  return final;\n}\n\n// ===============================\n// 🚀 Core splitter (STRICT MAX + STRICT MIN/MAX PATCH)\n// ===============================\nfunction splitByMinMax(rawSegments, cfg) {\n  let { minMs, maxMs, softOverflowMs, totalDurMs } = cfg;\n\n  if (!Number.isFinite(minMs) || minMs <= 0) minMs = 2500;\n  if (!Number.isFinite(maxMs) || maxMs <= 0) maxMs = 4500;\n  if (minMs > maxMs) [minMs, maxMs] = [maxMs, minMs];\n\n  softOverflowMs = 0;\n  const hardMaxMs = maxMs;\n\n  // 1) нормализуем сегменты: text + startMs/endMs\n  const segs = (Array.isArray(rawSegments) ? rawSegments : [])\n    .map((seg, i) => {\n      const text = cleanText(seg?.[TEXT_KEY] ?? seg?.text ?? seg?.transcript ?? seg?.caption ?? \"\");\n      const se = normalizeStartEndMs({\n        start_ms: seg?.start_ms ?? pickFirst(seg, START_KEYS),\n        end_ms:   seg?.end_ms   ?? pickFirst(seg, END_KEYS),\n        start:    seg?.start    ?? pickFirst(seg, START_KEYS),\n        end:      seg?.end      ?? pickFirst(seg, END_KEYS),\n      });\n\n      return {\n        _origIndex: i,\n        text,\n        startMs: se.startMs,\n        endMs: se.endMs,\n      };\n    })\n    .filter(s => s.text);\n\n  // 2) заполняем пробелы/убираем перекрытия по start/end\n  const filled = fillGapsInPlace(segs, totalDurMs);\n  totalDurMs = filled.totalDurMs;\n\n  // 3) для сборки частей используем durMs = end-start (как в оригинале)\n  const segments = segs.map(s => ({\n    text: s.text,\n    durMs: Math.max(0, s.endMs - s.startMs),\n  }));\n\n  // 4) Draft split: соблюдаем max, дальше строгий ребаланс\n  const draftParts = [];\n\n  function pushPart(txt, dur) {\n    const t = cleanText(txt);\n    if (!t) return;\n\n    const d = Math.max(0, Math.round(dur));\n    draftParts.push({\n      text: t,\n      meta: { durMs: d },\n    });\n  }\n\n  let bufText = \"\";\n  let bufDurMs = 0;\n\n  function cutBufferStrict() {\n    const t = bufText;\n    const totalChars = t.length;\n\n    if (!totalChars || bufDurMs <= 0) {\n      pushPart(t, bufDurMs);\n      bufText = \"\";\n      bufDurMs = 0;\n      return true;\n    }\n\n    const denom = Math.max(1, bufDurMs);\n\n    let maxChar = Math.floor(totalChars * (maxMs / denom));\n    maxChar = Math.max(1, Math.min(totalChars - 1, maxChar));\n\n    let minChar = Math.floor(totalChars * (minMs / denom));\n    minChar = Math.max(0, Math.min(maxChar, minChar));\n\n    const boundaries = findSentenceBoundaries(t);\n    let cutIdx = -1;\n\n    // 1) граница в [minChar..maxChar]\n    for (let i = boundaries.length - 1; i >= 0; i--) {\n      const b = boundaries[i];\n      if (b >= minChar && b <= maxChar) { cutIdx = b; break; }\n    }\n\n    // 2) поздняя граница <= maxChar\n    if (cutIdx < 0) {\n      for (let i = boundaries.length - 1; i >= 0; i--) {\n        const b = boundaries[i];\n        if (b <= maxChar) { cutIdx = b; break; }\n      }\n    }\n\n    // 3) пробел <= maxChar\n    if (cutIdx < 0) {\n      const ws = lastWhitespaceBefore(t, maxChar);\n      if (ws > 0) cutIdx = ws + 1;\n    }\n\n    // 4) иначе — ровно maxChar\n    if (cutIdx < 1 || cutIdx >= totalChars) cutIdx = maxChar;\n\n    const leftRaw = t.slice(0, cutIdx);\n    const rightRaw = t.slice(cutIdx);\n\n    const leftText = cleanText(leftRaw);\n    const rightText = cleanText(rightRaw);\n\n    const leftRatio = cutIdx / Math.max(1, totalChars);\n    let leftDur = Math.floor(bufDurMs * leftRatio);\n    if (leftDur > maxMs) leftDur = maxMs;\n    if (leftDur < 0) leftDur = 0;\n\n    const rightDur = Math.max(0, bufDurMs - leftDur);\n\n    pushPart(leftText, leftDur);\n    bufText = rightText;\n    bufDurMs = rightDur;\n\n    return true;\n  }\n\n  for (const seg of segments) {\n    bufText = bufText ? (bufText + \" \" + seg.text) : seg.text;\n    bufDurMs += seg.durMs;\n\n    while (bufText && bufDurMs > hardMaxMs) {\n      cutBufferStrict();\n      if (bufDurMs < minMs) break;\n    }\n  }\n\n  if (bufText) {\n    while (bufText && bufDurMs > hardMaxMs) {\n      cutBufferStrict();\n      if (bufDurMs < minMs) break;\n    }\n    if (bufText) pushPart(bufText, bufDurMs);\n  }\n\n  // 5) Патч: ребалансим, чтобы durMs были в [min..max], когда это возможно\n  const strictParts = rebalancePartsStrict(draftParts, minMs, maxMs);\n\n  // 6) Восстанавливаем ВСЕ поля как в оригинале\n  const parts = strictParts.map((p, i) => {\n    const t = cleanText(p.text);\n    return {\n      partIndex: i,\n      text: t,\n      meta: {\n        durMs: Math.max(0, Math.round(p.meta.durMs || 0)),\n        charCount: t.length,\n      },\n    };\n  });\n\n  return {\n    parts,\n    minMs,\n    maxMs,\n    softOverflowMs,\n    hardMaxMs,\n    totalDurMs,\n  };\n}\n\n// ===============================\n// ✅ Run\n// ===============================\nconst result = splitByMinMax(RAW_SEGMENTS, {\n  minMs: EACH_IMAGE_MIN_SCREEN_TIME_MS,\n  maxMs: EACH_IMAGE_MAX_SCREEN_TIME_MS,\n  softOverflowMs: SOFT_OVERFLOW_MS,\n  totalDurMs: TOTAL_DUR_MS,\n});\n\nreturn [\n  {\n    json: {\n      parts: result.parts,\n      totalDurMs: result.totalDurMs,\n      eachImageMinScreenTimeMs: result.minMs,\n      eachImageMaxScreenTimeMs: result.maxMs,\n      hardMaxMs: result.hardMaxMs,\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2336,
+        480
+      ],
+      "id": "fcd1080a-a280-4a1d-987b-10cd9265e1ec",
+      "name": "Define Visuals Duration(normalized)1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b838a0db-de7b-412b-bf0a-98d59eec900c",
+              "name": "positivePrompt",
+              "value": "={{$json.generation_data.prompts['startingFramePrompt'].toJsonString() }}",
+              "type": "string"
+            },
+            {
+              "id": "c855e136-51a3-4efb-a159-d4c616716aca",
+              "name": "negativePrompt",
+              "value": "={{ $json.hasField('negativePrompt') ? $json.negativePrompt : \"blurry, out of focus, overexposed, underexposed, low contrast, washed out colors, excessive noise, grainy texture, poor lighting, flickering, motion blur, distorted proportions, unnatural skin tones, deformed facial features, asymmetrical face, missing facial features, extra limbs, disfigured hands, wrong hand count, artifacts around text, unreadable text on shirt or hat, incorrect lettering on cap (“PNTR”), incorrect t-shirt slogan (“JUST DO IT”), missing microphone, misplaced microphone, inconsistent perspective, camera shake, incorrect depth of field, background too sharp, background clutter, distracting reflections, harsh shadows, inconsistent lighting direction, color banding, uncanny valley effect, incorrect ethnicity, wrong gender, exaggerated expressions, smiling, laughing, exaggerated sadness, wrong gaze direction, eyes looking at camera, mismatched lip sync, silent or muted audio, distorted voice, robotic voice, echo, background noise, off-sync audio, missing sniff sounds, incorrect dialogue, added dialogue, repetitive speech, jittery movement, awkward pauses, incorrect timing, unnatural transitions, inconsistent framing, tilted camera, missing door or shelves, missing shallow depth of field, flat lighting, inconsistent tone, cinematic oversaturation, or AI artifacts.\" }}",
+              "type": "string"
+            },
+            {
+              "id": "c0923bce-18a2-4d29-8631-729f397e2637",
+              "name": "clipWidth",
+              "value": "={{ $('get all workflow params').first().json.startFrameWidth }}",
+              "type": "number"
+            },
+            {
+              "id": "1820dabd-6ad3-428d-8bb0-53d7fc743e39",
+              "name": "clipHeight",
+              "value": "={{ $('get all workflow params').first().json.startFrameHeight }}",
+              "type": "number"
+            },
+            {
+              "id": "47d10da0-e552-41c4-85f5-213fc92779a3",
+              "name": "styleLoraName",
+              "value": "={{ $('get all workflow params').first().json.startFrameStyleLoraName }}",
+              "type": "string"
+            },
+            {
+              "id": "43c8991c-b16a-4362-b8c8-d26b9d18041a",
+              "name": "styleLoraTriggerWord",
+              "value": "={{ $('get all workflow params').first().json.startFrameStyleLoraTriggerWord }}",
+              "type": "string"
+            },
+            {
+              "id": "b6d6989d-774f-4455-a1f8-ec0d5ded4901",
+              "name": "seed",
+              "value": "={{ (()=>{\n  const varsForId = [\n    $json.startingFramePrompt,\n  ];\n\n  const MIN_LEN = 1;\n  const MAX_LEN = 15;\n\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k) + \":\" + stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i = 0; i < str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return h >>> 0;\n  }\n\n  const seed1 = fnv1a32(s);\n  const seed2 = fnv1a32(\"salt|\" + s);\n\n  const len = MIN_LEN + (seed1 % (MAX_LEN - MIN_LEN + 1));\n\n  let state = (seed1 ^ seed2) >>> 0;\n  function nextRand(){\n    state = (Math.imul(state, 1664525) + 1013904223) >>> 0;\n    return state;\n  }\n\n  let out = \"\";\n  out += String((nextRand() % 9) + 1);\n\n  while (out.length < len){\n    out += String(nextRand() % 10);\n  }\n\n  return out;\n})() }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3104,
+        480
+      ],
+      "id": "fb35fc49-c57c-4916-bd87-750f323f7ce4",
+      "name": "set start frame params1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Or9eJruDbYcgW7rm",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Or9eJruDbYcgW7rm",
+          "cachedResultName": "runpod generations manager"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "comfyUiRequest": "={{ $json.workflow }}",
+            "runpodTemplateId": "={{ $('get all workflow params').first().json.runpodVisualsGenerationTemplateId }}",
+            "index": "={{ $('read visualSegment').item.json.segment_meta.partIndex }}",
+            "saveFilePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/startFrames/{{ $('Start').first().json.videoFolderName.slice(-5) }}_{{ $('read visualSegment').item.json.segment_meta.partIndex.toString().padStart(5,'0') }}.png",
+            "comfyUiMethod": "checkComfyUiT2IGenerationRequest"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "comfyUiRequest",
+              "displayName": "comfyUiRequest",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "comfyUiMethod",
+              "displayName": "comfyUiMethod",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "runpodTemplateId",
+              "displayName": "runpodTemplateId",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "saveFilePath",
+              "displayName": "saveFilePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        5056,
+        960
+      ],
+      "id": "3375c05e-c062-491b-941a-b11f5aff6ca9",
+      "name": "runpod generations manager1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ (()=>{\nconst bool = \n$('read visualSegment').item.json.segment_prompt_route.prompt_family_kind === \"graphic_based\" ||\n$('read visualSegment').item.json.segment_prompt_route.selected_base_format === \"text_only_card\"\n\nreturn bool\n})() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "9b0a4c16-7b38-41bb-894b-bc1fcbc8f3cc"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "text or diagram"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "7000fff7-0886-4058-8628-ee2b43ab151c",
+                    "leftValue": "={{ (()=>{\nconst bool = \n$('read visualSegment').item.json.segment_prompt_route.prompt_family_kind === \"graphic_based\" ||\n$('read visualSegment').item.json.segment_prompt_route.selected_base_format === \"text_only_card\"\n\nreturn !bool\n})() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "other"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3488,
+        480
+      ],
+      "id": "69c1b2f4-1673-4303-8c68-4ad81f4cd4b1",
+      "name": "Switch Text Or Diagram"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "FqjF8GiYYDyVcBra",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/FqjF8GiYYDyVcBra",
+          "cachedResultName": "generate starting frames - paralleling"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "channelsFolderPath": "={{ $('Start').first().json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').first().json.channelName }}",
+            "videoFolderName": "={{ $('Start').first().json.videoFolderName }}",
+            "index": "={{ $('read visualSegment').item.json.segment_meta.partIndex }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "index",
+              "displayName": "index",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        3888,
+        480
+      ],
+      "id": "73a5870e-6787-41fb-9c80-a5bf3a03c131",
+      "name": "generate starting frames - paralleling"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').item.json.textAndDiagramsStartingFramesGenService !== \"runpod\"  }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "a63ca2aa-4ff0-43f8-89ec-05dfbb829e8b"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "other"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "b3b12a84-5db3-45f4-9a4a-e2150bbd6c6c",
+                    "leftValue": "={{ $('get all workflow params').item.json.textAndDiagramsStartingFramesGenService !== \"runpod\"  }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "runpod"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3696,
+        480
+      ],
+      "id": "0637b445-66b3-41e6-8873-53c69b96fb5f",
+      "name": "Switch Service"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        3888,
+        784
+      ],
+      "id": "99d8acd7-6dca-46bd-8c48-a935653746cf",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "mode": "chooseBranch",
+        "useDataOfInput": 2
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        4464,
+        784
+      ],
+      "id": "070a2942-3b7e-42e6-afeb-b1394ad268d9",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "content": "## Runpod",
+        "height": 352,
+        "width": 1296,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3872,
+        736
+      ],
+      "id": "77ff61a8-6bd4-4517-a2fe-ed0414326663",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## LLM API Services",
+        "width": 224,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3872,
+        432
+      ],
+      "id": "891eb95a-430b-4dac-a6eb-04078a928632",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.filesReady }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "5359e40c-d5cf-4c2d-8d58-7b7cc779cafb"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ready"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "21d22fd7-1078-49ca-8e64-4c69b27f09d5",
+                    "leftValue": "={{ !$json.filesReady }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not ready"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3872,
+        208
+      ],
+      "id": "88e3846c-c781-4e68-af93-bbaecd89ba93",
+      "name": "Switch1"
+    },
+    {
+      "parameters": {
+        "amount": 60
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3968,
+        304
+      ],
+      "id": "189f58bc-0b51-4a8f-ae6d-07c1069022ca",
+      "name": "Wait1",
+      "webhookId": "e787279e-e456-4ca0-b755-91b00d6cc040"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "N2bXusYBgofvRBlH",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/N2bXusYBgofvRBlH",
+          "cachedResultName": "check files quantity in directory"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "expectedFilesCount": "={{ $('Define Visuals Duration(normalized)').item.json.parts.length }}",
+            "directoryPath": "={{ $('Start').item.json.channelsFolderPath }}/{{ $('Start').item.json.channelName }}/VIDEOS/{{ $('Start').item.json.videoFolderName }}/CLIPS/startFrames",
+            "fileExtentionToSearch": ".png"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "directoryPath",
+              "displayName": "directoryPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileExtentionToSearch",
+              "displayName": "fileExtentionToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileNameToSearch",
+              "displayName": "fileNameToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "expectedFilesCount",
+              "displayName": "expectedFilesCount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        3680,
+        208
+      ],
+      "id": "2d1d349d-0fe4-49b2-b54c-a3bd5e85f806",
+      "name": "check ready clips files1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoStatus.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\n\"startFramesReady\":true\n} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4064,
+        208
+      ],
+      "name": "set start frames ready1",
+      "id": "331156d6-3839-433f-85b1-2aec509362ea"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        3488,
+        208
+      ],
+      "id": "cc326dbe-caa1-4f5f-b7d8-50e215b3bb98",
+      "name": "Limit3"
     }
   ],
   "connections": {
@@ -1456,7 +2723,7 @@
       "main": [
         [
           {
-            "node": "check ready start frames",
+            "node": "Merge",
             "type": "main",
             "index": 0
           }
@@ -1505,13 +2772,7 @@
     },
     "runpod generations manager": {
       "main": [
-        [
-          {
-            "node": "Limit1",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Switch": {
@@ -1554,11 +2815,6 @@
         ]
       ]
     },
-    "Limit1": {
-      "main": [
-        []
-      ]
-    },
     "Start": {
       "main": [
         [
@@ -1574,7 +2830,7 @@
       "main": [
         [
           {
-            "node": "clip gen service",
+            "node": "check ready start frames",
             "type": "main",
             "index": 0
           }
@@ -1596,7 +2852,7 @@
       "main": [
         [
           {
-            "node": "get start/end ms of each scentance from transcript",
+            "node": "Switch complex visuals",
             "type": "main",
             "index": 0
           }
@@ -1630,7 +2886,7 @@
         ],
         [
           {
-            "node": "Limit2",
+            "node": "Limit3",
             "type": "main",
             "index": 0
           }
@@ -1652,13 +2908,7 @@
       "main": [
         [],
         [],
-        [
-          {
-            "node": "start runpod pod",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Set d8swfnb44q T2I Workflow Base": {
@@ -1681,12 +2931,260 @@
             "index": 0
           },
           {
+            "node": "send runpod gen request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch complex visuals": {
+      "main": [
+        [
+          {
+            "node": "get start/end ms of each scentance from transcript",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "get start/end ms of each scentance from transcript1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out Window Indexes1": {
+      "main": [
+        [
+          {
+            "node": "read visualSegment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read visualSegment": {
+      "main": [
+        [
+          {
+            "node": "set start frame params1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get existing segments": {
+      "main": [
+        [
+          {
+            "node": "Split Out Window Indexes1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "filter ready start frames1": {
+      "main": [
+        [
+          {
+            "node": "Switch Text Or Diagram",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
             "node": "Limit2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "SET d8swfnb44q T2I workflow image size, lora1": {
+      "main": [
+        [
+          {
+            "node": "send runpod gen request1",
             "type": "main",
             "index": 0
           },
           {
-            "node": "send runpod gen request",
+            "node": "runpod generations manager1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set d8swfnb44q T2I Workflow Base1": {
+      "main": [
+        [
+          {
+            "node": "SET d8swfnb44q T2I workflow image size, lora1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get start/end ms of each scentance from transcript1": {
+      "main": [
+        [
+          {
+            "node": "Define Visuals Duration(normalized)1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define Visuals Duration(normalized)1": {
+      "main": [
+        [
+          {
+            "node": "get existing segments",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set start frame params1": {
+      "main": [
+        [
+          {
+            "node": "filter ready start frames1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Text Or Diagram": {
+      "main": [
+        [
+          {
+            "node": "Switch Service",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Switch Service": {
+      "main": [
+        [
+          {
+            "node": "generate starting frames - paralleling",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Limit",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "start runpod pod",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Set d8swfnb44q T2I Workflow Base1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Limit2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch1": {
+      "main": [
+        [
+          {
+            "node": "set start frames ready1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "check ready clips files1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "check ready clips files1": {
+      "main": [
+        [
+          {
+            "node": "Switch1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit3": {
+      "main": [
+        [
+          {
+            "node": "check ready clips files1",
             "type": "main",
             "index": 0
           }
@@ -1707,15 +3205,7 @@
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-04-04_Amogs"
-        }
-      }
-    ],
-    "start runpod pod": [
-      {
-        "json": {
-          "podStatus": "ready",
-          "fileName": "podStatus.json"
+          "videoFolderName": "2026-04-16_YeLlV"
         },
         "pairedItem": {
           "item": 0
@@ -1723,9 +3213,9 @@
       }
     ]
   },
-  "versionId": "94237173-07b2-4a8a-933a-b73688edf288",
-  "activeVersionId": "94237173-07b2-4a8a-933a-b73688edf288",
-  "versionCounter": 799,
+  "versionId": "97dd9e95-0758-43e9-bd31-34d1e742c92f",
+  "activeVersionId": "97dd9e95-0758-43e9-bd31-34d1e742c92f",
+  "versionCounter": 1221,
   "triggerCount": 0,
   "tags": [],
   "shared": [

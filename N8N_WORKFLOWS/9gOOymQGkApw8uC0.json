@@ -1,0 +1,2601 @@
+{
+  "updatedAt": "2026-04-13T19:55:40.000Z",
+  "createdAt": "2026-04-13T18:31:53.576Z",
+  "id": "9gOOymQGkApw8uC0",
+  "name": "visuals – 4 – Scene based planning – paralleling",
+  "description": null,
+  "active": false,
+  "isArchived": true,
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## Scene based visual planning",
+        "height": 768,
+        "width": 2528
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1728,
+        -128
+      ],
+      "id": "ca47fefa-00fc-4910-9ceb-65958ccaac8c",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "={{ {\n\n\"requestPayload\":{\n  \"visual_mode\": $('get all workflow params').item.json.videoVisualMode,\n  \"allowed_scene_treatments\": $('get all workflow params').item.json.sceneBasedShotAllowedThreatments,\n  \"video_meta\": {\n    \"title\": $('read video meta').item.json.videoTitle,\n    \"description\": $('read video meta').item.json.videoDescription\n  },\n  \"segment_meta\": $json.segment_meta,\n  \"segment_analysis\": $json.segment_analysis,\n  \"segment_plan\": $json.segment_plan,\n  \"segment_prompt_route\": $json.segment_prompt_route,\n  \"prev_segment_plan\": $json.prev_segment_plan,\n  \"next_segment_plan\": $json.next_segment_plan\n}\n\n} }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1744,
+        320
+      ],
+      "id": "b1e0fd71-6dc4-40be-99f2-27ff1559e05a",
+      "name": "set requestPayload1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2496,
+        -64
+      ],
+      "id": "72ea703f-7cc1-4634-a85f-d19a38d58468",
+      "name": "Send HTTP Request10"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').last().json.visualsPlanningService == \"gemini\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "5ee75887-7518-4802-9c6e-47f913300963"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "gemini"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c4c3ce37-169a-4d45-bf04-1fbf84efb151",
+                    "leftValue": "={{ $('get all workflow params').last().json.visualsPlanningService == \"openai\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "openai"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "05f5648d-1a6e-4f8d-97aa-2f4f035e56c5",
+                    "leftValue": "={{ $('get all workflow params').last().json.visualsPlanningService == \"runpod\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "runpod"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2112,
+        288
+      ],
+      "id": "532837c5-6c92-40b5-b872-f0dadd4f4dbb",
+      "name": "Switch Text Gen Service3"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2496,
+        240
+      ],
+      "id": "5e17cac1-c8b9-4a41-91f8-b8cf9764218c",
+      "name": "Send HTTP Request11"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.OPENAI_RESPONSES_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.OPENAI_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.visualsPlanningModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('get all workflow params').item.json.sceneBasedShotPlanningPrompt\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('set requestPayload1').item.json.requestPayload.toJsonString()\n        }\n      ]\n    },\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_schema\",\n      \"name\": \"scene_shot_mode_plan\",\n      \"strict\": true,\n      \"schema\": {\n        \"type\": \"object\",\n        \"additionalProperties\": false,\n        \"properties\": {\n          \"schema_version\": { \"type\": \"string\", \"enum\": [\"1.0\"] },\n          \"segment_index\": { \"type\": \"integer\" },\n          \"visual_mode\": { \"type\": \"string\" },\n          \"selected_scene_treatment_id\": { \"type\": \"string\" },\n          \"shot_scale\": {\n            \"type\": \"string\",\n            \"enum\": [\"wide\", \"medium\", \"close\", \"mixed\"]\n          },\n          \"motion_intensity\": {\n            \"type\": \"string\",\n            \"enum\": [\"low\", \"medium\", \"high\"]\n          },\n          \"time_behavior\": {\n            \"type\": \"string\",\n            \"enum\": [\"realtime\", \"timelapse\", \"still_like\"]\n          },\n          \"reason\": { \"type\": \"string\" }\n        },\n        \"required\": [\n          \"schema_version\",\n          \"segment_index\",\n          \"visual_mode\",\n          \"selected_scene_treatment_id\",\n          \"shot_scale\",\n          \"motion_intensity\",\n          \"time_behavior\",\n          \"reason\"\n        ]\n      }\n    }\n  }\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2304,
+        304
+      ],
+      "id": "a9c17055-5eb1-4b5b-8641-77abbbef7873",
+      "name": "form openai request3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.visualsPlanningModel,\n  \"systemInstruction\": {\n    \"parts\": [\n        { \"text\": $('get all workflow params').item.json.sceneBasedShotPlanningPrompt }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": $('set requestPayload1').item.json.requestPayload.toJsonString() },\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseJsonSchema\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"properties\": {\n        \"schema_version\": { \"type\": \"string\", \"enum\": [\"1.0\"] },\n        \"segment_index\": { \"type\": \"integer\" },\n        \"visual_mode\": { \"type\": \"string\" },\n        \"selected_scene_treatment_id\": { \"type\": \"string\" },\n        \"shot_scale\": {\n          \"type\": \"string\",\n          \"enum\": [\"wide\", \"medium\", \"close\", \"mixed\"]\n        },\n        \"motion_intensity\": {\n          \"type\": \"string\",\n          \"enum\": [\"low\", \"medium\", \"high\"]\n        },\n        \"time_behavior\": {\n          \"type\": \"string\",\n          \"enum\": [\"realtime\", \"timelapse\", \"still_like\"]\n        },\n        \"reason\": { \"type\": \"string\" }\n      },\n      \"required\": [\n        \"schema_version\",\n        \"segment_index\",\n        \"visual_mode\",\n        \"selected_scene_treatment_id\",\n        \"shot_scale\",\n        \"motion_intensity\",\n        \"time_behavior\",\n        \"reason\"\n      ]\n    }\n  },\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"OFF\" }\n  ]\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2304,
+        144
+      ],
+      "id": "5994a367-3c43-4df1-9042-960c95e1be99",
+      "name": "form gemini request3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n\n$('get all workflow params').item.json.visualsPlanningModel,\n\n$('get all workflow params').item.json.sceneBasedShotPlanningPrompt,\n$('set requestPayload1').item.json.requestPayload\n\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1936,
+        320
+      ],
+      "id": "c5cfb57c-8d96-498b-874d-386d4456c640",
+      "name": "get random ID6"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "shotPlanning",
+              "value": "={{ $json.item.response.output[1].content[0].text.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3952,
+        320
+      ],
+      "id": "efa3afc6-548e-4779-a654-a05b5c4ce4c8",
+      "name": "Parse Openai Responce4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "shotPlanning",
+              "value": "={{ $json.item.response.candidates[0].content.parts[0].text.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3952,
+        160
+      ],
+      "id": "6799a785-207e-44c0-8ba8-9da23237bfc5",
+      "name": "Parse Gemini Responce4"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2688,
+        80
+      ],
+      "id": "4603ff84-c213-419d-ba73-2c0d44be8920",
+      "name": "Send HTTP Request12",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2688,
+        384
+      ],
+      "id": "c6557c23-eea2-4111-a077-6a96262186e9",
+      "name": "Send HTTP Request13",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID6').item.json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{\n{\n  \"view\":\"status\"\n}\n\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2496,
+        80
+      ],
+      "id": "665239e9-0665-48d9-a7a3-2967c759e73c",
+      "name": "form check gemini request1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID6').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{\n{\n  \"view\":\"status\"\n}\n\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2496,
+        384
+      ],
+      "id": "e181fd16-8749-4060-b400-952e15aa8f36",
+      "name": "form check openai request3"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.item.done }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "8000c581-2a21-435a-a6b5-d72a4fdc8a46"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "done"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c84dbe90-56e8-4562-a494-b6ff3a6e934c",
+                    "leftValue": "={{ !$json.item.done }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not done"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3152,
+        384
+      ],
+      "id": "c6868058-e253-4490-a1c6-35743bb05daa",
+      "name": "done?2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        3568,
+        384
+      ],
+      "id": "eb68e53d-52ad-4a37-8c7a-65f6a49413c2",
+      "name": "Send HTTP Request14"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID6').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{\n{\n  \"view\":\"result\"\n}\n\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3376,
+        384
+      ],
+      "id": "42d6f72c-490e-4d1a-8db7-8d03eb9732a0",
+      "name": "form check openai request4"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.item.done }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "8000c581-2a21-435a-a6b5-d72a4fdc8a46"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "done"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c84dbe90-56e8-4562-a494-b6ff3a6e934c",
+                    "leftValue": "={{ !$json.item.done }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not done"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3152,
+        80
+      ],
+      "id": "d4e8abb1-9215-428c-886a-a545ec6b09b0",
+      "name": "done?3"
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3248,
+        176
+      ],
+      "id": "619dd041-d543-494c-af55-b4e9042231de",
+      "name": "Wait4",
+      "webhookId": "1b33edde-5d91-4136-99c7-9155e42b991a"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        3568,
+        80
+      ],
+      "id": "4af2ee05-2ce0-4679-ab15-0ed5b7aaa494",
+      "name": "Send HTTP Request15"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID6').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{\n{\n  \"view\":\"result\"\n}\n\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3376,
+        80
+      ],
+      "id": "476b808a-8b1f-433f-8425-8720eaad8f9e",
+      "name": "form check openai request5"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2864,
+        80
+      ],
+      "id": "1c5c4c43-e6b1-4ebb-86da-597c8e8cff35",
+      "name": "was error10"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ $json.hasField('error') ? $json.error==null : !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') ? !$json.error==null : $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2864,
+        384
+      ],
+      "id": "0395cf3e-d8bd-4b4c-a7bd-b8d380501c55",
+      "name": "was error11"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3744,
+        80
+      ],
+      "id": "5f72c121-1bd3-45eb-91e6-e0303c1405f8",
+      "name": "was error12"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ $json.hasField('error') ? $json.error==null : !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') ? !$json.error==null : $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3744,
+        384
+      ],
+      "id": "5e889b6d-bfcc-4ce9-a291-7e12f2425923",
+      "name": "was error13"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Error checking request status"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        3024,
+        512
+      ],
+      "id": "62708368-03dd-4a1a-b262-4235a1405d2a",
+      "name": "Stop and Error9"
+    },
+    {
+      "parameters": {
+        "errorMessage": "Error getting request result"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        3920,
+        512
+      ],
+      "id": "54521e2a-68f7-4bc6-b543-a8c4a829447e",
+      "name": "Stop and Error10"
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3248,
+        480
+      ],
+      "id": "e84c0948-d3ad-467b-836a-10ffb41b57c2",
+      "name": "Wait5",
+      "webhookId": "1916652e-a73b-46cb-aed6-57dea52384e6"
+    },
+    {
+      "parameters": {
+        "content": "## Request status checking cycle",
+        "height": 736,
+        "width": 1584,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        2480,
+        -112
+      ],
+      "id": "fe5a2411-79ca-41cb-9cfd-835980772a4d",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('read visual segment').item.json.segment_meta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\"shot_planning\": $json.shotPlanning} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4144,
+        320
+      ],
+      "name": "write visualSegmentAnalysis1",
+      "id": "9abb2265-ab6a-49e4-9792-fb4b07659409"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "N2bXusYBgofvRBlH",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/N2bXusYBgofvRBlH",
+          "cachedResultName": "check files quantity in directory"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "directoryPath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS",
+            "fileExtentionToSearch": ".json",
+            "expectedFilesCount": "={{ $('Define Text Segments(normalized)').item.json.parts.length }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "directoryPath",
+              "displayName": "directoryPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileExtentionToSearch",
+              "displayName": "fileExtentionToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileNameToSearch",
+              "displayName": "fileNameToSearch",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "expectedFilesCount",
+              "displayName": "expectedFilesCount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        432,
+        128
+      ],
+      "name": "get existing segments2",
+      "id": "3e2312fb-cbfd-4a7a-869d-801c6352eae2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "existingFilesNames",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        608,
+        128
+      ],
+      "id": "7c4862bb-31db-4cb5-be0a-bf04c0b0bec8",
+      "name": "Split Out Window Indexes1"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ===============================\n// INPUT VARIABLES (placeholders)\n// ===============================\n\n// Глобальный режим ролика.\n// Допустимые значения:\n// \"realistic_live_action\"\n// \"illustrated_2d\"\nconst VISUAL_MODE = $('get all workflow params').first().json.videoVisualMode;\n\n// Необязательные заглушки под будущие шаги.\n// Сейчас логика роутинга их не использует, но можно прокинуть дальше.\nconst SELECTED_CLUSTER_PLAN = {};\nconst VISUAL_NARRATION_STRATEGY = {};\nconst GLOBAL_VISUAL_POLICY = {};\n\n// ===============================\n// HELPERS\n// ===============================\n\nfunction safeString(value, fallback = \"\") {\n  return typeof value === \"string\" ? value : fallback;\n}\n\nfunction safeBool(value, fallback = false) {\n  return typeof value === \"boolean\" ? value : fallback;\n}\n\nfunction deriveVisualMode(explicitMode, itemJson, rawInput) {\n  const modeFromInput =\n    safeString(explicitMode) ||\n    safeString(itemJson.visual_mode) ||\n    safeString(itemJson.visualMode) ||\n    safeString(rawInput.visual_mode) ||\n    safeString(rawInput.visualMode);\n\n  if (modeFromInput === \"realistic_live_action\" || modeFromInput === \"illustrated_2d\") {\n    return modeFromInput;\n  }\n\n  return \"realistic_live_action\";\n}\n\nfunction getPromptFamily(visualMode, selectedBaseFormat) {\n  switch (selectedBaseFormat) {\n    case \"observational_video\":\n      return visualMode === \"illustrated_2d\"\n        ? \"illustrated_scene_i2v\"\n        : \"realistic_scene_i2v\";\n\n    case \"archival_material\":\n      return visualMode === \"illustrated_2d\"\n        ? \"illustrated_scene_i2v\"\n        : \"archival_realistic_scene\";\n\n    case \"explanatory_graphic\":\n      return \"technical_diagram\";\n\n    case \"spatial_map\":\n      return \"spatial_map_graphic\";\n\n    case \"ui_data_visual\":\n      return \"ui_data_visual_graphic\";\n\n    case \"still_image\":\n      return visualMode === \"illustrated_2d\"\n        ? \"illustrated_still_image\"\n        : \"realistic_still_image\";\n\n    case \"text_only_card\":\n      return \"text_only_card_graphic\";\n\n    default:\n      return \"unknown\";\n  }\n}\n\nfunction getTemplateIds(promptFamily, useExplanatoryLayer) {\n  switch (promptFamily) {\n    case \"realistic_scene_i2v\":\n      return {\n        base_visuals_requirements_id: \"realistic_base_requirements_v1\",\n        starting_frame_template_id: \"realistic_start_frame_v1\",\n        clip_template_id: \"realistic_clip_v1\",\n        overlay_template_id: useExplanatoryLayer ? \"scene_overlay_v1\" : null,\n      };\n\n    case \"archival_realistic_scene\":\n      return {\n        base_visuals_requirements_id: \"archival_realistic_base_requirements_v1\",\n        starting_frame_template_id: \"archival_start_frame_v1\",\n        clip_template_id: \"archival_clip_v1\",\n        overlay_template_id: useExplanatoryLayer ? \"scene_overlay_v1\" : null,\n      };\n\n    case \"illustrated_scene_i2v\":\n      return {\n        base_visuals_requirements_id: \"illustrated2d_base_requirements_v1\",\n        starting_frame_template_id: \"illustrated2d_start_frame_v1\",\n        clip_template_id: \"illustrated2d_clip_v1\",\n        overlay_template_id: useExplanatoryLayer ? \"graphic_overlay_v1\" : null,\n      };\n\n    case \"technical_diagram\":\n      return {\n        base_visuals_requirements_id: \"technical_diagram_base_requirements_v1\",\n        starting_frame_template_id: \"technical_diagram_start_frame_v1\",\n        clip_template_id: \"technical_diagram_clip_v1\",\n        overlay_template_id: useExplanatoryLayer ? \"technical_diagram_overlay_v1\" : null,\n      };\n\n    case \"spatial_map_graphic\":\n      return {\n        base_visuals_requirements_id: \"spatial_map_base_requirements_v1\",\n        starting_frame_template_id: \"spatial_map_start_frame_v1\",\n        clip_template_id: \"spatial_map_clip_v1\",\n        overlay_template_id: useExplanatoryLayer ? \"spatial_map_overlay_v1\" : null,\n      };\n\n    case \"ui_data_visual_graphic\":\n      return {\n        base_visuals_requirements_id: \"ui_data_visual_base_requirements_v1\",\n        starting_frame_template_id: \"ui_data_visual_start_frame_v1\",\n        clip_template_id: \"ui_data_visual_clip_v1\",\n        overlay_template_id: useExplanatoryLayer ? \"ui_data_visual_overlay_v1\" : null,\n      };\n\n    case \"realistic_still_image\":\n      return {\n        base_visuals_requirements_id: \"realistic_still_base_requirements_v1\",\n        starting_frame_template_id: \"realistic_still_start_frame_v1\",\n        clip_template_id: \"realistic_still_clip_v1\",\n        overlay_template_id: useExplanatoryLayer ? \"scene_overlay_v1\" : null,\n      };\n\n    case \"illustrated_still_image\":\n      return {\n        base_visuals_requirements_id: \"illustrated_still_base_requirements_v1\",\n        starting_frame_template_id: \"illustrated_still_start_frame_v1\",\n        clip_template_id: \"illustrated_still_clip_v1\",\n        overlay_template_id: useExplanatoryLayer ? \"graphic_overlay_v1\" : null,\n      };\n\n    case \"text_only_card_graphic\":\n      return {\n        base_visuals_requirements_id: \"text_card_base_requirements_v1\",\n        starting_frame_template_id: \"text_card_start_frame_v1\",\n        clip_template_id: \"text_card_clip_v1\",\n        overlay_template_id: useExplanatoryLayer ? \"text_card_overlay_v1\" : null,\n      };\n\n    default:\n      return {\n        base_visuals_requirements_id: null,\n        starting_frame_template_id: null,\n        clip_template_id: null,\n        overlay_template_id: null,\n      };\n  }\n}\n\nfunction getLanguagePolicy(promptFamily) {\n  switch (promptFamily) {\n    case \"realistic_scene_i2v\":\n    case \"archival_realistic_scene\":\n    case \"realistic_still_image\":\n      return {\n        camera_language_allowed: true,\n        photo_technical_language_allowed: true,\n        film_grain_allowed: true,\n        lens_language_allowed: true,\n        sensor_language_allowed: true,\n        handheld_language_allowed: true,\n        style_keywords_allowed: false,\n        lora_style_external: true,\n      };\n\n    case \"illustrated_scene_i2v\":\n    case \"technical_diagram\":\n    case \"spatial_map_graphic\":\n    case \"ui_data_visual_graphic\":\n    case \"illustrated_still_image\":\n    case \"text_only_card_graphic\":\n      return {\n        camera_language_allowed: false,\n        photo_technical_language_allowed: false,\n        film_grain_allowed: false,\n        lens_language_allowed: false,\n        sensor_language_allowed: false,\n        handheld_language_allowed: false,\n        style_keywords_allowed: false,\n        lora_style_external: true,\n      };\n\n    default:\n      return {\n        camera_language_allowed: false,\n        photo_technical_language_allowed: false,\n        film_grain_allowed: false,\n        lens_language_allowed: false,\n        sensor_language_allowed: false,\n        handheld_language_allowed: false,\n        style_keywords_allowed: false,\n        lora_style_external: true,\n      };\n  }\n}\n\nfunction buildAllowedPromptElements(languagePolicy) {\n  const out = [];\n  if (languagePolicy.camera_language_allowed) out.push(\"camera_language\");\n  if (languagePolicy.photo_technical_language_allowed) out.push(\"photo_technical_language\");\n  if (languagePolicy.film_grain_allowed) out.push(\"film_grain\");\n  if (languagePolicy.lens_language_allowed) out.push(\"lens_language\");\n  if (languagePolicy.sensor_language_allowed) out.push(\"sensor_language\");\n  if (languagePolicy.handheld_language_allowed) out.push(\"handheld_language\");\n  return out;\n}\n\nfunction buildForbiddenPromptElements(languagePolicy) {\n  const out = [];\n  if (!languagePolicy.camera_language_allowed) out.push(\"camera_language\");\n  if (!languagePolicy.photo_technical_language_allowed) out.push(\"photo_technical_language\");\n  if (!languagePolicy.film_grain_allowed) out.push(\"film_grain\");\n  if (!languagePolicy.lens_language_allowed) out.push(\"lens_language\");\n  if (!languagePolicy.sensor_language_allowed) out.push(\"sensor_language\");\n  if (!languagePolicy.handheld_language_allowed) out.push(\"handheld_language\");\n  if (!languagePolicy.style_keywords_allowed) out.push(\"style_keywords\");\n  return out;\n}\n\nfunction getPromptFamilyKind(promptFamily) {\n  if (\n    promptFamily === \"realistic_scene_i2v\" ||\n    promptFamily === \"archival_realistic_scene\" ||\n    promptFamily === \"illustrated_scene_i2v\" ||\n    promptFamily === \"realistic_still_image\" ||\n    promptFamily === \"illustrated_still_image\"\n  ) {\n    return \"scene_based\";\n  }\n\n  if (\n    promptFamily === \"technical_diagram\" ||\n    promptFamily === \"spatial_map_graphic\" ||\n    promptFamily === \"ui_data_visual_graphic\" ||\n    promptFamily === \"text_only_card_graphic\"\n  ) {\n    return \"graphic_based\";\n  }\n\n  return \"unknown\";\n}\n\nfunction buildWarnings(selectedBaseFormat, promptFamily) {\n  const warnings = [];\n  if (selectedBaseFormat === \"text_only_card\") {\n    warnings.push(\"selected_base_format_is_text_only_card\");\n  }\n  if (promptFamily === \"unknown\") {\n    warnings.push(\"unknown_prompt_family\");\n  }\n  return warnings;\n}\n\n// ===============================\n// MAIN\n// ===============================\n\nconst items = $input.all();\n\nreturn items.map((item, idx) => {\n  const inputJson = item.json ?? {};\n  const rawInput = inputJson.visualSegment ?? inputJson ?? {};\n\n  const segmentAnalysis = rawInput.segment_analysis ?? {};\n  const segmentMeta = rawInput.segment_meta ?? {};\n  const segmentPlan = rawInput.segment_plan ?? {};\n  const sourceFileName = inputJson.fileName ?? rawInput.fileName ?? \"\";\n\n  const visualMode = deriveVisualMode(VISUAL_MODE, inputJson, rawInput);\n\n  const segmentIndex =\n    Number.isInteger(segmentPlan.segment_index)\n      ? segmentPlan.segment_index\n      : Number.isInteger(segmentAnalysis.segment_index)\n        ? segmentAnalysis.segment_index\n        : Number.isInteger(segmentMeta.partIndex)\n          ? segmentMeta.partIndex\n          : idx;\n\n  const selectedBaseFormat = safeString(segmentPlan.selected_base_format);\n  const useExplanatoryLayer = safeBool(segmentPlan.use_explanatory_layer, false);\n\n  const promptFamily = getPromptFamily(visualMode, selectedBaseFormat);\n  const templateIds = getTemplateIds(promptFamily, useExplanatoryLayer);\n  const languagePolicy = getLanguagePolicy(promptFamily);\n  const promptFamilyKind = getPromptFamilyKind(promptFamily);\n  const warnings = buildWarnings(selectedBaseFormat, promptFamily);\n\n  const requiresStartFrame = templateIds.starting_frame_template_id !== null;\n  const requiresClipPrompt = templateIds.clip_template_id !== null;\n  const requiresOverlayPrompt =\n    useExplanatoryLayer && templateIds.overlay_template_id !== null;\n\n  const useLegacySceneTemplates =\n    promptFamily === \"realistic_scene_i2v\" ||\n    promptFamily === \"archival_realistic_scene\" ||\n    promptFamily === \"illustrated_scene_i2v\";\n\n  const outputFileName = sourceFileName\n    ? sourceFileName.replace(/_visualSegment\\.json$/i, \"_promptRoute.json\")\n    : `segment_${String(segmentIndex).padStart(5, \"0\")}_promptRoute.json`;\n\n  return {\n    json: {\n      //schema_version: \"1.0\",\n\n      //segment_meta: segmentMeta,\n      //segment_analysis: segmentAnalysis,\n      //segment_plan: segmentPlan,\n\n      segment_prompt_route: {\n        schema_version: \"1.0\",\n        segment_index: segmentIndex,\n        visual_mode: visualMode,\n\n        selected_base_format: selectedBaseFormat,\n        format_tier: safeString(segmentPlan.format_tier),\n        use_explanatory_layer: useExplanatoryLayer,\n        segment_role_in_flow: safeString(segmentPlan.segment_role_in_flow),\n\n        prompt_family: promptFamily,\n        prompt_family_kind: promptFamilyKind,\n        use_legacy_scene_templates: useLegacySceneTemplates,\n\n        template_ids: templateIds,\n\n        language_policy: languagePolicy,\n\n        allowed_prompt_elements: buildAllowedPromptElements(languagePolicy),\n        forbidden_prompt_elements: buildForbiddenPromptElements(languagePolicy),\n\n        generation_requirements: {\n          requires_start_frame: requiresStartFrame,\n          requires_clip_prompt: requiresClipPrompt,\n          requires_overlay_prompt: requiresOverlayPrompt,\n        },\n\n        global_inputs: {\n          selected_cluster_plan: SELECTED_CLUSTER_PLAN,\n          visual_narration_strategy: VISUAL_NARRATION_STRATEGY,\n          global_visual_policy: GLOBAL_VISUAL_POLICY,\n        },\n\n        warnings,\n      },\n\n      fileName: outputFileName,\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1184,
+        320
+      ],
+      "id": "af71a371-5eb8-4c87-9707-c45c804d5aec",
+      "name": "Routing"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $json.segment_prompt_route.segment_index.toString().padStart(5,'0') }}_visualSegment.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ $json }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1376,
+        320
+      ],
+      "name": "write visual segment plan1",
+      "id": "bdff196d-0988-4b05-bb73-af6efc5f0dea"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c371280f-ac27-454c-aafd-3057eff7daec",
+                    "leftValue": "={{ !$json.hasField('segment_prompt_route') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "no"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "12b710ea-b11e-425a-9cbb-bf31ba5dd0a5",
+                    "leftValue": "={{ $json.hasField('segment_prompt_route') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "has"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        992,
+        320
+      ],
+      "id": "df8db5bc-8a0b-463c-aa16-1f485b70c0b6",
+      "name": "has routing?"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        1568,
+        320
+      ],
+      "id": "05edf600-2bc1-496a-bb4c-fc8ccfdd5659",
+      "name": "Merge1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').item.json.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}",
+            "fileAction": "read"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        800,
+        320
+      ],
+      "name": "read visualSegment",
+      "id": "a4b10d5c-61f7-4536-bfa0-53b8f2cb9dda"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.limit",
+      "typeVersion": 1,
+      "position": [
+        256,
+        128
+      ],
+      "id": "731a2b17-2661-4c77-83ff-531967d83afd",
+      "name": "Limit"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/videoMeta.json",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}",
+            "fileAction": "read"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        80,
+        320
+      ],
+      "name": "read video meta",
+      "id": "4101af96-6d25-47f0-aa52-afcc694d8f87"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\n\"clipGenType\",\n\n\"videoVisualMode\",\n\n\n\"visualsPlanningService\",\n\"visualsPlanningModel\",\n\"visualsBaseFormatWindowPlanningModel\",\n\n\n\"visualBaseFormatWindowPlanningPrompt\",\n\n\"baseFormatSelectionPolicy\",\n\n\"sceneBasedShotPlanningPrompt\",\n\"sceneBasedShotAllowedThreatments\",\n\n\"graphicBasedShotPlanningPrompt\",\n\"graphicBasedShotAllowedThreatments\",\n\n\"stillBasedShotPlanningPrompt\",\n\"stillBasedShotAllowedThreatments\",\n\n\n\"eachVisualMinScreenTimeMs\",\n\"eachVisualMaxScreenTimeMs\"\n] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -496,
+        320
+      ],
+      "name": "get all workflow params",
+      "id": "1e88846e-228c-4b25-b7c3-022965088ab2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VOICE/transcript/{{ $('Start').first().json.videoFolderName }}_transcript.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\"items[n].text\",\"items[n].start_ms\",\"items[n].end_ms\"] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -304,
+        320
+      ],
+      "name": "get start/end ms of each scentance from transcript",
+      "id": "ea00127d-c252-4d66-98f0-ef4a1fab5d35"
+    },
+    {
+      "parameters": {
+        "jsCode": "// ===============================\n// ✅ INPUT VARIABLES (что подать на вход)\n// ===============================\n\n// 1) СЕГМЕНТЫ ТРАНСКРИПТА (массив объектов)\nconst RAW_SEGMENTS = $('get start/end ms of each scentance from transcript').first().json.items;\n\n// 2) MIN / MAX экранного времени (миллисекунды)\nconst EACH_IMAGE_MIN_SCREEN_TIME_MS = $('get all workflow params').first().json.eachVisualMinScreenTimeMs;\nconst EACH_IMAGE_MAX_SCREEN_TIME_MS = $('get all workflow params').first().json.eachVisualMaxScreenTimeMs;\n\n// 3) “Мягкий перелёт” — ЗАПРЕЩЕН (строго не выходим за max)\nconst SOFT_OVERFLOW_MS = 0;\n\n// 4) Какие ключи использовать в RAW_SEGMENTS\nconst TEXT_KEY   = 'text';\nconst START_KEYS = ['start_ms', 'start'];\nconst END_KEYS   = ['end_ms', 'end'];\n\n// 5) Единицы времени\nconst TIME_UNIT = 'auto'; // 'auto' | 'ms' | 's'\n\n// 6) Общая длительность трека (в мс). Если не найдём — возьмём max(end_ms) после нормализации.\nconst TOTAL_DUR_MS = (() => {\n  try {\n    const j = $('get start/end ms of each scentance from transcript').first().json;\n\n    const candidates = [\n      j.total_dur_ms,\n      j.totalDurMs,\n      j.total_duration_ms,\n      (Number(j.total_duration_sec) * 1000),\n      (Number(j.meta?.progress?.total_duration_sec) * 1000),\n      (Number(j.meta?.total_duration_sec) * 1000),\n    ];\n\n    for (const c of candidates) {\n      const n = Number(c);\n      if (Number.isFinite(n) && n > 0) return Math.round(n);\n    }\n  } catch (_) {}\n\n  return null;\n})();\n\n\n// ===============================\n// 🔧 Implementation\n// ===============================\n\nfunction cleanText(s) {\n  return String(s ?? \"\")\n    .replace(/\\r?\\n/g, \" \")\n    .replace(/\\s+/g, \" \")\n    .trim();\n}\n\nfunction pickFirst(obj, keys) {\n  for (const k of keys) {\n    if (obj && obj[k] != null) return obj[k];\n  }\n  return null;\n}\n\nfunction toNumber(x) {\n  const n = typeof x === \"number\" ? x : parseFloat(String(x));\n  return Number.isFinite(n) ? n : null;\n}\n\n// Нормализация start/end в МС\nfunction normalizeStartEndMs(rawSeg) {\n  // 1) start_ms/end_ms -> считаем что это ms\n  const sMs = toNumber(rawSeg?.start_ms);\n  const eMs = toNumber(rawSeg?.end_ms);\n  if (sMs != null && eMs != null) {\n    const start = Math.max(0, Math.round(sMs));\n    const end = Math.max(start, Math.round(eMs));\n    return { startMs: start, endMs: end };\n  }\n\n  // 2) start/end -> auto/ms/s\n  const s = toNumber(rawSeg?.start);\n  const e = toNumber(rawSeg?.end);\n  if (s == null || e == null) return { startMs: 0, endMs: 0 };\n\n  let factor = 1;\n  if (TIME_UNIT === 's') factor = 1000;\n  else if (TIME_UNIT === 'ms') factor = 1;\n  else {\n    const diff = e - s;\n    const looksLikeSeconds = diff > 0 && diff <= 120 && e <= 20000;\n    factor = looksLikeSeconds ? 1000 : 1;\n  }\n\n  const start = Math.max(0, Math.round(s * factor));\n  const end = Math.max(start, Math.round(e * factor));\n  return { startMs: start, endMs: end };\n}\n\n// ===============================\n// ✅ GAP FILL LOGIC\n// ===============================\nfunction fillGapsInPlace(segs, totalDurMs) {\n  if (!Array.isArray(segs) || segs.length === 0) return { totalDurMs: totalDurMs ?? 0 };\n\n  segs.sort((a, b) => (a.startMs - b.startMs) || (a._origIndex - b._origIndex));\n\n  if (segs[0].startMs > 0) segs[0].startMs = 0;\n  if (segs[0].startMs < 0) segs[0].startMs = 0;\n  if (segs[0].endMs < segs[0].startMs) segs[0].endMs = segs[0].startMs;\n\n  if (!Number.isFinite(totalDurMs) || totalDurMs == null || totalDurMs <= 0) {\n    let mx = 0;\n    for (const s of segs) mx = Math.max(mx, s.endMs);\n    totalDurMs = mx;\n  } else {\n    totalDurMs = Math.max(0, Math.round(totalDurMs));\n  }\n\n  for (let i = 0; i < segs.length - 1; i++) {\n    const cur = segs[i];\n    const next = segs[i + 1];\n\n    if (cur.startMs < 0) cur.startMs = 0;\n    if (next.startMs < 0) next.startMs = 0;\n\n    if (cur.endMs < cur.startMs) cur.endMs = cur.startMs;\n    if (next.endMs < next.startMs) next.endMs = next.startMs;\n\n    let desiredEnd = next.startMs - 1;\n    if (desiredEnd < cur.startMs) desiredEnd = cur.startMs;\n    cur.endMs = desiredEnd;\n\n    if (cur.endMs < cur.startMs) cur.endMs = cur.startMs;\n  }\n\n  const last = segs[segs.length - 1];\n  if (last.startMs < 0) last.startMs = 0;\n  if (last.endMs < last.startMs) last.endMs = last.startMs;\n\n  if (last.endMs < totalDurMs) last.endMs = totalDurMs;\n  if (last.endMs < last.startMs) last.endMs = last.startMs;\n\n  return { totalDurMs };\n}\n\n// --- границы предложений ---\nconst END_CHARS = new Set([\".\", \"!\", \"?\", \"…\", \"。\", \"！\", \"？\"]);\nconst CLOSERS = new Set(['\"', \"”\", \"’\", \"'\", \")\", \"]\", \"}\", \"»\", \"›\", \"）\", \"】\", \"』\", \"」\"]);\n\nconst ABBREV = new Set([\n  // EN\n  \"mr\",\"mrs\",\"ms\",\"mx\",\"dr\",\"prof\",\"sr\",\"jr\",\"st\",\"mt\",\"ft\",\"vs\",\n  \"etc\",\"eg\",\"ie\",\"fig\",\"eq\",\"ref\",\"refs\",\"no\",\"nos\",\"dept\",\"inc\",\"ltd\",\"corp\",\"co\",\"bros\",\n  \"est\",\"misc\",\"approx\",\"appt\",\"avg\",\"min\",\"max\",\"temp\",\"vol\",\"ch\",\"sec\",\"pp\",\"p\",\n  \"jan\",\"feb\",\"mar\",\"apr\",\"may\",\"jun\",\"jul\",\"aug\",\"sep\",\"sept\",\"oct\",\"nov\",\"dec\",\n  \"am\",\"pm\",\"a.m\",\"p.m\",\"u.s\",\"u.k\",\"e.u\",\"u.n\",\n\n  // RU\n  \"г\",\"гг\",\"ул\",\"д\",\"кв\",\"стр\",\"рис\",\"пр\",\"просп\",\"наб\",\"бул\",\"пер\",\"пл\",\"пос\",\"обл\",\"р-н\",\n  \"им\",\"акад\",\"доц\",\"проф\",\"см\",\"т.д\",\"т.п\",\"и т.д\",\"и т.п\",\"др\",\n  \"мин\",\"сек\",\"ч\",\"мес\",\"гл\",\"ст\",\"пп\",\"п\",\"млн\",\"млрд\",\"тыс\",\"руб\",\"коп\",\n\n  // PL\n  \"np\",\"itp\",\"itd\",\"m.in\",\"tzn\",\"tj\",\"wg\",\"ok\",\"nr\",\"ul\",\"al\",\"pl\",\"r\",\n  \"godz\",\"min\",\"sek\",\"str\",\"rys\",\"tab\",\"rozdz\",\"pkt\",\"ppkt\",\n  \"dr\",\"hab\",\"mgr\",\"inz\",\"prof\",\n\n  // CZ\n  \"např\",\"napr\",\"tzv\",\"atd\",\"apod\",\"tj\",\"tzn\",\"cl\",\"odst\",\"str\",\"obr\",\"tab\",\"kap\",\n  \"ing\",\"mgr\",\"mudr\",\"judr\",\"phdr\",\"bc\",\"dis\",\n\n  // SP (ES)\n  \"sr\",\"sra\",\"srta\",\"dr\",\"dra\",\"ud\",\"uds\",\"pag\",\"pags\",\"num\",\"nro\",\n  \"aprox\",\"etc\",\"av\",\"pto\",\"dpto\",\"art\",\"cap\",\"eeuu\",\n\n  // IT\n  \"sig\",\"sigg\",\"sigra\",\"sigre\",\"dr\",\"dott\",\"dssa\",\"ing\",\"avv\",\"prof\",\n  \"pag\",\"pagg\",\"num\",\"art\",\"cap\",\"ecc\",\"ca\",\"circa\",\"vle\",\"pza\",\"pzza\",\"cso\",\n\n  // FR\n  \"m\",\"mm\",\"mme\",\"mlle\",\"mlles\",\"dr\",\"pr\",\"etc\",\"env\",\"av\",\"bd\",\"st\",\"ste\",\n  \"no\",\"num\",\"art\",\"chap\",\"pag\",\"tel\",\"tva\",\n\n  // GE (DE)\n  \"hr\",\"fr\",\"dr\",\"prof\",\"bzw\",\"z.b\",\"zb\",\"bsp\",\"bspw\",\"usw\",\"vgl\",\"ca\",\n  \"d.h\",\"dh\",\"u.a\",\"ua\",\"u.ä\",\"ue\",\"str\",\"nr\",\"s\",\"abb\",\"ggf\",\"dipl\",\"ing\",\"dipl-ing\",\n\n  // SW\n  \"bl.a\",\"bla\",\"t.ex\",\"tex\",\"dvs\",\"m.fl\",\"mfl\",\"m.m\",\"mm\",\"osv\",\n  \"ca\",\"nr\",\"sid\",\"kap\",\"fig\",\"kl\",\"dr\",\"prof\",\"ing\",\"fru\",\"herr\",\n\n  // HE\n  \"דר\",\"פרופ\",\"גב\",\"מר\",\"מס\",\"עמ\",\"וכו\",\"לדוג\",\"רח\",\"טל\",\"סע\",\"פרק\"\n]);\n\n\nfunction isLetterOrDigit(ch) {\n  return /[0-9A-Za-zÀ-ÖØ-öø-ÿА-Яа-яЁё]/.test(ch);\n}\n\nfunction isAbbrevDot(text, dotPos) {\n  let i = dotPos - 1;\n  while (i >= 0 && text[i] === \" \") i--;\n\n  const end = i + 1;\n  while (i >= 0 && (isLetterOrDigit(text[i]) || text[i] === \"-\" )) i--;\n  const start = i + 1;\n\n  const word = text.slice(start, end).toLowerCase();\n  if (!word) return false;\n  if (word.length === 1) return true;\n  if (ABBREV.has(word)) return true;\n\n  const lookback = text.slice(Math.max(0, start - 4), dotPos + 1).toLowerCase();\n  if (lookback.includes(\".\") && lookback.length <= 6) return true;\n  return false;\n}\n\nfunction findSentenceBoundaries(text) {\n  const out = [];\n  const n = text.length;\n\n  for (let i = 0; i < n; i++) {\n    const ch = text[i];\n    if (!END_CHARS.has(ch)) continue;\n\n    let j = i;\n    while (j + 1 < n && END_CHARS.has(text[j + 1])) j++;\n\n    if (text[j] === \".\" && isAbbrevDot(text, j)) {\n      i = j;\n      continue;\n    }\n\n    let k = j + 1;\n    while (k < n && CLOSERS.has(text[k])) k++;\n\n    if (k === n || /\\s/.test(text[k])) out.push(k);\n    i = j;\n  }\n  return out;\n}\n\nfunction lastWhitespaceBefore(text, idx) {\n  for (let i = Math.min(idx, text.length - 1); i >= 0; i--) {\n    if (/\\s/.test(text[i])) return i;\n  }\n  return -1;\n}\n\nfunction firstWhitespaceAfter(text, idx) {\n  for (let i = Math.max(0, idx); i < text.length; i++) {\n    if (/\\s/.test(text[i])) return i;\n  }\n  return -1;\n}\n\n// ===============================\n// ✅ STRICT MIN/MAX REBALANCE PATCH\n// ===============================\n\nfunction splitDurStrict(totalDur, minMs, maxMs) {\n  const total = Math.max(0, Math.round(totalDur));\n  if (total === 0) return [];\n  if (total >= minMs && total <= maxMs) return [total];\n\n  const nMin = Math.ceil(total / maxMs);\n  const nMax = Math.floor(total / minMs);\n\n  if (nMin <= nMax && nMin > 0) {\n    const n = nMin;\n    const base = Math.floor(total / n);\n    let rem = total - base * n;\n    const out = Array(n).fill(base);\n    for (let i = 0; i < n && rem > 0; i++, rem--) out[i]++;\n    return out;\n  }\n\n  const out = [];\n  let rem = total;\n  while (rem > maxMs) {\n    out.push(maxMs);\n    rem -= maxMs;\n  }\n  if (rem > 0) out.push(rem);\n  return out;\n}\n\nfunction nearestBoundary(boundaries, minPos, maxPos, idealPos) {\n  let best = -1;\n  let bestDist = Infinity;\n  for (const b of boundaries) {\n    if (b < minPos || b > maxPos) continue;\n    const d = Math.abs(b - idealPos);\n    if (d < bestDist) {\n      bestDist = d;\n      best = b;\n    }\n  }\n  return best;\n}\n\nfunction splitTextByDurations(text, durations) {\n  const t = cleanText(text);\n  if (!durations.length) return [];\n  if (!t) return durations.map(() => \"\");\n  if (durations.length === 1) return [t];\n\n  const out = [];\n  const boundaries = findSentenceBoundaries(t);\n  const totalDur = durations.reduce((a, b) => a + b, 0);\n\n  let start = 0;\n  let accDur = 0;\n\n  for (let i = 0; i < durations.length - 1; i++) {\n    accDur += durations[i];\n\n    let ideal = Math.round((accDur / Math.max(1, totalDur)) * t.length);\n    ideal = Math.max(start + 1, Math.min(t.length - 1, ideal));\n\n    const minPos = start + 1;\n    const maxPos = t.length - 1;\n\n    let cut = nearestBoundary(boundaries, minPos, maxPos, ideal);\n\n    if (cut < 0) {\n      const wsLeft = lastWhitespaceBefore(t, ideal);\n      const wsRight = firstWhitespaceAfter(t, ideal);\n\n      const leftOk = wsLeft >= minPos && wsLeft <= maxPos;\n      const rightOk = wsRight >= minPos && wsRight <= maxPos;\n\n      if (leftOk && rightOk) {\n        cut = (Math.abs(wsLeft - ideal) <= Math.abs(wsRight - ideal)) ? wsLeft + 1 : wsRight + 1;\n      } else if (leftOk) {\n        cut = wsLeft + 1;\n      } else if (rightOk) {\n        cut = wsRight + 1;\n      } else {\n        cut = ideal;\n      }\n    }\n\n    cut = Math.max(minPos, Math.min(maxPos, cut));\n    out.push(cleanText(t.slice(start, cut)));\n    start = cut;\n  }\n\n  out.push(cleanText(t.slice(start)));\n  return out;\n}\n\nfunction splitPartStrict(part, minMs, maxMs) {\n  const dur = Math.max(0, Math.round(part?.durMs || 0));\n  if (dur <= 0) return [];\n\n  const durs = splitDurStrict(dur, minMs, maxMs);\n  const texts = splitTextByDurations(part?.text || \"\", durs);\n\n  return durs.map((d, i) => ({\n    text: cleanText(texts[i] || \"\"),\n    durMs: d\n  }));\n}\n\nfunction mergeParts(a, b) {\n  const ta = cleanText(a?.text || \"\");\n  const tb = cleanText(b?.text || \"\");\n  return {\n    text: cleanText((ta && tb) ? (ta + \" \" + tb) : (ta || tb)),\n    durMs: Math.max(0, Math.round((a?.durMs || 0) + (b?.durMs || 0)))\n  };\n}\n\nfunction rebalancePartsStrict(inputParts, minMs, maxMs) {\n  let parts = (Array.isArray(inputParts) ? inputParts : [])\n    .map(p => ({\n      text: cleanText(p?.text || \"\"),\n      durMs: Math.max(0, Math.round(p?.durMs || 0))\n    }))\n    .filter(p => p.durMs > 0);\n\n  if (!parts.length) return [];\n\n  for (let iter = 0; iter < 300; iter++) {\n    let changed = false;\n\n    let next = [];\n    for (const p of parts) {\n      if (p.durMs > maxMs) {\n        next.push(...splitPartStrict(p, minMs, maxMs));\n        changed = true;\n      } else {\n        next.push(p);\n      }\n    }\n    parts = next;\n\n    const shortIdx = parts.findIndex(p => p.durMs < minMs);\n    if (shortIdx === -1) {\n      if (!changed) break;\n      continue;\n    }\n\n    if (parts.length === 1) break;\n\n    const leftIdx = shortIdx - 1;\n    const rightIdx = shortIdx + 1;\n    const cur = parts[shortIdx];\n\n    let pickLeft = false;\n    if (leftIdx < 0) {\n      pickLeft = false;\n    } else if (rightIdx >= parts.length) {\n      pickLeft = true;\n    } else {\n      const leftDur = parts[leftIdx].durMs + cur.durMs;\n      const rightDur = parts[rightIdx].durMs + cur.durMs;\n\n      const leftOver = Math.max(0, leftDur - maxMs);\n      const rightOver = Math.max(0, rightDur - maxMs);\n\n      if (leftOver !== rightOver) {\n        pickLeft = leftOver < rightOver;\n      } else {\n        const target = (minMs + maxMs) / 2;\n        pickLeft = Math.abs(leftDur - target) <= Math.abs(rightDur - target);\n      }\n    }\n\n    if (pickLeft) {\n      parts[leftIdx] = mergeParts(parts[leftIdx], cur);\n      parts.splice(shortIdx, 1);\n    } else {\n      parts[rightIdx] = mergeParts(cur, parts[rightIdx]);\n      parts.splice(shortIdx, 1);\n    }\n\n    changed = true;\n    if (!changed) break;\n  }\n\n  const final = [];\n  for (const p of parts) {\n    if (p.durMs <= maxMs) final.push(p);\n    else final.push(...splitPartStrict(p, minMs, maxMs));\n  }\n\n  return final;\n}\n\n// ===============================\n// ✅ ADD TIMINGS + PREV/NEXT TEXT\n// ===============================\nfunction buildFinalParts(strictParts) {\n  const normalized = (Array.isArray(strictParts) ? strictParts : []).map(p => {\n    const text = cleanText(p?.text || \"\");\n    const durMs = Math.max(0, Math.round(p?.durMs || 0));\n    return { text, durMs };\n  });\n\n  let cursorMs = 0;\n\n  return normalized.map((p, i, arr) => {\n    const startMs = cursorMs;\n    const endMs = startMs + p.durMs;\n    cursorMs = endMs;\n\n    return {\n      partIndex: i,\n      text: p.text,\n      previous_text: i > 0 ? arr[i - 1].text : null,\n      next_text: i < arr.length - 1 ? arr[i + 1].text : null,\n      start_ms: startMs,\n      end_ms: endMs,\n      durMs: p.durMs,\n      charCount: p.text.length,\n    };\n  });\n}\n\n// ===============================\n// 🚀 Core splitter\n// ===============================\nfunction splitByMinMax(rawSegments, cfg) {\n  let { minMs, maxMs, softOverflowMs, totalDurMs } = cfg;\n\n  if (!Number.isFinite(minMs) || minMs <= 0) minMs = 2500;\n  if (!Number.isFinite(maxMs) || maxMs <= 0) maxMs = 4500;\n  if (minMs > maxMs) [minMs, maxMs] = [maxMs, minMs];\n\n  softOverflowMs = 0;\n  const hardMaxMs = maxMs;\n\n  const segs = (Array.isArray(rawSegments) ? rawSegments : [])\n    .map((seg, i) => {\n      const text = cleanText(seg?.[TEXT_KEY] ?? seg?.text ?? seg?.transcript ?? seg?.caption ?? \"\");\n      const se = normalizeStartEndMs({\n        start_ms: seg?.start_ms ?? pickFirst(seg, START_KEYS),\n        end_ms:   seg?.end_ms   ?? pickFirst(seg, END_KEYS),\n        start:    seg?.start    ?? pickFirst(seg, START_KEYS),\n        end:      seg?.end      ?? pickFirst(seg, END_KEYS),\n      });\n\n      return {\n        _origIndex: i,\n        text,\n        startMs: se.startMs,\n        endMs: se.endMs,\n      };\n    })\n    .filter(s => s.text);\n\n  const filled = fillGapsInPlace(segs, totalDurMs);\n  totalDurMs = filled.totalDurMs;\n\n  const segments = segs.map(s => ({\n    text: s.text,\n    durMs: Math.max(0, s.endMs - s.startMs),\n  }));\n\n  const draftParts = [];\n\n  function pushPart(txt, dur) {\n    const t = cleanText(txt);\n    if (!t) return;\n\n    const d = Math.max(0, Math.round(dur));\n    draftParts.push({\n      text: t,\n      durMs: d,\n    });\n  }\n\n  let bufText = \"\";\n  let bufDurMs = 0;\n\n  function cutBufferStrict() {\n    const t = bufText;\n    const totalChars = t.length;\n\n    if (!totalChars || bufDurMs <= 0) {\n      pushPart(t, bufDurMs);\n      bufText = \"\";\n      bufDurMs = 0;\n      return true;\n    }\n\n    const denom = Math.max(1, bufDurMs);\n\n    let maxChar = Math.floor(totalChars * (maxMs / denom));\n    maxChar = Math.max(1, Math.min(totalChars - 1, maxChar));\n\n    let minChar = Math.floor(totalChars * (minMs / denom));\n    minChar = Math.max(0, Math.min(maxChar, minChar));\n\n    const boundaries = findSentenceBoundaries(t);\n    let cutIdx = -1;\n\n    for (let i = boundaries.length - 1; i >= 0; i--) {\n      const b = boundaries[i];\n      if (b >= minChar && b <= maxChar) { cutIdx = b; break; }\n    }\n\n    if (cutIdx < 0) {\n      for (let i = boundaries.length - 1; i >= 0; i--) {\n        const b = boundaries[i];\n        if (b <= maxChar) { cutIdx = b; break; }\n      }\n    }\n\n    if (cutIdx < 0) {\n      const ws = lastWhitespaceBefore(t, maxChar);\n      if (ws > 0) cutIdx = ws + 1;\n    }\n\n    if (cutIdx < 1 || cutIdx >= totalChars) cutIdx = maxChar;\n\n    const leftRaw = t.slice(0, cutIdx);\n    const rightRaw = t.slice(cutIdx);\n\n    const leftText = cleanText(leftRaw);\n    const rightText = cleanText(rightRaw);\n\n    const leftRatio = cutIdx / Math.max(1, totalChars);\n    let leftDur = Math.floor(bufDurMs * leftRatio);\n    if (leftDur > maxMs) leftDur = maxMs;\n    if (leftDur < 0) leftDur = 0;\n\n    const rightDur = Math.max(0, bufDurMs - leftDur);\n\n    pushPart(leftText, leftDur);\n    bufText = rightText;\n    bufDurMs = rightDur;\n\n    return true;\n  }\n\n  for (const seg of segments) {\n    bufText = bufText ? (bufText + \" \" + seg.text) : seg.text;\n    bufDurMs += seg.durMs;\n\n    while (bufText && bufDurMs > hardMaxMs) {\n      cutBufferStrict();\n      if (bufDurMs < minMs) break;\n    }\n  }\n\n  if (bufText) {\n    while (bufText && bufDurMs > hardMaxMs) {\n      cutBufferStrict();\n      if (bufDurMs < minMs) break;\n    }\n    if (bufText) pushPart(bufText, bufDurMs);\n  }\n\n  const strictParts = rebalancePartsStrict(draftParts, minMs, maxMs);\n  const parts = buildFinalParts(strictParts);\n\n  return {\n    parts,\n    minMs,\n    maxMs,\n    softOverflowMs,\n    hardMaxMs,\n    totalDurMs,\n  };\n}\n\n// ===============================\n// ✅ Run\n// ===============================\nconst result = splitByMinMax(RAW_SEGMENTS, {\n  minMs: EACH_IMAGE_MIN_SCREEN_TIME_MS,\n  maxMs: EACH_IMAGE_MAX_SCREEN_TIME_MS,\n  softOverflowMs: SOFT_OVERFLOW_MS,\n  totalDurMs: TOTAL_DUR_MS,\n});\n\nreturn [\n  {\n    json: {\n      parts: result.parts,\n      totalDurMs: result.totalDurMs,\n      eachImageMinScreenTimeMs: result.minMs,\n      eachImageMaxScreenTimeMs: result.maxMs,\n      hardMaxMs: result.hardMaxMs,\n    }\n  }\n];"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -112,
+        320
+      ],
+      "id": "38324a8c-d6bc-4f78-a49a-e1e9e3d397f6",
+      "name": "Define Text Segments(normalized)"
+    },
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"partIndex\":0\n}"
+      },
+      "id": "c055762a-8fe7-4141-a639-df2372f30060",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -720,
+        320
+      ]
+    }
+  ],
+  "connections": {
+    "set requestPayload1": {
+      "main": [
+        [
+          {
+            "node": "get random ID6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Text Gen Service3": {
+      "main": [
+        [
+          {
+            "node": "form gemini request3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "form openai request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form openai request3": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request11",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "form check openai request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form gemini request3": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request10",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "form check gemini request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID6": {
+      "main": [
+        [
+          {
+            "node": "Switch Text Gen Service3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Openai Responce4": {
+      "main": [
+        [
+          {
+            "node": "write visualSegmentAnalysis1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Gemini Responce4": {
+      "main": [
+        [
+          {
+            "node": "write visualSegmentAnalysis1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request12": {
+      "main": [
+        [
+          {
+            "node": "was error10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request13": {
+      "main": [
+        [
+          {
+            "node": "was error11",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form check gemini request1": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form check openai request3": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "done?2": {
+      "main": [
+        [
+          {
+            "node": "form check openai request4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request14": {
+      "main": [
+        [
+          {
+            "node": "was error13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form check openai request4": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "done?3": {
+      "main": [
+        [
+          {
+            "node": "form check openai request5",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait4": {
+      "main": [
+        [
+          {
+            "node": "form check gemini request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request15": {
+      "main": [
+        [
+          {
+            "node": "was error12",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form check openai request5": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "was error10": {
+      "main": [
+        [
+          {
+            "node": "done?3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "was error11": {
+      "main": [
+        [
+          {
+            "node": "done?2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error9",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "was error12": {
+      "main": [
+        [
+          {
+            "node": "Parse Gemini Responce4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "was error13": {
+      "main": [
+        [
+          {
+            "node": "Parse Openai Responce4",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error10",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait5": {
+      "main": [
+        [
+          {
+            "node": "form check openai request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get existing segments2": {
+      "main": [
+        [
+          {
+            "node": "Split Out Window Indexes1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out Window Indexes1": {
+      "main": [
+        []
+      ]
+    },
+    "Routing": {
+      "main": [
+        [
+          {
+            "node": "write visual segment plan1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write visual segment plan1": {
+      "main": [
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "has routing?": {
+      "main": [
+        [
+          {
+            "node": "Routing",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Merge1",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "read visualSegment": {
+      "main": [
+        [
+          {
+            "node": "has routing?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Limit": {
+      "main": [
+        [
+          {
+            "node": "get existing segments2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read video meta": {
+      "main": [
+        [
+          {
+            "node": "read visualSegment",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get all workflow params": {
+      "main": [
+        [
+          {
+            "node": "get start/end ms of each scentance from transcript",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get start/end ms of each scentance from transcript": {
+      "main": [
+        [
+          {
+            "node": "Define Text Segments(normalized)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Define Text Segments(normalized)": {
+      "main": [
+        [
+          {
+            "node": "read video meta",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "get all workflow params",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge1": {
+      "main": [
+        [
+          {
+            "node": "set requestPayload1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": false,
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "channelsFolderPath": "C:/Users/V/Desktop/Channels",
+          "channelName": "LifeOfAPirate",
+          "videoFolderName": "2026-04-04_Amog2",
+          "partIndex": 0
+        }
+      }
+    ]
+  },
+  "versionId": "38f0a8dd-1900-44ac-a3d4-304f6fe67ef0",
+  "activeVersionId": null,
+  "versionCounter": 38,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-04-13T18:31:53.579Z",
+      "createdAt": "2026-04-13T18:31:53.579Z",
+      "role": "workflow:owner",
+      "workflowId": "9gOOymQGkApw8uC0",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

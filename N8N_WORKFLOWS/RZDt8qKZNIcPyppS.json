@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-29T18:34:38.247Z",
+  "updatedAt": "2026-04-19T10:55:31.558Z",
   "createdAt": "2026-02-08T19:01:46.991Z",
   "id": "RZDt8qKZNIcPyppS",
   "name": "rewrite",
@@ -17,7 +17,7 @@
       "name": "Start",
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "position": [
-        112,
+        160,
         352
       ]
     },
@@ -2529,7 +2529,8 @@
   },
   "settings": {
     "executionOrder": "v1",
-    "availableInMCP": false
+    "availableInMCP": false,
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -2547,9 +2548,9 @@
       }
     ]
   },
-  "versionId": "fd7f42e1-8e39-41c6-89cc-71319e76b64b",
-  "activeVersionId": "fd7f42e1-8e39-41c6-89cc-71319e76b64b",
-  "versionCounter": 987,
+  "versionId": "72d72dd1-5b96-4b98-aab9-7a901f5097c5",
+  "activeVersionId": "72d72dd1-5b96-4b98-aab9-7a901f5097c5",
+  "versionCounter": 1014,
   "triggerCount": 0,
   "tags": [],
   "shared": [

@@ -1,0 +1,3789 @@
+{
+  "updatedAt": "2026-04-16T14:34:51.178Z",
+  "createdAt": "2026-04-14T11:02:29.464Z",
+  "id": "G0WxbBXDlzRiFBm2",
+  "name": "Generate Prompts - paralleling",
+  "description": null,
+  "active": true,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"generationData\":{}\n}"
+      },
+      "id": "8ed15bfe-bd28-467a-80ba-37616e381ad8",
+      "typeVersion": 1.1,
+      "name": "Start",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        -672,
+        416
+      ]
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [\n\"clipGenType\",\n\n\"clipsPromptsGenService\",\n\"clipsPromptsGenModel\",\n\n\"baseRequirementsLibrary\",\n\"startFramePromptLibrary\",\n\"clipPromptLibrary\",\n\n\"convertJsonPromptToPlainTextPrompt\",\n\n\"startingFrameRequirementsAndRestrictions\",\n\"startingFramePromptGenerationPrompt\",\n\"finalClipRequirementsAndRestrictions\",\n\"finalClipSegmentPromptGenerationPrompt\",\n\n\"videoModelLimitationOnTheGeneratedVideoDurationMs\",\n] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -480,
+        416
+      ],
+      "name": "get all workflow params",
+      "id": "0cd6c010-7562-46d5-962e-6a7b7466fe86"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.clipsPromptsGenModel,\n\n  \"systemInstruction\": {\n    \"parts\": [\n      {\n        \"text\": $('Set Scene Based requirements,templates').item.json.startFrameTemplate\n      }\n    ]\n  },\n\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \n          \"text\": $('Set Scene Based Starting Frame Payload').item.json.payload \n        }\n      ]\n    }\n  ],\n\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\"\n  }\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1376,
+        208
+      ],
+      "id": "89c57bb1-bd85-4817-937a-bc74c96071d1",
+      "name": "form request1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1568,
+        208
+      ],
+      "id": "4ca44077-7842-4c3f-9a8b-75d607c78fc0",
+      "name": "Send HTTP Request1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('get all workflow params').first().json.clipsPromptsGenService == \"gemini\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "5ee75887-7518-4802-9c6e-47f913300963"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "gemini"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c4c3ce37-169a-4d45-bf04-1fbf84efb151",
+                    "leftValue": "={{ $('get all workflow params').first().json.clipsPromptsGenService == \"openai\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "openai"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "05f5648d-1a6e-4f8d-97aa-2f4f035e56c5",
+                    "leftValue": "={{ $('get all workflow params').first().json.clipsPromptsGenService == \"runpod\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "runpod"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        1104,
+        400
+      ],
+      "id": "65399123-5b3f-4131-8efc-a592c7981874",
+      "name": "Switch Text Gen Service1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "44536e49-76f8-4a3b-a3d5-c36448abf8a9",
+              "name": "response",
+              "value": "={{ $json.candidates[0].content.parts[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1760,
+        208
+      ],
+      "id": "27c5cbdf-7a94-4e02-ace4-10ff7cfc607b",
+      "name": "extract json obj from response"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').first().json.generationData.segment_meta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\"generation_data\": {\"prompts\": {\"startingFramePrompt\":$json.response} } } }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1952,
+        208
+      ],
+      "name": "write starting frame",
+      "id": "d5bdde5c-1b2d-4d1f-84e9-f1f9aa47a789"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').first().json.generationData.segment_meta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2368,
+        208
+      ],
+      "name": "read",
+      "id": "5fbfc036-28a0-4187-a669-7e7cf389222d"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $json,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3088,
+        208
+      ],
+      "id": "48a6bf32-8949-46d9-9362-3dc342fb8379",
+      "name": "get random ID for gemini clip prompt gen"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.clipsPromptsGenModel,\n\n  \"systemInstruction\": {\n    \"parts\": [\n      {\n        \"text\": $('Set Scene Based requirements,templates').item.json.clipTemplate\n      }\n    ]\n  },\n\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \n          \"text\": $('set gemini clip prompt payload').item.json.payload\n        }\n      ]\n    }\n  ],\n\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\"\n  }\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3296,
+        208
+      ],
+      "id": "f595ffcd-9a15-4236-a778-b512f30fa319",
+      "name": "form request3"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        3392,
+        208
+      ],
+      "id": "58abd5c4-5748-481d-b854-dffcdfdad2bf",
+      "name": "Send HTTP Request3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "44536e49-76f8-4a3b-a3d5-c36448abf8a9",
+              "name": "response",
+              "value": "={{ $json.candidates[0].content.parts[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3584,
+        208
+      ],
+      "id": "fb177f2b-050f-4def-a378-48389cef7de1",
+      "name": "extract json obj from response2"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "07e02c30-648a-4b1e-9007-02ba23c4918d",
+              "leftValue": "={{ (($('read').item?.json?.generation_data?.prompts?.videoClipPrompts?.length ?? 0)+1) >= Math.ceil($('Start').first().json.generationData.segment_meta.durMs / $('get all workflow params').first().json.videoModelLimitationOnTheGeneratedVideoDurationMs) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4848,
+        208
+      ],
+      "id": "9e3d9548-0b3a-4459-8e6d-f67e396cbc60",
+      "name": "If last prompt"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').first().json.generationData.segment_meta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\"generation_data.prompts.videoClipPrompts[-1*]\": $json.response} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4672,
+        208
+      ],
+      "name": "write clip prompt1",
+      "id": "4a6c4040-7b05-4c0a-ab3a-ae45543d7bb5"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1568,
+        416
+      ],
+      "id": "b50b4773-9c43-4a46-b77c-5bad9eaf7849",
+      "name": "Send HTTP Request4"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').first().json.generationData.segment_meta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\"generation_data\": {\"prompts\": {\"startingFramePrompt\":$json.outputText} } } }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1952,
+        416
+      ],
+      "name": "write starting frame1",
+      "id": "b1a6716f-1811-4c4f-9977-3c74aa56bec5"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').first().json.generationData.segment_meta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
+            "fileAction": "read",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        2368,
+        416
+      ],
+      "name": "read1",
+      "id": "19b14171-e410-4aab-ba8b-bb5c3a903c8d"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $json,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3088,
+        416
+      ],
+      "id": "63118c14-e559-40d4-b643-7c8315c09472",
+      "name": "get random ID for gemini clip prompt gen1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        3392,
+        416
+      ],
+      "id": "a8b79552-32f3-4375-8a44-e7450dbe30f2",
+      "name": "Send HTTP Request5"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "07e02c30-648a-4b1e-9007-02ba23c4918d",
+              "leftValue": "={{ (($('read1').item?.json?.generation_data?.prompts?.videoClipPrompts?.length ?? 0)+1) >= Math.ceil($('Start').first().json.generationData.segment_meta.durMs / $('get all workflow params').first().json.videoModelLimitationOnTheGeneratedVideoDurationMs) }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        4848,
+        416
+      ],
+      "id": "46036abf-cc3d-4b52-b7af-52b6efea9c27",
+      "name": "If last prompt1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').first().json.generationData.segment_meta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\"generation_data.prompts.videoClipPrompts[-1*]\": $json.outputText} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        4672,
+        416
+      ],
+      "name": "write clip prompt2",
+      "id": "8472b4f8-7f4a-4632-9fa1-cdf18752388f"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.OPENAI_RESPONSES_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.OPENAI_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.clipsPromptsGenModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('Set Scene Based requirements,templates').item.json.startFrameTemplate\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        { \"type\": \"input_text\", \"text\": $('Set Scene Based Starting Frame Payload').item.json.payload }\n      ]\n    }\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_object\"\n    }\n  }\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1376,
+        416
+      ],
+      "id": "8bb9c390-073c-49ff-8282-c83056a781d3",
+      "name": "form request4"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.OPENAI_RESPONSES_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.OPENAI_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.clipsPromptsGenModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('Set Scene Based requirements,templates').item.json.clipTemplate\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        { \"type\": \"input_text\", \"text\": $('set openai clip prompt payload').item.json.payload }\n      ]\n    }\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_object\"\n    }\n  }\n} }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3296,
+        416
+      ],
+      "id": "2a93cc0c-0067-4dac-adda-f0da5fa06f0c",
+      "name": "form request5"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Start').item.json.generationData.segment_prompt_route.prompt_family_kind == \"scene_based\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "5ee75887-7518-4802-9c6e-47f913300963"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "scene_based"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c4c3ce37-169a-4d45-bf04-1fbf84efb151",
+                    "leftValue": "={{ $('Start').item.json.generationData.segment_prompt_route.prompt_family_kind == \"graphic_based\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "graphic_based"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "05f5648d-1a6e-4f8d-97aa-2f4f035e56c5",
+                    "leftValue": "={{ $('Start').item.json.generationData.segment_prompt_route.prompt_family_kind == \"still_based\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "still_based"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        -288,
+        400
+      ],
+      "id": "6034b57f-c7aa-42ec-9651-57c39270adbe",
+      "name": "Switch Text Gen Service"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "363be857-a431-4231-8ac4-f083f051db74",
+              "name": "baseVisualRequrements",
+              "value": "={{ (()=>{\nconst id = $('Start').item.json.generationData.segment_prompt_route.template_ids.base_visuals_requirements_id\n\nconst string = $('get all workflow params').item.json.baseRequirementsLibrary[id]\n\nreturn string\n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "9e497165-3313-407c-84d8-8ef39ac2c5a4",
+              "name": "startFrameTemplate",
+              "value": "={{ (()=>{\nconst id = $('Start').item.json.generationData.segment_prompt_route.template_ids.starting_frame_template_id\n\nconst string = $('get all workflow params').item.json.startFramePromptLibrary[id]\n\nreturn string\n})() }}",
+              "type": "string"
+            },
+            {
+              "id": "aea921e7-3fa7-44a1-927f-d70c9cfb86fc",
+              "name": "clipTemplate",
+              "value": "={{ (()=>{\nconst id = $('Start').item.json.generationData.segment_prompt_route.template_ids.clip_template_id\n\nconst string = $('get all workflow params').item.json.clipPromptLibrary[id]\n\nreturn string\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        400,
+        416
+      ],
+      "id": "07db7362-ca58-4938-87a7-69910a3d9897",
+      "name": "Set Scene Based requirements,templates"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3b0d1666-55a9-4c07-9835-7545d266c608",
+              "name": "payload",
+              "value": "={{ (()=>{\nconst generationData = $('Start').first().json.generationData\n\nlet obj = generationData\n\ndelete obj.schema_version\ndelete obj.segment_index\n\nreturn {\"base_visuals_requirements_and_restrictions\": $('Set Scene Based requirements,templates').first().json.baseVisualRequrements, ...obj}\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        608,
+        416
+      ],
+      "id": "dee3f3e9-32bd-4382-be33-431982e3fd14",
+      "name": "Set Scene Based Starting Frame Payload"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $json.payload,\n    $('Set Scene Based requirements,templates').item.json.startFrameTemplate,\n    $('get all workflow params').first().json.clipsPromptsGenModel\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        816,
+        416
+      ],
+      "id": "7147e2da-909f-4909-84d4-c01b0beab666",
+      "name": "set scene based random ID"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').first().json.generationData.segment_meta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ ['generation_data'] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        -80,
+        416
+      ],
+      "name": "clear starting frame",
+      "id": "7c160e51-7c94-4c88-a6e7-445f05e9d33a",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3b0d1666-55a9-4c07-9835-7545d266c608",
+              "name": "previousClipsPrompts",
+              "value": "={{ (()=>{\nconst clipPrompts = $json.generation_data.prompts.videoClipPrompts ?? []\n\nreturn clipPrompts\n})() }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2560,
+        208
+      ],
+      "id": "37965969-b2b8-4e46-8140-4fba00cccef1",
+      "name": "Set previousClipsPrompts"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7c1cd3fa-f6eb-405b-ac10-21733049c070",
+              "name": "payload",
+              "value": "={{ (()=>{\nconst generationData = $('Start').first().json.generationData\n\nlet obj = generationData\n\ndelete obj.schema_version\ndelete obj.segment_index\n\nreturn {\"base_visuals_requirements_and_restrictions\": $('Set Scene Based requirements,templates').first().json.baseVisualRequrements, \"start_frame_prompt_result\":$('read').first().json.generation_data.prompts.startingFramePrompt, \"previous_clip_prompts\": $json.previousClipsPrompts, \"clip_part_index\":$json.previousClipsPrompts.length, \"clip_parts_count\":Math.ceil($('Start').first().json.generationData.segment_meta.durMs / $('get all workflow params').first().json.videoModelLimitationOnTheGeneratedVideoDurationMs), ...obj}\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2752,
+        208
+      ],
+      "id": "2640a503-0dbb-4169-aa45-f45e6c42dd0f",
+      "name": "set gemini clip prompt payload"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "3b0d1666-55a9-4c07-9835-7545d266c608",
+              "name": "previousClipsPrompts",
+              "value": "={{ (()=>{\nconst clipPrompts = $json.generation_data.prompts.videoClipPrompts ?? []\n\nreturn clipPrompts\n})() }}",
+              "type": "array"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2560,
+        416
+      ],
+      "id": "5a266ea6-6ee5-4eeb-b8d3-1dd1037ad745",
+      "name": "Set previousClipsPrompts1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "7c1cd3fa-f6eb-405b-ac10-21733049c070",
+              "name": "payload",
+              "value": "={{ (()=>{\nconst generationData = $('Start').first().json.generationData\n\nlet obj = generationData\n\ndelete obj.schema_version\ndelete obj.segment_index\n\nreturn {\"base_visuals_requirements_and_restrictions\": $('Set Scene Based requirements,templates').first().json.baseVisualRequrements, \"start_frame_prompt_result\":$('read1').first().json.generation_data.prompts.startingFramePrompt, \"previous_clip_prompts\": $json.previousClipsPrompts, \"clip_part_index\":$json.previousClipsPrompts.length, \"clip_parts_count\":Math.ceil($('Start').first().json.generationData.segment_meta.durMs / $('get all workflow params').first().json.videoModelLimitationOnTheGeneratedVideoDurationMs), ...obj}\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2752,
+        416
+      ],
+      "id": "e2232c59-cb74-4d6b-9aeb-7abdd67e817d",
+      "name": "set openai clip prompt payload"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').first().json.generationData.segment_meta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\"segment_status\": {\"prompts_ready\": true} } }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        5008,
+        640
+      ],
+      "name": "write status ready",
+      "id": "84bbe5cc-f45b-44b3-aedd-3053bcfa9cc2"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node\n// Работает с raw Responses API ответом OpenAI\n\nfunction asObject(input) {\n  if (Array.isArray(input)) return input[0] ?? null;\n  return input ?? null;\n}\n\nfunction extractOpenAIOutputText(respRaw) {\n  const resp = asObject(respRaw);\n  if (!resp || typeof resp !== 'object') {\n    return {\n      ok: false,\n      error: 'Response is empty or not an object',\n      text: '',\n      parsed: null,\n      source: null,\n    };\n  }\n\n  // 1) Самый удобный путь, если поле уже есть\n  if (typeof resp.output_text === 'string' && resp.output_text.trim()) {\n    const text = resp.output_text.trim();\n    return {\n      ok: true,\n      error: null,\n      text,\n      parsed: tryParseJson(text),\n      source: 'output_text',\n    };\n  }\n\n  // 2) Фолбэк: ищем все message -> content -> output_text\n  const chunks = [];\n  const output = Array.isArray(resp.output) ? resp.output : [];\n\n  for (const item of output) {\n    if (!item || item.type !== 'message') continue;\n    const content = Array.isArray(item.content) ? item.content : [];\n\n    for (const part of content) {\n      if (!part || part.type !== 'output_text') continue;\n      if (typeof part.text === 'string' && part.text.trim()) {\n        chunks.push(part.text);\n      }\n    }\n  }\n\n  if (chunks.length > 0) {\n    const text = chunks.join('\\n').trim();\n    return {\n      ok: true,\n      error: null,\n      text,\n      parsed: tryParseJson(text),\n      source: 'output[].message.content[].output_text.text',\n    };\n  }\n\n  return {\n    ok: false,\n    error: 'No output text found in response.output_text or message content',\n    text: '',\n    parsed: null,\n    source: null,\n  };\n}\n\nfunction tryParseJson(text) {\n  if (typeof text !== 'string') return null;\n  const trimmed = text.trim();\n  if (!trimmed) return null;\n\n  try {\n    return JSON.parse(trimmed);\n  } catch {\n    return null;\n  }\n}\n\nconst items = $input.all();\n\nreturn items.map((item, index) => {\n  const raw = item.json;\n  const extracted = extractOpenAIOutputText(raw);\n\n  return {\n    json: {\n      index,\n      ok: extracted.ok,\n      source: extracted.source,\n      error: extracted.error,\n      outputText: extracted.text,\n      outputJson: extracted.parsed,\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1760,
+        416
+      ],
+      "id": "60158edb-07b8-43db-a229-e9c2026d7b04",
+      "name": "Parse Openai Response"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node\n// Работает с raw Responses API ответом OpenAI\n\nfunction asObject(input) {\n  if (Array.isArray(input)) return input[0] ?? null;\n  return input ?? null;\n}\n\nfunction extractOpenAIOutputText(respRaw) {\n  const resp = asObject(respRaw);\n  if (!resp || typeof resp !== 'object') {\n    return {\n      ok: false,\n      error: 'Response is empty or not an object',\n      text: '',\n      parsed: null,\n      source: null,\n    };\n  }\n\n  // 1) Самый удобный путь, если поле уже есть\n  if (typeof resp.output_text === 'string' && resp.output_text.trim()) {\n    const text = resp.output_text.trim();\n    return {\n      ok: true,\n      error: null,\n      text,\n      parsed: tryParseJson(text),\n      source: 'output_text',\n    };\n  }\n\n  // 2) Фолбэк: ищем все message -> content -> output_text\n  const chunks = [];\n  const output = Array.isArray(resp.output) ? resp.output : [];\n\n  for (const item of output) {\n    if (!item || item.type !== 'message') continue;\n    const content = Array.isArray(item.content) ? item.content : [];\n\n    for (const part of content) {\n      if (!part || part.type !== 'output_text') continue;\n      if (typeof part.text === 'string' && part.text.trim()) {\n        chunks.push(part.text);\n      }\n    }\n  }\n\n  if (chunks.length > 0) {\n    const text = chunks.join('\\n').trim();\n    return {\n      ok: true,\n      error: null,\n      text,\n      parsed: tryParseJson(text),\n      source: 'output[].message.content[].output_text.text',\n    };\n  }\n\n  return {\n    ok: false,\n    error: 'No output text found in response.output_text or message content',\n    text: '',\n    parsed: null,\n    source: null,\n  };\n}\n\nfunction tryParseJson(text) {\n  if (typeof text !== 'string') return null;\n  const trimmed = text.trim();\n  if (!trimmed) return null;\n\n  try {\n    return JSON.parse(trimmed);\n  } catch {\n    return null;\n  }\n}\n\nconst items = $input.all();\n\nreturn items.map((item, index) => {\n  const raw = item.json;\n  const extracted = extractOpenAIOutputText(raw);\n\n  return {\n    json: {\n      index,\n      ok: extracted.ok,\n      source: extracted.source,\n      error: extracted.error,\n      outputText: extracted.text,\n      outputJson: extracted.parsed,\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3584,
+        416
+      ],
+      "id": "8fd0cbe6-0023-4563-bdab-f436b679c52a",
+      "name": "Parse Openai Response1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "688554cc-d91d-4f7e-b716-eaa0a37ab2ee",
+              "leftValue": "={{ $('Start').item.json.generationData.segment_prompt_route.prompt_family_kind !== \"still_based\" }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2144,
+        208
+      ],
+      "id": "59ca1bcd-ac3f-4f42-aca7-c2c885ea9674",
+      "name": "If Not Still Based"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "688554cc-d91d-4f7e-b716-eaa0a37ab2ee",
+              "leftValue": "={{ $('Start').item.json.generationData.segment_prompt_route.prompt_family_kind !== \"still_based\" }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        2144,
+        416
+      ],
+      "id": "978cbe1c-c182-4a7d-9dc3-5046156b4841",
+      "name": "If Not Still Based1"
+    },
+    {
+      "parameters": {
+        "content": "## Convert JSON to Plain text",
+        "height": 448,
+        "width": 432
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        3920,
+        96
+      ],
+      "id": "639e0f48-7c0b-4cd0-b256-0864c6858007",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('extract json obj from response2').item.json.response,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n    $('get all workflow params').first().json.convertJsonPromptToPlainTextPrompt,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3936,
+        208
+      ],
+      "id": "7ac66b2b-1a14-4f10-bd5a-67e83f42d9db",
+      "name": "get random ID for gemini clip prompt gen2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.clipsPromptsGenModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('get all workflow params').first().json.convertJsonPromptToPlainTextPrompt }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": $('extract json obj from response2').item.json.response }\n      ]\n    }\n  ],\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"OFF\" }\n  ]\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4144,
+        208
+      ],
+      "id": "3078057d-e3c5-4052-b18e-abf17663b478",
+      "name": "form request"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4240,
+        208
+      ],
+      "id": "f3f85cae-57dd-49be-8fff-a2941d2ee006",
+      "name": "Send HTTP Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('Parse Openai Response1').item.json.outputText,\n    $('get all workflow params').first().json.clipsPromptsGenModel,\n    $('get all workflow params').first().json.convertJsonPromptToPlainTextPrompt,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3936,
+        416
+      ],
+      "id": "75d49bd1-cdb3-4325-9cc4-db627195c9f9",
+      "name": "get random ID for gemini clip prompt gen3"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        4240,
+        416
+      ],
+      "id": "a7142ce9-653e-40a8-8ed7-b1bedf81cf67",
+      "name": "Send HTTP Request6"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.OPENAI_RESPONSES_ROUTE }}",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.OPENAI_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.clipsPromptsGenModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\":  $('get all workflow params').first().json.convertJsonPromptToPlainTextPrompt\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('Parse Openai Response1').item.json.outputText\n        }\n      ]\n    }\n  ]\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4144,
+        416
+      ],
+      "id": "3d43f321-2c24-4221-941f-2409b86111a4",
+      "name": "form request6"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').first().json.generationData.segment_meta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\"generation_data.prompts.jsonVideoClipPrompts[-1*]\": $json.response} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3744,
+        208
+      ],
+      "name": "write clip prompt",
+      "id": "c7c3926c-2892-4dc0-a76d-f36f9463e2c2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').first().json.generationData.segment_meta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\"generation_data.prompts.jsonVideoClipPrompts[-1*]\": $json.outputText} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3744,
+        416
+      ],
+      "name": "write clip prompt3",
+      "id": "2f6de03f-baa9-4321-9677-72007e7919f6"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "44536e49-76f8-4a3b-a3d5-c36448abf8a9",
+              "name": "response",
+              "value": "={{ $json.candidates[0].content.parts[0].text }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4416,
+        208
+      ],
+      "id": "61c5d494-ef13-4636-ab4a-6d60ee9cce9a",
+      "name": "extract json obj from response3"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Code node\n// Работает с raw Responses API ответом OpenAI\n\nfunction asObject(input) {\n  if (Array.isArray(input)) return input[0] ?? null;\n  return input ?? null;\n}\n\nfunction extractOpenAIOutputText(respRaw) {\n  const resp = asObject(respRaw);\n  if (!resp || typeof resp !== 'object') {\n    return {\n      ok: false,\n      error: 'Response is empty or not an object',\n      text: '',\n      parsed: null,\n      source: null,\n    };\n  }\n\n  // 1) Самый удобный путь, если поле уже есть\n  if (typeof resp.output_text === 'string' && resp.output_text.trim()) {\n    const text = resp.output_text.trim();\n    return {\n      ok: true,\n      error: null,\n      text,\n      parsed: tryParseJson(text),\n      source: 'output_text',\n    };\n  }\n\n  // 2) Фолбэк: ищем все message -> content -> output_text\n  const chunks = [];\n  const output = Array.isArray(resp.output) ? resp.output : [];\n\n  for (const item of output) {\n    if (!item || item.type !== 'message') continue;\n    const content = Array.isArray(item.content) ? item.content : [];\n\n    for (const part of content) {\n      if (!part || part.type !== 'output_text') continue;\n      if (typeof part.text === 'string' && part.text.trim()) {\n        chunks.push(part.text);\n      }\n    }\n  }\n\n  if (chunks.length > 0) {\n    const text = chunks.join('\\n').trim();\n    return {\n      ok: true,\n      error: null,\n      text,\n      parsed: tryParseJson(text),\n      source: 'output[].message.content[].output_text.text',\n    };\n  }\n\n  return {\n    ok: false,\n    error: 'No output text found in response.output_text or message content',\n    text: '',\n    parsed: null,\n    source: null,\n  };\n}\n\nfunction tryParseJson(text) {\n  if (typeof text !== 'string') return null;\n  const trimmed = text.trim();\n  if (!trimmed) return null;\n\n  try {\n    return JSON.parse(trimmed);\n  } catch {\n    return null;\n  }\n}\n\nconst items = $input.all();\n\nreturn items.map((item, index) => {\n  const raw = item.json;\n  const extracted = extractOpenAIOutputText(raw);\n\n  return {\n    json: {\n      index,\n      ok: extracted.ok,\n      source: extracted.source,\n      error: extracted.error,\n      outputText: extracted.text,\n      outputJson: extracted.parsed,\n    }\n  };\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4416,
+        416
+      ],
+      "id": "f3d281e4-105e-42e6-a2a1-9a77ab318c1c",
+      "name": "Parse Openai Response2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').first().json.generationData.segment_meta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\"segment_status.prompts_ready\": false} }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        112,
+        416
+      ],
+      "name": "set prompts status unready",
+      "id": "6f310ce0-010a-43fa-8b56-2cd5bae12147",
+      "alwaysOutputData": true
+    }
+  ],
+  "connections": {
+    "Start": {
+      "main": [
+        [
+          {
+            "node": "get all workflow params",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get all workflow params": {
+      "main": [
+        [
+          {
+            "node": "Switch Text Gen Service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form request1": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request1": {
+      "main": [
+        [
+          {
+            "node": "extract json obj from response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Text Gen Service1": {
+      "main": [
+        [
+          {
+            "node": "form request1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "form request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "extract json obj from response": {
+      "main": [
+        [
+          {
+            "node": "write starting frame",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write starting frame": {
+      "main": [
+        [
+          {
+            "node": "If Not Still Based",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read": {
+      "main": [
+        [
+          {
+            "node": "Set previousClipsPrompts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID for gemini clip prompt gen": {
+      "main": [
+        [
+          {
+            "node": "form request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form request3": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request3": {
+      "main": [
+        [
+          {
+            "node": "extract json obj from response2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "extract json obj from response2": {
+      "main": [
+        [
+          {
+            "node": "write clip prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If last prompt": {
+      "main": [
+        [
+          {
+            "node": "write status ready",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "read",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write clip prompt1": {
+      "main": [
+        [
+          {
+            "node": "If last prompt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request4": {
+      "main": [
+        [
+          {
+            "node": "Parse Openai Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write starting frame1": {
+      "main": [
+        [
+          {
+            "node": "If Not Still Based1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "read1": {
+      "main": [
+        [
+          {
+            "node": "Set previousClipsPrompts1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID for gemini clip prompt gen1": {
+      "main": [
+        [
+          {
+            "node": "form request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request5": {
+      "main": [
+        [
+          {
+            "node": "Parse Openai Response1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If last prompt1": {
+      "main": [
+        [
+          {
+            "node": "write status ready",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "read1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write clip prompt2": {
+      "main": [
+        [
+          {
+            "node": "If last prompt1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form request4": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form request5": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Text Gen Service": {
+      "main": [
+        [
+          {
+            "node": "clear starting frame",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "clear starting frame",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "clear starting frame",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Scene Based requirements,templates": {
+      "main": [
+        [
+          {
+            "node": "Set Scene Based Starting Frame Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set Scene Based Starting Frame Payload": {
+      "main": [
+        [
+          {
+            "node": "set scene based random ID",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set scene based random ID": {
+      "main": [
+        [
+          {
+            "node": "Switch Text Gen Service1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "clear starting frame": {
+      "main": [
+        [
+          {
+            "node": "set prompts status unready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set previousClipsPrompts": {
+      "main": [
+        [
+          {
+            "node": "set gemini clip prompt payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set gemini clip prompt payload": {
+      "main": [
+        [
+          {
+            "node": "get random ID for gemini clip prompt gen",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Set previousClipsPrompts1": {
+      "main": [
+        [
+          {
+            "node": "set openai clip prompt payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set openai clip prompt payload": {
+      "main": [
+        [
+          {
+            "node": "get random ID for gemini clip prompt gen1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Openai Response": {
+      "main": [
+        [
+          {
+            "node": "write starting frame1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Openai Response1": {
+      "main": [
+        [
+          {
+            "node": "write clip prompt3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Not Still Based": {
+      "main": [
+        [
+          {
+            "node": "read",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "write status ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If Not Still Based1": {
+      "main": [
+        [
+          {
+            "node": "read1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "write status ready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID for gemini clip prompt gen2": {
+      "main": [
+        [
+          {
+            "node": "form request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form request": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID for gemini clip prompt gen3": {
+      "main": [
+        [
+          {
+            "node": "form request6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form request6": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request6",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write clip prompt": {
+      "main": [
+        [
+          {
+            "node": "get random ID for gemini clip prompt gen2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "write clip prompt3": {
+      "main": [
+        [
+          {
+            "node": "get random ID for gemini clip prompt gen3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "extract json obj from response3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request6": {
+      "main": [
+        [
+          {
+            "node": "Parse Openai Response2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "extract json obj from response3": {
+      "main": [
+        [
+          {
+            "node": "write clip prompt1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Openai Response2": {
+      "main": [
+        [
+          {
+            "node": "write clip prompt2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "set prompts status unready": {
+      "main": [
+        [
+          {
+            "node": "Set Scene Based requirements,templates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {
+    "Start": [
+      {
+        "json": {
+          "channelsFolderPath": "C:/Users/V/Desktop/Channels",
+          "channelName": "LifeOfAPirate",
+          "videoFolderName": "2026-04-16_YeLlV",
+          "generationData": {
+            "video_meta": {
+              "titles": "Почему этот авианосец обречен? Вся правда,Аварии и провалы проблемного авианесущего крейсера,Огромные затраты и фатальные ошибки конструкции",
+              "descriptions": "Тяжелый авианесущий крейсер — это сложный гибрид, который с самого начала проектирования столкнулся с неразрешимыми проблемами. Почему знаменитый корабль постоянно выпускает черный дым? Как устроены его котлы и почему их поломка приводит к катастрофическим последствиям? В этом видео мы подробно разберем, как ракетные шахты уменьшили полезный объем, почему вместо катапульты используется трамплин и как это влияет на боевые возможности самолетов. Узнайте все о конструктивных компромиссах, которые сделали полноценную эксплуатацию практически невозможной.,История эксплуатации этого тяжелого авианесущего крейсера полна драматичных моментов и каскадов технических отказов. Потеря самолетов в Сирии из-за обрыва троса аэрофинишера, затопление гигантского плавучего дока в Мурманске и рухнувший на палубу кран — это лишь верхушка айсберга. Мы расскажем, в каких условиях живет экипаж, почему моряки часто остаются без питьевой воды из-за капризных котлов и к чему приводит постоянная ротация неопытных кадров. Погрузитесь в суровые реалии службы на морально и физически устаревшем корабле.,Можно ли спасти этот тяжелый авианесущий крейсер или он изначально был инженерной ошибкой? Размещение ракетных шахт внутри корпуса привело к критическому сокращению ангаров, а замена сгоревших мазутных котлов размером с дом требует масштабной резки всего корпуса судна. В ролике мы обсуждаем колоссальные финансовые затраты на логистику, отсутствие современной ремонтной базы и тотальную зависимость корабля от береговой инфраструктуры. Узнайте, почему судно годами ходит на грани потери хода и почему его ремонт зашел в тупик."
+            },
+            "segment_meta": {
+              "partIndex": 116,
+              "text": "Авианосец - это не просто кусок железа с нарисованной полосой для самолетов.",
+              "previous_text": "технологической эпохи, когда металл и масштабы преобладали над системной интеграцией.",
+              "next_text": "Это лишь острие невероятно длинного копья, требующего безупречной экономики на каждом этапе - от бесперебойного производства специальных марок мазута до",
+              "start_ms": 847837,
+              "end_ms": 854159,
+              "durMs": 6322,
+              "charCount": 76
+            },
+            "segment_analysis": {
+              "schema_version": "1.0",
+              "segment_index": 116,
+              "segment_function": "summary",
+              "visual_need": "show_structure",
+              "abstraction_level": "mixed",
+              "priority_entities": [
+                "авианосец",
+                "инженерная инфраструктура",
+                "экономические барьеры"
+              ],
+              "needs_precise_overlay": false,
+              "reason": "Подведение итога о сложности эксплуатации корабля как части большой производственно-экономической системы."
+            },
+            "segment_plan": {
+              "segment_index": 116,
+              "selected_base_format": "observational_video",
+              "format_tier": "secondary",
+              "use_explanatory_layer": false,
+              "segment_role_in_flow": "anchor",
+              "reason": "Наблюдательный кадр палубы и полосы для фиксации внимания на физическом объекте перед новым тезисом."
+            },
+            "segment_prompt_route": {
+              "schema_version": "1.0",
+              "segment_index": 116,
+              "visual_mode": "realistic_modern",
+              "selected_base_format": "observational_video",
+              "format_tier": "secondary",
+              "use_explanatory_layer": false,
+              "segment_role_in_flow": "anchor",
+              "prompt_family": "realistic_scene_i2v",
+              "prompt_family_kind": "scene_based",
+              "use_legacy_scene_templates": true,
+              "template_ids": {
+                "base_visuals_requirements_id": "realistic_modern_base_requirements_v1",
+                "starting_frame_template_id": "realistic_modern_start_frame_v1",
+                "clip_template_id": "realistic_modern_clip_v1",
+                "overlay_template_id": null
+              },
+              "language_policy": {
+                "camera_language_allowed": true,
+                "photo_technical_language_allowed": true,
+                "film_grain_allowed": true,
+                "lens_language_allowed": true,
+                "sensor_language_allowed": true,
+                "handheld_language_allowed": true,
+                "style_keywords_allowed": false,
+                "lora_style_external": true
+              },
+              "allowed_prompt_elements": [
+                "camera_language",
+                "photo_technical_language",
+                "film_grain",
+                "lens_language",
+                "sensor_language",
+                "handheld_language"
+              ],
+              "forbidden_prompt_elements": [
+                "style_keywords"
+              ],
+              "generation_requirements": {
+                "requires_start_frame": true,
+                "requires_clip_prompt": true,
+                "requires_overlay_prompt": false
+              },
+              "global_inputs": {
+                "selected_cluster_plan": {
+                  "schema_version": "1.0",
+                  "topic_idea": "Железный Лабиринт: Внутри единственного авианосца СНГ. Разбор инженерных проблем, устройства котлотурбинной установки, сравнение трамплина с катапультой, быт экипажа и история аварий (Сирия, док ПД-50).",
+                  "confidence": 0.88,
+                  "selected_cluster": {
+                    "cluster_id": "pragmatic_failure_analyst",
+                    "cluster_label": "прагматичный аналитик провалов",
+                    "fit_score": 0.9,
+                    "fit_reason": "Тема сфокусирована на объяснении инженерных парадоксов, причин проблемности корабля (почему дымит) и барьерах эксплуатации (аварии, дефицит пресной воды), что прямо отвечает запросу кластера на причинно-следственный техно-разбор ограничений."
+                  },
+                  "selected_narrative_mode": "story_case_studies",
+                  "narrative_mode_reason": "Формат story_case_studies идеально подходит для кластера, позволяя разобрать историю и устройство одного масштабного объекта через призму его конструктивных решений, эксплуатационных испытаний и сравнения с альтернативами.",
+                  "combined_brief": {
+                    "self_identity": [
+                      "зритель, который проверяет реализуемость",
+                      "любитель инженерных ограничений",
+                      "аудитория причинно-следственного техно-разбора"
+                    ],
+                    "worldview": [
+                      "технологии отсеиваются из-за ограничений реализации",
+                      "надежность и практичность как главный барьер",
+                      "производство и экономика решают судьбу новинки"
+                    ],
+                    "pain_growth": [
+                      "раздражается когда причина проблемы названа, но не раскрыта",
+                      "ищет ясную механику почему решение работает с трудом",
+                      "хочет видеть связь идеи с производством, надежностью и эксплуатацией"
+                    ],
+                    "fears_desires": [
+                      "желание честного объяснения проблем авианосца",
+                      "интерес к тому, почему перспективные идеи не доходят до массы или работают с ограничениями",
+                      "страх поверхностного разбора физики процесса",
+                      "страх ненадежных технологий"
+                    ],
+                    "common_enemy": [
+                      "поверхностное раскрытие причины",
+                      "производственные ограничения",
+                      "низкая надежность компонентов",
+                      "кликбейт без доказательства"
+                    ],
+                    "language_codes": [
+                      "сухой прагматичный разбор",
+                      "простое объяснение",
+                      "фактологическая точность",
+                      "минимум разговорных оговорок"
+                    ],
+                    "visual_aesthetics": [
+                      "документальный ретро-визуал",
+                      "крупный объект как иллюстрация тезиса",
+                      "чистый контрастный текст без лишних акцентов"
+                    ],
+                    "fit_packaging": [
+                      "clear_problem_statement",
+                      "why_it_failed_angle",
+                      "evidence_matched_title",
+                      "archive_documentary_thumb",
+                      "no_sensational_ban_hook"
+                    ],
+                    "preferred_text_tone": [
+                      "сухой прагматичный разбор",
+                      "спокойный причинно-следственный тон"
+                    ],
+                    "usage_notes": [
+                      "Строить выпуск вокруг вопроса инженерных причин (почему дымит, почему трамплин), а не просто масштаба.",
+                      "Обязательно раскрывать конкретные барьеры: производство, надежность, эксплуатационные пределы.",
+                      "Добавить сравнение с альтернативами (катапульта), чтобы увеличить глубину разбора единственного объекта.",
+                      "Объяснять физику котлотурбинной установки точно и без разговорной небрежности, чтобы избежать критики."
+                    ],
+                    "avoid_notes": [
+                      "Не делать эмоциональную сенсацию из проблем корабля, фокусируясь на механике и ограничениях.",
+                      "Не уводить финал в побочную тему, держать фокус на экономической и практической целесообразности авианосца.",
+                      "Не использовать кликбейт бездоказательных легенд в ущерб причинно-следственному разбору."
+                    ]
+                  },
+                  "fileName": "selectedClusterPlan.json"
+                },
+                "visual_narration_strategy": {
+                  "schema_version": "1.0",
+                  "cluster_id": "pragmatic_failure_analyst",
+                  "selected_narrative_mode": "story_case_studies",
+                  "visual_goal": "Визуализация инженерных ограничений, физики процессов и структурных отказов через документальную хронику и строгие технические схемы для доказательства причинно-следственных связей.",
+                  "visual_evidence_style": [
+                    "explanatory",
+                    "comparative",
+                    "observational"
+                  ],
+                  "preferred_base_formats": [
+                    "archival_material",
+                    "explanatory_graphic",
+                    "still_image"
+                  ],
+                  "secondary_base_formats": [
+                    "observational_video",
+                    "spatial_map"
+                  ],
+                  "rare_base_formats": [
+                    "text_only_card"
+                  ],
+                  "forbidden_base_formats": [
+                    "ui_data_visual"
+                  ],
+                  "preferred_capture_styles": [
+                    "хроникальные кадры с естественным зерном и дефектами пленки",
+                    "строгая инженерная 3D-графика без лишних текстур в стиле чертежей",
+                    "макросъемка механических узлов корабля (тросы, клапаны, трубы)"
+                  ],
+                  "preferred_shot_families": [
+                    "общие планы огромных объектов для оценки масштаба и логистического контекста",
+                    "внутренние пролеты по замкнутым индустриальным пространствам (машинное отделение)",
+                    "крупные планы критических технических узлов (форсунки, аэрофинишеры)"
+                  ],
+                  "preferred_explanatory_layers": [
+                    "чистые векторные стрелки для указания векторов силы и давления пара",
+                    "контрастные текстовые выноски с точными физическими характеристиками и цифрами",
+                    "схемы в разрезе для демонстрации внутренней компоновки систем и котлов"
+                  ],
+                  "continuity_rules": [
+                    "сохранение строгой визуальной логики: от общего плана корабля к конкретному узлу",
+                    "прямая привязка архивных кадров аварий к предшествующим им схемам устройства механизма",
+                    "использование единого шрифта без засечек и ограниченной контрастной палитры для всей инфографики"
+                  ],
+                  "transition_rules": [
+                    "жесткие склейки (hard cuts) для подчеркивания сурового документального стиля повествования",
+                    "плавное проявление векторных схем поверх затененных фотографий или стоп-кадров",
+                    "категорический отказ от динамичных переходов, глитчей и декоративных wipe-эффектов"
+                  ],
+                  "repetition_limits": [
+                    "кадры с черным дымом использовать только в блоке разбора работы котлов, избегать фонового дублирования",
+                    "архитектурные схемы одного узла (например, трамплина) не должны повторяться более двух раз"
+                  ],
+                  "tone_rules": [
+                    "сухая констатация фактов через визуал без визуальной драматизации и искусственного нагнетания",
+                    "приглушенная цветокоррекция с упором на стальной, серый, мазутно-черный и ржавый оттенки",
+                    "полное отсутствие развлекательных графических вставок и визуальных метафор"
+                  ],
+                  "usage_notes": [
+                    "использовать наложение чертежей для наглядного объяснения пространственных компромиссов (шахты ракет против ангара)",
+                    "синхронизировать графику тепловых процессов в котле с текстом о потере энергии и образовании сажи",
+                    "показывать архивные кадры инцидентов в Сирии и Мурманске как сухой математический итог цепи отказов"
+                  ],
+                  "avoid_notes": [
+                    "строго избегать ярких неоновых цветов и современного глянцевого моушн-дизайна",
+                    "не акцентировать внимание на эмоциях людей, визуальный фокус должен оставаться на железе и физике",
+                    "исключить клиповый монтаж и ускоренную перемотку, разрушающие вдумчивый аналитический темп"
+                  ],
+                  "fileName": "visualNarrationStrategy.json"
+                },
+                "global_visual_policy": {
+                  "prompt_json_language": "english",
+                  "embedded_visual_text_language": "russian",
+                  "render_text_inside_generated_image": true,
+                  "prefer_overlay_for_text": false
+                }
+              },
+              "warnings": []
+            },
+            "shot_planning": {
+              "schema_version": "1.0",
+              "segment_index": 116,
+              "visual_mode": "realistic_modern",
+              "selected_scene_treatment_id": "helicopter_aerial",
+              "shot_scale": "wide",
+              "motion_intensity": "medium",
+              "time_behavior": "realtime",
+              "reason": "The segment focuses on the massive offshore infrastructure and the ship's overall scale, which is best captured via long-range aerial documentation to convey its problematic size and environment."
+            },
+            "graphic_treatment_plan": null,
+            "still_treatment_plan": null,
+            "prev_segment_meta": {
+              "partIndex": 115,
+              "text": "технологической эпохи, когда металл и масштабы преобладали над системной интеграцией.",
+              "previous_text": "Корабль оказался заложником собственной конструкции, рожденной из необходимости совместить несовместимое, и заложником ушедшей",
+              "next_text": "Авианосец - это не просто кусок железа с нарисованной полосой для самолетов.",
+              "start_ms": 841514,
+              "end_ms": 847837,
+              "durMs": 6323,
+              "charCount": 85
+            },
+            "next_segment_meta": {
+              "partIndex": 117,
+              "text": "Это лишь острие невероятно длинного копья, требующего безупречной экономики на каждом этапе - от бесперебойного производства специальных марок мазута до",
+              "previous_text": "Авианосец - это не просто кусок железа с нарисованной полосой для самолетов.",
+              "next_text": "наличия сухих доков колоссальных размеров. Инженерия - наука точная, и она не прощает компромиссов на уровне фундаментальных решений.",
+              "start_ms": 854159,
+              "end_ms": 864067,
+              "durMs": 9908,
+              "charCount": 152
+            },
+            "prev_segment_plan": {
+              "segment_index": 115,
+              "selected_base_format": "still_image",
+              "format_tier": "primary",
+              "use_explanatory_layer": false,
+              "segment_role_in_flow": "support",
+              "reason": "Статичная фотография массивных металлических конструкций, подчеркивающая дух ушедшей индустриальной эпохи."
+            },
+            "next_segment_plan": {
+              "segment_index": 117,
+              "selected_base_format": "explanatory_graphic",
+              "format_tier": "primary",
+              "use_explanatory_layer": true,
+              "segment_role_in_flow": "expand",
+              "reason": "Строгая структурная схема с подписями для объяснения производственной цепочки и экономики поставок мазута."
+            },
+            "prev_segment_prompt_route": {
+              "schema_version": "1.0",
+              "segment_index": 115,
+              "visual_mode": "realistic_modern",
+              "selected_base_format": "still_image",
+              "format_tier": "primary",
+              "use_explanatory_layer": false,
+              "segment_role_in_flow": "support",
+              "prompt_family": "realistic_still_image",
+              "prompt_family_kind": "still_based",
+              "use_legacy_scene_templates": false,
+              "template_ids": {
+                "base_visuals_requirements_id": "realistic_modern_base_requirements_v1",
+                "starting_frame_template_id": "realistic_modern_still_start_frame_v1",
+                "clip_template_id": "realistic_modern_still_motion_v1",
+                "overlay_template_id": null
+              },
+              "language_policy": {
+                "camera_language_allowed": true,
+                "photo_technical_language_allowed": true,
+                "film_grain_allowed": true,
+                "lens_language_allowed": true,
+                "sensor_language_allowed": true,
+                "handheld_language_allowed": true,
+                "style_keywords_allowed": false,
+                "lora_style_external": true
+              },
+              "allowed_prompt_elements": [
+                "camera_language",
+                "photo_technical_language",
+                "film_grain",
+                "lens_language",
+                "sensor_language",
+                "handheld_language"
+              ],
+              "forbidden_prompt_elements": [
+                "style_keywords"
+              ],
+              "generation_requirements": {
+                "requires_start_frame": true,
+                "requires_clip_prompt": true,
+                "requires_overlay_prompt": false
+              },
+              "global_inputs": {
+                "selected_cluster_plan": {
+                  "schema_version": "1.0",
+                  "topic_idea": "Железный Лабиринт: Внутри единственного авианосца СНГ. Разбор инженерных проблем, устройства котлотурбинной установки, сравнение трамплина с катапультой, быт экипажа и история аварий (Сирия, док ПД-50).",
+                  "confidence": 0.88,
+                  "selected_cluster": {
+                    "cluster_id": "pragmatic_failure_analyst",
+                    "cluster_label": "прагматичный аналитик провалов",
+                    "fit_score": 0.9,
+                    "fit_reason": "Тема сфокусирована на объяснении инженерных парадоксов, причин проблемности корабля (почему дымит) и барьерах эксплуатации (аварии, дефицит пресной воды), что прямо отвечает запросу кластера на причинно-следственный техно-разбор ограничений."
+                  },
+                  "selected_narrative_mode": "story_case_studies",
+                  "narrative_mode_reason": "Формат story_case_studies идеально подходит для кластера, позволяя разобрать историю и устройство одного масштабного объекта через призму его конструктивных решений, эксплуатационных испытаний и сравнения с альтернативами.",
+                  "combined_brief": {
+                    "self_identity": [
+                      "зритель, который проверяет реализуемость",
+                      "любитель инженерных ограничений",
+                      "аудитория причинно-следственного техно-разбора"
+                    ],
+                    "worldview": [
+                      "технологии отсеиваются из-за ограничений реализации",
+                      "надежность и практичность как главный барьер",
+                      "производство и экономика решают судьбу новинки"
+                    ],
+                    "pain_growth": [
+                      "раздражается когда причина проблемы названа, но не раскрыта",
+                      "ищет ясную механику почему решение работает с трудом",
+                      "хочет видеть связь идеи с производством, надежностью и эксплуатацией"
+                    ],
+                    "fears_desires": [
+                      "желание честного объяснения проблем авианосца",
+                      "интерес к тому, почему перспективные идеи не доходят до массы или работают с ограничениями",
+                      "страх поверхностного разбора физики процесса",
+                      "страх ненадежных технологий"
+                    ],
+                    "common_enemy": [
+                      "поверхностное раскрытие причины",
+                      "производственные ограничения",
+                      "низкая надежность компонентов",
+                      "кликбейт без доказательства"
+                    ],
+                    "language_codes": [
+                      "сухой прагматичный разбор",
+                      "простое объяснение",
+                      "фактологическая точность",
+                      "минимум разговорных оговорок"
+                    ],
+                    "visual_aesthetics": [
+                      "документальный ретро-визуал",
+                      "крупный объект как иллюстрация тезиса",
+                      "чистый контрастный текст без лишних акцентов"
+                    ],
+                    "fit_packaging": [
+                      "clear_problem_statement",
+                      "why_it_failed_angle",
+                      "evidence_matched_title",
+                      "archive_documentary_thumb",
+                      "no_sensational_ban_hook"
+                    ],
+                    "preferred_text_tone": [
+                      "сухой прагматичный разбор",
+                      "спокойный причинно-следственный тон"
+                    ],
+                    "usage_notes": [
+                      "Строить выпуск вокруг вопроса инженерных причин (почему дымит, почему трамплин), а не просто масштаба.",
+                      "Обязательно раскрывать конкретные барьеры: производство, надежность, эксплуатационные пределы.",
+                      "Добавить сравнение с альтернативами (катапульта), чтобы увеличить глубину разбора единственного объекта.",
+                      "Объяснять физику котлотурбинной установки точно и без разговорной небрежности, чтобы избежать критики."
+                    ],
+                    "avoid_notes": [
+                      "Не делать эмоциональную сенсацию из проблем корабля, фокусируясь на механике и ограничениях.",
+                      "Не уводить финал в побочную тему, держать фокус на экономической и практической целесообразности авианосца.",
+                      "Не использовать кликбейт бездоказательных легенд в ущерб причинно-следственному разбору."
+                    ]
+                  },
+                  "fileName": "selectedClusterPlan.json"
+                },
+                "visual_narration_strategy": {
+                  "schema_version": "1.0",
+                  "cluster_id": "pragmatic_failure_analyst",
+                  "selected_narrative_mode": "story_case_studies",
+                  "visual_goal": "Визуализация инженерных ограничений, физики процессов и структурных отказов через документальную хронику и строгие технические схемы для доказательства причинно-следственных связей.",
+                  "visual_evidence_style": [
+                    "explanatory",
+                    "comparative",
+                    "observational"
+                  ],
+                  "preferred_base_formats": [
+                    "archival_material",
+                    "explanatory_graphic",
+                    "still_image"
+                  ],
+                  "secondary_base_formats": [
+                    "observational_video",
+                    "spatial_map"
+                  ],
+                  "rare_base_formats": [
+                    "text_only_card"
+                  ],
+                  "forbidden_base_formats": [
+                    "ui_data_visual"
+                  ],
+                  "preferred_capture_styles": [
+                    "хроникальные кадры с естественным зерном и дефектами пленки",
+                    "строгая инженерная 3D-графика без лишних текстур в стиле чертежей",
+                    "макросъемка механических узлов корабля (тросы, клапаны, трубы)"
+                  ],
+                  "preferred_shot_families": [
+                    "общие планы огромных объектов для оценки масштаба и логистического контекста",
+                    "внутренние пролеты по замкнутым индустриальным пространствам (машинное отделение)",
+                    "крупные планы критических технических узлов (форсунки, аэрофинишеры)"
+                  ],
+                  "preferred_explanatory_layers": [
+                    "чистые векторные стрелки для указания векторов силы и давления пара",
+                    "контрастные текстовые выноски с точными физическими характеристиками и цифрами",
+                    "схемы в разрезе для демонстрации внутренней компоновки систем и котлов"
+                  ],
+                  "continuity_rules": [
+                    "сохранение строгой визуальной логики: от общего плана корабля к конкретному узлу",
+                    "прямая привязка архивных кадров аварий к предшествующим им схемам устройства механизма",
+                    "использование единого шрифта без засечек и ограниченной контрастной палитры для всей инфографики"
+                  ],
+                  "transition_rules": [
+                    "жесткие склейки (hard cuts) для подчеркивания сурового документального стиля повествования",
+                    "плавное проявление векторных схем поверх затененных фотографий или стоп-кадров",
+                    "категорический отказ от динамичных переходов, глитчей и декоративных wipe-эффектов"
+                  ],
+                  "repetition_limits": [
+                    "кадры с черным дымом использовать только в блоке разбора работы котлов, избегать фонового дублирования",
+                    "архитектурные схемы одного узла (например, трамплина) не должны повторяться более двух раз"
+                  ],
+                  "tone_rules": [
+                    "сухая констатация фактов через визуал без визуальной драматизации и искусственного нагнетания",
+                    "приглушенная цветокоррекция с упором на стальной, серый, мазутно-черный и ржавый оттенки",
+                    "полное отсутствие развлекательных графических вставок и визуальных метафор"
+                  ],
+                  "usage_notes": [
+                    "использовать наложение чертежей для наглядного объяснения пространственных компромиссов (шахты ракет против ангара)",
+                    "синхронизировать графику тепловых процессов в котле с текстом о потере энергии и образовании сажи",
+                    "показывать архивные кадры инцидентов в Сирии и Мурманске как сухой математический итог цепи отказов"
+                  ],
+                  "avoid_notes": [
+                    "строго избегать ярких неоновых цветов и современного глянцевого моушн-дизайна",
+                    "не акцентировать внимание на эмоциях людей, визуальный фокус должен оставаться на железе и физике",
+                    "исключить клиповый монтаж и ускоренную перемотку, разрушающие вдумчивый аналитический темп"
+                  ],
+                  "fileName": "visualNarrationStrategy.json"
+                },
+                "global_visual_policy": {
+                  "prompt_json_language": "english",
+                  "embedded_visual_text_language": "russian",
+                  "render_text_inside_generated_image": true,
+                  "prefer_overlay_for_text": false
+                }
+              },
+              "warnings": []
+            },
+            "next_segment_prompt_route": {
+              "schema_version": "1.0",
+              "segment_index": 117,
+              "visual_mode": "realistic_modern",
+              "selected_base_format": "explanatory_graphic",
+              "format_tier": "primary",
+              "use_explanatory_layer": true,
+              "segment_role_in_flow": "expand",
+              "prompt_family": "technical_diagram",
+              "prompt_family_kind": "graphic_based",
+              "use_legacy_scene_templates": false,
+              "template_ids": {
+                "base_visuals_requirements_id": "technical_diagram_base_requirements_v1",
+                "starting_frame_template_id": "technical_diagram_start_frame_v1",
+                "clip_template_id": "technical_diagram_clip_v1",
+                "overlay_template_id": "technical_diagram_overlay_v1"
+              },
+              "language_policy": {
+                "camera_language_allowed": false,
+                "photo_technical_language_allowed": false,
+                "film_grain_allowed": false,
+                "lens_language_allowed": false,
+                "sensor_language_allowed": false,
+                "handheld_language_allowed": false,
+                "style_keywords_allowed": false,
+                "lora_style_external": true
+              },
+              "allowed_prompt_elements": [],
+              "forbidden_prompt_elements": [
+                "camera_language",
+                "photo_technical_language",
+                "film_grain",
+                "lens_language",
+                "sensor_language",
+                "handheld_language",
+                "style_keywords"
+              ],
+              "generation_requirements": {
+                "requires_start_frame": true,
+                "requires_clip_prompt": true,
+                "requires_overlay_prompt": true
+              },
+              "global_inputs": {
+                "selected_cluster_plan": {
+                  "schema_version": "1.0",
+                  "topic_idea": "Железный Лабиринт: Внутри единственного авианосца СНГ. Разбор инженерных проблем, устройства котлотурбинной установки, сравнение трамплина с катапультой, быт экипажа и история аварий (Сирия, док ПД-50).",
+                  "confidence": 0.88,
+                  "selected_cluster": {
+                    "cluster_id": "pragmatic_failure_analyst",
+                    "cluster_label": "прагматичный аналитик провалов",
+                    "fit_score": 0.9,
+                    "fit_reason": "Тема сфокусирована на объяснении инженерных парадоксов, причин проблемности корабля (почему дымит) и барьерах эксплуатации (аварии, дефицит пресной воды), что прямо отвечает запросу кластера на причинно-следственный техно-разбор ограничений."
+                  },
+                  "selected_narrative_mode": "story_case_studies",
+                  "narrative_mode_reason": "Формат story_case_studies идеально подходит для кластера, позволяя разобрать историю и устройство одного масштабного объекта через призму его конструктивных решений, эксплуатационных испытаний и сравнения с альтернативами.",
+                  "combined_brief": {
+                    "self_identity": [
+                      "зритель, который проверяет реализуемость",
+                      "любитель инженерных ограничений",
+                      "аудитория причинно-следственного техно-разбора"
+                    ],
+                    "worldview": [
+                      "технологии отсеиваются из-за ограничений реализации",
+                      "надежность и практичность как главный барьер",
+                      "производство и экономика решают судьбу новинки"
+                    ],
+                    "pain_growth": [
+                      "раздражается когда причина проблемы названа, но не раскрыта",
+                      "ищет ясную механику почему решение работает с трудом",
+                      "хочет видеть связь идеи с производством, надежностью и эксплуатацией"
+                    ],
+                    "fears_desires": [
+                      "желание честного объяснения проблем авианосца",
+                      "интерес к тому, почему перспективные идеи не доходят до массы или работают с ограничениями",
+                      "страх поверхностного разбора физики процесса",
+                      "страх ненадежных технологий"
+                    ],
+                    "common_enemy": [
+                      "поверхностное раскрытие причины",
+                      "производственные ограничения",
+                      "низкая надежность компонентов",
+                      "кликбейт без доказательства"
+                    ],
+                    "language_codes": [
+                      "сухой прагматичный разбор",
+                      "простое объяснение",
+                      "фактологическая точность",
+                      "минимум разговорных оговорок"
+                    ],
+                    "visual_aesthetics": [
+                      "документальный ретро-визуал",
+                      "крупный объект как иллюстрация тезиса",
+                      "чистый контрастный текст без лишних акцентов"
+                    ],
+                    "fit_packaging": [
+                      "clear_problem_statement",
+                      "why_it_failed_angle",
+                      "evidence_matched_title",
+                      "archive_documentary_thumb",
+                      "no_sensational_ban_hook"
+                    ],
+                    "preferred_text_tone": [
+                      "сухой прагматичный разбор",
+                      "спокойный причинно-следственный тон"
+                    ],
+                    "usage_notes": [
+                      "Строить выпуск вокруг вопроса инженерных причин (почему дымит, почему трамплин), а не просто масштаба.",
+                      "Обязательно раскрывать конкретные барьеры: производство, надежность, эксплуатационные пределы.",
+                      "Добавить сравнение с альтернативами (катапульта), чтобы увеличить глубину разбора единственного объекта.",
+                      "Объяснять физику котлотурбинной установки точно и без разговорной небрежности, чтобы избежать критики."
+                    ],
+                    "avoid_notes": [
+                      "Не делать эмоциональную сенсацию из проблем корабля, фокусируясь на механике и ограничениях.",
+                      "Не уводить финал в побочную тему, держать фокус на экономической и практической целесообразности авианосца.",
+                      "Не использовать кликбейт бездоказательных легенд в ущерб причинно-следственному разбору."
+                    ]
+                  },
+                  "fileName": "selectedClusterPlan.json"
+                },
+                "visual_narration_strategy": {
+                  "schema_version": "1.0",
+                  "cluster_id": "pragmatic_failure_analyst",
+                  "selected_narrative_mode": "story_case_studies",
+                  "visual_goal": "Визуализация инженерных ограничений, физики процессов и структурных отказов через документальную хронику и строгие технические схемы для доказательства причинно-следственных связей.",
+                  "visual_evidence_style": [
+                    "explanatory",
+                    "comparative",
+                    "observational"
+                  ],
+                  "preferred_base_formats": [
+                    "archival_material",
+                    "explanatory_graphic",
+                    "still_image"
+                  ],
+                  "secondary_base_formats": [
+                    "observational_video",
+                    "spatial_map"
+                  ],
+                  "rare_base_formats": [
+                    "text_only_card"
+                  ],
+                  "forbidden_base_formats": [
+                    "ui_data_visual"
+                  ],
+                  "preferred_capture_styles": [
+                    "хроникальные кадры с естественным зерном и дефектами пленки",
+                    "строгая инженерная 3D-графика без лишних текстур в стиле чертежей",
+                    "макросъемка механических узлов корабля (тросы, клапаны, трубы)"
+                  ],
+                  "preferred_shot_families": [
+                    "общие планы огромных объектов для оценки масштаба и логистического контекста",
+                    "внутренние пролеты по замкнутым индустриальным пространствам (машинное отделение)",
+                    "крупные планы критических технических узлов (форсунки, аэрофинишеры)"
+                  ],
+                  "preferred_explanatory_layers": [
+                    "чистые векторные стрелки для указания векторов силы и давления пара",
+                    "контрастные текстовые выноски с точными физическими характеристиками и цифрами",
+                    "схемы в разрезе для демонстрации внутренней компоновки систем и котлов"
+                  ],
+                  "continuity_rules": [
+                    "сохранение строгой визуальной логики: от общего плана корабля к конкретному узлу",
+                    "прямая привязка архивных кадров аварий к предшествующим им схемам устройства механизма",
+                    "использование единого шрифта без засечек и ограниченной контрастной палитры для всей инфографики"
+                  ],
+                  "transition_rules": [
+                    "жесткие склейки (hard cuts) для подчеркивания сурового документального стиля повествования",
+                    "плавное проявление векторных схем поверх затененных фотографий или стоп-кадров",
+                    "категорический отказ от динамичных переходов, глитчей и декоративных wipe-эффектов"
+                  ],
+                  "repetition_limits": [
+                    "кадры с черным дымом использовать только в блоке разбора работы котлов, избегать фонового дублирования",
+                    "архитектурные схемы одного узла (например, трамплина) не должны повторяться более двух раз"
+                  ],
+                  "tone_rules": [
+                    "сухая констатация фактов через визуал без визуальной драматизации и искусственного нагнетания",
+                    "приглушенная цветокоррекция с упором на стальной, серый, мазутно-черный и ржавый оттенки",
+                    "полное отсутствие развлекательных графических вставок и визуальных метафор"
+                  ],
+                  "usage_notes": [
+                    "использовать наложение чертежей для наглядного объяснения пространственных компромиссов (шахты ракет против ангара)",
+                    "синхронизировать графику тепловых процессов в котле с текстом о потере энергии и образовании сажи",
+                    "показывать архивные кадры инцидентов в Сирии и Мурманске как сухой математический итог цепи отказов"
+                  ],
+                  "avoid_notes": [
+                    "строго избегать ярких неоновых цветов и современного глянцевого моушн-дизайна",
+                    "не акцентировать внимание на эмоциях людей, визуальный фокус должен оставаться на железе и физике",
+                    "исключить клиповый монтаж и ускоренную перемотку, разрушающие вдумчивый аналитический темп"
+                  ],
+                  "fileName": "visualNarrationStrategy.json"
+                },
+                "global_visual_policy": {
+                  "prompt_json_language": "english",
+                  "embedded_visual_text_language": "russian",
+                  "render_text_inside_generated_image": true,
+                  "prefer_overlay_for_text": false
+                }
+              },
+              "warnings": []
+            },
+            "prev_shot_planning": null,
+            "next_shot_planning": null,
+            "prev_graphic_treatment_plan": null,
+            "next_graphic_treatment_plan": {
+              "schema_version": "1.0",
+              "segment_index": 117,
+              "visual_mode": "realistic_modern",
+              "prompt_family": "technical_diagram",
+              "selected_graphic_treatment_id": "labeled_cross_section",
+              "layout_scope": "partial_system",
+              "information_density": "high",
+              "motion_behavior": "guided_reveal",
+              "label_intensity": "dense",
+              "reason": "The segment focuses on internal engineering failures like boiler issues and rocket shaft placement, requiring a cross-section to visualize hidden mechanical flaws."
+            },
+            "prev_still_treatment_plan": {
+              "schema_version": "1.0",
+              "segment_index": 115,
+              "visual_mode": "realistic_modern",
+              "selected_still_treatment_id": "schematic_overlay",
+              "framing_scope": "mixed",
+              "detail_density": "high",
+              "motion_behavior": "still_hold",
+              "label_intensity": "dense",
+              "reason": "The segment discusses specific structural flaws and internal engineering compromises like rocket silos and boilers, requiring a clear, labeled schematic to visualize the technical limitations."
+            },
+            "next_still_treatment_plan": null,
+            "fileName": "00116_visualSegment_generationContext.json"
+          }
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      }
+    ]
+  },
+  "versionId": "506ed840-21df-4c0b-b6cb-77e7fe3f7299",
+  "activeVersionId": "506ed840-21df-4c0b-b6cb-77e7fe3f7299",
+  "versionCounter": 741,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-04-14T11:02:29.474Z",
+      "createdAt": "2026-04-14T11:02:29.474Z",
+      "role": "workflow:owner",
+      "workflowId": "G0WxbBXDlzRiFBm2",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-03-29T07:58:58.842Z",
+  "updatedAt": "2026-04-18T22:55:14.576Z",
   "createdAt": "2026-02-06T16:51:26.973Z",
   "id": "bDIsAKYoQqFa5a8N",
   "name": "combine video",
@@ -57,7 +57,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        1104,
+        1072,
         352
       ],
       "id": "5eae523d-75e5-466a-8f61-9f038ae4af0a",
@@ -269,10 +269,33 @@
       "typeVersion": 3.4,
       "position": [
         1296,
-        240
+        144
       ],
       "id": "026da3fc-faf0-4d19-b23b-602c1d0889c7",
       "name": "form clips script command"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b5996ee5-512d-4609-9f5c-4368e2d0aa63",
+              "name": "command",
+              "value": "=python \"c:\\ProgramData\\Blackmagic Design\\DaVinci Resolve\\Fusion\\Scripts\\Edit\\clipsAndImages_script.py\" \"{{ $('Start').item.json.channelsFolderPath }}/{{ $('Start').item.json.channelName }}/VIDEOS/{{ $('Start').item.json.videoFolderName }}\" --project \"{{ $('Start').item.json.channelName }}\" --verbose",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1280,
+        352
+      ],
+      "id": "ee9c8b33-3b39-492a-ab03-d664dda41087",
+      "name": "form clips script command1"
     }
   ],
   "connections": {
@@ -291,7 +314,7 @@
       "main": [
         [
           {
-            "node": "form clips script command",
+            "node": "form clips script command1",
             "type": "main",
             "index": 0
           }
@@ -341,10 +364,22 @@
           }
         ]
       ]
+    },
+    "form clips script command1": {
+      "main": [
+        [
+          {
+            "node": "run command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "binaryMode": "separate"
   },
   "staticData": null,
   "meta": null,
@@ -353,8 +388,8 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "NewChannel",
-          "videoFolderName": "2026-03-19_LwNIR"
+          "channelName": "LifeOfAPirate",
+          "videoFolderName": "2026-04-16_YeLlV"
         },
         "pairedItem": {
           "item": 0
@@ -362,9 +397,9 @@
       }
     ]
   },
-  "versionId": "27d3546f-56cd-47c7-8a27-a476d53ffacd",
-  "activeVersionId": "27d3546f-56cd-47c7-8a27-a476d53ffacd",
-  "versionCounter": 240,
+  "versionId": "31168eca-1ce7-4209-b874-545fbce89cea",
+  "activeVersionId": "032b4911-19b4-4fb8-94b5-e86178b3b765",
+  "versionCounter": 274,
   "triggerCount": 0,
   "tags": [],
   "shared": [

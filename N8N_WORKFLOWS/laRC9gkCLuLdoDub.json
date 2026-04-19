@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-06T21:48:49.362Z",
+  "updatedAt": "2026-04-07T13:39:52.681Z",
   "createdAt": "2026-02-05T03:23:05.635Z",
   "id": "laRC9gkCLuLdoDub",
   "name": "generate starting frames and clips prompts - paralleling",
@@ -709,7 +709,7 @@
             {
               "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
               "name": "body",
-              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.clipsPromptsGenModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      {\n        \"text\": $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt\n      }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": \"A) Final Clip Requirements And Restrictions: \" + $('get all workflow params').first().json.finalClipRequirementsAndRestrictions },\n\n        { \"text\": \"B) Current text part: \" + $('Start').first().json.currentTextPart },\n\n        { \"text\": 'C) Previous text part: ' + $('Start').first().json.previousTextPart + ' Next text part: ' + $('Start').first().json.nextTextPart },\n\n        { \"text\": \"D) Starting Frame Prompt: \" + $('read').item.json.startingFramePrompt },\n\n        { \"text\": \"E) Previous Segments Prompts: \" + ($('read').item?.json?.videoClipPrompts ?? \"No previous segments prompts! This is a first segment.\") },\n\n        { \"text\": \"F) Current segment number: \" + (($('read').item?.json?.videoClipPrompts?.length ?? 0)+1) + \". Total segments: \" + Math.ceil($('Start').first().json.partDurationMs / $('get all workflow params').first().json.videoModelLimitationOnTheGeneratedVideoDurationMs) },\n\n        { \"text\": \"G) Current text part duration seconds: \" + ($('Start').first().json.partDurationMs/1000).round(1) },\n\n        { \"text\": \"H) Video titles: \" + $('get video titles and descriptions').first().json.videoTitle + \" Video descriptions: \" + $('get video titles and descriptions').first().json.videoDescription },\n\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseJsonSchema\": {\n      \"type\": \"object\",\n      \"properties\": {\n        \"videoClipPrompt\": {\n          \"type\": \"object\",\n          \"additionalProperties\": true\n        }\n      },\n      \"required\": [\"videoClipPrompt\"],\n      \"additionalProperties\": false\n    }\n  }\n} }}",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.clipsPromptsGenModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      {\n        \"text\": $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt\n      }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": \"A) Final Clip Requirements And Restrictions: \" + $('get all workflow params').first().json.finalClipRequirementsAndRestrictions },\n\n        { \"text\": \"B) Current text part: \" + $('Start').first().json.currentTextPart },\n\n        { \"text\": 'C) Previous text part: ' + $('Start').first().json.previousTextPart + ' Next text part: ' + $('Start').first().json.nextTextPart },\n\n        { \"text\": \"D) Starting Frame Prompt: \" + $('read').item.json.startingFramePrompt },\n\n        { \"text\": \"E) Previous Segments Prompts: \" + ($('read').item?.json?.videoClipPrompts ?? \"No previous segments prompts! This is a first segment.\") },\n\n        { \"text\": \"F) Current segment number: \" + (($('read').item?.json?.videoClipPrompts?.length ?? 0)+1) + \". Total segments: \" + Math.ceil($('Start').first().json.partDurationMs / $('get all workflow params').first().json.videoModelLimitationOnTheGeneratedVideoDurationMs) },\n\n        { \"text\": \"G) Current text part duration seconds: \" + ($('Start').first().json.partDurationMs/1000).round(1) },\n\n        { \"text\": \"H) Video titles: \" + $('get video titles and descriptions').first().json.videoTitle + \" Video descriptions: \" + $('get video titles and descriptions').first().json.videoDescription },\n\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"text/plain\"\n  }\n} }}",
               "type": "object"
             }
           ]
@@ -809,7 +809,7 @@
             {
               "id": "44536e49-76f8-4a3b-a3d5-c36448abf8a9",
               "name": "response",
-              "value": "={{ $json.candidates[0].content.parts[0].text.parseJson().videoClipPrompt }}",
+              "value": "={{ $json.candidates[0].content.parts[0].text }}",
               "type": "string"
             }
           ]
@@ -874,7 +874,7 @@
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClipsAndStartFramesPrompts/{{ $('Start').item.json.videoFolderName.split('_').last() }}_{{ ($('Start').first().json.textPartIndex).toString().padStart(5,'0') }}.json",
             "fileAction": "write",
             "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ (() => {\n  const raw = $json.response;\n\n  try {\n    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;\n\n    return {\n      \"videoClipPrompts[-1*]\":\n        parsed && typeof parsed === 'object' && parsed.prompt !== undefined\n          ? parsed.prompt\n          : raw\n    };\n  } catch (e) {\n    return {\n      \"videoClipPrompts[-1*]\": raw\n    };\n  }\n})() }}",
+            "keysToWrite": "={{ {\"videoClipPrompts[-1*]\": $json.response} }}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -1330,7 +1330,7 @@
             {
               "id": "44536e49-76f8-4a3b-a3d5-c36448abf8a9",
               "name": "response",
-              "value": "={{ $json.output[1].content[0].text.parseJson().videoClipPrompt }}",
+              "value": "={{ $json.output[1].content[0].text }}",
               "type": "string"
             }
           ]
@@ -1395,7 +1395,7 @@
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClipsAndStartFramesPrompts/{{ $('Start').item.json.videoFolderName.split('_').last() }}_{{ ($('Start').first().json.textPartIndex).toString().padStart(5,'0') }}.json",
             "fileAction": "write",
             "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ (() => {\n  const raw = $json.response;\n\n  try {\n    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;\n\n    return {\n      \"videoClipPrompts[-1*]\":\n        parsed && typeof parsed === 'object' && parsed.prompt !== undefined\n          ? parsed.prompt\n          : raw\n    };\n  } catch (e) {\n    return {\n      \"videoClipPrompts[-1*]\": raw\n    };\n  }\n})() }}{{ (() => {\n  const raw = $json.response;\n\n  try {\n    const parsed = typeof raw === 'string' ? JSON.parse(raw) : raw;\n\n    return {\n      \"videoClipPrompts[-1*]\":\n        parsed && typeof parsed === 'object' && parsed.prompt !== undefined\n          ? parsed.prompt\n          : raw\n    };\n  } catch (e) {\n    return {\n      \"videoClipPrompts[-1*]\": raw\n    };\n  }\n})() }}",
+            "keysToWrite": "={{ {\"videoClipPrompts[-1*]\": $json.response} }}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -1522,7 +1522,7 @@
             {
               "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
               "name": "body",
-              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.clipsPromptsGenModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        { \"type\": \"input_text\", \"text\":  \"A) Final Clip Requirements And Restrictions: \" + $('get all workflow params').first().json.finalClipRequirementsAndRestrictions },\n        { \"type\": \"input_text\", \"text\": \"B) Current text part: \" + $('Start').first().json.currentTextPart },\n        { \"type\": \"input_text\", \"text\": 'C) Previous text part: ' + $('Start').first().json.previousTextPart + ' Next text part: ' + $('Start').first().json.nextTextPart },\n        { \"type\": \"input_text\", \"text\": \"D) Starting Frame Prompt: \" + $('read1').item.json.startingFramePrompt },\n        { \"type\": \"input_text\", \"text\": \"E) Previous Segments Prompts: \" + ($('read1').item?.json?.videoClipPrompts ?? \"No previous segments prompts! This is a first segment.\") },\n        { \"type\": \"input_text\", \"text\": \"F) Current segment number: \" + (($('read1').item?.json?.videoClipPrompts?.length ?? 0)+1) + \". Total segments: \" + Math.ceil($('Start').first().json.partDurationMs / $('get all workflow params').first().json.videoModelLimitationOnTheGeneratedVideoDurationMs) },\n        { \"type\": \"input_text\", \"text\": \"G) Current text part duration seconds: \" + ($('Start').first().json.partDurationMs/1000).round(1) },\n        { \"type\": \"input_text\", \"text\": \"H) Video titles: \" + $('get video titles and descriptions').first().json.videoTitle + \" Video descriptions: \" + $('get video titles and descriptions').first().json.videoDescription },\n      ]\n    }\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_schema\",\n      \"name\": \"video_clip_only\",\n      \"strict\": true,\n      \"schema\": {\n        \"type\": \"object\",\n        \"properties\": {\n          \"videoClipPrompt\": {\n            \"type\": \"string\"\n          }\n        },\n        \"required\": [\"videoClipPrompt\"],\n        \"additionalProperties\": false\n      }\n    }\n  }\n} }}",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.clipsPromptsGenModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('get all workflow params').first().json.finalClipSegmentPromptGenerationPrompt\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        { \"type\": \"input_text\", \"text\":  \"A) Final Clip Requirements And Restrictions: \" + $('get all workflow params').first().json.finalClipRequirementsAndRestrictions },\n        { \"type\": \"input_text\", \"text\": \"B) Current text part: \" + $('Start').first().json.currentTextPart },\n        { \"type\": \"input_text\", \"text\": 'C) Previous text part: ' + $('Start').first().json.previousTextPart + ' Next text part: ' + $('Start').first().json.nextTextPart },\n        { \"type\": \"input_text\", \"text\": \"D) Starting Frame Prompt: \" + $('read1').item.json.startingFramePrompt },\n        { \"type\": \"input_text\", \"text\": \"E) Previous Segments Prompts: \" + ($('read1').item?.json?.videoClipPrompts ?? \"No previous segments prompts! This is a first segment.\") },\n        { \"type\": \"input_text\", \"text\": \"F) Current segment number: \" + (($('read1').item?.json?.videoClipPrompts?.length ?? 0)+1) + \". Total segments: \" + Math.ceil($('Start').first().json.partDurationMs / $('get all workflow params').first().json.videoModelLimitationOnTheGeneratedVideoDurationMs) },\n        { \"type\": \"input_text\", \"text\": \"G) Current text part duration seconds: \" + ($('Start').first().json.partDurationMs/1000).round(1) },\n        { \"type\": \"input_text\", \"text\": \"H) Video titles: \" + $('get video titles and descriptions').first().json.videoTitle + \" Video descriptions: \" + $('get video titles and descriptions').first().json.videoDescription },\n      ]\n    }\n  ],\n\"text\": {\n  \"format\": {\n    \"type\": \"text\"\n  }\n  }\n} }}",
               "type": "object"
             }
           ]
@@ -2102,7 +2102,7 @@
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
           "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-04-04_Amog2",
+          "videoFolderName": "2026-04-04_Amogs",
           "previousTextPart": "Первый и главный вызов морской нефтедобычи заключается в том, чтобы надежно зафиксировать платформу над месторождением. Выбор конструкции основания напрямую зависит от глубины моря.",
           "currentTextPart": "На мелководье, где глубина не превышает нескольких сотен метров, инженеры используют стальные сквозные опоры. Эта конструкция представляет собой решетчатую башню из труб, которая прикрепляется ко дну длинными сваями.",
           "nextTextPart": "Вода свободно проходит сквозь стальные фермы, что снижает нагрузку от волн и подводных течений. В суровых условиях, где часто встречаются льды или штормы, применяются платформы гравитационного типа.",
@@ -2112,9 +2112,9 @@
       }
     ]
   },
-  "versionId": "10ea580b-980c-4ec0-bf05-9b13acec50d2",
-  "activeVersionId": "10ea580b-980c-4ec0-bf05-9b13acec50d2",
-  "versionCounter": 1210,
+  "versionId": "9d7c4772-0bbb-45d0-80ab-3488be21c5e4",
+  "activeVersionId": "9d7c4772-0bbb-45d0-80ab-3488be21c5e4",
+  "versionCounter": 1251,
   "triggerCount": 0,
   "tags": [],
   "shared": [

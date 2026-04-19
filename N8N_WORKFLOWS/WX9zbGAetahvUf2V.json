@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-06T13:34:53.172Z",
+  "updatedAt": "2026-04-19T10:54:59.290Z",
   "createdAt": "2026-04-01T18:55:47.951Z",
   "id": "WX9zbGAetahvUf2V",
   "name": "Cluster Works",
@@ -25,7 +25,7 @@
             {
               "id": "9126b9dd-fa96-4820-ba11-7a02b9b89153",
               "name": "analyzedChannelFolderName",
-              "value": "TEHNO_TV",
+              "value": "HistoryBranches",
               "type": "string"
             },
             {
@@ -2659,7 +2659,7 @@
             {
               "id": "0b465508-7f22-4a4d-bbf0-1e7629457741",
               "name": "videoLinksToParse",
-              "value": "={{ [\n{\n  \"url\":\"https://www.youtube.com/watch?v=SxMZa3_xyIg\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=ajIFjM8BsUM\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=2JbtpCiWDa8\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=pqFqPMbWybc\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n] }}",
+              "value": "={{ [\n{\n  \"url\":\"\",\n  \"label\":\"\"//successful, unsuccessful\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n\n] }}",
               "type": "array"
             }
           ]
@@ -2941,7 +2941,13 @@
     },
     "Base Settings": {
       "main": [
-        []
+        [
+          {
+            "node": "Set list of video links",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "Get Channel Videos Folders Paths": {
@@ -3598,9 +3604,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "3e3f7586-f0f4-46e6-90f1-a301083596d9",
+  "versionId": "ef207c98-8429-4dce-8adf-fb291a648f09",
   "activeVersionId": null,
-  "versionCounter": 1397,
+  "versionCounter": 1410,
   "triggerCount": 0,
   "tags": [],
   "shared": [

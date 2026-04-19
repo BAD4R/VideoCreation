@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-06T22:24:28.545Z",
+  "updatedAt": "2026-04-07T08:40:52.317Z",
   "createdAt": "2026-02-08T18:59:24.653Z",
   "id": "sNLnQQaHRoWWXZbH",
   "name": "single request",
@@ -3466,7 +3466,7 @@
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/selectedClusterPlan.json",
             "fileAction": "write",
             "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ $json.videoClusters }}",
+            "keysToWrite": "={{ $json.selectedClusterPlan }}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -4461,9 +4461,9 @@
       }
     ]
   },
-  "versionId": "dbb9369c-c1fc-4648-aaaa-295c728c196f",
-  "activeVersionId": "dbb9369c-c1fc-4648-aaaa-295c728c196f",
-  "versionCounter": 1129,
+  "versionId": "6a4fc8d2-7a64-43cc-a536-529236dc8147",
+  "activeVersionId": "6a4fc8d2-7a64-43cc-a536-529236dc8147",
+  "versionCounter": 1154,
   "triggerCount": 0,
   "tags": [],
   "shared": [

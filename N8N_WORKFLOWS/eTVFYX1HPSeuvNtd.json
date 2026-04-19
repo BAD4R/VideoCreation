@@ -1,0 +1,1236 @@
+{
+  "updatedAt": "2026-04-08T10:05:47.410Z",
+  "createdAt": "2026-04-08T10:05:26.423Z",
+  "id": "eTVFYX1HPSeuvNtd",
+  "name": "[sub] Excecute Task",
+  "description": null,
+  "active": false,
+  "isArchived": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        48,
+        752
+      ],
+      "id": "0ca0e5f0-30de-4aad-a924-41d90712ea24",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"tasks\": [\n    { \n      \"task_time\": 5,\n      \"task_id\": 1\n    },\n    { \n      \"task_time\": 7,\n      \"task_id\": 2\n    },\n    { \n      \"task_time\": 6,\n      \"task_id\": 3\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        752,
+        176
+      ],
+      "id": "6d415efe-5e90-43aa-8e29-7f78449950db",
+      "name": "Tasks"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "tasks",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        960,
+        176
+      ],
+      "id": "86fa2a58-ac7a-41ee-97a6-22d9baf6cc49",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1168,
+        176
+      ],
+      "id": "cfe48e6b-4fc7-4a13-8277-ca97b8eac3ea",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "amount": "={{ $json.task_time }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1568,
+        272
+      ],
+      "id": "059f1b32-796b-490f-aa79-5c57bc76bbc0",
+      "name": "Wait",
+      "webhookId": "9b1b72bb-91fa-4c66-a794-6d642a6391ee"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1392,
+        96
+      ],
+      "id": "803cad5c-70e7-4327-a591-dd62f11aa22d",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        544,
+        176
+      ],
+      "id": "cf568835-a1c4-46cc-a07e-d1961ee974f8",
+      "name": "Start time"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1568,
+        96
+      ],
+      "id": "c55c9a20-c235-4767-8166-8f750b0003a1",
+      "name": "Finish time"
+    },
+    {
+      "parameters": {
+        "operation": "getTimeBetweenDates",
+        "startDate": "={{ $('Start time').item.json.currentDate }}",
+        "endDate": "={{ $json.currentDate }}",
+        "units": [
+          "second"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1744,
+        96
+      ],
+      "id": "06282298-909e-49b4-bf08-29fe54b71c6d",
+      "name": "Between Times"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"tasks\": [\n    { \n      \"task_time\": 2,\n      \"task_id\": 1\n    },\n    { \n      \"task_time\": 7,\n      \"task_id\": 2\n    },\n    { \n      \"task_time\": 3,\n      \"task_id\": 3\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        1568
+      ],
+      "id": "671118a1-18a1-477c-adc3-9cbf44cc0071",
+      "name": "Tasks1"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "tasks",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        880,
+        1568
+      ],
+      "id": "90c51b52-dd62-4a00-906d-3bbd831027df",
+      "name": "Split Out1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1088,
+        1568
+      ],
+      "id": "21106e8a-d57c-42f2-9758-7fb96c685206",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        1552
+      ],
+      "id": "91561694-5d81-4d02-86fd-168bd18d28b5",
+      "name": "Aggregate1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        464,
+        1568
+      ],
+      "id": "9215319b-46c2-4a7c-8d04-e5f8d6adb8d7",
+      "name": "Start time1"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1808,
+        1552
+      ],
+      "id": "6c6ed4e6-9280-4380-b963-1f408de8a361",
+      "name": "Finish time1"
+    },
+    {
+      "parameters": {
+        "operation": "getTimeBetweenDates",
+        "startDate": "={{ $('Start time1').item.json.currentDate }}",
+        "endDate": "={{ $json.currentDate }}",
+        "units": [
+          "second"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1984,
+        1552
+      ],
+      "id": "ffb0a62b-aa6b-48e8-ba1d-3c4cda432921",
+      "name": "Between Times1"
+    },
+    {
+      "parameters": {
+        "content": "# Использования Loop без sub-workflow",
+        "height": 560,
+        "width": 1440
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        512,
+        -48
+      ],
+      "typeVersion": 1,
+      "id": "43fada0f-f785-41ef-be28-25d82215b5e2",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "operation": "push",
+        "list": "task",
+        "messageData": "=task_id_complete:{{ $json.task_id }}"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1360,
+        1920
+      ],
+      "id": "1022f485-35b1-4bbe-ad61-afc836b61f42",
+      "name": "Push Task"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "=task_id_complete:{{ $json.task_id }}",
+        "value": "false",
+        "keyType": "string"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        1584,
+        1920
+      ],
+      "id": "5897b54a-ff72-4099-bfb7-c8b08f29448c",
+      "name": "Task Flag"
+    },
+    {
+      "parameters": {
+        "content": "# Использование sub-workflow на базе Redis",
+        "height": 768,
+        "width": 1824,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        432,
+        1408
+      ],
+      "typeVersion": 1,
+      "id": "7eac29d3-e26a-4538-ab37-ea22abb6635f",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Y7DUPilpgNZNTWcC",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Y7DUPilpgNZNTWcC",
+          "cachedResultName": "[sub] Excecute Task"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1808,
+        1920
+      ],
+      "name": "Call Excecute Task",
+      "id": "67ce115b-fcab-4d94-a4f6-510f2d656b71"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Wd4rk7XlGb4pTHuW",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Wd4rk7XlGb4pTHuW",
+          "cachedResultName": "[sub] Check Task"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1568,
+        1552
+      ],
+      "id": "89ba32b7-061f-4cac-a83f-7e8d8ea34657",
+      "name": "Call Check Tasks"
+    },
+    {
+      "parameters": {
+        "mode": "raw",
+        "jsonOutput": "{\n  \"tasks\": [\n    { \n      \"task_time\": 2,\n      \"task_id\": 1\n    },\n    { \n      \"task_time\": 7,\n      \"task_id\": 2\n    },\n    { \n      \"task_time\": 3,\n      \"task_id\": 3\n    }\n  ]\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        688,
+        736
+      ],
+      "id": "bc349b90-8016-41d5-b9ec-64d67fd9f64b",
+      "name": "Tasks2"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "tasks",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        896,
+        736
+      ],
+      "id": "d0919a94-d72a-4898-94da-eb4e43c77ba0",
+      "name": "Split Out2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1104,
+        736
+      ],
+      "id": "b0551000-f056-4a86-9edf-15f9b4cf2d29",
+      "name": "Loop Over Items2"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        1344,
+        720
+      ],
+      "id": "e5045ed9-f1e3-40c1-b56a-ff90c7994229",
+      "name": "Aggregate2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        480,
+        736
+      ],
+      "id": "2e722e52-2817-408e-9002-46a88b64f654",
+      "name": "Start time2"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1536,
+        720
+      ],
+      "id": "b82a4791-89db-4934-8390-0a813eddf3b6",
+      "name": "Finish time2"
+    },
+    {
+      "parameters": {
+        "operation": "getTimeBetweenDates",
+        "startDate": "={{ $('Start time2').item.json.currentDate }}",
+        "endDate": "={{ $json.currentDate }}",
+        "units": [
+          "second"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.dateTime",
+      "typeVersion": 2,
+      "position": [
+        1696,
+        720
+      ],
+      "id": "67121777-a758-417c-8e51-8b42af522616",
+      "name": "Between Times2"
+    },
+    {
+      "parameters": {
+        "content": "# Использование sub-workflow",
+        "height": 640,
+        "width": 1488,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        432,
+        656
+      ],
+      "typeVersion": 1,
+      "id": "a97e71cc-e2ef-47d0-b609-afc98488b3c0",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "Y7DUPilpgNZNTWcC",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/Y7DUPilpgNZNTWcC",
+          "cachedResultName": "[sub] Excecute Task"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        1360,
+        1072
+      ],
+      "name": "Call Excecute Task1",
+      "id": "4ce07f37-8a6b-4309-9300-fcef8027d347"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "id": "ed42eb8a-2a99-4bde-9ab7-386c86f80113",
+      "typeVersion": 1.1,
+      "name": "When Executed by Another Workflow",
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "position": [
+        2656,
+        832
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "371082e8-bcd5-4ea5-8049-38e4ba23847f",
+              "leftValue": "={{ $json.task_complete }}",
+              "rightValue": "true",
+              "operator": {
+                "type": "string",
+                "operation": "equals",
+                "name": "filter.operator.equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        3760,
+        992
+      ],
+      "id": "3ee2a8a0-f72b-4ee8-8e20-15eeacd5a5e3",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "operation": "keys",
+        "keyPattern": "task"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        2864,
+        832
+      ],
+      "id": "2daaeeeb-91ab-4db6-a424-215225656816",
+      "name": "Get all task"
+    },
+    {
+      "parameters": {
+        "operation": "get",
+        "propertyName": "task_complete",
+        "key": "={{ $json.task }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3600,
+        992
+      ],
+      "id": "542d6108-77cb-4974-a2e3-0400e3f967cf",
+      "name": "Check task complete",
+      "alwaysOutputData": false,
+      "retryOnFail": false,
+      "waitBetweenTries": 5000
+    },
+    {
+      "parameters": {
+        "operation": "delete",
+        "key": "task"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        3600,
+        816
+      ],
+      "id": "e39b2471-7d1c-4a83-9863-3229d234d7e8",
+      "name": "Clear task list"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5b56d6ec-d827-4dc3-9604-27f8aab3fb9b",
+              "name": "task",
+              "value": "={{ $('Loop Over Items3').item.json.task }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3424,
+        992
+      ],
+      "id": "66bace9f-6d53-413b-ab70-c8eb9569c346",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3232,
+        832
+      ],
+      "id": "02e2fe13-0b0b-43c6-b6f8-497ebe49c827",
+      "name": "Loop Over Items3"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "task",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        3056,
+        832
+      ],
+      "id": "53e5bb1a-e0a0-4550-936e-2fa083324ea8",
+      "name": "Split Out3"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        3424,
+        816
+      ],
+      "id": "0311ab9d-9b82-47e7-852c-f82856bed469",
+      "name": "Aggregate3"
+    },
+    {
+      "parameters": {
+        "amount": 0.1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        3952,
+        1104
+      ],
+      "id": "13134951-f1fe-4da9-ae2d-cab6d8c6f6b9",
+      "name": "Wait1",
+      "webhookId": "afe16fc5-16a0-4061-893c-b4842d155fbc"
+    },
+    {
+      "parameters": {
+        "content": "# Наблюдатель",
+        "height": 720,
+        "width": 1584,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        2576,
+        640
+      ],
+      "typeVersion": 1,
+      "id": "00623946-2822-4587-8f6f-e126bca479f3",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "operation": "set",
+        "key": "=task_id_complete:{{ $json.task_id }}",
+        "value": "true"
+      },
+      "type": "n8n-nodes-base.redis",
+      "typeVersion": 1,
+      "position": [
+        5072,
+        976
+      ],
+      "id": "bacd09d6-6ea8-4a64-a0c5-9c824824e96d",
+      "name": "Change flag task"
+    },
+    {
+      "parameters": {
+        "amount": "={{ $json.wait_time }}"
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        4864,
+        976
+      ],
+      "id": "9f377d9a-db92-4e99-8518-cb51f9677e4d",
+      "name": "Wait2",
+      "webhookId": "9b1b72bb-91fa-4c66-a794-6d642a6391ee"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "09a53c05-7e66-4720-b8f6-2a93e208e916",
+              "name": "wait_time",
+              "value": "={{ $json.task_time }}",
+              "type": "string"
+            },
+            {
+              "id": "e4a35f66-544f-44c6-ba0d-c3a1077e2fc6",
+              "name": "task_id",
+              "value": "={{ $json.task_id }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        4656,
+        976
+      ],
+      "id": "c8c8f222-4878-4b88-9386-3806be336af4",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
+        "content": "## Вместо Wait\nЗамените на свою логику выполнения таски",
+        "height": 368,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4800,
+        832
+      ],
+      "typeVersion": 1,
+      "id": "be231619-22c8-44c4-83d4-8197f50b04e6",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "## Воркер",
+        "height": 496,
+        "width": 864
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        4400,
+        752
+      ],
+      "typeVersion": 1,
+      "id": "f3e541d2-72ee-4026-b96a-017049844693",
+      "name": "Sticky Note5"
+    }
+  ],
+  "connections": {
+    "Tasks": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Finish time",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start time": {
+      "main": [
+        [
+          {
+            "node": "Tasks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finish time": {
+      "main": [
+        [
+          {
+            "node": "Between Times",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tasks1": {
+      "main": [
+        [
+          {
+            "node": "Split Out1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Aggregate1",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Push Task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate1": {
+      "main": [
+        [
+          {
+            "node": "Call Check Tasks",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start time1": {
+      "main": [
+        [
+          {
+            "node": "Tasks1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finish time1": {
+      "main": [
+        [
+          {
+            "node": "Between Times1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Push Task": {
+      "main": [
+        [
+          {
+            "node": "Task Flag",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Task Flag": {
+      "main": [
+        [
+          {
+            "node": "Call Excecute Task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Excecute Task": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Check Tasks": {
+      "main": [
+        [
+          {
+            "node": "Finish time1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Tasks2": {
+      "main": [
+        [
+          {
+            "node": "Split Out2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items2": {
+      "main": [
+        [
+          {
+            "node": "Aggregate2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Call Excecute Task1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate2": {
+      "main": [
+        [
+          {
+            "node": "Finish time2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Start time2": {
+      "main": [
+        [
+          {
+            "node": "Tasks2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Finish time2": {
+      "main": [
+        [
+          {
+            "node": "Between Times2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Call Excecute Task1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "Get all task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "If": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get all task": {
+      "main": [
+        [
+          {
+            "node": "Split Out3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check task complete": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Check task complete",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items3": {
+      "main": [
+        [
+          {
+            "node": "Aggregate3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out3": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Aggregate3": {
+      "main": [
+        [
+          {
+            "node": "Clear task list",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait2": {
+      "main": [
+        [
+          {
+            "node": "Change flag task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields1": {
+      "main": [
+        [
+          {
+            "node": "Wait2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "staticData": null,
+  "meta": null,
+  "pinData": {},
+  "versionId": "e3f1668d-ff2a-463e-8fcb-3e971d94ec88",
+  "activeVersionId": null,
+  "versionCounter": 4,
+  "triggerCount": 0,
+  "tags": [],
+  "shared": [
+    {
+      "updatedAt": "2026-04-08T10:05:26.427Z",
+      "createdAt": "2026-04-08T10:05:26.427Z",
+      "role": "workflow:owner",
+      "workflowId": "eTVFYX1HPSeuvNtd",
+      "projectId": "jyxvHYm2zz0wpNIZ",
+      "project": {
+        "updatedAt": "2026-02-03T20:00:07.843Z",
+        "createdAt": "2026-02-03T19:58:35.642Z",
+        "id": "jyxvHYm2zz0wpNIZ",
+        "name": "Vladislav Kostromin <bad4rr@gmail.com>",
+        "type": "personal",
+        "icon": null,
+        "description": null,
+        "creatorId": "791bcae9-1f6e-48f2-9f28-d86a2c32ea27"
+      }
+    }
+  ]
+}
