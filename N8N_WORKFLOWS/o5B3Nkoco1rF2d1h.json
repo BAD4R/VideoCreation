@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-18T22:44:24.853Z",
+  "updatedAt": "2026-04-19T17:01:43.408Z",
   "createdAt": "2026-02-05T16:30:06.860Z",
   "id": "o5B3Nkoco1rF2d1h",
   "name": "runpod works",
@@ -4706,6 +4706,47 @@
       ],
       "id": "1868212a-aafd-4f44-8fb9-cacb1a86cdb1",
       "name": "form pod status request2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "2fb62633-4973-457b-9ff6-82b7e234c67c",
+              "name": "method",
+              "value": "POST",
+              "type": "string"
+            },
+            {
+              "id": "c924243d-bb68-416f-bd88-7fc58fd77a69",
+              "name": "route",
+              "value": "https://api.runpod.io/graphql",
+              "type": "string"
+            },
+            {
+              "id": "924df8b7-5307-4367-a739-6b16477cea78",
+              "name": "headers",
+              "value": "={{ {\"Authorization\": \"Bearer \" + $env.RUNPOD_API_KEY} }}",
+              "type": "object"
+            },
+            {
+              "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
+              "name": "body",
+              "value": "={{\n{\n  \"query\": \"mutation($input: PodFindAndDeployOnDemandInput) { podFindAndDeployOnDemand(input: $input) { id name desiredStatus machineId imageName templateId } }\",\n  \"variables\": {\n    \"input\": {\n      \"name\": \"deployed: \" + $now.format(\"dd-MM-yyyy HH:mm\"),\n      \"templateId\": $(\"Start\").first().json.runpodTemplateId,\n      \"cloudType\": $(\"Start\").first().json.runpodUseVolume ? \"SECURE\" : \"COMMUNITY\",\n      \"gpuTypeId\": $(\"Start\").first().json.runpodGpuList[0],\n      \"gpuCount\": 1,\n      \"containerDiskInGb\": $(\"Start\").first().json.runpodContainerDiskInGb,\n      \"volumeInGb\": $(\"Start\").first().json.runpodVolumeInGb,\n      \"supportPublicIp\": true,\n      \"startJupyter\": true,\n      \"startSsh\": true,\n      \"volumeMountPath\": \"/workspace\",\n      \"allowedCudaVersions\": [\"12.8\", \"12.9\", \"13.0\"],\n      \"env\": [\n        {\n          \"key\": \"CIVITAI_TOKEN\",\n          \"value\": \"{{ RUNPOD_SECRET_civitai_api_key \\}}\"\n        }\n      ]\n    }\n  }\n}\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1632,
+        -144
+      ],
+      "id": "912ce5d6-3c70-4d92-9059-c56fa7adf258",
+      "name": "form pod deploy request"
     }
   ],
   "connections": {
@@ -4813,7 +4854,7 @@
       "main": [
         [
           {
-            "node": "POST Deploy",
+            "node": "form pod deploy request",
             "type": "main",
             "index": 0
           }
@@ -5668,6 +5709,17 @@
           }
         ]
       ]
+    },
+    "form pod deploy request": {
+      "main": [
+        [
+          {
+            "node": "POST Deploy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -5681,29 +5733,6 @@
   "staticData": null,
   "meta": null,
   "pinData": {
-    "POST Deploy": [
-      {
-        "json": {
-          "errors": [
-            {
-              "message": "This machine does not have the resources to deploy your pod. Please try a different machine",
-              "path": [
-                "podFindAndDeployOnDemand"
-              ],
-              "extensions": {
-                "code": "RUNPOD"
-              }
-            }
-          ],
-          "data": {
-            "podFindAndDeployOnDemand": null
-          }
-        },
-        "pairedItem": {
-          "item": 0
-        }
-      }
-    ],
     "Start": [
       {
         "json": {
@@ -5724,9 +5753,9 @@
       }
     ]
   },
-  "versionId": "0f3a3e8d-2209-4693-b774-3d6ac2bbde0b",
-  "activeVersionId": "681472ee-dd19-4126-8f16-aa378ce4e211",
-  "versionCounter": 3890,
+  "versionId": "db1cd4db-490c-463b-9462-d5bd580657b4",
+  "activeVersionId": "db1cd4db-490c-463b-9462-d5bd580657b4",
+  "versionCounter": 3896,
   "triggerCount": 0,
   "tags": [],
   "shared": [

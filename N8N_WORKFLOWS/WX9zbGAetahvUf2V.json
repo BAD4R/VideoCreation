@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-19T10:54:59.290Z",
+  "updatedAt": "2026-04-19T13:33:03.397Z",
   "createdAt": "2026-04-01T18:55:47.951Z",
   "id": "WX9zbGAetahvUf2V",
   "name": "Cluster Works",
@@ -2659,7 +2659,7 @@
             {
               "id": "0b465508-7f22-4a4d-bbf0-1e7629457741",
               "name": "videoLinksToParse",
-              "value": "={{ [\n{\n  \"url\":\"\",\n  \"label\":\"\"//successful, unsuccessful\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n{\n  \"url\":\"\",\n  \"label\":\"\"\n},\n\n] }}",
+              "value": "={{ [\n{\n  \"url\":\"https://www.youtube.com/watch?v=RUCU-4M-Qmg\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=25owAkLQFag\",\n  \"label\":\"unsuccessful\"\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=5sw2-E1s_Yo\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=Q3zVrZhxCak\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=ojMOInYfFIk\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=jvyAygxYOgY\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=O9tOK2eMNW4\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=0_4J-hn9lAc\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=DnAziIOcsTc\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=IOmoi1OzOSk&pp=0gcJCdMKAYcqIYzv\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n\n\n\n\n\n{\n  \"url\":\"https://www.youtube.com/watch?v=Fhzogaq4Yvw&pp=0gcJCdMKAYcqIYzv\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=IUsQXHZFTug\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=M6k6G0gOiII\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=wuN6kwgfC_Q\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=lG3lYeNNFNE\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=2DDkC8lcz2E\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=NpA4UHgp3tQ\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=_afV4uLu658&pp=0gcJCdMKAYcqIYzv\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=QQUwjUfEU_s\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=FME3eEcvhss\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n\n\n\n\n\n{\n  \"url\":\"https://www.youtube.com/watch?v=BmM2_x9I4JI\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=CrzNFYbPDOo\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=1KtgPqfsMH4\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=feOlqEMKivY\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=2AI-jl3ewTQ\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n\n\n\n\n{\n  \"url\":\"https://www.youtube.com/watch?v=c3r3cnFKw70\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=foccXrBOH_o\",\n  \"label\":\"successful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=44XYgQFdijY\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n{\n  \"url\":\"https://www.youtube.com/watch?v=kjpSfpnyHqc\",\n  \"label\":\"unsuccessful\"//successful, unsuccessful\n},\n] }}",
               "type": "array"
             }
           ]
@@ -2925,6 +2925,35 @@
       "id": "4e37bc21-7cd4-4727-8c4b-53161b38357b",
       "alwaysOutputData": true,
       "onError": "continueRegularOutput"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "69c2b273-9510-4253-9373-a8a42296899a",
+              "name": "command",
+              "value": "=node \"{{$env.CHANNELS_FOLDER_PATH}}/SCRIPTS/BrowserScripts/chrome-control/parsers/parseListOfVideosTranscriptsAndMetas.js\" --videos-b64 \"{{$json.videosB64}}\" --output \"{{$env.CHANNELS_FOLDER_PATH}}/CLUSTERS/competitorsChannels/{{$('Base Settings').item.json.analyzedChannelFolderName}}/videos\" --profile-directory \"Default\"",
+              "type": "string"
+            },
+            {
+              "id": "2e351054-28ee-41c1-8b6c-5ae040235d6a",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1280,
+        -580.5882272006663
+      ],
+      "id": "dd8993e7-87a1-4e34-8620-1d3ca31911e8",
+      "name": "Edit Fields"
     }
   ],
   "connections": {
@@ -3531,6 +3560,11 @@
             "node": "Run Parse Command",
             "type": "main",
             "index": 0
+          },
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
           }
         ]
       ]
@@ -3604,9 +3638,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "ef207c98-8429-4dce-8adf-fb291a648f09",
+  "versionId": "56eccd6c-4b76-43a8-a014-69017f9d5cee",
   "activeVersionId": null,
-  "versionCounter": 1410,
+  "versionCounter": 1477,
   "triggerCount": 0,
   "tags": [],
   "shared": [
