@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-05T00:37:16.237Z",
+  "updatedAt": "2026-04-19T23:09:47.051Z",
   "createdAt": "2026-02-04T18:29:54.759Z",
   "id": "CEAr7nSqMwURqKDg",
   "name": "generate video meta",
@@ -1102,7 +1102,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        608,
+        768,
         -432
       ],
       "id": "e0cee540-c75b-4567-bc7e-787edbd49a05",
@@ -2007,7 +2007,7 @@
                 "conditions": [
                   {
                     "id": "ab5096bb-efa3-4287-b493-45cee392f8fd",
-                    "leftValue": "={{ $('get all workflow params').item.json.textGenService == \"gemini\" }}",
+                    "leftValue": "={{ $('get all workflow params').item.json.metaTextGenService == \"gemini\" }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -2031,7 +2031,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $('get all workflow params').item.json.textGenService == \"openai\" }}",
+                    "leftValue": "={{ $('get all workflow params').item.json.metaTextGenService == \"openai\" }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -2057,7 +2057,7 @@
                 "conditions": [
                   {
                     "id": "1d5a5f77-e557-4346-b682-d4442fada8b1",
-                    "leftValue": "={{ $('get all workflow params').item.json.textGenService == \"runpod\" }}",
+                    "leftValue": "={{ $('get all workflow params').item.json.metaTextGenService == \"runpod\" }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -2859,29 +2859,6 @@
     },
     {
       "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
-              "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.thumbnailPromptsGenService,\n    $('get all workflow params').first().json.thumbnailPromptsGenModel,\n\n    $('get all workflow params').first().json.tumbnailBase,\n    $('get all workflow params').first().json.thumbnailPromptGenerationPrompt,\n\n    $('split metas').item.json.previewText,\n    $('split metas').item.json.videoTitle,\n    $('split metas').item.json.videoDescription\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        864,
-        -576
-      ],
-      "id": "92320f3c-382a-4488-a9b4-21bf33fc4f9d",
-      "name": "get random ID for gemini thumbnail prompt"
-    },
-    {
-      "parameters": {
         "workflowId": {
           "__rl": true,
           "value": "ljH0uamrMfc4IBJx",
@@ -3043,29 +3020,6 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.thumbnailPromptsGenService,\n    $('get all workflow params').first().json.thumbnailPromptsGenModel,\n\n    $('get all workflow params').first().json.tumbnailBase,\n    $('get all workflow params').first().json.thumbnailPromptGenerationPrompt,\n\n    $('split metas').item.json.previewText,\n    $('split metas').item.json.videoTitle,\n    $('split metas').item.json.videoDescription\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        864,
-        -416
-      ],
-      "id": "7c0879aa-0522-4dba-baaa-091335b47c9c",
-      "name": "get random ID for openai thumbnail prompt"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
-              "name": "id",
               "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.tumbnailBase,\n    $('get all workflow params').first().json.thumbnailPromptGenerationPrompt,\n\n    $('split metas1').item.json.thumbnailPrompt,\n\n    $('get all workflow params').first().json.openaiThumbnailModel,\n    $('get all workflow params').first().json.thumbnailOpenaiSize,\n    $('get all workflow params').first().json.thumbnailOpenaiQuality,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
@@ -3201,7 +3155,7 @@
             {
               "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
               "name": "body",
-              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.geminiThumbnailModel,\n  \"contents\": [\n    {\n      \"parts\": [\n        { \"text\": $('split metas1').item.json.thumbnailPrompt }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseModalities\": [\"IMAGE\"],\n    \"imageConfig\": {\n      \"aspectRatio\": $('get all workflow params').first().json.thumbnailGeminiAspectRatio,\n      \"imageSize\": $('get all workflow params').first().json.thumbnailGeminiQuality\n    }\n  }\n} }}",
+              "value": "={{ {\n  \"model\": $('get all workflow params').first().json.geminiThumbnailModel,\n  \"contents\": [\n    {\n      \"parts\": [\n        { \"text\": $('split metas1').item.json.thumbnailPrompt }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseModalities\": [\"IMAGE\"],\n    \"imageConfig\": {\n      \"aspectRatio\": $('get all workflow params').first().json.thumbnailGeminiAspectRatio,\n      \"imageSize\": $('get all workflow params').first().json.thumbnailGeminiQuality\n    }\n  },\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"OFF\" }\n  ]\n} }}",
               "type": "object"
             }
           ]
@@ -3386,7 +3340,7 @@
                 "conditions": [
                   {
                     "id": "ad6bc87b-b5e9-449a-83c1-40dc2b117da4",
-                    "leftValue": "={{ !$json.hasField('error') && $json.candidates[0].finishReason != \"NO_IMAGE\"}}",
+                    "leftValue": "={{ !$json.hasField('error') && $json.candidates[0].finishReason != \"NO_IMAGE\" &&\n$json.candidates[0].finishReason != \"IMAGE_SAFETY\"}}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -3410,7 +3364,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $json.hasField('error') || $json.candidates[0].finishReason == \"NO_IMAGE\" }}",
+                    "leftValue": "={{ $json.hasField('error') || $json.candidates[0].finishReason == \"NO_IMAGE\" ||\n$json.candidates[0].finishReason == \"IMAGE_SAFETY\"}}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -3650,6 +3604,29 @@
       ],
       "id": "ccb4641a-0357-47c3-b967-e0ce0789cbe3",
       "name": "form gemini request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n    $('get all workflow params').first().json.thumbnailPromptsGenService,\n    $('get all workflow params').first().json.thumbnailPromptsGenModel,\n\n    $('get all workflow params').first().json.thumbnailBase,\n    $('get all workflow params').first().json.thumbnailPromptGenerationPrompt,\n\n    $('split metas').item.json.previewText,\n    $('split metas').item.json.videoTitle,\n    $('split metas').item.json.videoDescription\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        592,
+        -416
+      ],
+      "id": "a653b6fb-453d-43cc-ab6a-3f0eb62cb227",
+      "name": "get random ID"
     }
   ],
   "connections": {
@@ -3836,14 +3813,14 @@
       "main": [
         [
           {
-            "node": "get random ID for gemini thumbnail prompt",
+            "node": "form gemini thumbnail prompt req",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "get random ID for openai thumbnail prompt",
+            "node": "form openai thumbnail prompt req",
             "type": "main",
             "index": 0
           }
@@ -3954,7 +3931,7 @@
       "main": [
         [
           {
-            "node": "text gen service1",
+            "node": "get random ID",
             "type": "main",
             "index": 0
           }
@@ -4262,17 +4239,6 @@
         ]
       ]
     },
-    "get random ID for gemini thumbnail prompt": {
-      "main": [
-        [
-          {
-            "node": "form gemini thumbnail prompt req",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Send HTTP Request4": {
       "main": [
         [
@@ -4311,17 +4277,6 @@
         [
           {
             "node": "Aggregate",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "get random ID for openai thumbnail prompt": {
-      "main": [
-        [
-          {
-            "node": "form openai thumbnail prompt req",
             "type": "main",
             "index": 0
           }
@@ -4521,6 +4476,17 @@
           }
         ]
       ]
+    },
+    "get random ID": {
+      "main": [
+        [
+          {
+            "node": "text gen service1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -4534,8 +4500,8 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-03-24_MbcCf"
+          "channelName": "HistoryBranches",
+          "videoFolderName": "2026-04-20_SAomD"
         },
         "pairedItem": {
           "item": 0
@@ -4543,9 +4509,9 @@
       }
     ]
   },
-  "versionId": "ef6f997b-c75a-47f1-8467-d8cd52c4c41c",
-  "activeVersionId": "ef6f997b-c75a-47f1-8467-d8cd52c4c41c",
-  "versionCounter": 2169,
+  "versionId": "8c05a162-6317-4b20-a937-022d15b79a15",
+  "activeVersionId": "8c05a162-6317-4b20-a937-022d15b79a15",
+  "versionCounter": 2233,
   "triggerCount": 0,
   "tags": [],
   "shared": [

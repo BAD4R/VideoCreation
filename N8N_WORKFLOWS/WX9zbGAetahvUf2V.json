@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-19T13:33:03.397Z",
+  "updatedAt": "2026-04-19T20:50:53.301Z",
   "createdAt": "2026-04-01T18:55:47.951Z",
   "id": "WX9zbGAetahvUf2V",
   "name": "Cluster Works",
@@ -88,7 +88,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        992,
+        976,
         0
       ],
       "id": "b7d4c78e-c507-4146-9ed9-5e91eccdc32b",
@@ -101,7 +101,7 @@
       "type": "n8n-nodes-base.executeCommand",
       "typeVersion": 1,
       "position": [
-        864,
+        848,
         0
       ],
       "id": "4fed4c37-ceb9-45c4-b39f-eee5f796708e",
@@ -336,140 +336,6 @@
     },
     {
       "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
-                    "leftValue": "={{ !$json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "success"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "error"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        2560,
-        -80
-      ],
-      "id": "fb01aaec-dd9a-4235-b2f3-aa8cebcdd17b",
-      "name": "was error"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
-                    "leftValue": "={{ $json.hasField('error') ? $json.error==null : !$json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "success"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.hasField('error') ? !$json.error==null : $json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "error"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        2560,
-        64
-      ],
-      "id": "13b87a1f-6de9-4aee-8c01-25ff152a2064",
-      "name": "was error1"
-    },
-    {
-      "parameters": {
         "workflowId": {
           "__rl": true,
           "value": "ljH0uamrMfc4IBJx",
@@ -531,7 +397,10 @@
           "attemptToConvertTypes": false,
           "convertFieldsToString": true
         },
-        "options": {}
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
       },
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
@@ -605,7 +474,10 @@
           "attemptToConvertTypes": false,
           "convertFieldsToString": true
         },
-        "options": {}
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
       },
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
@@ -615,29 +487,6 @@
       ],
       "id": "9a0fea5e-6107-4bc4-b3af-85a4b62a661e",
       "name": "Send Gemini Gen Request"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "1af68585-863a-4943-bff7-f35629ad285f",
-              "name": "videoEvidence",
-              "value": "={{ $('Send Openai Gen Request').item.json.output[0].content[0].text.parseJson() }}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2688,
-        64
-      ],
-      "id": "0ed552dc-3599-4c08-83ac-854a78ec6a81",
-      "name": "Parse Openai Responce"
     },
     {
       "parameters": {
@@ -656,7 +505,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2688,
+        3376,
         -80
       ],
       "id": "e37b5989-e373-494a-a5c2-a83feb704b08",
@@ -840,7 +689,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3056,
+        3744,
         -16
       ],
       "name": "write videoEvidence.json",
@@ -1024,7 +873,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3344,
+        4032,
         -16
       ],
       "name": "Read videoEvidence.json",
@@ -1048,7 +897,7 @@
       "type": "n8n-nodes-base.aggregate",
       "typeVersion": 1,
       "position": [
-        3472,
+        4160,
         -16
       ],
       "id": "5b5878cc-36ce-4144-818e-1812e85e4780",
@@ -1115,7 +964,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        3680,
+        4368,
         -16
       ],
       "id": "7544fb88-d7a7-4dac-ac81-a33b21cc4160",
@@ -1126,7 +975,7 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.2,
       "position": [
-        3216,
+        3904,
         -16
       ],
       "id": "ace32865-f805-45a0-a58e-751be232b994",
@@ -1140,7 +989,7 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        1120,
+        1104,
         0
       ],
       "id": "e08ecbcd-a707-4988-beb6-7457b1a4d6ab",
@@ -1164,7 +1013,7 @@
       "typeVersion": 3.4,
       "position": [
         1104,
-        368
+        704
       ],
       "id": "bf216465-8baa-48af-839c-7d612dd05a99",
       "name": "Parse Array1"
@@ -1178,7 +1027,7 @@
       "typeVersion": 1,
       "position": [
         1232,
-        368
+        704
       ],
       "id": "e9da1cd0-c73b-412b-9189-0c5e05c5897e",
       "name": "Split Out Folder Paths1"
@@ -1269,7 +1118,7 @@
       "typeVersion": 1.2,
       "position": [
         1360,
-        368
+        704
       ],
       "name": "Read All videoEvidences",
       "id": "3016e6e4-2321-486e-a902-952b1dfdaddd",
@@ -1294,7 +1143,7 @@
       "typeVersion": 3.4,
       "position": [
         1488,
-        368
+        704
       ],
       "id": "96523706-d988-40dd-8519-af2ea4dfa165",
       "name": "Set Video Evidence"
@@ -1316,7 +1165,7 @@
       "typeVersion": 1,
       "position": [
         1616,
-        368
+        704
       ],
       "id": "9ad80feb-ba9e-4a6b-8f77-a4cc0b77246b",
       "name": "Aggregate1"
@@ -1383,7 +1232,7 @@
       "typeVersion": 3.4,
       "position": [
         1872,
-        368
+        704
       ],
       "id": "a1f8d2b1-e96d-4768-a6be-7511c1b30377",
       "name": "Switch Analyzing Service1"
@@ -1450,7 +1299,7 @@
       "typeVersion": 3.4,
       "position": [
         2320,
-        288
+        624
       ],
       "id": "04bc0b14-de74-4e80-b278-6fb60433f42f",
       "name": "was error2"
@@ -1517,7 +1366,7 @@
       "typeVersion": 3.4,
       "position": [
         2320,
-        432
+        768
       ],
       "id": "5331defc-954f-429b-8fe4-1bf10832b688",
       "name": "was error3"
@@ -1591,7 +1440,7 @@
       "typeVersion": 1.3,
       "position": [
         2192,
-        432
+        768
       ],
       "id": "0e6bb3c7-c120-4bde-9f67-f31b68444577",
       "name": "Send Openai Gen Request1"
@@ -1665,7 +1514,7 @@
       "typeVersion": 1.3,
       "position": [
         2192,
-        288
+        624
       ],
       "id": "1a06b9c7-0dd3-450e-adac-76ceee8d511c",
       "name": "Send Gemini Gen Request1"
@@ -1700,7 +1549,7 @@
       "typeVersion": 3.4,
       "position": [
         2064,
-        288
+        624
       ],
       "id": "f8c15b3c-089b-4dc8-b334-bdd74ac7bb22",
       "name": "Form Gemini Gen Request1"
@@ -1735,7 +1584,7 @@
       "typeVersion": 3.4,
       "position": [
         2064,
-        432
+        768
       ],
       "id": "ad59428c-4562-4309-8888-8160b49b8329",
       "name": "Form Openai Gen Request1"
@@ -1758,7 +1607,7 @@
       "typeVersion": 3.4,
       "position": [
         2512,
-        432
+        768
       ],
       "id": "1e6cdf24-d478-4585-a0e2-99f10780145d",
       "name": "Parse Openai Responce1"
@@ -1781,7 +1630,7 @@
       "typeVersion": 3.4,
       "position": [
         1744,
-        368
+        704
       ],
       "id": "1bba4a3e-18a1-400d-8844-d7edeac30c21",
       "name": "get random ID for request1"
@@ -1797,7 +1646,7 @@
       "typeVersion": 1,
       "position": [
         848,
-        240
+        576
       ],
       "id": "8d0b69df-6c50-4d5b-8daf-1a7e8f394be3",
       "name": "Sticky Note2"
@@ -1888,7 +1737,7 @@
       "typeVersion": 1.2,
       "position": [
         2704,
-        352
+        688
       ],
       "name": "write channelEvidence.json",
       "id": "4bb80a54-246d-48fc-a7b9-3c6a4278382d",
@@ -1906,7 +1755,7 @@
       "typeVersion": 1,
       "position": [
         848,
-        608
+        944
       ],
       "id": "30a9bef7-23a8-45fc-8834-7a3da109eb44",
       "name": "Sticky Note3"
@@ -1997,7 +1846,7 @@
       "typeVersion": 1.2,
       "position": [
         864,
-        368
+        704
       ],
       "name": "read channelEvidence.json1",
       "id": "dfb95ca5-a172-44de-861d-625c5f716178",
@@ -2066,7 +1915,7 @@
       "typeVersion": 3.4,
       "position": [
         992,
-        368
+        704
       ],
       "id": "26a1211d-78f7-4857-9484-fed475ce7d2e",
       "name": "Channel Evidence Exists?"
@@ -2133,7 +1982,7 @@
       "typeVersion": 3.4,
       "position": [
         992,
-        736
+        1072
       ],
       "id": "4a0b2223-bf8b-4ac2-8746-969645cbe6bc",
       "name": "Switch Analyzing Service2"
@@ -2200,7 +2049,7 @@
       "typeVersion": 3.4,
       "position": [
         1440,
-        656
+        992
       ],
       "id": "88f3b9b0-e63e-457d-a836-d1988c40a0a4",
       "name": "was error4"
@@ -2267,7 +2116,7 @@
       "typeVersion": 3.4,
       "position": [
         1440,
-        800
+        1136
       ],
       "id": "030d6e08-8884-4403-af0c-3086accafc04",
       "name": "was error5"
@@ -2341,7 +2190,7 @@
       "typeVersion": 1.3,
       "position": [
         1312,
-        800
+        1136
       ],
       "id": "9838d619-b4ce-46b3-91d7-8df6966e1045",
       "name": "Send Openai Gen Request2"
@@ -2415,7 +2264,7 @@
       "typeVersion": 1.3,
       "position": [
         1312,
-        656
+        992
       ],
       "id": "57af7374-b844-4b49-aa65-2b9e545baddf",
       "name": "Send Gemini Gen Request2"
@@ -2450,7 +2299,7 @@
       "typeVersion": 3.4,
       "position": [
         1184,
-        656
+        992
       ],
       "id": "cdd8e346-3617-4258-8450-a7716fbb9476",
       "name": "Form Gemini Gen Request2"
@@ -2485,7 +2334,7 @@
       "typeVersion": 3.4,
       "position": [
         1184,
-        800
+        1136
       ],
       "id": "ca3e4b0b-1ae4-4118-9ec9-827bb5ee47b2",
       "name": "Form Openai Gen Request2"
@@ -2508,7 +2357,7 @@
       "typeVersion": 3.4,
       "position": [
         1632,
-        800
+        1136
       ],
       "id": "cb241c95-b7a8-4b6b-8792-8d4bcb7fd775",
       "name": "Parse Openai Responce2"
@@ -2531,7 +2380,7 @@
       "typeVersion": 3.4,
       "position": [
         1632,
-        656
+        992
       ],
       "id": "e49a48b7-3e1b-42a3-a5e7-9877c4862c07",
       "name": "Parse Gemini Responce2"
@@ -2554,7 +2403,7 @@
       "typeVersion": 3.4,
       "position": [
         864,
-        736
+        1072
       ],
       "id": "07f91657-6a5c-42f1-8894-bf2078da8010",
       "name": "get random ID for request2"
@@ -2645,7 +2494,7 @@
       "typeVersion": 1.2,
       "position": [
         1824,
-        720
+        1056
       ],
       "name": "write channelClusters.json",
       "id": "0ae4ddb0-5f99-46a0-8e44-9e187d42ff75",
@@ -2805,7 +2654,7 @@
       "typeVersion": 3.4,
       "position": [
         2512,
-        288
+        624
       ],
       "id": "3cad93fa-7ab1-4bdc-b3c9-333093a73033",
       "name": "Parse Gemini Responce1"
@@ -2827,7 +2676,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2880,
+        3568,
         -16
       ],
       "id": "e97887c6-fdc4-4a55-ae9b-bebc39c4c42b",
@@ -2919,7 +2768,7 @@
       "typeVersion": 1.2,
       "position": [
         2832,
-        352
+        688
       ],
       "name": "read channelEvidence.json",
       "id": "4e37bc21-7cd4-4727-8c4b-53161b38357b",
@@ -2950,10 +2799,518 @@
       "typeVersion": 3.4,
       "position": [
         1280,
-        -580.5882272006663
+        -576
       ],
       "id": "dd8993e7-87a1-4e34-8620-1d3ca31911e8",
       "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2432,
+        224
+      ],
+      "id": "7858f874-7daa-4b81-bacf-1cddbecd7b5b",
+      "name": "Send HTTP Request13",
+      "retryOnFail": true
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID for request').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{\n{\n  \"view\":\"status\"\n}\n\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2304,
+        224
+      ],
+      "id": "adcd1c58-1a29-4584-9bbe-12114d037d54",
+      "name": "form check request done"
+    },
+    {
+      "parameters": {
+        "amount": 10
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2720,
+        320
+      ],
+      "id": "4c62cfbf-2764-42ee-970f-6a3d01651b9e",
+      "name": "Wait",
+      "webhookId": "d210b56e-9c6f-49c9-94b3-39fbfd6f00d1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        3136,
+        64
+      ],
+      "id": "14ace5fe-679b-4ba9-b930-474c49eced7b",
+      "name": "Send HTTP Request14"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID for request').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{\n{\n  \"view\":\"result\"\n}\n\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3008,
+        64
+      ],
+      "id": "a343cda6-2ecf-48ab-a506-82e79e387646",
+      "name": "form get openai request"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $('Base Settings').item.json.analyzingService == \"gemini\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "6de169e5-93ad-4299-a39b-44143c8d1d38"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "gemini"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "07496e8f-6f29-4c28-ba6a-26ca290dffac",
+                    "leftValue": "={{ $('Base Settings').item.json.analyzingService == \"openai\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "openai"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2816,
+        0
+      ],
+      "id": "08ac73a2-4520-4c61-8984-bef911eccbf6",
+      "name": "Switch Analyzing Service3"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        3136,
+        -80
+      ],
+      "id": "5baffaf5-2032-4091-b0d0-8d13cb418b78",
+      "name": "Send HTTP Request15"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID for request').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{\n{\n  \"view\":\"result\"\n}\n\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3008,
+        -80
+      ],
+      "id": "891b71c2-1882-46d7-9dd5-467c3bd55f5d",
+      "name": "form get gemini request"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ $input.all().filter(item => item.json.success).length == $input.all().length && !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $input.all().filter(item => item.json.success).length != $input.all().length || $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2624,
+        224
+      ],
+      "id": "9316c021-6804-4da8-a5d6-40c5d2f77074",
+      "name": "all done switch"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "videoEvidence",
+              "value": "={{ $json.item.response.output[0].content[0].text.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3376,
+        64
+      ],
+      "id": "4c5c8593-e16c-446f-ae62-ef7c3d8d0873",
+      "name": "Parse Openai Responce"
     }
   ],
   "connections": {
@@ -2972,7 +3329,7 @@
       "main": [
         [
           {
-            "node": "Set list of video links",
+            "node": "Get Channel Videos Folders Paths",
             "type": "main",
             "index": 0
           }
@@ -3048,48 +3405,14 @@
         ]
       ]
     },
-    "was error": {
-      "main": [
-        [
-          {
-            "node": "Parse Gemini Responce",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "was error1": {
-      "main": [
-        [
-          {
-            "node": "Parse Openai Responce",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Send Openai Gen Request": {
       "main": [
-        [
-          {
-            "node": "was error1",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "Send Gemini Gen Request": {
       "main": [
-        [
-          {
-            "node": "was error",
-            "type": "main",
-            "index": 0
-          }
-        ]
+        []
       ]
     },
     "get random ID for request": {
@@ -3097,6 +3420,11 @@
         [
           {
             "node": "Switch Analyzing Service",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "form check request done",
             "type": "main",
             "index": 0
           }
@@ -3119,17 +3447,6 @@
         [
           {
             "node": "get random ID for request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Parse Openai Responce": {
-      "main": [
-        [
-          {
-            "node": "add performace_lable",
             "type": "main",
             "index": 0
           }
@@ -3628,6 +3945,130 @@
           }
         ]
       ]
+    },
+    "form check request done": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request13",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request13": {
+      "main": [
+        [
+          {
+            "node": "all done switch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait": {
+      "main": [
+        [
+          {
+            "node": "form check request done",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form get openai request": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request14",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Analyzing Service3": {
+      "main": [
+        [
+          {
+            "node": "form get gemini request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "form get openai request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "form get gemini request": {
+      "main": [
+        [
+          {
+            "node": "Send HTTP Request15",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request15": {
+      "main": [
+        [
+          {
+            "node": "Parse Gemini Responce",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send HTTP Request14": {
+      "main": [
+        [
+          {
+            "node": "Parse Openai Responce",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "all done switch": {
+      "main": [
+        [
+          {
+            "node": "Switch Analyzing Service3",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Openai Responce": {
+      "main": [
+        [
+          {
+            "node": "add performace_lable",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -3637,10 +4078,247 @@
   },
   "staticData": null,
   "meta": null,
-  "pinData": {},
-  "versionId": "56eccd6c-4b76-43a8-a014-69017f9d5cee",
+  "pinData": {
+    "Get existing videoEvidences": [
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 0
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 1
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 2
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 3
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 4
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 5
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 6
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 7
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 8
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 9
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 10
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 11
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 12
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 13
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 14
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 15
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 16
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 17
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 18
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 19
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 20
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 21
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 22
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 23
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 24
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 25
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 26
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": [
+            "videoEvidence.json"
+          ]
+        },
+        "pairedItem": {
+          "item": 27
+        }
+      },
+      {
+        "json": {
+          "existingFilesNames": []
+        },
+        "pairedItem": {
+          "item": 28
+        }
+      }
+    ]
+  },
+  "versionId": "166dadb4-22d5-4ead-9a08-ea6922221da8",
   "activeVersionId": null,
-  "versionCounter": 1477,
+  "versionCounter": 1567,
   "triggerCount": 0,
   "tags": [],
   "shared": [

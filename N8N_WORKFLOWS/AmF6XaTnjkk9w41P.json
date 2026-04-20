@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-19T10:55:22.826Z",
+  "updatedAt": "2026-04-19T22:36:51.757Z",
   "createdAt": "2026-02-03T20:08:34.562Z",
   "id": "AmF6XaTnjkk9w41P",
   "name": "Main",
@@ -31,7 +31,7 @@
             {
               "id": "6bf8fb55-da43-41b9-a476-0ef633256d7c",
               "name": "channelName",
-              "value": "LifeOfAPirate",
+              "value": "HistoryBranches",
               "type": "string"
             }
           ]
@@ -4072,263 +4072,6 @@
       ],
       "id": "8340b1aa-7dd8-40cd-82bc-0d5d0f0e7623",
       "name": "Sticky Note5"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ea32a18f-0379-4ea5-9d70-c74d6ae8c931",
-              "name": "model",
-              "value": "gemini-3.1-flash-image-preview",
-              "type": "string"
-            },
-            {
-              "id": "90b7bdf0-373a-4a85-95f3-c7841366c331",
-              "name": "prompt",
-              "value": "{   \"diagram\": {     \"composition\": \"An orthographic overview layout presenting the entire offshore oil platform as a cohesive megaproject occupying the central frame with clear spatial separation of major modules: drilling rig, hydrocarbon processing plant (chemical factory), power generation unit, and residential city block. All modules are arranged logically from bottom (subsea foundation) to top (living quarters and helipad), showcasing the full system scope with moderate information density and minimal overlapping elements.\",     \"focus\": \"The engineering complexity and full structural integration of the autonomous offshore platform, emphasizing the coexistence and spatial relationships of drilling operations, chemical processing, electricity production, and human habitation within a single megastructure.\",     \"structure\": \"The diagram reveals the internal composition of each major module via transparent layers and cutaway sections: the drilling rig with subsea blowout preventer and risers, the multi-stage hydrocarbon separator system inside the chemical plant, the power generation equipment, and the residential accommodations with helipad on top. Connecting pipelines, risers, and power conduits are illustrated to highlight material, energy, and process flows linking these subsystems, complemented by a clear depiction of the underwater foundation anchoring the entire platform.\",     \"labels\": \"Readable technical labels and callouts in Russian language are distributed evenly with medium density, naming all key components such as 'буровая установка' (drilling rig), 'химический завод' (chemical plant), 'электростанция' (power plant), and 'жилой модуль с вертолетной площадкой' (residential module with helipad). Additional annotations identify subsea systems, risers, separators, and living quarters. Numeric callouts provide verified technical parameters like platform weight, water depth, and capacity figures consistent with the embedded visual text policy. Labels are integrated within the diagram, ensuring clarity without clutter.\",     \"visual_hierarchy\": \"Primary visual elements are the four autonomous modules, each distinctly sized and positioned to capture immediate attention. Secondary elements include structural connections and internal process flows guiding the viewer’s eye horizontally and vertically, from the submerged foundation up to the helipad. The layout enables fluid navigation through the platform’s systems, reinforcing the conceptual unity while emphasizing modules’ interdependence.\",     \"color_logic\": \"Color coding is systematically applied to distinguish functional zones: drilling rig elements in dark steel gray, hydrocarbon processing units in deep industrial blue, power generation with muted orange hues, and living areas marked in neutral beige tones. Connecting pipes and risers use consistent colors to differentiate fluid types (oil, gas, water) aligned with industry standards but without artistic stylization. The underwater foundation is rendered in subdued dark sea green, offering clear separation from above-water structures.\"   } }",
-              "type": "string"
-            },
-            {
-              "id": "27b144be-3afe-48fa-bcc4-eb8a0fe2d76b",
-              "name": "index",
-              "value": "3",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -2048,
-        1696
-      ],
-      "id": "25a78484-a8e7-46c6-b17d-e05eab1b88f2",
-      "name": "Edit Fields"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
-              "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$json.model,\n$json.prompt,\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1856,
-        1696
-      ],
-      "id": "75cd8fbc-6970-48d9-8e15-1b2cc689ade4",
-      "name": "get random ID1"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
-              "name": "route",
-              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
-              "type": "string"
-            },
-            {
-              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
-              "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
-              "name": "body",
-              "value": "={{ \n{\n  \"model\": $('Edit Fields').item.json.model,\n  \"version\": \"v1beta\",\n  \"operation\": \"generateContent\",\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        {\n          \"text\": $('Edit Fields').item.json.prompt.toJsonString()\n        }\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseModalities\": [\"IMAGE\"],\n    \"imageConfig\": {\n      \"aspectRatio\": \"16:9\",\n      \"imageSize\": \"1K\"\n    }\n  }\n}\n}}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        -1680,
-        1696
-      ],
-      "id": "e26b24d6-24cf-463e-a645-d5e4158c88aa",
-      "name": "form gemini request"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ljH0uamrMfc4IBJx",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "http works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "route": "={{ $json.route }}",
-            "headers": "={{ $json.headers }}",
-            "body": "={{ $json.body }}",
-            "method": "POST"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route",
-              "displayName": "route",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        -1472,
-        1696
-      ],
-      "id": "4d932f90-b9be-4cc8-84e8-c00cd1dda0bf",
-      "name": "Send HTTP Request2"
-    },
-    {
-      "parameters": {
-        "operation": "toBinary",
-        "sourceProperty": "candidates[0].content.parts[0].inlineData.data",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.convertToFile",
-      "typeVersion": 1.1,
-      "position": [
-        -1264,
-        1696
-      ],
-      "id": "f8874b2c-5f8a-4e5d-a091-9ef67b8a8e0f",
-      "name": "Convert to File"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "RZDt8qKZNIcPyppS",
-          "mode": "id",
-          "cachedResultUrl": "/workflow/RZDt8qKZNIcPyppS"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "=C:/Users/V/Desktop/Channels/LifeOfAPirate/VIDEOS/2026-04-04_Amog2/CLIPS/startFrames/Amog2_{{ $('Edit Fields').item.json.index.toString().padStart(5,'0') }}.png",
-            "fileAction": "write"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        -960,
-        1696
-      ],
-      "id": "349d46c4-c02a-48ed-a7a2-06eca6761453",
-      "name": "write thumbnail files"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "65d48966-dbb0-4b10-a73c-3b8e3bc9dc6c",
-              "name": "",
-              "value": "",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        0,
-        1363.1711896803156
-      ],
-      "id": "5fadb3fc-4f34-4234-aa9d-e5f321eaa143",
-      "name": "Edit Fields1"
     }
   ],
   "connections": {
@@ -5094,55 +4837,6 @@
         ]
       ]
     },
-    "Edit Fields": {
-      "main": [
-        [
-          {
-            "node": "get random ID1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "get random ID1": {
-      "main": [
-        [
-          {
-            "node": "form gemini request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "form gemini request": {
-      "main": [
-        [
-          {
-            "node": "Send HTTP Request2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send HTTP Request2": {
-      "main": [
-        [
-          {
-            "node": "Convert to File",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Convert to File": {
-      "main": [
-        []
-      ]
-    },
     "unlock starting frames and clips prompts1": {
       "main": [
         [
@@ -5166,9 +4860,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "f90ff25a-f796-42ba-b5c6-1fb4f217d4cb",
+  "versionId": "7ae4d0ef-3b8c-40b0-bc46-11dbcf1b1a50",
   "activeVersionId": null,
-  "versionCounter": 1591,
+  "versionCounter": 1598,
   "triggerCount": 0,
   "tags": [],
   "shared": [

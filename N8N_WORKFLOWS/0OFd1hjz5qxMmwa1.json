@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-06T19:35:16.634Z",
+  "updatedAt": "2026-04-19T23:09:35.369Z",
   "createdAt": "2026-02-04T01:37:01.806Z",
   "id": "0OFd1hjz5qxMmwa1",
   "name": "generate video text",
@@ -743,7 +743,7 @@
             {
               "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
               "name": "body",
-              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.videoTextGenModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('get all workflow params').first().json.summarizeFullTextSystemPrompt }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": $('get full text').first().json.text.replace(/\\[[^\\]]*]/g, \"\") }\n      ]\n    }\n  ],\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"BLOCK_NONE\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"BLOCK_NONE\" }\n  ]\n}\n}}",
+              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.videoTextGenModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('get all workflow params').first().json.summarizeFullTextSystemPrompt }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": $('get full text').first().json.text.replace(/\\[[^\\]]*]/g, \"\") }\n      ]\n    }\n  ],\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"OFF\" }\n  ]\n}\n}}",
               "type": "object"
             }
           ]
@@ -1705,9 +1705,9 @@
       }
     ]
   },
-  "versionId": "66266983-7492-44fb-a175-fb20b4c73b7b",
-  "activeVersionId": "66266983-7492-44fb-a175-fb20b4c73b7b",
-  "versionCounter": 1212,
+  "versionId": "66493da8-cfb8-4812-a2d8-b4a4295ac529",
+  "activeVersionId": "66493da8-cfb8-4812-a2d8-b4a4295ac529",
+  "versionCounter": 1217,
   "triggerCount": 0,
   "tags": [],
   "shared": [

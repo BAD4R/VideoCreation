@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-16T00:42:32.906Z",
+  "updatedAt": "2026-04-20T00:38:32.329Z",
   "createdAt": "2026-04-12T16:16:45.988Z",
   "id": "y85NX06omzRfmEaN",
   "name": "visuals – 1 – strategy",
@@ -1051,7 +1051,7 @@
             {
               "id": "bb34329b-1a28-47b6-a706-37ca20489776",
               "name": "userJsonStringInput",
-              "value": "={{\n{\n\"topic_idea\":$('get selectedClusterPlan').item.json.topic_idea,\n\"full_video_text\":$('get full text').item.json.text,\n\"selectedClusterPlan\": $('get selectedClusterPlan').item.json,\n\"selectedClusterRaw\":$('set selectedClusterRaw').item.json.selectedClusterRaw\n}.toJsonString()\n}}",
+              "value": "={{\n{\n\"topic_idea\":$('get selectedClusterPlan').item.json.topic_idea,\n\"full_video_text\":$('get full text').item.json.text,\n\"baseFormatSelectionPolicy\":$('get all workflow params').item.json.baseFormatSelectionPolicy,\n\"selectedClusterPlan\": $('get selectedClusterPlan').item.json,\n\"selectedClusterRaw\":$('set selectedClusterRaw').item.json.selectedClusterRaw\n}.toJsonString()\n}}",
               "type": "string"
             }
           ]
@@ -1162,7 +1162,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\n\"clipGenType\",\n\n\"videoVisualMode\",\n\n\n\"visualsStrategyGenService\",\n\"visualsStrategyGenModel\",\n\n\"visualNarrationStrategyGenPrompt\",\n\n\"textSegmentAnalyzePrompt\",\n\"visualBaseFormatWindowPlanningPrompt\",\n\n\"sceneBasedShotPlanningPrompt\",\n\"sceneBasedShotAllowedThreatments\",\n\n\"graphicBasedShotPlanningPrompt\",\n\"graphicBasedShotAllowedThreatments\",\n\n\"stillBasedShotPlanningPrompt\",\n\"stillBasedShotAllowedThreatments\",\n\n\"eachVisualMinScreenTimeMs\",\n\"eachVisualMaxScreenTimeMs\"\n] }}",
+            "keysToReturn": "={{ [\n\"clipGenType\",\n\n\"videoVisualMode\",\n\n\n\"visualsStrategyGenService\",\n\"visualsStrategyGenModel\",\n\n\"baseFormatSelectionPolicy\",\n\n\"visualNarrationStrategyGenPrompt\",\n\n\"textSegmentAnalyzePrompt\",\n\"visualBaseFormatWindowPlanningPrompt\",\n\n\"sceneBasedShotPlanningPrompt\",\n\"sceneBasedShotAllowedThreatments\",\n\n\"graphicBasedShotPlanningPrompt\",\n\"graphicBasedShotAllowedThreatments\",\n\n\"stillBasedShotPlanningPrompt\",\n\"stillBasedShotAllowedThreatments\",\n\n\"eachVisualMinScreenTimeMs\",\n\"eachVisualMaxScreenTimeMs\"\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -1243,7 +1243,7 @@
             {
               "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
               "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n\n$('get all workflow params').item.json.visualsStrategyGenModel,\n\n$('get all workflow params').item.json.visualNarrationStrategyGenPrompt,\n$('combine into one object for visualNarrationStrategy').item.json.userJsonStringInput\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n$('get all workflow params').item.json.baseFormatSelectionPolicy,\n$('get all workflow params').item.json.visualsStrategyGenModel,\n\n$('get all workflow params').item.json.visualNarrationStrategyGenPrompt,\n$('combine into one object for visualNarrationStrategy').item.json.userJsonStringInput\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
               "type": "string"
             }
           ]
@@ -1629,8 +1629,8 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-04-04_Amog2"
+          "channelName": "HistoryBranches",
+          "videoFolderName": "2026-04-20_SAomD"
         },
         "pairedItem": {
           "item": 0
@@ -1638,9 +1638,9 @@
       }
     ]
   },
-  "versionId": "b379c3ec-39e9-49af-9295-63abd3b3a611",
-  "activeVersionId": "b379c3ec-39e9-49af-9295-63abd3b3a611",
-  "versionCounter": 93,
+  "versionId": "da2adb6e-6ca6-40e3-b0d9-d85eb56f3da8",
+  "activeVersionId": "da2adb6e-6ca6-40e3-b0d9-d85eb56f3da8",
+  "versionCounter": 101,
   "triggerCount": 0,
   "tags": [],
   "shared": [
