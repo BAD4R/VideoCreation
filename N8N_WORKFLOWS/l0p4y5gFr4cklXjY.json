@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-18T22:48:22.187Z",
+  "updatedAt": "2026-04-21T15:41:23.621Z",
   "createdAt": "2026-02-05T15:40:02.769Z",
   "id": "l0p4y5gFr4cklXjY",
   "name": "generate clips",
@@ -508,7 +508,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\n\"clipGenerationService\",\n\n\"runpodVisualsGenerationTemplateId\",\n\"runpodVisualsGenerationGPUList\",\n\"runpodCountryCodes\",\n\n\"useComplexVisualNarration\",\n\n\"eachVisualMinScreenTimeMs\",\n\"eachVisualMaxScreenTimeMs\",\n\n\"videoModelLimitationOnTheGeneratedVideoDurationMs\",\n\n\"clipFps\",\n\n\"clipWidth\",\n\"clipHeight\",\n\n\n] }}",
+            "keysToReturn": "={{ [\n\"clipGenerationService\",\n\n\"runpodVisualsGenerationTemplateId\",\n\"runpodVisualsGenerationGPUList\",\n\"runpodVisualsGenerationGpuCout\",\n\"runpodCountryCodes\",\n\n\"useComplexVisualNarration\",\n\n\"eachVisualMinScreenTimeMs\",\n\"eachVisualMaxScreenTimeMs\",\n\n\"videoModelLimitationOnTheGeneratedVideoDurationMs\",\n\n\"clipFps\",\n\n\"clipWidth\",\n\"clipHeight\",\n\n\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -602,7 +602,8 @@
             "runpodGpuList": "={{ $('get all workflow params').first().json.runpodVisualsGenerationGPUList }}",
             "runpodCountryCodes": "={{ $('get all workflow params').first().json.runpodCountryCodes }}",
             "comfyUiRequest": "={{ {} }}",
-            "index": 0
+            "index": 0,
+            "runpodGpuCount": "={{ $('get all workflow params').first().json.runpodVisualsGenerationGpuCout }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -694,6 +695,16 @@
               "display": true,
               "canBeUsedToMatch": true,
               "type": "array",
+              "removed": false
+            },
+            {
+              "id": "runpodGpuCount",
+              "displayName": "runpodGpuCount",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number",
               "removed": false
             },
             {
@@ -1877,7 +1888,7 @@
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "expectedFilesCount": "={{ $('Filter Still Based And Text And Graphic').all().length }}",
+            "expectedFilesCount": "={{ $('Filter Still Image And Text Card').all().length }}",
             "directoryPath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/CLIPS/videoClips",
             "fileExtentionToSearch": ".mp4"
           },
@@ -2188,8 +2199,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        1520,
-        528
+        1296,
+        1296
       ],
       "id": "325cf2c2-5ddc-4fea-836b-b3726af28106",
       "name": "Split Out Window Indexes"
@@ -2265,8 +2276,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1328,
-        528
+        1104,
+        1296
       ],
       "name": "get existing segments1",
       "id": "55486b96-fe6f-44a9-9b5d-16a2571d2b97"
@@ -2353,8 +2364,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1712,
-        528
+        1488,
+        1296
       ],
       "name": "read visualSegment1",
       "id": "b9c9b7ad-2132-44e2-8e95-a3a079ccb29a"
@@ -2387,8 +2398,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
       "position": [
-        1936,
-        528
+        1712,
+        1296
       ],
       "id": "fc083c9a-7c70-4b5a-9e01-796590b63b0c",
       "name": "Filter"
@@ -2410,8 +2421,8 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2144,
-        528
+        1920,
+        1296
       ],
       "id": "962ab009-3e49-47d1-8907-6caf1421fa04",
       "name": "Edit Fields"
@@ -2485,6 +2496,49 @@
     },
     {
       "parameters": {
+        "fieldsToAggregate": {
+          "fieldToAggregate": [
+            {
+              "fieldToAggregate": "segment_meta"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        3520,
+        288
+      ],
+      "id": "35722dcc-ac3a-47fa-abc3-3ba685042636",
+      "name": "Aggregate"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e4dcead8-6dab-4feb-9281-45fed407945a",
+              "name": "totalDurMs",
+              "value": "={{ (()=>{\n\nlet sum = 0\n\nfor (i =0; i < $json.segment_meta.length; i++){\n sum += $json.segment_meta[i].durMs\n}\n\nreturn sum / 1000*16\n\n})() }}",
+              "type": "number"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3696,
+        288
+      ],
+      "id": "905a8246-947f-4c6b-a3f9-83b549c1bbcc",
+      "name": "Edit Fields1"
+    },
+    {
+      "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": true,
@@ -2511,54 +2565,255 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
       "position": [
-        3552,
+        3536,
+        672
+      ],
+      "id": "e705f52b-a8f3-4515-8edd-42af908fe35e",
+      "name": "Filter Still Based And Text And Graphic1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "54de70c1-a49e-4c30-8049-2428a84b162c",
+              "leftValue": "={{ (()=>{\n\nconst bool = \n$('read visualSegment').item.json.segment_plan.selected_base_format == \"still_image\" ||\n\n$('read visualSegment').item.json.segment_prompt_route.selected_base_format == \"text_only_card\"\n\nreturn !bool\n\n})() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        3520,
         464
       ],
       "id": "74724b57-0f9a-43b2-8f43-cf1deb5f8b20",
+      "name": "Filter Still Image And Text Card"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Split Out Window Indexes1').item.json.existingFilesNames }}",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ ['generation_data'] }}",
+            "fileAction": "write"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        3664,
+        992
+      ],
+      "name": "delete prompts",
+      "id": "c35850b3-582b-4192-a9ba-b45e062a9f58"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "54de70c1-a49e-4c30-8049-2428a84b162c",
+              "leftValue": "={{ (()=>{\n\nconst bool = \n$('read visualSegment').item.json.segment_plan.selected_base_format == \"still_image\" ||\n\n$('read visualSegment').item.json.segment_prompt_route.prompt_family_kind == \"graphic_based\" ||\n\n$('read visualSegment').item.json.segment_prompt_route.selected_base_format == \"text_only_card\"\n\nreturn bool\n\n})() }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        3536,
+        864
+      ],
+      "id": "c10bea4f-b97d-4119-898c-84038fa9ec57",
       "name": "Filter Still Based And Text And Graphic"
     },
     {
       "parameters": {
-        "fieldsToAggregate": {
-          "fieldToAggregate": [
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Split Out Window Indexes1').item.json.existingFilesNames }}",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {} }}",
+            "keysToDelete": "={{ ['segment_status.prompts_ready: false'] }}",
+            "fileAction": "write"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
             {
-              "fieldToAggregate": "segment_meta"
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
             }
-          ]
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
         },
         "options": {}
       },
-      "type": "n8n-nodes-base.aggregate",
-      "typeVersion": 1,
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
       "position": [
-        3712,
-        352
+        3760,
+        864
       ],
-      "id": "35722dcc-ac3a-47fa-abc3-3ba685042636",
-      "name": "Aggregate"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "e4dcead8-6dab-4feb-9281-45fed407945a",
-              "name": "totalDurMs",
-              "value": "={{ (()=>{\n\nlet sum = 0\n\nfor (i =0; i < $json.segment_meta.length; i++){\n sum += $json.segment_meta[i].durMs\n}\n\nreturn sum / 1000*16\n\n})() }}",
-              "type": "number"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        3888,
-        352
-      ],
-      "id": "905a8246-947f-4c6b-a3f9-83b549c1bbcc",
-      "name": "Edit Fields1"
+      "name": "set prompts unready",
+      "id": "baa5b0a9-9bdf-4d99-849f-7939c58df166"
     }
   ],
   "connections": {
@@ -2826,7 +3081,7 @@
       "main": [
         [
           {
-            "node": "Filter Still Based And Text And Graphic",
+            "node": "Filter Still Image And Text Card",
             "type": "main",
             "index": 0
           }
@@ -3013,27 +3268,49 @@
         ]
       ]
     },
-    "Filter Still Based And Text And Graphic": {
+    "Aggregate": {
       "main": [
         [
           {
-            "node": "filter ready start frames1",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Aggregate",
+            "node": "Edit Fields1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Aggregate": {
+    "Filter Still Image And Text Card": {
       "main": [
         [
           {
-            "node": "Edit Fields1",
+            "node": "filter ready start frames1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Still Based And Text And Graphic1": {
+      "main": [
+        []
+      ]
+    },
+    "delete prompts": {
+      "main": [
+        [
+          {
+            "node": "set prompts unready",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter Still Based And Text And Graphic": {
+      "main": [
+        [
+          {
+            "node": "set prompts unready",
             "type": "main",
             "index": 0
           }
@@ -3052,8 +3329,8 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-04-16_YeLlV"
+          "channelName": "HistoryBranches",
+          "videoFolderName": "2026-04-20_SAomD"
         },
         "pairedItem": {
           "item": 0
@@ -3061,9 +3338,9 @@
       }
     ]
   },
-  "versionId": "a3f9327d-3ad2-49e4-a9b6-de113cecd64c",
-  "activeVersionId": "a3f9327d-3ad2-49e4-a9b6-de113cecd64c",
-  "versionCounter": 2310,
+  "versionId": "39c3fe35-bcc6-4b6e-bd9c-4c5c6e7eac4d",
+  "activeVersionId": "39c3fe35-bcc6-4b6e-bd9c-4c5c6e7eac4d",
+  "versionCounter": 2406,
   "triggerCount": 0,
   "tags": [],
   "shared": [

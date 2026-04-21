@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-16T01:41:21.466Z",
+  "updatedAt": "2026-04-20T11:39:19.850Z",
   "createdAt": "2026-04-09T01:42:04.818Z",
   "id": "FQsAItnSpNJV97au",
   "name": "visuals planning",
@@ -1130,15 +1130,18 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-04-16_YeLlV"
+          "channelName": "HistoryBranches",
+          "videoFolderName": "2026-04-20_SAomD"
+        },
+        "pairedItem": {
+          "item": 0
         }
       }
     ]
   },
-  "versionId": "0e700c02-c9ff-492c-ba5c-ea7cfedec492",
-  "activeVersionId": "0e700c02-c9ff-492c-ba5c-ea7cfedec492",
-  "versionCounter": 418,
+  "versionId": "7d5e186c-9351-497b-9d3f-b89d775ce9c2",
+  "activeVersionId": "043a2040-95a3-4cc7-857c-ef5391d3de14",
+  "versionCounter": 474,
   "triggerCount": 0,
   "tags": [],
   "shared": [

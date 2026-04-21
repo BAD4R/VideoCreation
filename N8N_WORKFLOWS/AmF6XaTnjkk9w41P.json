@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-19T22:36:51.757Z",
+  "updatedAt": "2026-04-20T19:18:02.862Z",
   "createdAt": "2026-02-03T20:08:34.562Z",
   "id": "AmF6XaTnjkk9w41P",
   "name": "Main",
@@ -706,7 +706,7 @@
       "typeVersion": 3.4,
       "position": [
         336,
-        2096
+        1968
       ],
       "id": "e38a43b4-0e71-4cc2-8867-a45811e6b1c5",
       "name": "Switch by Video Status"
@@ -919,7 +919,7 @@
       "typeVersion": 1.3,
       "position": [
         784,
-        1440
+        1312
       ],
       "id": "12ee0e7f-401d-4d4d-8388-917172e02812",
       "name": "generate text"
@@ -1030,7 +1030,7 @@
       "typeVersion": 1.2,
       "position": [
         1008,
-        1440
+        1312
       ],
       "name": "unlock texts",
       "id": "6dd74862-424a-43dd-a4f0-24ceede63401"
@@ -1118,7 +1118,7 @@
       "typeVersion": 1.2,
       "position": [
         560,
-        1440
+        1312
       ],
       "name": "lock texts",
       "id": "db097e9b-86d3-4bab-adf6-d497475bec57"
@@ -1181,7 +1181,7 @@
       "typeVersion": 1.3,
       "position": [
         784,
-        1632
+        1504
       ],
       "id": "41fecf7c-2352-45eb-9a1e-bd9f5f721f28",
       "name": "generate meta"
@@ -1244,7 +1244,7 @@
       "typeVersion": 1.3,
       "position": [
         784,
-        1824
+        1696
       ],
       "id": "cb327b9e-c506-4b7b-8e89-03011d3b35cf",
       "name": "generate voiceover"
@@ -1307,7 +1307,7 @@
       "typeVersion": 1.3,
       "position": [
         784,
-        2016
+        1888
       ],
       "id": "39fa7b81-a9b3-42f6-aba3-19f4e9a0cea9",
       "name": "transcribe audio"
@@ -1395,7 +1395,7 @@
       "typeVersion": 1.2,
       "position": [
         560,
-        1632
+        1504
       ],
       "name": "lock meta",
       "id": "d1f02235-a7d9-4f11-a97a-35105d975513"
@@ -1483,7 +1483,7 @@
       "typeVersion": 1.2,
       "position": [
         1008,
-        1632
+        1504
       ],
       "name": "unlock meta",
       "id": "1b31eb98-22ff-4023-b64d-587c81025237"
@@ -1571,7 +1571,7 @@
       "typeVersion": 1.2,
       "position": [
         560,
-        1824
+        1696
       ],
       "name": "lock voiceover",
       "id": "62c980b7-a22a-4741-97a5-7c032335c54b"
@@ -1659,7 +1659,7 @@
       "typeVersion": 1.2,
       "position": [
         560,
-        2016
+        1888
       ],
       "name": "lock transcription",
       "id": "8ac1ef97-4c3a-4c06-a122-952252b8da95"
@@ -1747,7 +1747,7 @@
       "typeVersion": 1.2,
       "position": [
         1008,
-        2016
+        1888
       ],
       "name": "unlock transcription",
       "id": "ca091cdc-38ac-4dbd-8e68-70c05ee39cbd"
@@ -1835,7 +1835,7 @@
       "typeVersion": 1.2,
       "position": [
         560,
-        2768
+        2640
       ],
       "name": "lock clips",
       "id": "3c4f25b1-52d9-4007-8d9b-05993c3fe5a8"
@@ -1923,7 +1923,7 @@
       "typeVersion": 1.2,
       "position": [
         1008,
-        2768
+        2640
       ],
       "name": "unlock clips",
       "id": "62d672db-37a7-4ba2-b58a-5c43072a1474"
@@ -2045,7 +2045,7 @@
       "typeVersion": 1.2,
       "position": [
         1008,
-        2960
+        2992
       ],
       "name": "unlock render",
       "id": "a4f2d4a3-e4c6-41ad-a6eb-56324da74c0b"
@@ -2133,7 +2133,7 @@
       "typeVersion": 1.2,
       "position": [
         560,
-        2960
+        2992
       ],
       "name": "lock render",
       "id": "4f193446-716d-4b17-995c-16bc7bdff90f"
@@ -2196,7 +2196,7 @@
       "typeVersion": 1.3,
       "position": [
         784,
-        2960
+        2992
       ],
       "id": "4552a02b-2237-4549-8121-f8281689a8ea",
       "name": "combine video"
@@ -2542,7 +2542,7 @@
       "typeVersion": 1.3,
       "position": [
         784,
-        2384
+        2256
       ],
       "id": "ef21ed90-9f39-4502-9d59-3c9867ca46ac",
       "name": "generate starting frames and clips prompts"
@@ -2630,7 +2630,7 @@
       "typeVersion": 1.2,
       "position": [
         560,
-        2576
+        2448
       ],
       "name": "lock starting frames",
       "id": "46fe8391-9863-4932-a16c-7d98374f3c9b"
@@ -2718,7 +2718,7 @@
       "typeVersion": 1.2,
       "position": [
         1008,
-        2576
+        2448
       ],
       "name": "unlock start frames",
       "id": "e1b05ebe-13fc-4e41-af0b-ea5356ce7777"
@@ -2781,7 +2781,7 @@
       "typeVersion": 1.3,
       "position": [
         784,
-        2576
+        2448
       ],
       "id": "0d45eb34-3396-4d03-82e5-c9bc292268b7",
       "name": "generate starting frames"
@@ -2797,7 +2797,7 @@
       "typeVersion": 1,
       "position": [
         544,
-        1408
+        1280
       ],
       "id": "afca1835-28a1-41b5-9416-e57d65a32e45",
       "name": "Sticky Note1"
@@ -2813,7 +2813,7 @@
       "typeVersion": 1,
       "position": [
         544,
-        1792
+        1664
       ],
       "id": "7d33d350-8462-44d9-9341-80f2d523c6c0",
       "name": "Sticky Note2"
@@ -2829,7 +2829,7 @@
       "typeVersion": 1,
       "position": [
         544,
-        2528
+        2400
       ],
       "id": "79685682-0a40-4de2-b632-d486d5778d3e",
       "name": "Sticky Note3"
@@ -2843,7 +2843,7 @@
       "typeVersion": 1,
       "position": [
         544,
-        2928
+        2960
       ],
       "id": "31353743-651a-4000-9bb1-2b63eaa778a0",
       "name": "Sticky Note4"
@@ -2931,7 +2931,7 @@
       "typeVersion": 1.2,
       "position": [
         1008,
-        1824
+        1696
       ],
       "name": "unlock voiceover",
       "id": "f718e431-ef04-4b7a-9821-6076e91855db"
@@ -3013,7 +3013,7 @@
             {
               "id": "cbae57df-33ce-4f18-8f27-a46d854341c5",
               "name": "hours",
-              "value": 2,
+              "value": 3,
               "type": "number"
             }
           ]
@@ -3486,7 +3486,7 @@
       "typeVersion": 1,
       "position": [
         128,
-        2208
+        2080
       ],
       "id": "6b784504-e493-423a-9c6b-a3bbb12e855f",
       "name": "No Operation, do nothing1"
@@ -3574,7 +3574,7 @@
       "typeVersion": 1.2,
       "position": [
         560,
-        2384
+        2256
       ],
       "name": "lock starting frames and clips prompts",
       "id": "58dad8a1-577b-487c-abcd-7a997f90f86f"
@@ -3662,7 +3662,7 @@
       "typeVersion": 1.2,
       "position": [
         1008,
-        2384
+        2256
       ],
       "name": "unlock starting frames and clips prompts",
       "id": "14d3424f-2374-4c52-a151-11b0b2a3f1fb"
@@ -3725,7 +3725,7 @@
       "typeVersion": 1.3,
       "position": [
         784,
-        2768
+        2640
       ],
       "id": "9aed98e3-a7fa-4a4e-8154-404f1acf3591",
       "name": "generate clips"
@@ -3813,7 +3813,7 @@
       "typeVersion": 1.2,
       "position": [
         336,
-        1952
+        1824
       ],
       "name": "unlock ALL",
       "id": "ef12cba5-f690-42a0-a767-83f100436fd9"
@@ -3901,7 +3901,7 @@
       "typeVersion": 1.2,
       "position": [
         1008,
-        2208
+        2080
       ],
       "name": "unlock starting frames and clips prompts1",
       "id": "4de46b60-c6e3-470b-95b1-c3dc5691dda3"
@@ -3989,7 +3989,7 @@
       "typeVersion": 1.2,
       "position": [
         560,
-        2208
+        2080
       ],
       "name": "lock visuals planning",
       "id": "b2449dff-9431-4b78-95fa-2ad3e5dbe5f9"
@@ -4052,7 +4052,7 @@
       "typeVersion": 1.3,
       "position": [
         784,
-        2208
+        2080
       ],
       "id": "27086399-0c48-4aa0-ae54-39f08ecb65c1",
       "name": "complex visuals planning"
@@ -4068,7 +4068,7 @@
       "typeVersion": 1,
       "position": [
         544,
-        2176
+        2048
       ],
       "id": "8340b1aa-7dd8-40cd-82bc-0d5d0f0e7623",
       "name": "Sticky Note5"
@@ -4801,7 +4801,13 @@
     },
     "unlock starting frames and clips prompts": {
       "main": [
-        []
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
       ]
     },
     "generate clips": {
@@ -4860,9 +4866,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "7ae4d0ef-3b8c-40b0-bc46-11dbcf1b1a50",
+  "versionId": "b1ee91e7-5a25-4455-a9ae-679ef2e0517f",
   "activeVersionId": null,
-  "versionCounter": 1598,
+  "versionCounter": 1618,
   "triggerCount": 0,
   "tags": [],
   "shared": [

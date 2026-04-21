@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-16T15:33:13.002Z",
+  "updatedAt": "2026-04-20T01:44:57.629Z",
   "createdAt": "2026-02-05T01:25:42.639Z",
   "id": "C4PCujSuMWddLkKC",
   "name": "generate starting frames and clips prompts",
@@ -755,7 +755,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1440,
+        1456,
         224
       ],
       "id": "33dde282-1d9d-49af-90a6-efda9294fbe1",
@@ -2313,8 +2313,8 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-04-16_YeLlV"
+          "channelName": "HistoryBranches",
+          "videoFolderName": "2026-04-20_SAomD"
         },
         "pairedItem": {
           "item": 0
@@ -2322,9 +2322,9 @@
       }
     ]
   },
-  "versionId": "74da0215-3bc1-4c09-943c-f0b97d3dd587",
-  "activeVersionId": "74da0215-3bc1-4c09-943c-f0b97d3dd587",
-  "versionCounter": 4386,
+  "versionId": "13918849-dfa7-4534-951b-f5a439e280e3",
+  "activeVersionId": "13918849-dfa7-4534-951b-f5a439e280e3",
+  "versionCounter": 4394,
   "triggerCount": 0,
   "tags": [],
   "shared": [

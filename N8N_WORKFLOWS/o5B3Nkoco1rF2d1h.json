@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-19T17:01:43.408Z",
+  "updatedAt": "2026-04-21T15:39:41.284Z",
   "createdAt": "2026-02-05T16:30:06.860Z",
   "id": "o5B3Nkoco1rF2d1h",
   "name": "runpod works",
@@ -10,7 +10,7 @@
     {
       "parameters": {
         "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"index\":0,\n  \"method\":\"\",\n\n  \"comfyUiRequest\":{},\n  \"request\":{},\n  \n  \"runpodTemplateId\":\"\",\n  \n  \"runpodGpuList\":[],\n  \"runpodCountryCodes\":[]\n}"
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"index\":0,\n  \"method\":\"\",\n\n  \"comfyUiRequest\":{},\n  \"request\":{},\n  \n  \"runpodTemplateId\":\"\",\n  \n  \"runpodGpuList\":[],\n  \"runpodGpuCount\":0,\n  \"runpodCountryCodes\":[]\n}"
       },
       "id": "c055762a-8fe7-4141-a639-df2372f30060",
       "typeVersion": 1.1,
@@ -5753,9 +5753,9 @@
       }
     ]
   },
-  "versionId": "db1cd4db-490c-463b-9462-d5bd580657b4",
-  "activeVersionId": "db1cd4db-490c-463b-9462-d5bd580657b4",
-  "versionCounter": 3896,
+  "versionId": "459c0100-3386-42d2-a15d-41790b87f18d",
+  "activeVersionId": "459c0100-3386-42d2-a15d-41790b87f18d",
+  "versionCounter": 3901,
   "triggerCount": 0,
   "tags": [],
   "shared": [

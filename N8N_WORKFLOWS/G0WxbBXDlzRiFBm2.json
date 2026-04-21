@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-16T14:34:51.178Z",
+  "updatedAt": "2026-04-20T02:46:22.700Z",
   "createdAt": "2026-04-14T11:02:29.464Z",
   "id": "G0WxbBXDlzRiFBm2",
   "name": "Generate Prompts - paralleling",
@@ -3040,509 +3040,62 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-04-16_YeLlV",
+          "channelName": "HistoryBranches",
+          "videoFolderName": "2026-04-20_SAomD",
           "generationData": {
+            "schema_version": "1.0",
+            "segment_index": 0,
             "video_meta": {
-              "titles": "Почему этот авианосец обречен? Вся правда,Аварии и провалы проблемного авианесущего крейсера,Огромные затраты и фатальные ошибки конструкции",
-              "descriptions": "Тяжелый авианесущий крейсер — это сложный гибрид, который с самого начала проектирования столкнулся с неразрешимыми проблемами. Почему знаменитый корабль постоянно выпускает черный дым? Как устроены его котлы и почему их поломка приводит к катастрофическим последствиям? В этом видео мы подробно разберем, как ракетные шахты уменьшили полезный объем, почему вместо катапульты используется трамплин и как это влияет на боевые возможности самолетов. Узнайте все о конструктивных компромиссах, которые сделали полноценную эксплуатацию практически невозможной.,История эксплуатации этого тяжелого авианесущего крейсера полна драматичных моментов и каскадов технических отказов. Потеря самолетов в Сирии из-за обрыва троса аэрофинишера, затопление гигантского плавучего дока в Мурманске и рухнувший на палубу кран — это лишь верхушка айсберга. Мы расскажем, в каких условиях живет экипаж, почему моряки часто остаются без питьевой воды из-за капризных котлов и к чему приводит постоянная ротация неопытных кадров. Погрузитесь в суровые реалии службы на морально и физически устаревшем корабле.,Можно ли спасти этот тяжелый авианесущий крейсер или он изначально был инженерной ошибкой? Размещение ракетных шахт внутри корпуса привело к критическому сокращению ангаров, а замена сгоревших мазутных котлов размером с дом требует масштабной резки всего корпуса судна. В ролике мы обсуждаем колоссальные финансовые затраты на логистику, отсутствие современной ремонтной базы и тотальную зависимость корабля от береговой инфраструктуры. Узнайте, почему судно годами ходит на грани потери хода и почему его ремонт зашел в тупик."
+              "titles": "Что если бы Германия победила? Реальный сценарий,Победа ведущая к краху: альтернативная история,Неизбежный финал: почему империя была обречена",
+              "descriptions": "В этом видео мы разбираем реалистичный сценарий победы Германии во Второй мировой войне. Забудьте о фантастических фильмах и технологических антиутопиях. Вы узнаете, почему даже при падении СССР и захвате ресурсов Кавказа, управление Евразией стало бы логистическим кошмаром. Мы обсудим неизбежную партизанскую войну, экономику, обреченную на стагнацию из-за принудительного труда, и холодную войну с США. Почему немцы не создали бы атомную бомбу первыми и как внутренние конфликты привели бы к неминуемому краху империи к 1980-м годам. Смотрите ролик, чтобы узнать, почему законы географии и логистики оказались бы сильнее любой армии.,Мифы о высокотехнологичной немецкой империи после Второй мировой войны далеки от реальности. Что ждало бы мир, если бы Советский Союз пал в 1941 году? Огромные территории превратились бы в бесконечную партизанскую зону, требующую миллионную армию для удержания. В видео подробно разбирается экономика изоляции, нехватка ресурсов для создания ядерного оружия и грядущее противостояние с Соединенными Штатами. Вы узнаете, почему система, построенная на насилии, грабеже и ведомственных войнах, рухнула бы изнутри вскоре после смерти своего лидера. Подписывайтесь на канал, чтобы не пропустить новые исторические разборы.,Представьте, что Германия выиграла Вторую мировую войну. Вторжение в Америку? Глобальное господство? На самом деле, победителей ждала бы совершенно иная, гораздо более мрачная участь. В ролике мы анализируем, как разница в ширине железнодорожной колеи, партизанские восстания и гонка вооружений с нетронутыми США истощили бы ресурсы победителей. Разбираем миф о немецкой атомной бомбе и объясняем, почему смерть диктатора в 1950-х годах спровоцировала бы кровавую борьбу за власть. Узнайте, как законы экономики и банальная логистика разрушили бы континентальную империю изнутри к концу двадцатого века."
             },
             "segment_meta": {
-              "partIndex": 116,
-              "text": "Авианосец - это не просто кусок железа с нарисованной полосой для самолетов.",
-              "previous_text": "технологической эпохи, когда металл и масштабы преобладали над системной интеграцией.",
-              "next_text": "Это лишь острие невероятно длинного копья, требующего безупречной экономики на каждом этапе - от бесперебойного производства специальных марок мазута до",
-              "start_ms": 847837,
-              "end_ms": 854159,
-              "durMs": 6322,
-              "charCount": 76
+              "partIndex": 0,
+              "text": "Let us immediately discard the Hollywood visions of a victorious Third Reich.",
+              "previous_text": null,
+              "next_text": "There are no fleets of jet bombers crossing the Atlantic to level New York, no swastika flags draped over the Statue of Liberty, and no",
+              "start_ms": 0,
+              "end_ms": 5392,
+              "durMs": 5392,
+              "charCount": 77
             },
             "segment_analysis": {
               "schema_version": "1.0",
-              "segment_index": 116,
-              "segment_function": "summary",
-              "visual_need": "show_structure",
-              "abstraction_level": "mixed",
+              "segment_index": 0,
+              "segment_function": "hook",
+              "visual_need": "show_location",
+              "abstraction_level": "concrete",
               "priority_entities": [
-                "авианосец",
-                "инженерная инфраструктура",
-                "экономические барьеры"
+                "World Map",
+                "Axis-controlled territory indicators"
               ],
               "needs_precise_overlay": false,
-              "reason": "Подведение итога о сложности эксплуатации корабля как части большой производственно-экономической системы."
+              "reason": "Setting the stage with a neutral, grounded map to dispel common alt-history myths immediately."
             },
             "segment_plan": {
-              "segment_index": 116,
-              "selected_base_format": "observational_video",
+              "segment_index": 0,
+              "selected_base_format": "spatial_map",
               "format_tier": "secondary",
-              "use_explanatory_layer": false,
+              "use_explanatory_layer": true,
               "segment_role_in_flow": "anchor",
-              "reason": "Наблюдательный кадр палубы и полосы для фиксации внимания на физическом объекте перед новым тезисом."
+              "reason": "A spatial map with territorial indicators immediately establishes geographical constraints and grounds the neutral, analytical tone, fitting the map-led causal flow strategy."
             },
             "segment_prompt_route": {
               "schema_version": "1.0",
-              "segment_index": 116,
-              "visual_mode": "realistic_modern",
-              "selected_base_format": "observational_video",
+              "segment_index": 0,
+              "visual_mode": "illustrated_2d",
+              "selected_base_format": "spatial_map",
               "format_tier": "secondary",
-              "use_explanatory_layer": false,
+              "use_explanatory_layer": true,
               "segment_role_in_flow": "anchor",
-              "prompt_family": "realistic_scene_i2v",
-              "prompt_family_kind": "scene_based",
-              "use_legacy_scene_templates": true,
-              "template_ids": {
-                "base_visuals_requirements_id": "realistic_modern_base_requirements_v1",
-                "starting_frame_template_id": "realistic_modern_start_frame_v1",
-                "clip_template_id": "realistic_modern_clip_v1",
-                "overlay_template_id": null
-              },
-              "language_policy": {
-                "camera_language_allowed": true,
-                "photo_technical_language_allowed": true,
-                "film_grain_allowed": true,
-                "lens_language_allowed": true,
-                "sensor_language_allowed": true,
-                "handheld_language_allowed": true,
-                "style_keywords_allowed": false,
-                "lora_style_external": true
-              },
-              "allowed_prompt_elements": [
-                "camera_language",
-                "photo_technical_language",
-                "film_grain",
-                "lens_language",
-                "sensor_language",
-                "handheld_language"
-              ],
-              "forbidden_prompt_elements": [
-                "style_keywords"
-              ],
-              "generation_requirements": {
-                "requires_start_frame": true,
-                "requires_clip_prompt": true,
-                "requires_overlay_prompt": false
-              },
-              "global_inputs": {
-                "selected_cluster_plan": {
-                  "schema_version": "1.0",
-                  "topic_idea": "Железный Лабиринт: Внутри единственного авианосца СНГ. Разбор инженерных проблем, устройства котлотурбинной установки, сравнение трамплина с катапультой, быт экипажа и история аварий (Сирия, док ПД-50).",
-                  "confidence": 0.88,
-                  "selected_cluster": {
-                    "cluster_id": "pragmatic_failure_analyst",
-                    "cluster_label": "прагматичный аналитик провалов",
-                    "fit_score": 0.9,
-                    "fit_reason": "Тема сфокусирована на объяснении инженерных парадоксов, причин проблемности корабля (почему дымит) и барьерах эксплуатации (аварии, дефицит пресной воды), что прямо отвечает запросу кластера на причинно-следственный техно-разбор ограничений."
-                  },
-                  "selected_narrative_mode": "story_case_studies",
-                  "narrative_mode_reason": "Формат story_case_studies идеально подходит для кластера, позволяя разобрать историю и устройство одного масштабного объекта через призму его конструктивных решений, эксплуатационных испытаний и сравнения с альтернативами.",
-                  "combined_brief": {
-                    "self_identity": [
-                      "зритель, который проверяет реализуемость",
-                      "любитель инженерных ограничений",
-                      "аудитория причинно-следственного техно-разбора"
-                    ],
-                    "worldview": [
-                      "технологии отсеиваются из-за ограничений реализации",
-                      "надежность и практичность как главный барьер",
-                      "производство и экономика решают судьбу новинки"
-                    ],
-                    "pain_growth": [
-                      "раздражается когда причина проблемы названа, но не раскрыта",
-                      "ищет ясную механику почему решение работает с трудом",
-                      "хочет видеть связь идеи с производством, надежностью и эксплуатацией"
-                    ],
-                    "fears_desires": [
-                      "желание честного объяснения проблем авианосца",
-                      "интерес к тому, почему перспективные идеи не доходят до массы или работают с ограничениями",
-                      "страх поверхностного разбора физики процесса",
-                      "страх ненадежных технологий"
-                    ],
-                    "common_enemy": [
-                      "поверхностное раскрытие причины",
-                      "производственные ограничения",
-                      "низкая надежность компонентов",
-                      "кликбейт без доказательства"
-                    ],
-                    "language_codes": [
-                      "сухой прагматичный разбор",
-                      "простое объяснение",
-                      "фактологическая точность",
-                      "минимум разговорных оговорок"
-                    ],
-                    "visual_aesthetics": [
-                      "документальный ретро-визуал",
-                      "крупный объект как иллюстрация тезиса",
-                      "чистый контрастный текст без лишних акцентов"
-                    ],
-                    "fit_packaging": [
-                      "clear_problem_statement",
-                      "why_it_failed_angle",
-                      "evidence_matched_title",
-                      "archive_documentary_thumb",
-                      "no_sensational_ban_hook"
-                    ],
-                    "preferred_text_tone": [
-                      "сухой прагматичный разбор",
-                      "спокойный причинно-следственный тон"
-                    ],
-                    "usage_notes": [
-                      "Строить выпуск вокруг вопроса инженерных причин (почему дымит, почему трамплин), а не просто масштаба.",
-                      "Обязательно раскрывать конкретные барьеры: производство, надежность, эксплуатационные пределы.",
-                      "Добавить сравнение с альтернативами (катапульта), чтобы увеличить глубину разбора единственного объекта.",
-                      "Объяснять физику котлотурбинной установки точно и без разговорной небрежности, чтобы избежать критики."
-                    ],
-                    "avoid_notes": [
-                      "Не делать эмоциональную сенсацию из проблем корабля, фокусируясь на механике и ограничениях.",
-                      "Не уводить финал в побочную тему, держать фокус на экономической и практической целесообразности авианосца.",
-                      "Не использовать кликбейт бездоказательных легенд в ущерб причинно-следственному разбору."
-                    ]
-                  },
-                  "fileName": "selectedClusterPlan.json"
-                },
-                "visual_narration_strategy": {
-                  "schema_version": "1.0",
-                  "cluster_id": "pragmatic_failure_analyst",
-                  "selected_narrative_mode": "story_case_studies",
-                  "visual_goal": "Визуализация инженерных ограничений, физики процессов и структурных отказов через документальную хронику и строгие технические схемы для доказательства причинно-следственных связей.",
-                  "visual_evidence_style": [
-                    "explanatory",
-                    "comparative",
-                    "observational"
-                  ],
-                  "preferred_base_formats": [
-                    "archival_material",
-                    "explanatory_graphic",
-                    "still_image"
-                  ],
-                  "secondary_base_formats": [
-                    "observational_video",
-                    "spatial_map"
-                  ],
-                  "rare_base_formats": [
-                    "text_only_card"
-                  ],
-                  "forbidden_base_formats": [
-                    "ui_data_visual"
-                  ],
-                  "preferred_capture_styles": [
-                    "хроникальные кадры с естественным зерном и дефектами пленки",
-                    "строгая инженерная 3D-графика без лишних текстур в стиле чертежей",
-                    "макросъемка механических узлов корабля (тросы, клапаны, трубы)"
-                  ],
-                  "preferred_shot_families": [
-                    "общие планы огромных объектов для оценки масштаба и логистического контекста",
-                    "внутренние пролеты по замкнутым индустриальным пространствам (машинное отделение)",
-                    "крупные планы критических технических узлов (форсунки, аэрофинишеры)"
-                  ],
-                  "preferred_explanatory_layers": [
-                    "чистые векторные стрелки для указания векторов силы и давления пара",
-                    "контрастные текстовые выноски с точными физическими характеристиками и цифрами",
-                    "схемы в разрезе для демонстрации внутренней компоновки систем и котлов"
-                  ],
-                  "continuity_rules": [
-                    "сохранение строгой визуальной логики: от общего плана корабля к конкретному узлу",
-                    "прямая привязка архивных кадров аварий к предшествующим им схемам устройства механизма",
-                    "использование единого шрифта без засечек и ограниченной контрастной палитры для всей инфографики"
-                  ],
-                  "transition_rules": [
-                    "жесткие склейки (hard cuts) для подчеркивания сурового документального стиля повествования",
-                    "плавное проявление векторных схем поверх затененных фотографий или стоп-кадров",
-                    "категорический отказ от динамичных переходов, глитчей и декоративных wipe-эффектов"
-                  ],
-                  "repetition_limits": [
-                    "кадры с черным дымом использовать только в блоке разбора работы котлов, избегать фонового дублирования",
-                    "архитектурные схемы одного узла (например, трамплина) не должны повторяться более двух раз"
-                  ],
-                  "tone_rules": [
-                    "сухая констатация фактов через визуал без визуальной драматизации и искусственного нагнетания",
-                    "приглушенная цветокоррекция с упором на стальной, серый, мазутно-черный и ржавый оттенки",
-                    "полное отсутствие развлекательных графических вставок и визуальных метафор"
-                  ],
-                  "usage_notes": [
-                    "использовать наложение чертежей для наглядного объяснения пространственных компромиссов (шахты ракет против ангара)",
-                    "синхронизировать графику тепловых процессов в котле с текстом о потере энергии и образовании сажи",
-                    "показывать архивные кадры инцидентов в Сирии и Мурманске как сухой математический итог цепи отказов"
-                  ],
-                  "avoid_notes": [
-                    "строго избегать ярких неоновых цветов и современного глянцевого моушн-дизайна",
-                    "не акцентировать внимание на эмоциях людей, визуальный фокус должен оставаться на железе и физике",
-                    "исключить клиповый монтаж и ускоренную перемотку, разрушающие вдумчивый аналитический темп"
-                  ],
-                  "fileName": "visualNarrationStrategy.json"
-                },
-                "global_visual_policy": {
-                  "prompt_json_language": "english",
-                  "embedded_visual_text_language": "russian",
-                  "render_text_inside_generated_image": true,
-                  "prefer_overlay_for_text": false
-                }
-              },
-              "warnings": []
-            },
-            "shot_planning": {
-              "schema_version": "1.0",
-              "segment_index": 116,
-              "visual_mode": "realistic_modern",
-              "selected_scene_treatment_id": "helicopter_aerial",
-              "shot_scale": "wide",
-              "motion_intensity": "medium",
-              "time_behavior": "realtime",
-              "reason": "The segment focuses on the massive offshore infrastructure and the ship's overall scale, which is best captured via long-range aerial documentation to convey its problematic size and environment."
-            },
-            "graphic_treatment_plan": null,
-            "still_treatment_plan": null,
-            "prev_segment_meta": {
-              "partIndex": 115,
-              "text": "технологической эпохи, когда металл и масштабы преобладали над системной интеграцией.",
-              "previous_text": "Корабль оказался заложником собственной конструкции, рожденной из необходимости совместить несовместимое, и заложником ушедшей",
-              "next_text": "Авианосец - это не просто кусок железа с нарисованной полосой для самолетов.",
-              "start_ms": 841514,
-              "end_ms": 847837,
-              "durMs": 6323,
-              "charCount": 85
-            },
-            "next_segment_meta": {
-              "partIndex": 117,
-              "text": "Это лишь острие невероятно длинного копья, требующего безупречной экономики на каждом этапе - от бесперебойного производства специальных марок мазута до",
-              "previous_text": "Авианосец - это не просто кусок железа с нарисованной полосой для самолетов.",
-              "next_text": "наличия сухих доков колоссальных размеров. Инженерия - наука точная, и она не прощает компромиссов на уровне фундаментальных решений.",
-              "start_ms": 854159,
-              "end_ms": 864067,
-              "durMs": 9908,
-              "charCount": 152
-            },
-            "prev_segment_plan": {
-              "segment_index": 115,
-              "selected_base_format": "still_image",
-              "format_tier": "primary",
-              "use_explanatory_layer": false,
-              "segment_role_in_flow": "support",
-              "reason": "Статичная фотография массивных металлических конструкций, подчеркивающая дух ушедшей индустриальной эпохи."
-            },
-            "next_segment_plan": {
-              "segment_index": 117,
-              "selected_base_format": "explanatory_graphic",
-              "format_tier": "primary",
-              "use_explanatory_layer": true,
-              "segment_role_in_flow": "expand",
-              "reason": "Строгая структурная схема с подписями для объяснения производственной цепочки и экономики поставок мазута."
-            },
-            "prev_segment_prompt_route": {
-              "schema_version": "1.0",
-              "segment_index": 115,
-              "visual_mode": "realistic_modern",
-              "selected_base_format": "still_image",
-              "format_tier": "primary",
-              "use_explanatory_layer": false,
-              "segment_role_in_flow": "support",
-              "prompt_family": "realistic_still_image",
-              "prompt_family_kind": "still_based",
-              "use_legacy_scene_templates": false,
-              "template_ids": {
-                "base_visuals_requirements_id": "realistic_modern_base_requirements_v1",
-                "starting_frame_template_id": "realistic_modern_still_start_frame_v1",
-                "clip_template_id": "realistic_modern_still_motion_v1",
-                "overlay_template_id": null
-              },
-              "language_policy": {
-                "camera_language_allowed": true,
-                "photo_technical_language_allowed": true,
-                "film_grain_allowed": true,
-                "lens_language_allowed": true,
-                "sensor_language_allowed": true,
-                "handheld_language_allowed": true,
-                "style_keywords_allowed": false,
-                "lora_style_external": true
-              },
-              "allowed_prompt_elements": [
-                "camera_language",
-                "photo_technical_language",
-                "film_grain",
-                "lens_language",
-                "sensor_language",
-                "handheld_language"
-              ],
-              "forbidden_prompt_elements": [
-                "style_keywords"
-              ],
-              "generation_requirements": {
-                "requires_start_frame": true,
-                "requires_clip_prompt": true,
-                "requires_overlay_prompt": false
-              },
-              "global_inputs": {
-                "selected_cluster_plan": {
-                  "schema_version": "1.0",
-                  "topic_idea": "Железный Лабиринт: Внутри единственного авианосца СНГ. Разбор инженерных проблем, устройства котлотурбинной установки, сравнение трамплина с катапультой, быт экипажа и история аварий (Сирия, док ПД-50).",
-                  "confidence": 0.88,
-                  "selected_cluster": {
-                    "cluster_id": "pragmatic_failure_analyst",
-                    "cluster_label": "прагматичный аналитик провалов",
-                    "fit_score": 0.9,
-                    "fit_reason": "Тема сфокусирована на объяснении инженерных парадоксов, причин проблемности корабля (почему дымит) и барьерах эксплуатации (аварии, дефицит пресной воды), что прямо отвечает запросу кластера на причинно-следственный техно-разбор ограничений."
-                  },
-                  "selected_narrative_mode": "story_case_studies",
-                  "narrative_mode_reason": "Формат story_case_studies идеально подходит для кластера, позволяя разобрать историю и устройство одного масштабного объекта через призму его конструктивных решений, эксплуатационных испытаний и сравнения с альтернативами.",
-                  "combined_brief": {
-                    "self_identity": [
-                      "зритель, который проверяет реализуемость",
-                      "любитель инженерных ограничений",
-                      "аудитория причинно-следственного техно-разбора"
-                    ],
-                    "worldview": [
-                      "технологии отсеиваются из-за ограничений реализации",
-                      "надежность и практичность как главный барьер",
-                      "производство и экономика решают судьбу новинки"
-                    ],
-                    "pain_growth": [
-                      "раздражается когда причина проблемы названа, но не раскрыта",
-                      "ищет ясную механику почему решение работает с трудом",
-                      "хочет видеть связь идеи с производством, надежностью и эксплуатацией"
-                    ],
-                    "fears_desires": [
-                      "желание честного объяснения проблем авианосца",
-                      "интерес к тому, почему перспективные идеи не доходят до массы или работают с ограничениями",
-                      "страх поверхностного разбора физики процесса",
-                      "страх ненадежных технологий"
-                    ],
-                    "common_enemy": [
-                      "поверхностное раскрытие причины",
-                      "производственные ограничения",
-                      "низкая надежность компонентов",
-                      "кликбейт без доказательства"
-                    ],
-                    "language_codes": [
-                      "сухой прагматичный разбор",
-                      "простое объяснение",
-                      "фактологическая точность",
-                      "минимум разговорных оговорок"
-                    ],
-                    "visual_aesthetics": [
-                      "документальный ретро-визуал",
-                      "крупный объект как иллюстрация тезиса",
-                      "чистый контрастный текст без лишних акцентов"
-                    ],
-                    "fit_packaging": [
-                      "clear_problem_statement",
-                      "why_it_failed_angle",
-                      "evidence_matched_title",
-                      "archive_documentary_thumb",
-                      "no_sensational_ban_hook"
-                    ],
-                    "preferred_text_tone": [
-                      "сухой прагматичный разбор",
-                      "спокойный причинно-следственный тон"
-                    ],
-                    "usage_notes": [
-                      "Строить выпуск вокруг вопроса инженерных причин (почему дымит, почему трамплин), а не просто масштаба.",
-                      "Обязательно раскрывать конкретные барьеры: производство, надежность, эксплуатационные пределы.",
-                      "Добавить сравнение с альтернативами (катапульта), чтобы увеличить глубину разбора единственного объекта.",
-                      "Объяснять физику котлотурбинной установки точно и без разговорной небрежности, чтобы избежать критики."
-                    ],
-                    "avoid_notes": [
-                      "Не делать эмоциональную сенсацию из проблем корабля, фокусируясь на механике и ограничениях.",
-                      "Не уводить финал в побочную тему, держать фокус на экономической и практической целесообразности авианосца.",
-                      "Не использовать кликбейт бездоказательных легенд в ущерб причинно-следственному разбору."
-                    ]
-                  },
-                  "fileName": "selectedClusterPlan.json"
-                },
-                "visual_narration_strategy": {
-                  "schema_version": "1.0",
-                  "cluster_id": "pragmatic_failure_analyst",
-                  "selected_narrative_mode": "story_case_studies",
-                  "visual_goal": "Визуализация инженерных ограничений, физики процессов и структурных отказов через документальную хронику и строгие технические схемы для доказательства причинно-следственных связей.",
-                  "visual_evidence_style": [
-                    "explanatory",
-                    "comparative",
-                    "observational"
-                  ],
-                  "preferred_base_formats": [
-                    "archival_material",
-                    "explanatory_graphic",
-                    "still_image"
-                  ],
-                  "secondary_base_formats": [
-                    "observational_video",
-                    "spatial_map"
-                  ],
-                  "rare_base_formats": [
-                    "text_only_card"
-                  ],
-                  "forbidden_base_formats": [
-                    "ui_data_visual"
-                  ],
-                  "preferred_capture_styles": [
-                    "хроникальные кадры с естественным зерном и дефектами пленки",
-                    "строгая инженерная 3D-графика без лишних текстур в стиле чертежей",
-                    "макросъемка механических узлов корабля (тросы, клапаны, трубы)"
-                  ],
-                  "preferred_shot_families": [
-                    "общие планы огромных объектов для оценки масштаба и логистического контекста",
-                    "внутренние пролеты по замкнутым индустриальным пространствам (машинное отделение)",
-                    "крупные планы критических технических узлов (форсунки, аэрофинишеры)"
-                  ],
-                  "preferred_explanatory_layers": [
-                    "чистые векторные стрелки для указания векторов силы и давления пара",
-                    "контрастные текстовые выноски с точными физическими характеристиками и цифрами",
-                    "схемы в разрезе для демонстрации внутренней компоновки систем и котлов"
-                  ],
-                  "continuity_rules": [
-                    "сохранение строгой визуальной логики: от общего плана корабля к конкретному узлу",
-                    "прямая привязка архивных кадров аварий к предшествующим им схемам устройства механизма",
-                    "использование единого шрифта без засечек и ограниченной контрастной палитры для всей инфографики"
-                  ],
-                  "transition_rules": [
-                    "жесткие склейки (hard cuts) для подчеркивания сурового документального стиля повествования",
-                    "плавное проявление векторных схем поверх затененных фотографий или стоп-кадров",
-                    "категорический отказ от динамичных переходов, глитчей и декоративных wipe-эффектов"
-                  ],
-                  "repetition_limits": [
-                    "кадры с черным дымом использовать только в блоке разбора работы котлов, избегать фонового дублирования",
-                    "архитектурные схемы одного узла (например, трамплина) не должны повторяться более двух раз"
-                  ],
-                  "tone_rules": [
-                    "сухая констатация фактов через визуал без визуальной драматизации и искусственного нагнетания",
-                    "приглушенная цветокоррекция с упором на стальной, серый, мазутно-черный и ржавый оттенки",
-                    "полное отсутствие развлекательных графических вставок и визуальных метафор"
-                  ],
-                  "usage_notes": [
-                    "использовать наложение чертежей для наглядного объяснения пространственных компромиссов (шахты ракет против ангара)",
-                    "синхронизировать графику тепловых процессов в котле с текстом о потере энергии и образовании сажи",
-                    "показывать архивные кадры инцидентов в Сирии и Мурманске как сухой математический итог цепи отказов"
-                  ],
-                  "avoid_notes": [
-                    "строго избегать ярких неоновых цветов и современного глянцевого моушн-дизайна",
-                    "не акцентировать внимание на эмоциях людей, визуальный фокус должен оставаться на железе и физике",
-                    "исключить клиповый монтаж и ускоренную перемотку, разрушающие вдумчивый аналитический темп"
-                  ],
-                  "fileName": "visualNarrationStrategy.json"
-                },
-                "global_visual_policy": {
-                  "prompt_json_language": "english",
-                  "embedded_visual_text_language": "russian",
-                  "render_text_inside_generated_image": true,
-                  "prefer_overlay_for_text": false
-                }
-              },
-              "warnings": []
-            },
-            "next_segment_prompt_route": {
-              "schema_version": "1.0",
-              "segment_index": 117,
-              "visual_mode": "realistic_modern",
-              "selected_base_format": "explanatory_graphic",
-              "format_tier": "primary",
-              "use_explanatory_layer": true,
-              "segment_role_in_flow": "expand",
-              "prompt_family": "technical_diagram",
+              "prompt_family": "spatial_map_graphic",
               "prompt_family_kind": "graphic_based",
               "use_legacy_scene_templates": false,
               "template_ids": {
-                "base_visuals_requirements_id": "technical_diagram_base_requirements_v1",
-                "starting_frame_template_id": "technical_diagram_start_frame_v1",
-                "clip_template_id": "technical_diagram_clip_v1",
-                "overlay_template_id": "technical_diagram_overlay_v1"
+                "base_visuals_requirements_id": "spatial_map_base_requirements_v1",
+                "starting_frame_template_id": "spatial_map_start_frame_v1",
+                "clip_template_id": "spatial_map_clip_v1",
+                "overlay_template_id": "spatial_map_overlay_v1"
               },
               "language_policy": {
                 "camera_language_allowed": false,
@@ -3569,157 +3122,397 @@
                 "requires_clip_prompt": true,
                 "requires_overlay_prompt": true
               },
+              "start_frame_text_mode": "required",
+              "allow_start_frame_embedded_annotations": true,
+              "requires_text_capable_start_frame_model": true,
               "global_inputs": {
                 "selected_cluster_plan": {
                   "schema_version": "1.0",
-                  "topic_idea": "Железный Лабиринт: Внутри единственного авианосца СНГ. Разбор инженерных проблем, устройства котлотурбинной установки, сравнение трамплина с катапультой, быт экипажа и история аварий (Сирия, док ПД-50).",
-                  "confidence": 0.88,
+                  "topic_idea": "What if germany would have won world war 2?",
+                  "confidence": 0.95,
                   "selected_cluster": {
-                    "cluster_id": "pragmatic_failure_analyst",
-                    "cluster_label": "прагматичный аналитик провалов",
-                    "fit_score": 0.9,
-                    "fit_reason": "Тема сфокусирована на объяснении инженерных парадоксов, причин проблемности корабля (почему дымит) и барьерах эксплуатации (аварии, дефицит пресной воды), что прямо отвечает запросу кластера на причинно-следственный техно-разбор ограничений."
+                    "cluster_id": "structural_realist_timeline_fans",
+                    "cluster_label": "Структурные реалисты развилки",
+                    "fit_score": 0.95,
+                    "fit_reason": "WWII is the most famous historical hinge; exploring an Axis victory requires a strict causal chain, logistics-based plausibility, and avoiding lazy mythmaking, matching this cluster's core demands."
                   },
-                  "selected_narrative_mode": "story_case_studies",
-                  "narrative_mode_reason": "Формат story_case_studies идеально подходит для кластера, позволяя разобрать историю и устройство одного масштабного объекта через призму его конструктивных решений, эксплуатационных испытаний и сравнения с альтернативами.",
+                  "selected_narrative_mode": "process_explainer",
+                  "narrative_mode_reason": "A process explainer perfectly structures the 'chained structure' and 'step-by-step build' needed to show exactly how a German victory would unfold through logistics, resources, and timing.",
                   "combined_brief": {
                     "self_identity": [
-                      "зритель, который проверяет реализуемость",
-                      "любитель инженерных ограничений",
-                      "аудитория причинно-следственного техно-разбора"
+                      "alt-history fan with history literacy",
+                      "plausibility-focused history nerd",
+                      "map/game-literate scenario debater"
                     ],
                     "worldview": [
-                      "технологии отсеиваются из-за ограничений реализации",
-                      "надежность и практичность как главный барьер",
-                      "производство и экономика решают судьбу новинки"
+                      "material constraints drive outcomes",
+                      "timing and logistics dictate outcomes over hero worship",
+                      "single divergence works only through chained structure",
+                      "broad consequences of a WWII Axis victory must stay causally grounded"
                     ],
                     "pain_growth": [
-                      "раздражается когда причина проблемы названа, но не раскрыта",
-                      "ищет ясную механику почему решение работает с трудом",
-                      "хочет видеть связь идеи с производством, надежностью и эксплуатацией"
+                      "attrition and resource strain explain outcomes",
+                      "losses and endurance are meaningful only when causally linked",
+                      "hardship is accepted as system cost rather than melodrama"
                     ],
                     "fears_desires": [
-                      "желание честного объяснения проблем авианосца",
-                      "интерес к тому, почему перспективные идеи не доходят до массы или работают с ограничениями",
-                      "страх поверхностного разбора физики процесса",
-                      "страх ненадежных технологий"
+                      "desire for coherent chain reaction from a famous hinge",
+                      "desire for plausible explanation over spectacle",
+                      "fear of unrealistic clichés",
+                      "fear of late-stage speculative overreach"
                     ],
                     "common_enemy": [
-                      "поверхностное раскрытие причины",
-                      "производственные ограничения",
-                      "низкая надежность компонентов",
-                      "кликбейт без доказательства"
+                      "lazy alt-history clichés",
+                      "mythmaking over plausibility",
+                      "ignoring logistics and resources",
+                      "under-defended causal leaps"
                     ],
                     "language_codes": [
-                      "сухой прагматичный разбор",
-                      "простое объяснение",
-                      "фактологическая точность",
-                      "минимум разговорных оговорок"
+                      "casual historical explainer",
+                      "plainspoken speculative narration",
+                      "informal corrective framing",
+                      "gamer/meme shorthand with evidence"
                     ],
                     "visual_aesthetics": [
-                      "документальный ретро-визуал",
-                      "крупный объект как иллюстрация тезиса",
-                      "чистый контрастный текст без лишних акцентов"
+                      "clear cartoon maps",
+                      "map-led causal flow",
+                      "symbolic figures over noisy spectacle",
+                      "readable conflict visuals"
                     ],
                     "fit_packaging": [
-                      "clear_problem_statement",
-                      "why_it_failed_angle",
-                      "evidence_matched_title",
-                      "archive_documentary_thumb",
-                      "no_sensational_ban_hook"
+                      "high-concept historical hinge",
+                      "clear one-question premise",
+                      "strong title-content alignment",
+                      "famous topic plus plausibility claim"
                     ],
                     "preferred_text_tone": [
-                      "сухой прагматичный разбор",
-                      "спокойный причинно-следственный тон"
+                      "dry pragmatic breakdown",
+                      "ironic but evidence-based techno-narrative"
                     ],
                     "usage_notes": [
-                      "Строить выпуск вокруг вопроса инженерных причин (почему дымит, почему трамплин), а не просто масштаба.",
-                      "Обязательно раскрывать конкретные барьеры: производство, надежность, эксплуатационные пределы.",
-                      "Добавить сравнение с альтернативами (катапульта), чтобы увеличить глубину разбора единственного объекта.",
-                      "Объяснять физику котлотурбинной установки точно и без разговорной небрежности, чтобы избежать критики."
+                      "Start with one clear divergence point for the German victory and immediately state the scenario limits.",
+                      "Tie every new level of escalation or post-war consequence to resources, timing, or institutional incentives.",
+                      "Use humor only if it does not replace the causal chain of events.",
+                      "Ground the largest consequences in the finale again to maintain trust and prevent scope drift."
                     ],
                     "avoid_notes": [
-                      "Не делать эмоциональную сенсацию из проблем корабля, фокусируясь на механике и ограничениях.",
-                      "Не уводить финал в побочную тему, держать фокус на экономической и практической целесообразности авианосца.",
-                      "Не использовать кликбейт бездоказательных легенд в ущерб причинно-следственному разбору."
+                      "Do not rely on pure spectacle-worldbuilding without structural support.",
+                      "Avoid deus ex machina events in the final act to explain long-term stability or collapse.",
+                      "Do not broaden the scope beyond what the title promises.",
+                      "Avoid late speculative overreach and weak causal bridging."
                     ]
                   },
                   "fileName": "selectedClusterPlan.json"
                 },
                 "visual_narration_strategy": {
                   "schema_version": "1.0",
-                  "cluster_id": "pragmatic_failure_analyst",
-                  "selected_narrative_mode": "story_case_studies",
-                  "visual_goal": "Визуализация инженерных ограничений, физики процессов и структурных отказов через документальную хронику и строгие технические схемы для доказательства причинно-следственных связей.",
+                  "cluster_id": "structural_realist_timeline_fans",
+                  "selected_narrative_mode": "process_explainer",
+                  "visual_goal": "Показать логистические, пространственные и ресурсные барьеры альтернативного сценария через наглядные причинно-следственные связи, исключая голливудскую зрелищность.",
                   "visual_evidence_style": [
                     "explanatory",
-                    "comparative",
-                    "observational"
+                    "comparative"
                   ],
                   "preferred_base_formats": [
-                    "archival_material",
-                    "explanatory_graphic",
-                    "still_image"
+                    "observational_video",
+                    "archival_material"
                   ],
                   "secondary_base_formats": [
-                    "observational_video",
-                    "spatial_map"
+                    "spatial_map",
+                    "explanatory_graphic"
                   ],
                   "rare_base_formats": [
-                    "text_only_card"
-                  ],
-                  "forbidden_base_formats": [
+                    "still_image",
                     "ui_data_visual"
                   ],
+                  "forbidden_base_formats": [
+                    "text_only_card"
+                  ],
                   "preferred_capture_styles": [
-                    "хроникальные кадры с естественным зерном и дефектами пленки",
-                    "строгая инженерная 3D-графика без лишних текстур в стиле чертежей",
-                    "макросъемка механических узлов корабля (тросы, клапаны, трубы)"
+                    "строгая и прагматичная съемка",
+                    "фокус на индустриальные и логистические объекты",
+                    "архивная хроника без эмоциональной перегрузки"
                   ],
                   "preferred_shot_families": [
-                    "общие планы огромных объектов для оценки масштаба и логистического контекста",
-                    "внутренние пролеты по замкнутым индустриальным пространствам (машинное отделение)",
-                    "крупные планы критических технических узлов (форсунки, аэрофинишеры)"
+                    "широкие общие планы инфраструктуры",
+                    "картографические панорамы",
+                    "макропланы сырья и механизмов"
                   ],
                   "preferred_explanatory_layers": [
-                    "чистые векторные стрелки для указания векторов силы и давления пара",
-                    "контрастные текстовые выноски с точными физическими характеристиками и цифрами",
-                    "схемы в разрезе для демонстрации внутренней компоновки систем и котлов"
+                    "минималистичные картографические слои",
+                    "схемы логистических цепочек",
+                    "символические маркеры ресурсов и войск"
                   ],
                   "continuity_rules": [
-                    "сохранение строгой визуальной логики: от общего плана корабля к конкретному узлу",
-                    "прямая привязка архивных кадров аварий к предшествующим им схемам устройства механизма",
-                    "использование единого шрифта без засечек и ограниченной контрастной палитры для всей инфографики"
+                    "каждый новый визуальный тезис логически вытекает из предыдущего графического состояния",
+                    "строгая геопространственная привязка при смене локаций",
+                    "единая палитра для графики и карт"
                   ],
                   "transition_rules": [
-                    "жесткие склейки (hard cuts) для подчеркивания сурового документального стиля повествования",
-                    "плавное проявление векторных схем поверх затененных фотографий или стоп-кадров",
-                    "категорический отказ от динамичных переходов, глитчей и декоративных wipe-эффектов"
+                    "плавные движения по карте вместо резкой смены декораций",
+                    "прямые склейки при сопоставлении цифр и фактов",
+                    "использование линий снабжения как направляющих для перехода"
                   ],
                   "repetition_limits": [
-                    "кадры с черным дымом использовать только в блоке разбора работы котлов, избегать фонового дублирования",
-                    "архитектурные схемы одного узла (например, трамплина) не должны повторяться более двух раз"
+                    "повторное использование глобальной карты допускается только для фиксации новых ограничивающих факторов",
+                    "избегать зацикливания одинаковой хроники боевых действий"
                   ],
                   "tone_rules": [
-                    "сухая констатация фактов через визуал без визуальной драматизации и искусственного нагнетания",
-                    "приглушенная цветокоррекция с упором на стальной, серый, мазутно-черный и ржавый оттенки",
-                    "полное отсутствие развлекательных графических вставок и визуальных метафор"
+                    "отстраненный и доказательный тон",
+                    "визуальная сухость в противовес драматическому пафосу",
+                    "фокус на системную цену решений"
                   ],
                   "usage_notes": [
-                    "использовать наложение чертежей для наглядного объяснения пространственных компромиссов (шахты ракет против ангара)",
-                    "синхронизировать графику тепловых процессов в котле с текстом о потере энергии и образовании сажи",
-                    "показывать архивные кадры инцидентов в Сирии и Мурманске как сухой математический итог цепи отказов"
+                    "использовать карты для демонстрации пространственных и инфраструктурных тупиков",
+                    "визуализировать истощение ресурсов через графики на фоне реальных объектов индустрии"
                   ],
                   "avoid_notes": [
-                    "строго избегать ярких неоновых цветов и современного глянцевого моушн-дизайна",
-                    "не акцентировать внимание на эмоциях людей, визуальный фокус должен оставаться на железе и физике",
-                    "исключить клиповый монтаж и ускоренную перемотку, разрушающие вдумчивый аналитический темп"
+                    "категорически избегать фантастических образов высокотехнологичного дистопичного будущего",
+                    "не использовать героические или эмоционально манипулятивные кадры",
+                    "отказаться от визуального перегруза и лишнего графического шума"
                   ],
                   "fileName": "visualNarrationStrategy.json"
                 },
                 "global_visual_policy": {
                   "prompt_json_language": "english",
-                  "embedded_visual_text_language": "russian",
+                  "embedded_visual_text_language": "english",
+                  "render_text_inside_generated_image": true,
+                  "prefer_overlay_for_text": false
+                }
+              },
+              "warnings": []
+            },
+            "shot_planning": null,
+            "graphic_treatment_plan": {
+              "schema_version": "1.0",
+              "segment_index": 0,
+              "visual_mode": "illustrated_2d",
+              "prompt_family": "spatial_map_graphic",
+              "selected_graphic_treatment_id": "topdown_route_map",
+              "layout_scope": "full_system",
+              "information_density": "high",
+              "motion_behavior": "guided_reveal",
+              "label_intensity": "medium",
+              "reason": "The segment focuses on geographical and logistical constraints over vast territories, requiring a top-down spatial map to illustrate supply lines and the scale of the occupation."
+            },
+            "still_treatment_plan": null,
+            "prev_segment_meta": null,
+            "next_segment_meta": {
+              "partIndex": 1,
+              "text": "There are no fleets of jet bombers crossing the Atlantic to level New York, no swastika flags draped over the Statue of Liberty, and no",
+              "previous_text": "Let us immediately discard the Hollywood visions of a victorious Third Reich.",
+              "next_text": "seamless, high-tech global dystopia. The logistical reality of a German victory in World War Two is far less cinematic and far more suffocating.",
+              "start_ms": 5392,
+              "end_ms": 14971,
+              "durMs": 9579,
+              "charCount": 135
+            },
+            "prev_segment_plan": null,
+            "next_segment_plan": {
+              "segment_index": 1,
+              "selected_base_format": "archival_material",
+              "format_tier": "primary",
+              "use_explanatory_layer": false,
+              "segment_role_in_flow": "expand",
+              "reason": "Historical archival footage directly debunks Hollywood tropes by contrasting sensationalism with grounded, pragmatic reality."
+            },
+            "prev_segment_prompt_route": null,
+            "next_segment_prompt_route": {
+              "schema_version": "1.0",
+              "segment_index": 1,
+              "visual_mode": "illustrated_2d",
+              "selected_base_format": "archival_material",
+              "format_tier": "primary",
+              "use_explanatory_layer": false,
+              "segment_role_in_flow": "expand",
+              "prompt_family": "illustrated_scene_i2v",
+              "prompt_family_kind": "scene_based",
+              "use_legacy_scene_templates": true,
+              "template_ids": {
+                "base_visuals_requirements_id": "illustrated_2d_base_requirements_v1",
+                "starting_frame_template_id": "illustrated_2d_start_frame_v1",
+                "clip_template_id": "illustrated_2d_clip_v1",
+                "overlay_template_id": null
+              },
+              "language_policy": {
+                "camera_language_allowed": false,
+                "photo_technical_language_allowed": false,
+                "film_grain_allowed": false,
+                "lens_language_allowed": false,
+                "sensor_language_allowed": false,
+                "handheld_language_allowed": false,
+                "style_keywords_allowed": false,
+                "lora_style_external": true
+              },
+              "allowed_prompt_elements": [],
+              "forbidden_prompt_elements": [
+                "camera_language",
+                "photo_technical_language",
+                "film_grain",
+                "lens_language",
+                "sensor_language",
+                "handheld_language",
+                "style_keywords"
+              ],
+              "generation_requirements": {
+                "requires_start_frame": true,
+                "requires_clip_prompt": true,
+                "requires_overlay_prompt": false
+              },
+              "start_frame_text_mode": "forbid",
+              "allow_start_frame_embedded_annotations": false,
+              "requires_text_capable_start_frame_model": false,
+              "global_inputs": {
+                "selected_cluster_plan": {
+                  "schema_version": "1.0",
+                  "topic_idea": "What if germany would have won world war 2?",
+                  "confidence": 0.95,
+                  "selected_cluster": {
+                    "cluster_id": "structural_realist_timeline_fans",
+                    "cluster_label": "Структурные реалисты развилки",
+                    "fit_score": 0.95,
+                    "fit_reason": "WWII is the most famous historical hinge; exploring an Axis victory requires a strict causal chain, logistics-based plausibility, and avoiding lazy mythmaking, matching this cluster's core demands."
+                  },
+                  "selected_narrative_mode": "process_explainer",
+                  "narrative_mode_reason": "A process explainer perfectly structures the 'chained structure' and 'step-by-step build' needed to show exactly how a German victory would unfold through logistics, resources, and timing.",
+                  "combined_brief": {
+                    "self_identity": [
+                      "alt-history fan with history literacy",
+                      "plausibility-focused history nerd",
+                      "map/game-literate scenario debater"
+                    ],
+                    "worldview": [
+                      "material constraints drive outcomes",
+                      "timing and logistics dictate outcomes over hero worship",
+                      "single divergence works only through chained structure",
+                      "broad consequences of a WWII Axis victory must stay causally grounded"
+                    ],
+                    "pain_growth": [
+                      "attrition and resource strain explain outcomes",
+                      "losses and endurance are meaningful only when causally linked",
+                      "hardship is accepted as system cost rather than melodrama"
+                    ],
+                    "fears_desires": [
+                      "desire for coherent chain reaction from a famous hinge",
+                      "desire for plausible explanation over spectacle",
+                      "fear of unrealistic clichés",
+                      "fear of late-stage speculative overreach"
+                    ],
+                    "common_enemy": [
+                      "lazy alt-history clichés",
+                      "mythmaking over plausibility",
+                      "ignoring logistics and resources",
+                      "under-defended causal leaps"
+                    ],
+                    "language_codes": [
+                      "casual historical explainer",
+                      "plainspoken speculative narration",
+                      "informal corrective framing",
+                      "gamer/meme shorthand with evidence"
+                    ],
+                    "visual_aesthetics": [
+                      "clear cartoon maps",
+                      "map-led causal flow",
+                      "symbolic figures over noisy spectacle",
+                      "readable conflict visuals"
+                    ],
+                    "fit_packaging": [
+                      "high-concept historical hinge",
+                      "clear one-question premise",
+                      "strong title-content alignment",
+                      "famous topic plus plausibility claim"
+                    ],
+                    "preferred_text_tone": [
+                      "dry pragmatic breakdown",
+                      "ironic but evidence-based techno-narrative"
+                    ],
+                    "usage_notes": [
+                      "Start with one clear divergence point for the German victory and immediately state the scenario limits.",
+                      "Tie every new level of escalation or post-war consequence to resources, timing, or institutional incentives.",
+                      "Use humor only if it does not replace the causal chain of events.",
+                      "Ground the largest consequences in the finale again to maintain trust and prevent scope drift."
+                    ],
+                    "avoid_notes": [
+                      "Do not rely on pure spectacle-worldbuilding without structural support.",
+                      "Avoid deus ex machina events in the final act to explain long-term stability or collapse.",
+                      "Do not broaden the scope beyond what the title promises.",
+                      "Avoid late speculative overreach and weak causal bridging."
+                    ]
+                  },
+                  "fileName": "selectedClusterPlan.json"
+                },
+                "visual_narration_strategy": {
+                  "schema_version": "1.0",
+                  "cluster_id": "structural_realist_timeline_fans",
+                  "selected_narrative_mode": "process_explainer",
+                  "visual_goal": "Показать логистические, пространственные и ресурсные барьеры альтернативного сценария через наглядные причинно-следственные связи, исключая голливудскую зрелищность.",
+                  "visual_evidence_style": [
+                    "explanatory",
+                    "comparative"
+                  ],
+                  "preferred_base_formats": [
+                    "observational_video",
+                    "archival_material"
+                  ],
+                  "secondary_base_formats": [
+                    "spatial_map",
+                    "explanatory_graphic"
+                  ],
+                  "rare_base_formats": [
+                    "still_image",
+                    "ui_data_visual"
+                  ],
+                  "forbidden_base_formats": [
+                    "text_only_card"
+                  ],
+                  "preferred_capture_styles": [
+                    "строгая и прагматичная съемка",
+                    "фокус на индустриальные и логистические объекты",
+                    "архивная хроника без эмоциональной перегрузки"
+                  ],
+                  "preferred_shot_families": [
+                    "широкие общие планы инфраструктуры",
+                    "картографические панорамы",
+                    "макропланы сырья и механизмов"
+                  ],
+                  "preferred_explanatory_layers": [
+                    "минималистичные картографические слои",
+                    "схемы логистических цепочек",
+                    "символические маркеры ресурсов и войск"
+                  ],
+                  "continuity_rules": [
+                    "каждый новый визуальный тезис логически вытекает из предыдущего графического состояния",
+                    "строгая геопространственная привязка при смене локаций",
+                    "единая палитра для графики и карт"
+                  ],
+                  "transition_rules": [
+                    "плавные движения по карте вместо резкой смены декораций",
+                    "прямые склейки при сопоставлении цифр и фактов",
+                    "использование линий снабжения как направляющих для перехода"
+                  ],
+                  "repetition_limits": [
+                    "повторное использование глобальной карты допускается только для фиксации новых ограничивающих факторов",
+                    "избегать зацикливания одинаковой хроники боевых действий"
+                  ],
+                  "tone_rules": [
+                    "отстраненный и доказательный тон",
+                    "визуальная сухость в противовес драматическому пафосу",
+                    "фокус на системную цену решений"
+                  ],
+                  "usage_notes": [
+                    "использовать карты для демонстрации пространственных и инфраструктурных тупиков",
+                    "визуализировать истощение ресурсов через графики на фоне реальных объектов индустрии"
+                  ],
+                  "avoid_notes": [
+                    "категорически избегать фантастических образов высокотехнологичного дистопичного будущего",
+                    "не использовать героические или эмоционально манипулятивные кадры",
+                    "отказаться от визуального перегруза и лишнего графического шума"
+                  ],
+                  "fileName": "visualNarrationStrategy.json"
+                },
+                "global_visual_policy": {
+                  "prompt_json_language": "english",
+                  "embedded_visual_text_language": "english",
                   "render_text_inside_generated_image": true,
                   "prefer_overlay_for_text": false
                 }
@@ -3727,33 +3520,21 @@
               "warnings": []
             },
             "prev_shot_planning": null,
-            "next_shot_planning": null,
+            "next_shot_planning": {
+              "schema_version": "1.0",
+              "segment_index": 1,
+              "visual_mode": "illustrated_2d",
+              "selected_scene_treatment_id": "illustrated_wide",
+              "shot_scale": "wide",
+              "motion_intensity": "medium",
+              "time_behavior": "realtime",
+              "reason": "The segment focuses on the geographic and logistical impossibility of managing a vast continental empire, requiring a wide illustrated perspective to show territorial scope and scale."
+            },
             "prev_graphic_treatment_plan": null,
-            "next_graphic_treatment_plan": {
-              "schema_version": "1.0",
-              "segment_index": 117,
-              "visual_mode": "realistic_modern",
-              "prompt_family": "technical_diagram",
-              "selected_graphic_treatment_id": "labeled_cross_section",
-              "layout_scope": "partial_system",
-              "information_density": "high",
-              "motion_behavior": "guided_reveal",
-              "label_intensity": "dense",
-              "reason": "The segment focuses on internal engineering failures like boiler issues and rocket shaft placement, requiring a cross-section to visualize hidden mechanical flaws."
-            },
-            "prev_still_treatment_plan": {
-              "schema_version": "1.0",
-              "segment_index": 115,
-              "visual_mode": "realistic_modern",
-              "selected_still_treatment_id": "schematic_overlay",
-              "framing_scope": "mixed",
-              "detail_density": "high",
-              "motion_behavior": "still_hold",
-              "label_intensity": "dense",
-              "reason": "The segment discusses specific structural flaws and internal engineering compromises like rocket silos and boilers, requiring a clear, labeled schematic to visualize the technical limitations."
-            },
+            "next_graphic_treatment_plan": null,
+            "prev_still_treatment_plan": null,
             "next_still_treatment_plan": null,
-            "fileName": "00116_visualSegment_generationContext.json"
+            "fileName": "00000_visualSegment_generationContext.json"
           }
         },
         "pairedItem": {
@@ -3762,9 +3543,9 @@
       }
     ]
   },
-  "versionId": "506ed840-21df-4c0b-b6cb-77e7fe3f7299",
-  "activeVersionId": "506ed840-21df-4c0b-b6cb-77e7fe3f7299",
-  "versionCounter": 741,
+  "versionId": "3200d4b3-9ba5-41ae-b5cc-e6076e0ca83c",
+  "activeVersionId": "3200d4b3-9ba5-41ae-b5cc-e6076e0ca83c",
+  "versionCounter": 745,
   "triggerCount": 0,
   "tags": [],
   "shared": [
