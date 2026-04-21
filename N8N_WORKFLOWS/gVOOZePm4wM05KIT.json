@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-14T14:09:36.970Z",
+  "updatedAt": "2026-04-21T20:39:39.253Z",
   "createdAt": "2026-04-12T16:14:38.986Z",
   "id": "gVOOZePm4wM05KIT",
   "name": "visuals – 2 – analyze text segments",
@@ -7,21 +7,6 @@
   "active": true,
   "isArchived": false,
   "nodes": [
-    {
-      "parameters": {
-        "content": "## Analyze each text segment",
-        "height": 768,
-        "width": 4692
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        -144,
-        -144
-      ],
-      "id": "85842cf5-26b9-446b-aff8-906fa0b3b09f",
-      "name": "Sticky Note"
-    },
     {
       "parameters": {
         "jsCode": "// ===============================\n// ✅ INPUT VARIABLES (что подать на вход)\n// ===============================\n\n// 1) СЕГМЕНТЫ ТРАНСКРИПТА (массив объектов)\nconst RAW_SEGMENTS = $('get start/end ms of each scentance from transcript').first().json.items;\n\n// 2) MIN / MAX экранного времени (миллисекунды)\nconst EACH_IMAGE_MIN_SCREEN_TIME_MS = $('get all workflow params').first().json.eachVisualMinScreenTimeMs;\nconst EACH_IMAGE_MAX_SCREEN_TIME_MS = $('get all workflow params').first().json.eachVisualMaxScreenTimeMs;\n\n// 3) “Мягкий перелёт” — ЗАПРЕЩЕН (строго не выходим за max)\nconst SOFT_OVERFLOW_MS = 0;\n\n// 4) Какие ключи использовать в RAW_SEGMENTS\nconst TEXT_KEY   = 'text';\nconst START_KEYS = ['start_ms', 'start'];\nconst END_KEYS   = ['end_ms', 'end'];\n\n// 5) Единицы времени\nconst TIME_UNIT = 'auto'; // 'auto' | 'ms' | 's'\n\n// 6) Общая длительность трека (в мс). Если не найдём — возьмём max(end_ms) после нормализации.\nconst TOTAL_DUR_MS = (() => {\n  try {\n    const j = $('get start/end ms of each scentance from transcript').first().json;\n\n    const candidates = [\n      j.total_dur_ms,\n      j.totalDurMs,\n      j.total_duration_ms,\n      (Number(j.total_duration_sec) * 1000),\n      (Number(j.meta?.progress?.total_duration_sec) * 1000),\n      (Number(j.meta?.total_duration_sec) * 1000),\n    ];\n\n    for (const c of candidates) {\n      const n = Number(c);\n      if (Number.isFinite(n) && n > 0) return Math.round(n);\n    }\n  } catch (_) {}\n\n  return null;\n})();\n\n\n// ===============================\n// 🔧 Implementation\n// ===============================\n\nfunction cleanText(s) {\n  return String(s ?? \"\")\n    .replace(/\\r?\\n/g, \" \")\n    .replace(/\\s+/g, \" \")\n    .trim();\n}\n\nfunction pickFirst(obj, keys) {\n  for (const k of keys) {\n    if (obj && obj[k] != null) return obj[k];\n  }\n  return null;\n}\n\nfunction toNumber(x) {\n  const n = typeof x === \"number\" ? x : parseFloat(String(x));\n  return Number.isFinite(n) ? n : null;\n}\n\n// Нормализация start/end в МС\nfunction normalizeStartEndMs(rawSeg) {\n  // 1) start_ms/end_ms -> считаем что это ms\n  const sMs = toNumber(rawSeg?.start_ms);\n  const eMs = toNumber(rawSeg?.end_ms);\n  if (sMs != null && eMs != null) {\n    const start = Math.max(0, Math.round(sMs));\n    const end = Math.max(start, Math.round(eMs));\n    return { startMs: start, endMs: end };\n  }\n\n  // 2) start/end -> auto/ms/s\n  const s = toNumber(rawSeg?.start);\n  const e = toNumber(rawSeg?.end);\n  if (s == null || e == null) return { startMs: 0, endMs: 0 };\n\n  let factor = 1;\n  if (TIME_UNIT === 's') factor = 1000;\n  else if (TIME_UNIT === 'ms') factor = 1;\n  else {\n    const diff = e - s;\n    const looksLikeSeconds = diff > 0 && diff <= 120 && e <= 20000;\n    factor = looksLikeSeconds ? 1000 : 1;\n  }\n\n  const start = Math.max(0, Math.round(s * factor));\n  const end = Math.max(start, Math.round(e * factor));\n  return { startMs: start, endMs: end };\n}\n\n// ===============================\n// ✅ GAP FILL LOGIC\n// ===============================\nfunction fillGapsInPlace(segs, totalDurMs) {\n  if (!Array.isArray(segs) || segs.length === 0) return { totalDurMs: totalDurMs ?? 0 };\n\n  segs.sort((a, b) => (a.startMs - b.startMs) || (a._origIndex - b._origIndex));\n\n  if (segs[0].startMs > 0) segs[0].startMs = 0;\n  if (segs[0].startMs < 0) segs[0].startMs = 0;\n  if (segs[0].endMs < segs[0].startMs) segs[0].endMs = segs[0].startMs;\n\n  if (!Number.isFinite(totalDurMs) || totalDurMs == null || totalDurMs <= 0) {\n    let mx = 0;\n    for (const s of segs) mx = Math.max(mx, s.endMs);\n    totalDurMs = mx;\n  } else {\n    totalDurMs = Math.max(0, Math.round(totalDurMs));\n  }\n\n  for (let i = 0; i < segs.length - 1; i++) {\n    const cur = segs[i];\n    const next = segs[i + 1];\n\n    if (cur.startMs < 0) cur.startMs = 0;\n    if (next.startMs < 0) next.startMs = 0;\n\n    if (cur.endMs < cur.startMs) cur.endMs = cur.startMs;\n    if (next.endMs < next.startMs) next.endMs = next.startMs;\n\n    let desiredEnd = next.startMs - 1;\n    if (desiredEnd < cur.startMs) desiredEnd = cur.startMs;\n    cur.endMs = desiredEnd;\n\n    if (cur.endMs < cur.startMs) cur.endMs = cur.startMs;\n  }\n\n  const last = segs[segs.length - 1];\n  if (last.startMs < 0) last.startMs = 0;\n  if (last.endMs < last.startMs) last.endMs = last.startMs;\n\n  if (last.endMs < totalDurMs) last.endMs = totalDurMs;\n  if (last.endMs < last.startMs) last.endMs = last.startMs;\n\n  return { totalDurMs };\n}\n\n// --- границы предложений ---\nconst END_CHARS = new Set([\".\", \"!\", \"?\", \"…\", \"。\", \"！\", \"？\"]);\nconst CLOSERS = new Set(['\"', \"”\", \"’\", \"'\", \")\", \"]\", \"}\", \"»\", \"›\", \"）\", \"】\", \"』\", \"」\"]);\n\nconst ABBREV = new Set([\n  // EN\n  \"mr\",\"mrs\",\"ms\",\"mx\",\"dr\",\"prof\",\"sr\",\"jr\",\"st\",\"mt\",\"ft\",\"vs\",\n  \"etc\",\"eg\",\"ie\",\"fig\",\"eq\",\"ref\",\"refs\",\"no\",\"nos\",\"dept\",\"inc\",\"ltd\",\"corp\",\"co\",\"bros\",\n  \"est\",\"misc\",\"approx\",\"appt\",\"avg\",\"min\",\"max\",\"temp\",\"vol\",\"ch\",\"sec\",\"pp\",\"p\",\n  \"jan\",\"feb\",\"mar\",\"apr\",\"may\",\"jun\",\"jul\",\"aug\",\"sep\",\"sept\",\"oct\",\"nov\",\"dec\",\n  \"am\",\"pm\",\"a.m\",\"p.m\",\"u.s\",\"u.k\",\"e.u\",\"u.n\",\n\n  // RU\n  \"г\",\"гг\",\"ул\",\"д\",\"кв\",\"стр\",\"рис\",\"пр\",\"просп\",\"наб\",\"бул\",\"пер\",\"пл\",\"пос\",\"обл\",\"р-н\",\n  \"им\",\"акад\",\"доц\",\"проф\",\"см\",\"т.д\",\"т.п\",\"и т.д\",\"и т.п\",\"др\",\n  \"мин\",\"сек\",\"ч\",\"мес\",\"гл\",\"ст\",\"пп\",\"п\",\"млн\",\"млрд\",\"тыс\",\"руб\",\"коп\",\n\n  // PL\n  \"np\",\"itp\",\"itd\",\"m.in\",\"tzn\",\"tj\",\"wg\",\"ok\",\"nr\",\"ul\",\"al\",\"pl\",\"r\",\n  \"godz\",\"min\",\"sek\",\"str\",\"rys\",\"tab\",\"rozdz\",\"pkt\",\"ppkt\",\n  \"dr\",\"hab\",\"mgr\",\"inz\",\"prof\",\n\n  // CZ\n  \"např\",\"napr\",\"tzv\",\"atd\",\"apod\",\"tj\",\"tzn\",\"cl\",\"odst\",\"str\",\"obr\",\"tab\",\"kap\",\n  \"ing\",\"mgr\",\"mudr\",\"judr\",\"phdr\",\"bc\",\"dis\",\n\n  // SP (ES)\n  \"sr\",\"sra\",\"srta\",\"dr\",\"dra\",\"ud\",\"uds\",\"pag\",\"pags\",\"num\",\"nro\",\n  \"aprox\",\"etc\",\"av\",\"pto\",\"dpto\",\"art\",\"cap\",\"eeuu\",\n\n  // IT\n  \"sig\",\"sigg\",\"sigra\",\"sigre\",\"dr\",\"dott\",\"dssa\",\"ing\",\"avv\",\"prof\",\n  \"pag\",\"pagg\",\"num\",\"art\",\"cap\",\"ecc\",\"ca\",\"circa\",\"vle\",\"pza\",\"pzza\",\"cso\",\n\n  // FR\n  \"m\",\"mm\",\"mme\",\"mlle\",\"mlles\",\"dr\",\"pr\",\"etc\",\"env\",\"av\",\"bd\",\"st\",\"ste\",\n  \"no\",\"num\",\"art\",\"chap\",\"pag\",\"tel\",\"tva\",\n\n  // GE (DE)\n  \"hr\",\"fr\",\"dr\",\"prof\",\"bzw\",\"z.b\",\"zb\",\"bsp\",\"bspw\",\"usw\",\"vgl\",\"ca\",\n  \"d.h\",\"dh\",\"u.a\",\"ua\",\"u.ä\",\"ue\",\"str\",\"nr\",\"s\",\"abb\",\"ggf\",\"dipl\",\"ing\",\"dipl-ing\",\n\n  // SW\n  \"bl.a\",\"bla\",\"t.ex\",\"tex\",\"dvs\",\"m.fl\",\"mfl\",\"m.m\",\"mm\",\"osv\",\n  \"ca\",\"nr\",\"sid\",\"kap\",\"fig\",\"kl\",\"dr\",\"prof\",\"ing\",\"fru\",\"herr\",\n\n  // HE\n  \"דר\",\"פרופ\",\"גב\",\"מר\",\"מס\",\"עמ\",\"וכו\",\"לדוג\",\"רח\",\"טל\",\"סע\",\"פרק\"\n]);\n\n\nfunction isLetterOrDigit(ch) {\n  return /[0-9A-Za-zÀ-ÖØ-öø-ÿА-Яа-яЁё]/.test(ch);\n}\n\nfunction isAbbrevDot(text, dotPos) {\n  let i = dotPos - 1;\n  while (i >= 0 && text[i] === \" \") i--;\n\n  const end = i + 1;\n  while (i >= 0 && (isLetterOrDigit(text[i]) || text[i] === \"-\" )) i--;\n  const start = i + 1;\n\n  const word = text.slice(start, end).toLowerCase();\n  if (!word) return false;\n  if (word.length === 1) return true;\n  if (ABBREV.has(word)) return true;\n\n  const lookback = text.slice(Math.max(0, start - 4), dotPos + 1).toLowerCase();\n  if (lookback.includes(\".\") && lookback.length <= 6) return true;\n  return false;\n}\n\nfunction findSentenceBoundaries(text) {\n  const out = [];\n  const n = text.length;\n\n  for (let i = 0; i < n; i++) {\n    const ch = text[i];\n    if (!END_CHARS.has(ch)) continue;\n\n    let j = i;\n    while (j + 1 < n && END_CHARS.has(text[j + 1])) j++;\n\n    if (text[j] === \".\" && isAbbrevDot(text, j)) {\n      i = j;\n      continue;\n    }\n\n    let k = j + 1;\n    while (k < n && CLOSERS.has(text[k])) k++;\n\n    if (k === n || /\\s/.test(text[k])) out.push(k);\n    i = j;\n  }\n  return out;\n}\n\nfunction lastWhitespaceBefore(text, idx) {\n  for (let i = Math.min(idx, text.length - 1); i >= 0; i--) {\n    if (/\\s/.test(text[i])) return i;\n  }\n  return -1;\n}\n\nfunction firstWhitespaceAfter(text, idx) {\n  for (let i = Math.max(0, idx); i < text.length; i++) {\n    if (/\\s/.test(text[i])) return i;\n  }\n  return -1;\n}\n\n// ===============================\n// ✅ STRICT MIN/MAX REBALANCE PATCH\n// ===============================\n\nfunction splitDurStrict(totalDur, minMs, maxMs) {\n  const total = Math.max(0, Math.round(totalDur));\n  if (total === 0) return [];\n  if (total >= minMs && total <= maxMs) return [total];\n\n  const nMin = Math.ceil(total / maxMs);\n  const nMax = Math.floor(total / minMs);\n\n  if (nMin <= nMax && nMin > 0) {\n    const n = nMin;\n    const base = Math.floor(total / n);\n    let rem = total - base * n;\n    const out = Array(n).fill(base);\n    for (let i = 0; i < n && rem > 0; i++, rem--) out[i]++;\n    return out;\n  }\n\n  const out = [];\n  let rem = total;\n  while (rem > maxMs) {\n    out.push(maxMs);\n    rem -= maxMs;\n  }\n  if (rem > 0) out.push(rem);\n  return out;\n}\n\nfunction nearestBoundary(boundaries, minPos, maxPos, idealPos) {\n  let best = -1;\n  let bestDist = Infinity;\n  for (const b of boundaries) {\n    if (b < minPos || b > maxPos) continue;\n    const d = Math.abs(b - idealPos);\n    if (d < bestDist) {\n      bestDist = d;\n      best = b;\n    }\n  }\n  return best;\n}\n\nfunction splitTextByDurations(text, durations) {\n  const t = cleanText(text);\n  if (!durations.length) return [];\n  if (!t) return durations.map(() => \"\");\n  if (durations.length === 1) return [t];\n\n  const out = [];\n  const boundaries = findSentenceBoundaries(t);\n  const totalDur = durations.reduce((a, b) => a + b, 0);\n\n  let start = 0;\n  let accDur = 0;\n\n  for (let i = 0; i < durations.length - 1; i++) {\n    accDur += durations[i];\n\n    let ideal = Math.round((accDur / Math.max(1, totalDur)) * t.length);\n    ideal = Math.max(start + 1, Math.min(t.length - 1, ideal));\n\n    const minPos = start + 1;\n    const maxPos = t.length - 1;\n\n    let cut = nearestBoundary(boundaries, minPos, maxPos, ideal);\n\n    if (cut < 0) {\n      const wsLeft = lastWhitespaceBefore(t, ideal);\n      const wsRight = firstWhitespaceAfter(t, ideal);\n\n      const leftOk = wsLeft >= minPos && wsLeft <= maxPos;\n      const rightOk = wsRight >= minPos && wsRight <= maxPos;\n\n      if (leftOk && rightOk) {\n        cut = (Math.abs(wsLeft - ideal) <= Math.abs(wsRight - ideal)) ? wsLeft + 1 : wsRight + 1;\n      } else if (leftOk) {\n        cut = wsLeft + 1;\n      } else if (rightOk) {\n        cut = wsRight + 1;\n      } else {\n        cut = ideal;\n      }\n    }\n\n    cut = Math.max(minPos, Math.min(maxPos, cut));\n    out.push(cleanText(t.slice(start, cut)));\n    start = cut;\n  }\n\n  out.push(cleanText(t.slice(start)));\n  return out;\n}\n\nfunction splitPartStrict(part, minMs, maxMs) {\n  const dur = Math.max(0, Math.round(part?.durMs || 0));\n  if (dur <= 0) return [];\n\n  const durs = splitDurStrict(dur, minMs, maxMs);\n  const texts = splitTextByDurations(part?.text || \"\", durs);\n\n  return durs.map((d, i) => ({\n    text: cleanText(texts[i] || \"\"),\n    durMs: d\n  }));\n}\n\nfunction mergeParts(a, b) {\n  const ta = cleanText(a?.text || \"\");\n  const tb = cleanText(b?.text || \"\");\n  return {\n    text: cleanText((ta && tb) ? (ta + \" \" + tb) : (ta || tb)),\n    durMs: Math.max(0, Math.round((a?.durMs || 0) + (b?.durMs || 0)))\n  };\n}\n\nfunction rebalancePartsStrict(inputParts, minMs, maxMs) {\n  let parts = (Array.isArray(inputParts) ? inputParts : [])\n    .map(p => ({\n      text: cleanText(p?.text || \"\"),\n      durMs: Math.max(0, Math.round(p?.durMs || 0))\n    }))\n    .filter(p => p.durMs > 0);\n\n  if (!parts.length) return [];\n\n  for (let iter = 0; iter < 300; iter++) {\n    let changed = false;\n\n    let next = [];\n    for (const p of parts) {\n      if (p.durMs > maxMs) {\n        next.push(...splitPartStrict(p, minMs, maxMs));\n        changed = true;\n      } else {\n        next.push(p);\n      }\n    }\n    parts = next;\n\n    const shortIdx = parts.findIndex(p => p.durMs < minMs);\n    if (shortIdx === -1) {\n      if (!changed) break;\n      continue;\n    }\n\n    if (parts.length === 1) break;\n\n    const leftIdx = shortIdx - 1;\n    const rightIdx = shortIdx + 1;\n    const cur = parts[shortIdx];\n\n    let pickLeft = false;\n    if (leftIdx < 0) {\n      pickLeft = false;\n    } else if (rightIdx >= parts.length) {\n      pickLeft = true;\n    } else {\n      const leftDur = parts[leftIdx].durMs + cur.durMs;\n      const rightDur = parts[rightIdx].durMs + cur.durMs;\n\n      const leftOver = Math.max(0, leftDur - maxMs);\n      const rightOver = Math.max(0, rightDur - maxMs);\n\n      if (leftOver !== rightOver) {\n        pickLeft = leftOver < rightOver;\n      } else {\n        const target = (minMs + maxMs) / 2;\n        pickLeft = Math.abs(leftDur - target) <= Math.abs(rightDur - target);\n      }\n    }\n\n    if (pickLeft) {\n      parts[leftIdx] = mergeParts(parts[leftIdx], cur);\n      parts.splice(shortIdx, 1);\n    } else {\n      parts[rightIdx] = mergeParts(cur, parts[rightIdx]);\n      parts.splice(shortIdx, 1);\n    }\n\n    changed = true;\n    if (!changed) break;\n  }\n\n  const final = [];\n  for (const p of parts) {\n    if (p.durMs <= maxMs) final.push(p);\n    else final.push(...splitPartStrict(p, minMs, maxMs));\n  }\n\n  return final;\n}\n\n// ===============================\n// ✅ ADD TIMINGS + PREV/NEXT TEXT\n// ===============================\nfunction buildFinalParts(strictParts) {\n  const normalized = (Array.isArray(strictParts) ? strictParts : []).map(p => {\n    const text = cleanText(p?.text || \"\");\n    const durMs = Math.max(0, Math.round(p?.durMs || 0));\n    return { text, durMs };\n  });\n\n  let cursorMs = 0;\n\n  return normalized.map((p, i, arr) => {\n    const startMs = cursorMs;\n    const endMs = startMs + p.durMs;\n    cursorMs = endMs;\n\n    return {\n      partIndex: i,\n      text: p.text,\n      previous_text: i > 0 ? arr[i - 1].text : null,\n      next_text: i < arr.length - 1 ? arr[i + 1].text : null,\n      start_ms: startMs,\n      end_ms: endMs,\n      durMs: p.durMs,\n      charCount: p.text.length,\n    };\n  });\n}\n\n// ===============================\n// 🚀 Core splitter\n// ===============================\nfunction splitByMinMax(rawSegments, cfg) {\n  let { minMs, maxMs, softOverflowMs, totalDurMs } = cfg;\n\n  if (!Number.isFinite(minMs) || minMs <= 0) minMs = 2500;\n  if (!Number.isFinite(maxMs) || maxMs <= 0) maxMs = 4500;\n  if (minMs > maxMs) [minMs, maxMs] = [maxMs, minMs];\n\n  softOverflowMs = 0;\n  const hardMaxMs = maxMs;\n\n  const segs = (Array.isArray(rawSegments) ? rawSegments : [])\n    .map((seg, i) => {\n      const text = cleanText(seg?.[TEXT_KEY] ?? seg?.text ?? seg?.transcript ?? seg?.caption ?? \"\");\n      const se = normalizeStartEndMs({\n        start_ms: seg?.start_ms ?? pickFirst(seg, START_KEYS),\n        end_ms:   seg?.end_ms   ?? pickFirst(seg, END_KEYS),\n        start:    seg?.start    ?? pickFirst(seg, START_KEYS),\n        end:      seg?.end      ?? pickFirst(seg, END_KEYS),\n      });\n\n      return {\n        _origIndex: i,\n        text,\n        startMs: se.startMs,\n        endMs: se.endMs,\n      };\n    })\n    .filter(s => s.text);\n\n  const filled = fillGapsInPlace(segs, totalDurMs);\n  totalDurMs = filled.totalDurMs;\n\n  const segments = segs.map(s => ({\n    text: s.text,\n    durMs: Math.max(0, s.endMs - s.startMs),\n  }));\n\n  const draftParts = [];\n\n  function pushPart(txt, dur) {\n    const t = cleanText(txt);\n    if (!t) return;\n\n    const d = Math.max(0, Math.round(dur));\n    draftParts.push({\n      text: t,\n      durMs: d,\n    });\n  }\n\n  let bufText = \"\";\n  let bufDurMs = 0;\n\n  function cutBufferStrict() {\n    const t = bufText;\n    const totalChars = t.length;\n\n    if (!totalChars || bufDurMs <= 0) {\n      pushPart(t, bufDurMs);\n      bufText = \"\";\n      bufDurMs = 0;\n      return true;\n    }\n\n    const denom = Math.max(1, bufDurMs);\n\n    let maxChar = Math.floor(totalChars * (maxMs / denom));\n    maxChar = Math.max(1, Math.min(totalChars - 1, maxChar));\n\n    let minChar = Math.floor(totalChars * (minMs / denom));\n    minChar = Math.max(0, Math.min(maxChar, minChar));\n\n    const boundaries = findSentenceBoundaries(t);\n    let cutIdx = -1;\n\n    for (let i = boundaries.length - 1; i >= 0; i--) {\n      const b = boundaries[i];\n      if (b >= minChar && b <= maxChar) { cutIdx = b; break; }\n    }\n\n    if (cutIdx < 0) {\n      for (let i = boundaries.length - 1; i >= 0; i--) {\n        const b = boundaries[i];\n        if (b <= maxChar) { cutIdx = b; break; }\n      }\n    }\n\n    if (cutIdx < 0) {\n      const ws = lastWhitespaceBefore(t, maxChar);\n      if (ws > 0) cutIdx = ws + 1;\n    }\n\n    if (cutIdx < 1 || cutIdx >= totalChars) cutIdx = maxChar;\n\n    const leftRaw = t.slice(0, cutIdx);\n    const rightRaw = t.slice(cutIdx);\n\n    const leftText = cleanText(leftRaw);\n    const rightText = cleanText(rightRaw);\n\n    const leftRatio = cutIdx / Math.max(1, totalChars);\n    let leftDur = Math.floor(bufDurMs * leftRatio);\n    if (leftDur > maxMs) leftDur = maxMs;\n    if (leftDur < 0) leftDur = 0;\n\n    const rightDur = Math.max(0, bufDurMs - leftDur);\n\n    pushPart(leftText, leftDur);\n    bufText = rightText;\n    bufDurMs = rightDur;\n\n    return true;\n  }\n\n  for (const seg of segments) {\n    bufText = bufText ? (bufText + \" \" + seg.text) : seg.text;\n    bufDurMs += seg.durMs;\n\n    while (bufText && bufDurMs > hardMaxMs) {\n      cutBufferStrict();\n      if (bufDurMs < minMs) break;\n    }\n  }\n\n  if (bufText) {\n    while (bufText && bufDurMs > hardMaxMs) {\n      cutBufferStrict();\n      if (bufDurMs < minMs) break;\n    }\n    if (bufText) pushPart(bufText, bufDurMs);\n  }\n\n  const strictParts = rebalancePartsStrict(draftParts, minMs, maxMs);\n  const parts = buildFinalParts(strictParts);\n\n  return {\n    parts,\n    minMs,\n    maxMs,\n    softOverflowMs,\n    hardMaxMs,\n    totalDurMs,\n  };\n}\n\n// ===============================\n// ✅ Run\n// ===============================\nconst result = splitByMinMax(RAW_SEGMENTS, {\n  minMs: EACH_IMAGE_MIN_SCREEN_TIME_MS,\n  maxMs: EACH_IMAGE_MAX_SCREEN_TIME_MS,\n  softOverflowMs: SOFT_OVERFLOW_MS,\n  totalDurMs: TOTAL_DUR_MS,\n});\n\nreturn [\n  {\n    json: {\n      parts: result.parts,\n      totalDurMs: result.totalDurMs,\n      eachImageMinScreenTimeMs: result.minMs,\n      eachImageMaxScreenTimeMs: result.maxMs,\n      hardMaxMs: result.hardMaxMs,\n    }\n  }\n];"
@@ -34,1030 +19,6 @@
       ],
       "id": "75021c79-7e7a-4188-b02f-429aa9808e8f",
       "name": "Define Text Segments(normalized)"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ljH0uamrMfc4IBJx",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "http works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "route": "={{ $json.route }}",
-            "headers": "={{ $json.headers }}",
-            "body": "={{ $json.body }}",
-            "method": "POST"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route",
-              "displayName": "route",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": false
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        2032,
-        -80
-      ],
-      "id": "99d3d26b-ffee-49cf-8a9c-ab6c9b39f17f",
-      "name": "Send HTTP Request"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $('get all workflow params').last().json.visualsSegmentsAnalysisService == \"gemini\" }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "5ee75887-7518-4802-9c6e-47f913300963"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "gemini"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "c4c3ce37-169a-4d45-bf04-1fbf84efb151",
-                    "leftValue": "={{ $('get all workflow params').last().json.visualsSegmentsAnalysisService == \"openai\" }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "openai"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "05f5648d-1a6e-4f8d-97aa-2f4f035e56c5",
-                    "leftValue": "={{ $('get all workflow params').last().json.visualsSegmentsAnalysisService == \"runpod\" }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "runpod"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        1616,
-        288
-      ],
-      "id": "6e1d1a77-de19-4536-af29-5184e89714b7",
-      "name": "Switch Text Gen Service"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ljH0uamrMfc4IBJx",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "http works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "route": "={{ $json.route }}",
-            "headers": "={{ $json.headers }}",
-            "body": "={{ $json.body }}",
-            "method": "POST"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route",
-              "displayName": "route",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": false
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        2032,
-        240
-      ],
-      "id": "82b6ed0e-10fe-4417-8d45-20bda8b8f633",
-      "name": "Send HTTP Request4"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
-              "name": "route",
-              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.OPENAI_RESPONSES_ROUTE }}",
-              "type": "string"
-            },
-            {
-              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
-              "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.OPENAI_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
-              "name": "body",
-              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.visualsSegmentsAnalysisModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('get all workflow params').item.json.textSegmentAnalyzePrompt\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('combine into one object for visualSegmentAnalysis').item.json.userJsonStringInput\n        }\n      ]\n    },\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_schema\",\n      \"name\": \"visual_segment_analysis\",\n      \"strict\": true,\n      \"schema\": {\n        \"type\": \"object\",\n        \"additionalProperties\": false,\n        \"properties\": {\n          \"schema_version\": { \"type\": \"string\", \"enum\": [\"1.0\"] },\n          \"segment_index\": { \"type\": \"integer\" },\n          \"segment_function\": {\n            \"type\": \"string\",\n            \"enum\": [\"hook\",\"setup\",\"object_intro\",\"mechanism_explanation\",\"process_step\",\"scale_reveal\",\"historical_context\",\"comparison\",\"transition\",\"summary\"]\n          },\n          \"visual_need\": {\n            \"type\": \"string\",\n            \"enum\": [\"show_object\",\"show_structure\",\"show_process\",\"show_scale\",\"show_location\",\"show_history\",\"show_data\",\"bridge\"]\n          },\n          \"abstraction_level\": {\n            \"type\": \"string\",\n            \"enum\": [\"concrete\",\"mixed\",\"abstract\"]\n          },\n          \"priority_entities\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          },\n          \"needs_precise_overlay\": { \"type\": \"boolean\" },\n          \"reason\": { \"type\": \"string\" }\n        },\n        \"required\": [\n          \"schema_version\",\n          \"segment_index\",\n          \"segment_function\",\n          \"visual_need\",\n          \"abstraction_level\",\n          \"priority_entities\",\n          \"needs_precise_overlay\",\n          \"reason\"\n        ]\n      }\n    }\n  }\n}\n}}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1824,
-        304
-      ],
-      "id": "aada797a-a698-4c5c-93d2-8cddc1732dce",
-      "name": "form openai request"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
-              "name": "route",
-              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/{{ $env.GEMINI_RESPONSES_ROUTE }}",
-              "type": "string"
-            },
-            {
-              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
-              "name": "headers",
-              "value": "={{ {\n\"Authorization\": \"Bearer \"+$env.GOOGLE_API_KEY,\n\"X-Request-ID\": $json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
-              "name": "body",
-              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.visualsSegmentsAnalysisModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('get all workflow params').item.json.textSegmentAnalyzePrompt }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": $('combine into one object for visualSegmentAnalysis').item.json.userJsonStringInput},\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseJsonSchema\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"properties\": {\n        \"schema_version\": { \"type\": \"string\", \"enum\": [\"1.0\"] },\n        \"segment_index\": { \"type\": \"integer\" },\n        \"segment_function\": {\n          \"type\": \"string\",\n          \"enum\": [\"hook\",\"setup\",\"object_intro\",\"mechanism_explanation\",\"process_step\",\"scale_reveal\",\"historical_context\",\"comparison\",\"transition\",\"summary\"]\n        },\n        \"visual_need\": {\n          \"type\": \"string\",\n          \"enum\": [\"show_object\",\"show_structure\",\"show_process\",\"show_scale\",\"show_location\",\"show_history\",\"show_data\",\"bridge\"]\n        },\n        \"abstraction_level\": {\n          \"type\": \"string\",\n          \"enum\": [\"concrete\",\"mixed\",\"abstract\"]\n        },\n        \"priority_entities\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        },\n        \"needs_precise_overlay\": { \"type\": \"boolean\" },\n        \"reason\": { \"type\": \"string\" }\n      },\n      \"required\": [\n        \"schema_version\",\n        \"segment_index\",\n        \"segment_function\",\n        \"visual_need\",\n        \"abstraction_level\",\n        \"priority_entities\",\n        \"needs_precise_overlay\",\n        \"reason\"\n      ]\n    }\n  },\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"OFF\" }\n  ]\n}\n}}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1824,
-        144
-      ],
-      "id": "69a5a9fc-51cc-452f-8a3c-818c6815cb1b",
-      "name": "form gemini request"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "bb34329b-1a28-47b6-a706-37ca20489776",
-              "name": "userJsonStringInput",
-              "value": "={{\n\n{\n\"topic_idea\":$('get selectedClusterPlan').item.json.topic_idea,\n\"segment_index\":$('Split Out Text Parts').item.json.partIndex,\n\"total_segments\":$('Define Text Segments(normalized)').item.json.parts.length,\n\n\"start_ms\":$('Split Out Text Parts').item.json.start_ms,\n\n\"prev_segment_text\":$('Split Out Text Parts').item.json.previous_text,\n\"next_segment_text\":$('Split Out Text Parts').item.json.next_text,\n\n\"selectedClusterPlan\":$('get selectedClusterPlan').item.json,\n\n\"visualNarrationStrategy\":$('read visualNarrationStrategy').item.json\n}\n\n}}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        960,
-        304
-      ],
-      "id": "b589e4e2-aeef-4d9d-b1a8-0299d16c351d",
-      "name": "combine into one object for visualSegmentAnalysis"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ljH0uamrMfc4IBJx",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "http works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "route": "={{ $json.route }}",
-            "headers": "={{ $json.headers }}",
-            "body": "={{ $json.body }}",
-            "method": "POST"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route",
-              "displayName": "route",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": true
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        2224,
-        80
-      ],
-      "id": "45a408f8-12b7-4253-a8c7-4cffff1c0b24",
-      "name": "Send HTTP Request1"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ljH0uamrMfc4IBJx",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "http works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "route": "={{ $json.route }}",
-            "headers": "={{ $json.headers }}",
-            "body": "={{ $json.body }}",
-            "method": "POST"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route",
-              "displayName": "route",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": true
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        2224,
-        384
-      ],
-      "id": "2163d415-a527-454e-9fc2-3fb811a58d41",
-      "name": "Send HTTP Request5"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
-              "name": "route",
-              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
-              "type": "string"
-            },
-            {
-              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
-              "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $('get random ID').item.json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
-              "name": "body",
-              "value": "={{\n{\n  \"view\":\"status\"\n}\n\n}}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2032,
-        80
-      ],
-      "id": "0abbbf67-ad69-424c-892d-18f9c16e10f5",
-      "name": "form check gemini request"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
-              "name": "route",
-              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
-              "type": "string"
-            },
-            {
-              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
-              "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $('get random ID').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
-              "name": "body",
-              "value": "={{\n{\n  \"view\":\"status\"\n}\n\n}}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2032,
-        384
-      ],
-      "id": "be3210bf-b99d-4e30-9f39-96999de9b7f2",
-      "name": "form check openai request"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.item.done }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "8000c581-2a21-435a-a6b5-d72a4fdc8a46"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "done"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "c84dbe90-56e8-4562-a494-b6ff3a6e934c",
-                    "leftValue": "={{ !$json.item.done }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "not done"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        2688,
-        384
-      ],
-      "id": "b7818c07-38a3-4c8a-8f63-d2c5653f0832",
-      "name": "done?"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ljH0uamrMfc4IBJx",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "http works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "route": "={{ $json.route }}",
-            "headers": "={{ $json.headers }}",
-            "body": "={{ $json.body }}",
-            "method": "POST"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route",
-              "displayName": "route",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": true
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        3104,
-        384
-      ],
-      "id": "d69877e4-4650-4b00-8e25-d68f3e9f92da",
-      "name": "Send HTTP Request7"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
-              "name": "route",
-              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
-              "type": "string"
-            },
-            {
-              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
-              "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $('get random ID').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
-              "name": "body",
-              "value": "={{\n{\n  \"view\":\"result\"\n}\n\n}}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2912,
-        384
-      ],
-      "id": "aeb86632-4692-44aa-87a2-68f0af02753e",
-      "name": "form check openai request1"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.item.done }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "8000c581-2a21-435a-a6b5-d72a4fdc8a46"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "done"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "c84dbe90-56e8-4562-a494-b6ff3a6e934c",
-                    "leftValue": "={{ !$json.item.done }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "not done"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        2688,
-        80
-      ],
-      "id": "c373ed09-40f2-4e7c-b947-6f25d50c64f6",
-      "name": "done?1"
-    },
-    {
-      "parameters": {
-        "amount": 20
-      },
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        2784,
-        176
-      ],
-      "id": "7fb332a6-0a37-43a1-a618-e0038a791adb",
-      "name": "Wait2",
-      "webhookId": "4503a421-5aaf-459e-82c5-8d2c318d4470"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ljH0uamrMfc4IBJx",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "http works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "route": "={{ $json.route }}",
-            "headers": "={{ $json.headers }}",
-            "body": "={{ $json.body }}",
-            "method": "POST"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route",
-              "displayName": "route",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": true
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        3104,
-        80
-      ],
-      "id": "2925b321-ed7b-43b8-be4f-1d146fc1840e",
-      "name": "Send HTTP Request8"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
-              "name": "route",
-              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
-              "type": "string"
-            },
-            {
-              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
-              "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $('get random ID').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
-              "name": "body",
-              "value": "={{\n{\n  \"view\":\"result\"\n}\n\n}}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2912,
-        80
-      ],
-      "id": "d568afd8-8c95-4b77-a10e-196c4ef0090f",
-      "name": "form check openai request2"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Split Out Text Parts').item.json.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
-            "fileAction": "write",
-            "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ (()=>{\nconst obj = $json.visualSegmentAnalysis\n\nobj.segment_index = $('Split Out Text Parts').item.json.partIndex\n\nreturn {\"segment_analysis\":obj,\"segment_meta\":$('Split Out Text Parts').item.json}\n})() }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        3696,
-        304
-      ],
-      "name": "write visualSegmentAnalysis",
-      "id": "5df094b4-a537-470b-bd6f-e9694534a54b"
     },
     {
       "parameters": {
@@ -1217,323 +178,15 @@
       "name": "Define Text Segments(normalized)1"
     },
     {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
-                    "leftValue": "={{ !$json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "success"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "error"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        2400,
-        80
-      ],
-      "id": "d900adb2-7d41-4d11-8939-d7247d0bce61",
-      "name": "was error"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
-                    "leftValue": "={{ $json.hasField('error') ? $json.error==null : !$json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "success"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.hasField('error') ? !$json.error==null : $json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "error"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        2400,
-        384
-      ],
-      "id": "caab8378-d4e2-4fa6-8f0c-c1a9734484e5",
-      "name": "was error4"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
-                    "leftValue": "={{ !$json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "success"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "error"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        3280,
-        80
-      ],
-      "id": "4eac28db-b6c5-417f-9043-f79280cc2a3e",
-      "name": "was error1"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
-                    "leftValue": "={{ $json.hasField('error') ? $json.error==null : !$json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "success"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.hasField('error') ? !$json.error==null : $json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "error"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        3280,
-        384
-      ],
-      "id": "7e404529-37b1-4981-b3ab-fdcdfc989022",
-      "name": "was error5"
-    },
-    {
-      "parameters": {
-        "errorMessage": "=<{{ $workflow.name }}>\nError checking request status"
-      },
-      "type": "n8n-nodes-base.stopAndError",
-      "typeVersion": 1,
-      "position": [
-        2560,
-        496
-      ],
-      "id": "8931bc19-bde2-4960-b9f7-5f8b138c83a1",
-      "name": "Stop and Error4"
-    },
-    {
-      "parameters": {
-        "errorMessage": "=<{{ $workflow.name }}>\nError getting request result"
-      },
-      "type": "n8n-nodes-base.stopAndError",
-      "typeVersion": 1,
-      "position": [
-        3456,
-        496
-      ],
-      "id": "08ea3b88-f6f3-4e59-8413-9ed9a398d61a",
-      "name": "Stop and Error5"
-    },
-    {
       "parameters": {},
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        4432,
-        304
+        1744,
+        480
       ],
       "id": "ab7c3927-274c-4239-80f8-a5e94ce8c309",
       "name": "Limit"
-    },
-    {
-      "parameters": {
-        "amount": 20
-      },
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        2784,
-        480
-      ],
-      "id": "589debf9-d055-4604-aaa4-e2cd34fb36d5",
-      "name": "Wait3",
-      "webhookId": "fb09a521-2525-4866-8e8b-428a6a19890a"
     },
     {
       "parameters": {
@@ -1606,8 +259,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        4080,
-        304
+        1232,
+        480
       ],
       "name": "get existing segments1",
       "id": "228dcb32-0ab1-456c-9d65-606c4c13a59a"
@@ -1616,31 +269,6 @@
       "parameters": {
         "rules": {
           "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "5994289e-ca8a-4125-9201-ac7e8d5b49cf",
-                    "leftValue": "={{ !$json.filesReady }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "not ready"
-            },
             {
               "conditions": {
                 "options": {
@@ -1665,6 +293,31 @@
               },
               "renameOutput": true,
               "outputKey": "ready"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "5994289e-ca8a-4125-9201-ac7e8d5b49cf",
+                    "leftValue": "={{ !$json.filesReady }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not ready"
             }
           ]
         },
@@ -1673,27 +326,11 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        4272,
-        304
+        1424,
+        480
       ],
       "id": "cee3bd49-8702-4199-8bb7-3df0f120f974",
       "name": "all segmentAnalysis ready?1"
-    },
-    {
-      "parameters": {
-        "content": "## Request status checking cycle",
-        "height": 736,
-        "width": 1584,
-        "color": 2
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        2016,
-        -128
-      ],
-      "id": "6379d4c1-2eb5-4d0e-a17e-c3ffa6ae2ca9",
-      "name": "Sticky Note3"
     },
     {
       "parameters": {
@@ -1705,8 +342,8 @@
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        3872,
-        256
+        1024,
+        432
       ],
       "id": "d722d7d6-5be7-4de1-a8c1-6875b416b729",
       "name": "Sticky Note9"
@@ -1716,8 +353,8 @@
       "type": "n8n-nodes-base.limit",
       "typeVersion": 1,
       "position": [
-        3888,
-        304
+        1040,
+        480
       ],
       "id": "819ad1aa-42c8-488a-9ec7-8d848d830b4c",
       "name": "Limit5"
@@ -2218,75 +855,6 @@
       "id": "2d6d4b67-e2bd-4fb1-b4ea-527ec7b84913"
     },
     {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
-              "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n\n$('get all workflow params').item.json.visualsSegmentsAnalysisModel,\n\n$('get all workflow params').item.json.textSegmentAnalyzePrompt,\n\n$('combine into one object for visualSegmentAnalysis').item.json.userJsonStringInput\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1152,
-        304
-      ],
-      "id": "6d0a317c-3fcf-4e5b-8a17-5a992ed2e5d7",
-      "name": "get random ID"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "1af68585-863a-4943-bff7-f35629ad285f",
-              "name": "visualSegmentAnalysis",
-              "value": "={{ $json.item.response.candidates[0].content.parts[0].text.parseJson() }}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        3488,
-        128
-      ],
-      "id": "9c6d39f9-6dbf-4344-99a9-4ae318167efb",
-      "name": "Parse Gemini Response"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "1af68585-863a-4943-bff7-f35629ad285f",
-              "name": "visualSegmentAnalysis",
-              "value": "={{ $json.item.response.output[1].content[0].text.parseJson() }}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        3488,
-        304
-      ],
-      "id": "74fceac2-4de1-4eaa-a3e9-ebc39730e1c5",
-      "name": "Parse Openai Response"
-    },
-    {
       "parameters": {},
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
@@ -2325,8 +893,8 @@
       "type": "n8n-nodes-base.noOp",
       "typeVersion": 1,
       "position": [
-        4624,
-        304
+        1936,
+        480
       ],
       "id": "4e469a95-4fc3-4c40-a463-cf018d31a9f7",
       "name": "All done => visuals – 3 – format planning"
@@ -2348,11 +916,136 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        4816,
-        304
+        2128,
+        480
       ],
       "id": "3050d65c-ee1f-43db-b24f-b2527d467347",
       "name": "Set all done output"
+    },
+    {
+      "parameters": {
+        "amount": 30
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1552,
+        576
+      ],
+      "id": "5e2020af-a6af-4b24-8d73-b38d1fac85c6",
+      "name": "Wait1",
+      "webhookId": "750235a3-cd0a-4418-8542-5262ef8c87de"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qnMREKnODZoNefKb",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qnMREKnODZoNefKb",
+          "cachedResultName": "visuals – 2 – analyze text segments – paralleling"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "userJsonStringInput": "={{ $json.userJsonStringInput }}",
+            "channelsFolderPath": "={{ $('Start').item.json.channelsFolderPath }}",
+            "channelName": "={{ $('Start').item.json.channelName }}",
+            "videoFolderName": "={{ $('Start').item.json.videoFolderName }}",
+            "segmentMeta": "={{ $('Split Out Text Parts').item.json }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "channelsFolderPath",
+              "displayName": "channelsFolderPath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "channelName",
+              "displayName": "channelName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "videoFolderName",
+              "displayName": "videoFolderName",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "userJsonStringInput",
+              "displayName": "userJsonStringInput",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "segmentMeta",
+              "displayName": "segmentMeta",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": false
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1232,
+        144
+      ],
+      "id": "a9980fd8-78b9-4f79-971a-c24f7e54dde9",
+      "name": "visuals – 2 – analyze text segments – paralleling"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "bb34329b-1a28-47b6-a706-37ca20489776",
+              "name": "userJsonStringInput",
+              "value": "={{\n\n{\n\"topic_idea\":$('get selectedClusterPlan').item.json.topic_idea,\n\"segment_index\":$('Split Out Text Parts').item.json.partIndex,\n\"total_segments\":$('Define Text Segments(normalized)').item.json.parts.length,\n\n\"start_ms\":$('Split Out Text Parts').item.json.start_ms,\n\n\"prev_segment_text\":$('Split Out Text Parts').item.json.previous_text,\n\"next_segment_text\":$('Split Out Text Parts').item.json.next_text,\n\n\"selectedClusterPlan\":$('get selectedClusterPlan').item.json,\n\n\"visualNarrationStrategy\":$('read visualNarrationStrategy').item.json\n}\n\n}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1024,
+        144
+      ],
+      "id": "c226ca2b-a313-48e1-a471-0aea1799b718",
+      "name": "combine into one object for visualSegmentAnalysis"
     }
   ],
   "connections": {
@@ -2361,213 +1054,6 @@
         [
           {
             "node": "get existing segments",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Switch Text Gen Service": {
-      "main": [
-        [
-          {
-            "node": "form gemini request",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "form openai request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "form openai request": {
-      "main": [
-        [
-          {
-            "node": "Send HTTP Request4",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "form check openai request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "form gemini request": {
-      "main": [
-        [
-          {
-            "node": "Send HTTP Request",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "form check gemini request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "combine into one object for visualSegmentAnalysis": {
-      "main": [
-        [
-          {
-            "node": "get random ID",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send HTTP Request1": {
-      "main": [
-        [
-          {
-            "node": "was error",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send HTTP Request5": {
-      "main": [
-        [
-          {
-            "node": "was error4",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "form check gemini request": {
-      "main": [
-        [
-          {
-            "node": "Send HTTP Request1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "form check openai request": {
-      "main": [
-        [
-          {
-            "node": "Send HTTP Request5",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "done?": {
-      "main": [
-        [
-          {
-            "node": "form check openai request1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Wait3",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send HTTP Request7": {
-      "main": [
-        [
-          {
-            "node": "was error5",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "form check openai request1": {
-      "main": [
-        [
-          {
-            "node": "Send HTTP Request7",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "done?1": {
-      "main": [
-        [
-          {
-            "node": "form check openai request2",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Wait2",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Wait2": {
-      "main": [
-        [
-          {
-            "node": "form check gemini request",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Send HTTP Request8": {
-      "main": [
-        [
-          {
-            "node": "was error1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "form check openai request2": {
-      "main": [
-        [
-          {
-            "node": "Send HTTP Request8",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "write visualSegmentAnalysis": {
-      "main": [
-        [
-          {
-            "node": "Limit5",
             "type": "main",
             "index": 0
           }
@@ -2614,94 +1100,11 @@
         ]
       ]
     },
-    "was error": {
-      "main": [
-        [
-          {
-            "node": "done?1",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Stop and Error4",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "was error4": {
-      "main": [
-        [
-          {
-            "node": "done?",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Stop and Error4",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "was error1": {
-      "main": [
-        [
-          {
-            "node": "Parse Gemini Response",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Stop and Error5",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "was error5": {
-      "main": [
-        [
-          {
-            "node": "Parse Openai Response",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Stop and Error5",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Limit": {
       "main": [
         [
           {
             "node": "All done => visuals – 3 – format planning",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Wait3": {
-      "main": [
-        [
-          {
-            "node": "form check openai request",
             "type": "main",
             "index": 0
           }
@@ -2721,10 +1124,16 @@
     },
     "all segmentAnalysis ready?1": {
       "main": [
-        [],
         [
           {
             "node": "Limit",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait1",
             "type": "main",
             "index": 0
           }
@@ -2812,6 +1221,11 @@
       "main": [
         [
           {
+            "node": "Limit5",
+            "type": "main",
+            "index": 0
+          },
+          {
             "node": "combine into one object for visualSegmentAnalysis",
             "type": "main",
             "index": 0
@@ -2841,39 +1255,6 @@
         ]
       ]
     },
-    "get random ID": {
-      "main": [
-        [
-          {
-            "node": "Switch Text Gen Service",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Parse Gemini Response": {
-      "main": [
-        [
-          {
-            "node": "write visualSegmentAnalysis",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Parse Openai Response": {
-      "main": [
-        [
-          {
-            "node": "write visualSegmentAnalysis",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "Pass through => visuals – 3 – format planning": {
       "main": [
         [
@@ -2895,6 +1276,28 @@
           }
         ]
       ]
+    },
+    "Wait1": {
+      "main": [
+        [
+          {
+            "node": "Limit5",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "combine into one object for visualSegmentAnalysis": {
+      "main": [
+        [
+          {
+            "node": "visuals – 2 – analyze text segments – paralleling",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -2908,8 +1311,8 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-04-04_Amog2"
+          "channelName": "TheHistoryBranches",
+          "videoFolderName": "2026-04-21_ohBDC"
         },
         "pairedItem": {
           "item": 0
@@ -2917,9 +1320,9 @@
       }
     ]
   },
-  "versionId": "95d6ddff-ae79-41fe-8c54-bff6325b7899",
-  "activeVersionId": "95d6ddff-ae79-41fe-8c54-bff6325b7899",
-  "versionCounter": 154,
+  "versionId": "f16b98ec-e107-4b2e-bec5-9bec276322e6",
+  "activeVersionId": "f16b98ec-e107-4b2e-bec5-9bec276322e6",
+  "versionCounter": 203,
   "triggerCount": 0,
   "tags": [],
   "shared": [

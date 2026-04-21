@@ -1,12 +1,26 @@
 {
-  "updatedAt": "2026-04-16T10:31:20.982Z",
-  "createdAt": "2026-04-16T10:26:42.803Z",
-  "id": "OmTvTvpxJjslUywa",
-  "name": "visuals – 4 – Still based planning – paralleling",
+  "updatedAt": "2026-04-21T20:37:09.518Z",
+  "createdAt": "2026-04-21T20:03:09.630Z",
+  "id": "qnMREKnODZoNefKb",
+  "name": "visuals – 2 – analyze text segments – paralleling",
   "description": null,
   "active": true,
   "isArchived": false,
   "nodes": [
+    {
+      "parameters": {
+        "inputSource": "jsonExample",
+        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"userJsonStringInput\":\"\",\n  \"segmentMeta\": {}\n}"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        480,
+        304
+      ],
+      "id": "eb74c9e6-a712-46e7-8352-14595b722d80",
+      "name": "Start"
+    },
     {
       "parameters": {
         "workflowId": {
@@ -21,7 +35,7 @@
           "value": {
             "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/settings.json",
             "fileAction": "read",
-            "keysToReturn": "={{ [\n\"clipGenType\",\n\n\"videoVisualMode\",\n\n\n\"visualsPlanningService\",\n\"visualsPlanningModel\",\n\"visualsBaseFormatWindowPlanningModel\",\n\n\n\"visualBaseFormatWindowPlanningPrompt\",\n\n\"baseFormatSelectionPolicy\",\n\n\"sceneBasedShotPlanningPrompt\",\n\"sceneBasedShotAllowedThreatments\",\n\n\"graphicBasedShotPlanningPrompt\",\n\"graphicBasedShotAllowedThreatments\",\n\n\"stillBasedShotPlanningPrompt\",\n\"stillBasedShotAllowedThreatments\",\n\n\n\"eachVisualMinScreenTimeMs\",\n\"eachVisualMaxScreenTimeMs\"\n] }}",
+            "keysToReturn": "={{ [\n\"clipGenType\",\n\n\"videoVisualMode\",\n\n\n\"visualsSegmentsAnalysisService\",\n\"visualsSegmentsAnalysisModel\",\n\n\"visualNarrationStrategyGenPrompt\",\n\n\"textSegmentAnalyzePrompt\",\n\"visualBaseFormatWindowPlanningPrompt\",\n\n\"sceneBasedShotPlanningPrompt\",\n\"sceneBasedShotAllowedThreatments\",\n\n\"graphicBasedShotPlanningPrompt\",\n\"graphicBasedShotAllowedThreatments\",\n\n\"stillBasedShotPlanningPrompt\",\n\"stillBasedShotAllowedThreatments\",\n\n\"eachVisualMinScreenTimeMs\",\n\"eachVisualMaxScreenTimeMs\"\n] }}",
             "keysToWrite": "={{ {} }}",
             "keysToDelete": "={{ [] }}"
           },
@@ -89,40 +103,26 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        560,
-        352
+        672,
+        304
       ],
       "name": "get all workflow params",
-      "id": "17f8b7c1-5c09-45a1-8948-ced3a650543b"
+      "id": "cb553530-2b73-4e3e-b8fe-d289bcb765a9"
     },
     {
       "parameters": {
-        "inputSource": "jsonExample",
-        "jsonExample": "{\n  \"channelsFolderPath\": \"\",\n  \"channelName\": \"\",\n  \"videoFolderName\": \"\",\n  \"requestPayload\": {},\n  \"index\": 0\n}"
-      },
-      "type": "n8n-nodes-base.executeWorkflowTrigger",
-      "typeVersion": 1.1,
-      "position": [
-        368,
-        352
-      ],
-      "id": "51d1642e-b160-4ec3-8475-1a634d12fbdd",
-      "name": "Start"
-    },
-    {
-      "parameters": {
-        "content": "## Still based visuals planning",
+        "content": "## Analyze each text segment",
         "height": 768,
-        "width": 2336
+        "width": 2612
       },
       "type": "n8n-nodes-base.stickyNote",
       "typeVersion": 1,
       "position": [
-        752,
-        -112
+        912,
+        -144
       ],
-      "id": "c0c9e8fe-54f3-4448-8f0c-a94ddbd5cbd6",
-      "name": "Sticky Note15"
+      "id": "85cf5500-554f-4f6e-95f8-366aa470fb17",
+      "name": "Sticky Note"
     },
     {
       "parameters": {
@@ -195,11 +195,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1328,
-        -32
+        1744,
+        -80
       ],
-      "id": "5ea813c0-f225-40a0-be09-637d1ba12ec0",
-      "name": "Send HTTP Request22"
+      "id": "04c22956-813c-48d5-8d45-59c22c58f383",
+      "name": "Send HTTP Request"
     },
     {
       "parameters": {
@@ -215,7 +215,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ $('get all workflow params').last().json.visualsPlanningService == \"gemini\" }}",
+                    "leftValue": "={{ $('get all workflow params').last().json.visualsSegmentsAnalysisService == \"gemini\" }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -241,7 +241,7 @@
                 "conditions": [
                   {
                     "id": "c4c3ce37-169a-4d45-bf04-1fbf84efb151",
-                    "leftValue": "={{ $('get all workflow params').last().json.visualsPlanningService == \"openai\" }}",
+                    "leftValue": "={{ $('get all workflow params').last().json.visualsSegmentsAnalysisService == \"openai\" }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -266,7 +266,7 @@
                 "conditions": [
                   {
                     "id": "05f5648d-1a6e-4f8d-97aa-2f4f035e56c5",
-                    "leftValue": "={{ $('get all workflow params').last().json.visualsPlanningService == \"runpod\" }}",
+                    "leftValue": "={{ $('get all workflow params').last().json.visualsSegmentsAnalysisService == \"runpod\" }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -287,11 +287,11 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        944,
-        320
+        1328,
+        288
       ],
-      "id": "f217f460-1c31-4c04-a264-321614d3f3d1",
-      "name": "Switch Text Gen Service5"
+      "id": "8b430335-e0d9-482d-b045-3493bb17995e",
+      "name": "Switch Text Gen Service"
     },
     {
       "parameters": {
@@ -364,11 +364,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1328,
-        272
+        1744,
+        240
       ],
-      "id": "f4147095-b50d-4142-a529-69ceb81b0834",
-      "name": "Send HTTP Request23"
+      "id": "39e5e1ba-bf6c-4acf-8d9c-0835e1c6abc7",
+      "name": "Send HTTP Request4"
     },
     {
       "parameters": {
@@ -389,7 +389,7 @@
             {
               "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
               "name": "body",
-              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.visualsPlanningModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('get all workflow params').item.json.stillBasedShotPlanningPrompt\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('Start').item.json.requestPayload.toJsonString()\n        }\n      ]\n    },\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_schema\",\n      \"name\": \"still_treatment_plan\",\n      \"strict\": true,\n      \"schema\": {\n        \"type\": \"object\",\n        \"additionalProperties\": false,\n        \"properties\": {\n          \"schema_version\": { \"type\": \"string\", \"enum\": [\"1.0\"] },\n          \"segment_index\": { \"type\": \"integer\" },\n          \"visual_mode\": { \"type\": \"string\" },\n          \"selected_still_treatment_id\": { \"type\": \"string\" },\n          \"framing_scope\": {\n            \"type\": \"string\",\n            \"enum\": [\"full_object\", \"single_subject\", \"detail_focus\", \"mixed\"]\n          },\n          \"detail_density\": {\n            \"type\": \"string\",\n            \"enum\": [\"low\", \"medium\", \"high\"]\n          },\n          \"motion_behavior\": {\n            \"type\": \"string\",\n            \"enum\": [\"still_hold\", \"slow_parallax\", \"subtle_push\"]\n          },\n          \"label_intensity\": {\n            \"type\": \"string\",\n            \"enum\": [\"none\", \"light\", \"medium\", \"dense\"]\n          },\n          \"reason\": { \"type\": \"string\" }\n        },\n        \"required\": [\n          \"schema_version\",\n          \"segment_index\",\n          \"visual_mode\",\n          \"selected_still_treatment_id\",\n          \"framing_scope\",\n          \"detail_density\",\n          \"motion_behavior\",\n          \"label_intensity\",\n          \"reason\"\n        ]\n      }\n    }\n  }\n}\n}}",
+              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.visualsSegmentsAnalysisModel,\n  \"input\": [\n    {\n      \"role\": \"system\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('get all workflow params').item.json.textSegmentAnalyzePrompt\n        }\n      ]\n    },\n    {\n      \"role\": \"user\",\n      \"content\": [\n        {\n          \"type\": \"input_text\",\n          \"text\": $('Start').item.json.userJsonStringInput\n        }\n      ]\n    },\n  ],\n  \"text\": {\n    \"format\": {\n      \"type\": \"json_schema\",\n      \"name\": \"visual_segment_analysis\",\n      \"strict\": true,\n      \"schema\": {\n        \"type\": \"object\",\n        \"additionalProperties\": false,\n        \"properties\": {\n          \"schema_version\": { \"type\": \"string\", \"enum\": [\"1.0\"] },\n          \"segment_index\": { \"type\": \"integer\" },\n          \"segment_function\": {\n            \"type\": \"string\",\n            \"enum\": [\"hook\",\"setup\",\"object_intro\",\"mechanism_explanation\",\"process_step\",\"scale_reveal\",\"historical_context\",\"comparison\",\"transition\",\"summary\"]\n          },\n          \"visual_need\": {\n            \"type\": \"string\",\n            \"enum\": [\"show_object\",\"show_structure\",\"show_process\",\"show_scale\",\"show_location\",\"show_history\",\"show_data\",\"bridge\"]\n          },\n          \"abstraction_level\": {\n            \"type\": \"string\",\n            \"enum\": [\"concrete\",\"mixed\",\"abstract\"]\n          },\n          \"priority_entities\": {\n            \"type\": \"array\",\n            \"items\": { \"type\": \"string\" }\n          },\n          \"needs_precise_overlay\": { \"type\": \"boolean\" },\n          \"reason\": { \"type\": \"string\" }\n        },\n        \"required\": [\n          \"schema_version\",\n          \"segment_index\",\n          \"segment_function\",\n          \"visual_need\",\n          \"abstraction_level\",\n          \"priority_entities\",\n          \"needs_precise_overlay\",\n          \"reason\"\n        ]\n      }\n    }\n  }\n}\n}}",
               "type": "object"
             }
           ]
@@ -399,11 +399,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1136,
-        336
+        1536,
+        304
       ],
-      "id": "07c73cbc-08b7-43b0-8202-a15361a32154",
-      "name": "form openai request5"
+      "id": "6d20b5cd-4496-46a0-9360-a156b7a4fa24",
+      "name": "form openai request"
     },
     {
       "parameters": {
@@ -424,7 +424,7 @@
             {
               "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
               "name": "body",
-              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.visualsPlanningModel,\n  \"systemInstruction\": {\n    \"parts\": [\n        { \"text\": $('get all workflow params').item.json.stillBasedShotPlanningPrompt }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": $('Start').item.json.requestPayload.toJsonString() },\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseJsonSchema\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"properties\": {\n        \"schema_version\": { \"type\": \"string\", \"enum\": [\"1.0\"] },\n        \"segment_index\": { \"type\": \"integer\" },\n        \"visual_mode\": { \"type\": \"string\" },\n        \"selected_still_treatment_id\": { \"type\": \"string\" },\n        \"framing_scope\": {\n          \"type\": \"string\",\n          \"enum\": [\"full_object\", \"single_subject\", \"detail_focus\", \"mixed\"]\n        },\n        \"detail_density\": {\n          \"type\": \"string\",\n          \"enum\": [\"low\", \"medium\", \"high\"]\n        },\n        \"motion_behavior\": {\n          \"type\": \"string\",\n          \"enum\": [\"still_hold\", \"slow_parallax\", \"subtle_push\"]\n        },\n        \"label_intensity\": {\n          \"type\": \"string\",\n          \"enum\": [\"none\", \"light\", \"medium\", \"dense\"]\n        },\n        \"reason\": { \"type\": \"string\" }\n      },\n      \"required\": [\n        \"schema_version\",\n        \"segment_index\",\n        \"visual_mode\",\n        \"selected_still_treatment_id\",\n        \"framing_scope\",\n        \"detail_density\",\n        \"motion_behavior\",\n        \"label_intensity\",\n        \"reason\"\n      ]\n    }\n  },\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"OFF\" }\n  ]\n}\n}}",
+              "value": "={{ \n{\n  \"model\": $('get all workflow params').first().json.visualsSegmentsAnalysisModel,\n  \"systemInstruction\": {\n    \"parts\": [\n      { \"text\": $('get all workflow params').item.json.textSegmentAnalyzePrompt }\n    ]\n  },\n  \"contents\": [\n    {\n      \"role\": \"user\",\n      \"parts\": [\n        { \"text\": $('Start').item.json.userJsonStringInput},\n      ]\n    }\n  ],\n  \"generationConfig\": {\n    \"responseMimeType\": \"application/json\",\n    \"responseJsonSchema\": {\n      \"type\": \"object\",\n      \"additionalProperties\": false,\n      \"properties\": {\n        \"schema_version\": { \"type\": \"string\", \"enum\": [\"1.0\"] },\n        \"segment_index\": { \"type\": \"integer\" },\n        \"segment_function\": {\n          \"type\": \"string\",\n          \"enum\": [\"hook\",\"setup\",\"object_intro\",\"mechanism_explanation\",\"process_step\",\"scale_reveal\",\"historical_context\",\"comparison\",\"transition\",\"summary\"]\n        },\n        \"visual_need\": {\n          \"type\": \"string\",\n          \"enum\": [\"show_object\",\"show_structure\",\"show_process\",\"show_scale\",\"show_location\",\"show_history\",\"show_data\",\"bridge\"]\n        },\n        \"abstraction_level\": {\n          \"type\": \"string\",\n          \"enum\": [\"concrete\",\"mixed\",\"abstract\"]\n        },\n        \"priority_entities\": {\n          \"type\": \"array\",\n          \"items\": { \"type\": \"string\" }\n        },\n        \"needs_precise_overlay\": { \"type\": \"boolean\" },\n        \"reason\": { \"type\": \"string\" }\n      },\n      \"required\": [\n        \"schema_version\",\n        \"segment_index\",\n        \"segment_function\",\n        \"visual_need\",\n        \"abstraction_level\",\n        \"priority_entities\",\n        \"needs_precise_overlay\",\n        \"reason\"\n      ]\n    }\n  },\n  \"safetySettings\": [\n    { \"category\": \"HARM_CATEGORY_HARASSMENT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_HATE_SPEECH\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_SEXUALLY_EXPLICIT\", \"threshold\": \"OFF\" },\n    { \"category\": \"HARM_CATEGORY_DANGEROUS_CONTENT\", \"threshold\": \"OFF\" }\n  ]\n}\n}}",
               "type": "object"
             }
           ]
@@ -434,80 +434,495 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1136,
+        1536,
+        144
+      ],
+      "id": "741ca03c-21bf-4c67-99ac-11900b8ba30d",
+      "name": "form gemini request"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1936,
+        80
+      ],
+      "id": "eab1cd82-0547-4912-937b-994ed8d86a7b",
+      "name": "Send HTTP Request1"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        1936,
+        384
+      ],
+      "id": "756ae056-4929-497e-9324-b62bf77ce5bd",
+      "name": "Send HTTP Request5"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID').item.json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{\n{\n  \"view\":\"status\"\n}\n\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1744,
+        80
+      ],
+      "id": "5856bc18-f248-4965-8b1a-fbb5045242b4",
+      "name": "form check gemini request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{\n{\n  \"view\":\"status\"\n}\n\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1744,
+        384
+      ],
+      "id": "ca13d4d2-fec8-42c3-9c5b-b2f184874c77",
+      "name": "form check openai request"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.item.done }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "8000c581-2a21-435a-a6b5-d72a4fdc8a46"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "done"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c84dbe90-56e8-4562-a494-b6ff3a6e934c",
+                    "leftValue": "={{ !$json.item.done }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not done"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2400,
+        384
+      ],
+      "id": "654f6fbc-082d-47bb-8e14-729f3c248bf6",
+      "name": "done?"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "ljH0uamrMfc4IBJx",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
+          "cachedResultName": "http works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "route": "={{ $json.route }}",
+            "headers": "={{ $json.headers }}",
+            "body": "={{ $json.body }}",
+            "method": "POST"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "method",
+              "displayName": "method",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "route",
+              "displayName": "route",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "headers",
+              "displayName": "headers",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "body",
+              "displayName": "body",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {
+          "waitForSubWorkflow": true
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.3,
+      "position": [
+        2816,
+        384
+      ],
+      "id": "c1fae06d-22fa-4f00-b028-7b0a11126831",
+      "name": "Send HTTP Request7"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
+              "name": "route",
+              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
+              "type": "string"
+            },
+            {
+              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
+              "name": "headers",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "type": "object"
+            },
+            {
+              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
+              "name": "body",
+              "value": "={{\n{\n  \"view\":\"result\"\n}\n\n}}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2624,
+        384
+      ],
+      "id": "d9f27780-76a5-4f8f-8981-5d143c177705",
+      "name": "form check openai request1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.item.done }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "8000c581-2a21-435a-a6b5-d72a4fdc8a46"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "done"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c84dbe90-56e8-4562-a494-b6ff3a6e934c",
+                    "leftValue": "={{ !$json.item.done }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not done"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2400,
+        80
+      ],
+      "id": "33a9de43-c8b7-4fab-b310-60a5d45366cc",
+      "name": "done?1"
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2496,
         176
       ],
-      "id": "da45ea67-a463-40fd-a57d-9bd3024c00a6",
-      "name": "form gemini request5"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
-              "name": "id",
-              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n\n$('get all workflow params').item.json.visualsPlanningModel,\n\n$('get all workflow params').item.json.stillBasedShotPlanningPrompt,\n$('Start').item.json.requestPayload\n\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
-              "type": "string"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        768,
-        352
-      ],
-      "id": "b8868b8f-4e27-4fa0-8c39-acb5906c2ad0",
-      "name": "get random ID8"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "1af68585-863a-4943-bff7-f35629ad285f",
-              "name": "stillTreatmentPlan",
-              "value": "={{ $json.item.response.output[1].content[0].text.parseJson() }}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2784,
-        352
-      ],
-      "id": "55aa2be2-cb2a-4af1-87b8-7e5e9a1ec1ea",
-      "name": "Parse Openai Responce6"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "1af68585-863a-4943-bff7-f35629ad285f",
-              "name": "stillTreatmentPlan",
-              "value": "={{ $json.item.response.candidates[0].content.parts[0].text.parseJson() }}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2784,
-        192
-      ],
-      "id": "9566f4e0-b3b5-4cdb-9020-d2ac748ada5d",
-      "name": "Parse Gemini Responce6"
+      "id": "d92082d4-4494-40de-bec0-88b76d417a62",
+      "name": "Wait2",
+      "webhookId": "4503a421-5aaf-459e-82c5-8d2c318d4470"
     },
     {
       "parameters": {
@@ -580,90 +995,11 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        1520,
-        112
+        2816,
+        80
       ],
-      "id": "e3c1e20f-8f7c-40f1-83c0-ba9cfe3d3835",
-      "name": "Send HTTP Request24",
-      "retryOnFail": true
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ljH0uamrMfc4IBJx",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "http works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "route": "={{ $json.route }}",
-            "headers": "={{ $json.headers }}",
-            "body": "={{ $json.body }}",
-            "method": "POST"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route",
-              "displayName": "route",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": true
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        1520,
-        416
-      ],
-      "id": "d372686a-4f64-407f-a58c-2137ef8f80f6",
-      "name": "Send HTTP Request25",
-      "retryOnFail": true
+      "id": "e1d98821-8ce6-4deb-83ee-87b439070f27",
+      "name": "Send HTTP Request8"
     },
     {
       "parameters": {
@@ -678,221 +1014,7 @@
             {
               "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
               "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $('get random ID8').item.json.id,\n\"X-Product-Key\": $env.PRODUCT_KEY\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
-              "name": "body",
-              "value": "={{\n{\n  \"view\":\"status\"\n}\n\n}}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1328,
-        112
-      ],
-      "id": "129fc3ba-3696-4cd8-bc99-b50e65decea8",
-      "name": "form check gemini request3"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
-              "name": "route",
-              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
-              "type": "string"
-            },
-            {
-              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
-              "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $('get random ID8').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
-              "name": "body",
-              "value": "={{\n{\n  \"view\":\"status\"\n}\n\n}}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        1328,
-        416
-      ],
-      "id": "e1840451-073e-4f64-8447-c674dd7e8494",
-      "name": "form check openai request9"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.item.done }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "8000c581-2a21-435a-a6b5-d72a4fdc8a46"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "done"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "c84dbe90-56e8-4562-a494-b6ff3a6e934c",
-                    "leftValue": "={{ !$json.item.done }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "not done"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        1984,
-        416
-      ],
-      "id": "f73db156-a2df-4076-a6c5-05ea78a90ca1",
-      "name": "done?6"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ljH0uamrMfc4IBJx",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "http works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "route": "={{ $json.route }}",
-            "headers": "={{ $json.headers }}",
-            "body": "={{ $json.body }}",
-            "method": "POST"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route",
-              "displayName": "route",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": true
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        2400,
-        416
-      ],
-      "id": "987e0dac-4d2d-44f1-aee7-96f9a6256b90",
-      "name": "Send HTTP Request26"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
-              "name": "route",
-              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
-              "type": "string"
-            },
-            {
-              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
-              "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $('get random ID8').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
+              "value": "={{ {\n\"X-Request-ID\": $('get random ID').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
               "type": "object"
             },
             {
@@ -908,528 +1030,11 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        2208,
-        416
+        2624,
+        80
       ],
-      "id": "22289256-c39a-4e65-90f0-d2f51fd5b8d4",
-      "name": "form check openai request10"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.item.done }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "8000c581-2a21-435a-a6b5-d72a4fdc8a46"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "done"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "c84dbe90-56e8-4562-a494-b6ff3a6e934c",
-                    "leftValue": "={{ !$json.item.done }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "not done"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        1984,
-        112
-      ],
-      "id": "9393049e-21ea-4792-b0a6-a83bccb4780b",
-      "name": "done?7"
-    },
-    {
-      "parameters": {
-        "amount": 20
-      },
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        2080,
-        208
-      ],
-      "id": "e03f7c9c-ec18-46a6-aa33-4b05260defd6",
-      "name": "Wait8",
-      "webhookId": "ce462c1a-b76c-4663-92c1-62fc44966e8b"
-    },
-    {
-      "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "ljH0uamrMfc4IBJx",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/ljH0uamrMfc4IBJx",
-          "cachedResultName": "http works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "route": "={{ $json.route }}",
-            "headers": "={{ $json.headers }}",
-            "body": "={{ $json.body }}",
-            "method": "POST"
-          },
-          "matchingColumns": [],
-          "schema": [
-            {
-              "id": "method",
-              "displayName": "method",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "route",
-              "displayName": "route",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "headers",
-              "displayName": "headers",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body",
-              "displayName": "body",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "mode": "each",
-        "options": {
-          "waitForSubWorkflow": true
-        }
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.3,
-      "position": [
-        2400,
-        112
-      ],
-      "id": "c50f3900-6427-408d-a515-8c096b6ae20d",
-      "name": "Send HTTP Request27"
-    },
-    {
-      "parameters": {
-        "assignments": {
-          "assignments": [
-            {
-              "id": "ec7b1f45-ffd1-4816-8ea5-50ac4d6d99dd",
-              "name": "route",
-              "value": "=http://{{ $env.PROXY_SERVER_IP }}:{{ $env.PROXY_SERVER_PORT }}/request-cache/item",
-              "type": "string"
-            },
-            {
-              "id": "fee53cab-9e2c-4f91-9df1-194cf4c05c0c",
-              "name": "headers",
-              "value": "={{ {\n\"X-Request-ID\": $('get random ID8').item.json.id,\n\"X-Product-Key\" : $env.PRODUCT_KEY\n} }}",
-              "type": "object"
-            },
-            {
-              "id": "9c7aa001-b4ac-4f40-9d1f-60c1396beeab",
-              "name": "body",
-              "value": "={{\n{\n  \"view\":\"result\"\n}\n\n}}",
-              "type": "object"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.set",
-      "typeVersion": 3.4,
-      "position": [
-        2208,
-        112
-      ],
-      "id": "7e885411-0648-4229-966f-3cbce00d7c60",
-      "name": "form check openai request11"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
-                    "leftValue": "={{ !$json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "success"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "error"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        1696,
-        112
-      ],
-      "id": "e1e94fbf-0b7b-4721-b92c-e474286df1ae",
-      "name": "was error18"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
-                    "leftValue": "={{ $json.hasField('error') ? $json.error==null : !$json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "success"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.hasField('error') ? !$json.error==null : $json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "error"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        1696,
-        416
-      ],
-      "id": "22e50d20-c3b5-4c71-bc6e-56351d339404",
-      "name": "was error19"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
-                    "leftValue": "={{ !$json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "success"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "error"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        2576,
-        112
-      ],
-      "id": "89edc61c-44d6-424e-bcaa-cd2bf2698779",
-      "name": "was error20"
-    },
-    {
-      "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
-                    "leftValue": "={{ $json.hasField('error') ? $json.error==null : !$json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "success"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ $json.hasField('error') ? !$json.error==null : $json.hasField('error') }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "error"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        2576,
-        416
-      ],
-      "id": "d799fc20-e345-4f7d-8cf6-d898edd874c7",
-      "name": "was error21"
-    },
-    {
-      "parameters": {
-        "errorMessage": "Error checking request status"
-      },
-      "type": "n8n-nodes-base.stopAndError",
-      "typeVersion": 1,
-      "position": [
-        1856,
-        544
-      ],
-      "id": "1f31890c-100a-4da0-ad83-e7b8bf28a421",
-      "name": "Stop and Error13"
-    },
-    {
-      "parameters": {
-        "errorMessage": "Error getting request result"
-      },
-      "type": "n8n-nodes-base.stopAndError",
-      "typeVersion": 1,
-      "position": [
-        2752,
-        544
-      ],
-      "id": "3748ebb4-196d-40a3-9c6f-17e2af9ab30d",
-      "name": "Stop and Error14"
-    },
-    {
-      "parameters": {
-        "amount": 20
-      },
-      "type": "n8n-nodes-base.wait",
-      "typeVersion": 1.1,
-      "position": [
-        2080,
-        512
-      ],
-      "id": "58de3081-bcd0-4442-9e6c-67f5b4bc6cef",
-      "name": "Wait9",
-      "webhookId": "5323c2eb-2b67-4626-a490-179b60aca987"
-    },
-    {
-      "parameters": {
-        "content": "## Request status checking cycle",
-        "height": 736,
-        "width": 1584,
-        "color": 2
-      },
-      "type": "n8n-nodes-base.stickyNote",
-      "typeVersion": 1,
-      "position": [
-        1312,
-        -80
-      ],
-      "id": "0a28fc5c-ed6d-428b-bd46-24220afa0bb1",
-      "name": "Sticky Note16"
+      "id": "c6a4c5ca-06d9-49c7-afc9-bae11400a3c1",
+      "name": "form check openai request2"
     },
     {
       "parameters": {
@@ -1443,10 +1048,10 @@
         "workflowInputs": {
           "mappingMode": "defineBelow",
           "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').item.json.index.toString().padStart(5,'0') }}_visualSegment.json",
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').item.json.segmentMeta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
             "fileAction": "write",
             "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {\n\"still_treatment_plan\": $json.stillTreatmentPlan,\n\"segment_status\": {\"still_treatment_plan_ready\": true}\n\n} }}",
+            "keysToWrite": "={{ (()=>{\nconst obj = $json.visualSegmentAnalysis\n\nobj.segment_index = $('Start').item.json.segmentMeta.partIndex\n\nreturn {\"segment_analysis\":obj,\"segment_meta\":$('Start').item.json.segmentMeta}\n})() }}",
             "keysToDelete": "={{ [] }}"
           },
           "matchingColumns": [
@@ -1509,18 +1114,409 @@
           "convertFieldsToString": true
         },
         "mode": "each",
-        "options": {
-          "waitForSubWorkflow": true
-        }
+        "options": {}
       },
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        2976,
-        352
+        3408,
+        304
       ],
-      "name": "write visualSegmentAnalysis3",
-      "id": "5d951894-81cf-4dc4-b39d-478b5e27afbf"
+      "name": "write visualSegmentAnalysis",
+      "id": "33f27d84-daa1-4e68-b1ad-c53e1de3fba1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2112,
+        80
+      ],
+      "id": "3d71dec8-825d-4553-8214-0e85227dc344",
+      "name": "was error"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ $json.hasField('error') ? $json.error==null : !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') ? !$json.error==null : $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2112,
+        384
+      ],
+      "id": "5760aa6e-200e-41cb-9b1b-2480422583bb",
+      "name": "was error4"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2992,
+        80
+      ],
+      "id": "e5b46655-85b4-476c-bcc7-9edd7ccd0f70",
+      "name": "was error1"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "a87bf859-ddab-4646-8ad0-f236f6934c41",
+                    "leftValue": "={{ $json.hasField('error') ? $json.error==null : !$json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "success"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.hasField('error') ? !$json.error==null : $json.hasField('error') }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "180d372a-e366-448d-beeb-a91e1731f53f"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "error"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        2992,
+        384
+      ],
+      "id": "f69f7c7d-bbcd-4515-bcc8-7a2e04e923af",
+      "name": "was error5"
+    },
+    {
+      "parameters": {
+        "errorMessage": "=<{{ $workflow.name }}>\nError checking request status"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        2272,
+        496
+      ],
+      "id": "1bfa1c28-e67a-44f8-bde0-6e7d0b8f79eb",
+      "name": "Stop and Error4"
+    },
+    {
+      "parameters": {
+        "errorMessage": "=<{{ $workflow.name }}>\nError getting request result"
+      },
+      "type": "n8n-nodes-base.stopAndError",
+      "typeVersion": 1,
+      "position": [
+        3168,
+        496
+      ],
+      "id": "ef6eb5ed-2132-4dbf-a493-fa76f36918d2",
+      "name": "Stop and Error5"
+    },
+    {
+      "parameters": {
+        "amount": 20
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        2496,
+        480
+      ],
+      "id": "325805c0-44dc-4550-8243-b98cea6a0531",
+      "name": "Wait3",
+      "webhookId": "fb09a521-2525-4866-8e8b-428a6a19890a"
+    },
+    {
+      "parameters": {
+        "content": "## Request status checking cycle",
+        "height": 736,
+        "width": 1584,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        1728,
+        -128
+      ],
+      "id": "423760fe-cdcb-473a-a5a0-7b3fa0b0a772",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "6429e785-fed5-416f-8bc9-01d45fc6e3cb",
+              "name": "id",
+              "value": "={{ (()=>{\n  // 1) ТУТ ПРОСТО ВСТАВЛЯЕШЬ ЧТО ХОЧЕШЬ\n  const varsForId = [\n\n$('get all workflow params').item.json.visualsSegmentsAnalysisModel,\n\n$('get all workflow params').item.json.textSegmentAnalyzePrompt,\n\n$('Start').item.json.userJsonStringInput\n  ];\n\n  // 2) нормализуем значения -> одна строка\n  function stable(v){\n    if (v === null || v === undefined) return \"\";\n    if (typeof v === \"string\") return v;\n    if (typeof v === \"number\" || typeof v === \"boolean\") return String(v);\n    if (Array.isArray(v)) return \"[\" + v.map(stable).join(\",\") + \"]\";\n    // объект: сортируем ключи для стабильности\n    const keys = Object.keys(v).sort();\n    return \"{\" + keys.map(k => JSON.stringify(k)+\":\"+stable(v[k])).join(\",\") + \"}\";\n  }\n\n  const s = varsForId.map(stable).join(\"|\");\n\n  // 3) FNV-1a 32-bit (2 раза, чтобы получить 16 hex)\n  function fnv1a32(str){\n    let h = 0x811c9dc5;\n    for (let i=0; i<str.length; i++){\n      h ^= str.charCodeAt(i);\n      h = Math.imul(h, 0x01000193);\n    }\n    return (h >>> 0);\n  }\n\n  const h1 = fnv1a32(s);\n  const h2 = fnv1a32(\"salt|\" + s);\n\n  const hex =\n    h1.toString(16).padStart(8,\"0\") +\n    h2.toString(16).padStart(8,\"0\");\n\n  return `${hex.slice(0,4)}-${hex.slice(4,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}`;\n})() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1136,
+        304
+      ],
+      "id": "1aebf528-71d9-4db8-929d-0a4b04b2fc70",
+      "name": "get random ID"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "visualSegmentAnalysis",
+              "value": "={{ $json.item.response.candidates[0].content.parts[0].text.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3200,
+        128
+      ],
+      "id": "82ca7ac0-326d-47b5-8d75-244d620cc373",
+      "name": "Parse Gemini Response"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1af68585-863a-4943-bff7-f35629ad285f",
+              "name": "visualSegmentAnalysis",
+              "value": "={{ $json.item.response.output[1].content[0].text.parseJson() }}",
+              "type": "object"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3200,
+        304
+      ],
+      "id": "7ab48984-3a9d-483d-a46f-505590a44b7b",
+      "name": "Parse Openai Response"
     }
   ],
   "connections": {
@@ -1535,301 +1531,301 @@
         ]
       ]
     },
-    "Switch Text Gen Service5": {
+    "Switch Text Gen Service": {
       "main": [
         [
           {
-            "node": "form gemini request5",
+            "node": "form gemini request",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "form openai request5",
+            "node": "form openai request",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "form openai request5": {
+    "form openai request": {
       "main": [
         [
           {
-            "node": "Send HTTP Request23",
+            "node": "Send HTTP Request4",
             "type": "main",
             "index": 0
           },
           {
-            "node": "form check openai request9",
+            "node": "form check openai request",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "form gemini request5": {
+    "form gemini request": {
       "main": [
         [
           {
-            "node": "Send HTTP Request22",
+            "node": "Send HTTP Request",
             "type": "main",
             "index": 0
           },
           {
-            "node": "form check gemini request3",
+            "node": "form check gemini request",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "get random ID8": {
+    "Send HTTP Request1": {
       "main": [
         [
           {
-            "node": "Switch Text Gen Service5",
+            "node": "was error",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Parse Openai Responce6": {
+    "Send HTTP Request5": {
       "main": [
         [
           {
-            "node": "write visualSegmentAnalysis3",
+            "node": "was error4",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Parse Gemini Responce6": {
+    "form check gemini request": {
       "main": [
         [
           {
-            "node": "write visualSegmentAnalysis3",
+            "node": "Send HTTP Request1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Send HTTP Request24": {
+    "form check openai request": {
       "main": [
         [
           {
-            "node": "was error18",
+            "node": "Send HTTP Request5",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Send HTTP Request25": {
+    "done?": {
       "main": [
         [
           {
-            "node": "was error19",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "form check gemini request3": {
-      "main": [
-        [
-          {
-            "node": "Send HTTP Request24",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "form check openai request9": {
-      "main": [
-        [
-          {
-            "node": "Send HTTP Request25",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "done?6": {
-      "main": [
-        [
-          {
-            "node": "form check openai request10",
+            "node": "form check openai request1",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Wait9",
+            "node": "Wait3",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Send HTTP Request26": {
+    "Send HTTP Request7": {
       "main": [
         [
           {
-            "node": "was error21",
+            "node": "was error5",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "form check openai request10": {
+    "form check openai request1": {
       "main": [
         [
           {
-            "node": "Send HTTP Request26",
+            "node": "Send HTTP Request7",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "done?7": {
+    "done?1": {
       "main": [
         [
           {
-            "node": "form check openai request11",
+            "node": "form check openai request2",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Wait8",
+            "node": "Wait2",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Wait8": {
+    "Wait2": {
       "main": [
         [
           {
-            "node": "form check gemini request3",
+            "node": "form check gemini request",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Send HTTP Request27": {
+    "Send HTTP Request8": {
       "main": [
         [
           {
-            "node": "was error20",
+            "node": "was error1",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "form check openai request11": {
+    "form check openai request2": {
       "main": [
         [
           {
-            "node": "Send HTTP Request27",
+            "node": "Send HTTP Request8",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "was error18": {
+    "was error": {
       "main": [
         [
           {
-            "node": "done?7",
+            "node": "done?1",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Stop and Error13",
+            "node": "Stop and Error4",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "was error19": {
+    "was error4": {
       "main": [
         [
           {
-            "node": "done?6",
+            "node": "done?",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Stop and Error13",
+            "node": "Stop and Error4",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "was error20": {
+    "was error1": {
       "main": [
         [
           {
-            "node": "Parse Gemini Responce6",
+            "node": "Parse Gemini Response",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Stop and Error14",
+            "node": "Stop and Error5",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "was error21": {
+    "was error5": {
       "main": [
         [
           {
-            "node": "Parse Openai Responce6",
+            "node": "Parse Openai Response",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Stop and Error14",
+            "node": "Stop and Error5",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Wait9": {
+    "Wait3": {
       "main": [
         [
           {
-            "node": "form check openai request9",
+            "node": "form check openai request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "get random ID": {
+      "main": [
+        [
+          {
+            "node": "Switch Text Gen Service",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Gemini Response": {
+      "main": [
+        [
+          {
+            "node": "write visualSegmentAnalysis",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Openai Response": {
+      "main": [
+        [
+          {
+            "node": "write visualSegmentAnalysis",
             "type": "main",
             "index": 0
           }
@@ -1840,7 +1836,7 @@
       "main": [
         [
           {
-            "node": "get random ID8",
+            "node": "get random ID",
             "type": "main",
             "index": 0
           }
@@ -1860,41 +1856,19 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-04-16_YeLlV",
-          "requestPayload": {
-            "visual_mode": "realistic_modern",
-            "allowed_still_treatments": [],
-            "video_meta": {
-              "title": [
-                "Почему этот авианосец обречен? Вся правда",
-                "Аварии и провалы проблемного авианесущего крейсера",
-                "Огромные затраты и фатальные ошибки конструкции"
-              ],
-              "description": [
-                "Тяжелый авианесущий крейсер — это сложный гибрид, который с самого начала проектирования столкнулся с неразрешимыми проблемами. Почему знаменитый корабль постоянно выпускает черный дым? Как устроены его котлы и почему их поломка приводит к катастрофическим последствиям? В этом видео мы подробно разберем, как ракетные шахты уменьшили полезный объем, почему вместо катапульты используется трамплин и как это влияет на боевые возможности самолетов. Узнайте все о конструктивных компромиссах, которые сделали полноценную эксплуатацию практически невозможной.",
-                "История эксплуатации этого тяжелого авианесущего крейсера полна драматичных моментов и каскадов технических отказов. Потеря самолетов в Сирии из-за обрыва троса аэрофинишера, затопление гигантского плавучего дока в Мурманске и рухнувший на палубу кран — это лишь верхушка айсберга. Мы расскажем, в каких условиях живет экипаж, почему моряки часто остаются без питьевой воды из-за капризных котлов и к чему приводит постоянная ротация неопытных кадров. Погрузитесь в суровые реалии службы на морально и физически устаревшем корабле.",
-                "Можно ли спасти этот тяжелый авианесущий крейсер или он изначально был инженерной ошибкой? Размещение ракетных шахт внутри корпуса привело к критическому сокращению ангаров, а замена сгоревших мазутных котлов размером с дом требует масштабной резки всего корпуса судна. В ролике мы обсуждаем колоссальные финансовые затраты на логистику, отсутствие современной ремонтной базы и тотальную зависимость корабля от береговой инфраструктуры. Узнайте, почему судно годами ходит на грани потери хода и почему его ремонт зашел в тупик."
-              ]
-            },
-            "prev_segment_plan": {
-              "segment_index": 114,
-              "selected_base_format": "archival_material",
-              "format_tier": "primary",
-              "use_explanatory_layer": false,
-              "segment_role_in_flow": "bridge",
-              "reason": "Исторические архивные кадры постройки для перехода к причинам устаревшей конструкции."
-            },
-            "next_segment_plan": {
-              "segment_index": 116,
-              "selected_base_format": "observational_video",
-              "format_tier": "secondary",
-              "use_explanatory_layer": false,
-              "segment_role_in_flow": "anchor",
-              "reason": "Наблюдательный кадр палубы и полосы для фиксации внимания на физическом объекте перед новым тезисом."
-            }
-          },
-          "index": 115
+          "channelName": "TheHistoryBranches",
+          "videoFolderName": "2026-04-21_ohBDC",
+          "userJsonStringInput": "{\"topic_idea\":\"The Only Way Germany Could Have Won: Debunking the 'Total War' myth and presenting three strategic logistical pivots (Suez, Caucasus, avoiding US entry) that could have forced a stalemate.\",\"segment_index\":165,\"total_segments\":166,\"start_ms\":887667,\"prev_segment_text\":\"It is strictly and permanently dictated by vulnerable supply lines, raw energy extraction, and the harsh,\",\"next_segment_text\":null,\"selectedClusterPlan\":{\"schema_version\":\"1.0\",\"topic_idea\":\"The Only Way Germany Could Have Won: Debunking the 'Total War' myth and presenting three strategic logistical pivots (Suez, Caucasus, avoiding US entry) that could have forced a stalemate.\",\"confidence\":0.95,\"selected_cluster\":{\"cluster_id\":\"debunk_list_structural_skeptics\",\"cluster_label\":\"Skeptics of popular myths\",\"fit_score\":0.92,\"fit_reason\":\"The topic explicitly sets out to debunk a famous historical cliché (Germany winning a long total war) by replacing romanticized narratives with a strict structural analysis of three logistical pivots.\"},\"selected_narrative_mode\":\"top_list\",\"narrative_mode_reason\":\"The outline is structurally built around analyzing three distinct strategic pivots one by one, perfectly aligning with a top-list format to dismantle or validate historical scenarios.\",\"combined_brief\":{\"self_identity\":[\"plausibility-focused history nerd\",\"community participant who suggests scenarios\",\"viewer who enjoys myth-busting through structure\"],\"worldview\":[\"most famous historical myths collapse under structural scrutiny\",\"systems and incentives outweigh romantic narratives\",\"good alt-history includes objection handling, not just invention\"],\"pain_growth\":[\"hard tradeoffs matter more than heroic fantasy\",\"failed plans and attrition reveal the real limits of scenarios\",\"suffering and collapse should clarify structure, not just raise stakes\"],\"fears_desires\":[\"desire to see weak scenarios dismantled cleanly\",\"desire for objection-aware reasoning\",\"fear of recycled internet clichés\",\"fear that meme language will replace substance\"],\"common_enemy\":[\"bad historical reasoning\",\"oversimplification\",\"heroic determinism\",\"bait packaging around weak premises\"],\"language_codes\":[\"sarcastic debunk tone\",\"casual corrective phrasing\",\"quotable catchphrases\",\"internet-native humor with argumentative edge\"],\"visual_aesthetics\":[\"bold readable thumbnails\",\"simple conflict framing\",\"cartoon geopolitics\",\"clean visual hierarchy over decorative detail\"],\"fit_packaging\":[\"top-list debunk packaging\",\"emphatic myth-busting title\",\"simple yes-no-or-why-not premise\",\"strong title-thumbnail-script alignment\"],\"preferred_text_tone\":[\"sarcastic debunk\",\"confident structural takedown\"],\"usage_notes\":[\"Frame the thesis clearly as a myth check: state upfront that total victory was a mathematical impossibility, turning the 3 pivots into a structural test of a stalemate.\",\"Evaluate each of the three pivots using clear viability criteria like logistics, rail infrastructure, and resource pipelines rather than a chaotic set of battlefield facts.\",\"Anticipate viewer objections for each pivot (e.g. 'the US would have joined anyway') and embed the structural counter-arguments directly into the narrative.\",\"Keep the sarcasm and corrective tone aimed at the weak logic of the 'wonder weapons' or 'total conquest' myths, validating the viewer's structural understanding.\"],\"avoid_notes\":[\"Do not present the topic with solemn seriousness; ensure there is an argumentative edge and irony when dismissing the original historical mistakes.\",\"Do not fall into heroic determinism or focus on the battles themselves; keep the focus strictly on the structural and logistical tradeoffs of the 3 pivots.\",\"Avoid framing the final conclusion as a glorious victory; ensure the 'stalemate' limitation remains the core premise without overpromising in the payoff.\",\"Do not use overconfident absolute phrasing without providing the structural proof behind the causal links for each pivot.\"]},\"fileName\":\"selectedClusterPlan.json\"},\"visualNarrationStrategy\":{\"schema_version\":\"1.0\",\"cluster_id\":\"debunk_list_structural_skeptics\",\"selected_narrative_mode\":\"top_list\",\"visual_goal\":\"Деконструкция популярного исторического мифа через визуализацию непреодолимых структурных, логистических и географических барьеров, противопоставляя романтику войны суровой математике.\",\"visual_evidence_style\":[\"comparative\",\"explanatory\",\"observational\"],\"preferred_base_formats\":[\"observational_video\",\"archival_material\"],\"secondary_base_formats\":[\"spatial_map\"],\"rare_base_formats\":[\"still_image\",\"explanatory_graphic\",\"ui_data_visual\"],\"forbidden_base_formats\":[\"text_only_card\"],\"preferred_capture_styles\":[\"Холодная и отстраненная фиксация объектов\",\"Строгая композиция с чистой визуальной иерархией\",\"Акцент на масштабных индустриальных объектах, транспорте и конвейерах, игнорирующий человеческие фигуры\"],\"preferred_shot_families\":[\"Широкие планы портов, заводов и длинных железнодорожных составов\",\"Детальные макро-кадры элементов логистики (рельсы, трубы, бочки с топливом)\",\"Контрастные сопоставления масштабов (одиночный корабль в океане против узкого Суэцкого канала)\"],\"preferred_explanatory_layers\":[\"Крупные контрастные текстовые плашки для фиксации математических фактов (тоннаж, километры, время)\",\"Упрощенная 'мультяшная' геополитика на картах для наглядной демонстрации уязвимостей маршрутов снабжения\",\"Простые графические маркеры блокировки (перечеркнутые пути, сужающиеся потоки ресурсов)\"],\"continuity_rules\":[\"Каждый из трех пунктов списка должен начинаться с четкого визуального переключения на новую географическую зону\",\"Постоянное возвращение к концепту 'неумолимой математики' через сквозное появление индустриальных объемов и логистических цепей\"],\"transition_rules\":[\"Ироничные резкие склейки (hard cuts) от пафосных мифологизированных кадров боев к скучной рутине разгрузки вагонов\",\"Использование простых и четких переходов без декоративных эффектов, поддерживая аналитическую строгость\",\"Визуальное разрушение ожиданий зрителя: прерывание 'героического' видеоряда появлением жесткой географической преграды на карте\"],\"repetition_limits\":[\"Строго ограничить появление лиц генералов и политиков; они не влияют на математику войны\",\"Минимизировать кадры боевых действий в пользу непрерывных циклов производства и транспортировки\",\"Не повторять кадры с 'чудо-оружием', использовать их лишь однократно как пример провального мифа\"],\"tone_rules\":[\"Уверенный, саркастичный и деконструирующий\",\"Холодный расчет вместо исторического пафоса или излишней эмоциональности\",\"Визуальное подчеркивание тривиальности и тяжелой рутины войны в противовес идеологическим фантазиям\"],\"usage_notes\":[\"Использовать archival_material исключительно для иллюстрации серой производственной и логистической рутины (смена колеи, перевозка грузов), а не парадов\",\"Формат spatial_map (несмотря на низкий базовый приоритет) жизненно необходим как вторичный формат для реализации требования кластера 'cartoon geopolitics' при описании Суэца и Кавказа\",\"Все визуальные доказательства должны подчеркивать структурные ограничения и отвечать на вероятные возражения зрителя\"],\"avoid_notes\":[\"Абсолютно избегать героической детерминированности и эстетизации боевых действий\",\"Не перегружать визуал сложными многослойными графиками – сохранять простую и бьющую в цель 'мультяшную' геополитику\",\"Не подавать альтернативный сценарий тупика как победу: визуал финала должен оставаться мрачным, серым и истощающим\"],\"fileName\":\"visualNarrationStrategy.json\"}}",
+          "segmentMeta": {
+            "partIndex": 165,
+            "text": "unbreakable laws of mathematics.",
+            "previous_text": "It is strictly and permanently dictated by vulnerable supply lines, raw energy extraction, and the harsh,",
+            "next_text": null,
+            "start_ms": 887667,
+            "end_ms": 889744,
+            "durMs": 2077,
+            "charCount": 32
+          }
         },
         "pairedItem": {
           "item": 0
@@ -1902,17 +1876,17 @@
       }
     ]
   },
-  "versionId": "a5027bc5-674e-41c8-8410-374b1d6f0657",
-  "activeVersionId": "a5027bc5-674e-41c8-8410-374b1d6f0657",
-  "versionCounter": 24,
+  "versionId": "d52d99e9-61ab-4785-a10b-351e0cab7cf9",
+  "activeVersionId": "d52d99e9-61ab-4785-a10b-351e0cab7cf9",
+  "versionCounter": 48,
   "triggerCount": 0,
   "tags": [],
   "shared": [
     {
-      "updatedAt": "2026-04-16T10:26:42.806Z",
-      "createdAt": "2026-04-16T10:26:42.806Z",
+      "updatedAt": "2026-04-21T20:03:09.634Z",
+      "createdAt": "2026-04-21T20:03:09.634Z",
       "role": "workflow:owner",
-      "workflowId": "OmTvTvpxJjslUywa",
+      "workflowId": "qnMREKnODZoNefKb",
       "projectId": "jyxvHYm2zz0wpNIZ",
       "project": {
         "updatedAt": "2026-02-03T20:00:07.843Z",
