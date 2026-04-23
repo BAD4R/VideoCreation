@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-05T00:01:25.147Z",
+  "updatedAt": "2026-04-23T11:26:17.877Z",
   "createdAt": "2026-02-04T19:51:18.685Z",
   "id": "QGwzjOX1i2qj5DPR",
   "name": "generate elevenlabs audio - paralleling",
@@ -363,10 +363,10 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "NewChannel",
-          "videoFolderName": "2026-03-17_pWLve",
-          "textPart": "[tense] Гладкая скала уходит вверх на тысячу метров. [pause 2s] Кажется, человек держится чудом. Но за каждым шагом стоит расчет, ведь цена ошибки - жизнь.\n\n[narration] Страховку создают прямо на ходу. В трещину камня вставляют хитрое устройство - френд. При рывке его детали расширяются и намертво клинят в породе. [serious] Этот металл весом в двести граммов выдерживает больше тонны. Но поставишь криво - деталь вырвется со свистом, и падение станет пугающе долгим.\n\n[pensive] Важна и сама веревка. Обычный трос сломал бы человеку спину при резкой остановке. [breath] Поэтому альпинисты берут динамику. Такая веревка растягивается на треть длины. Ты летишь вниз лишние пять метров, зато мягко гасишь удар и сохраняешь кости целыми.\n\n[friendly] На ногах всегда тесные скальники. Эту обувь берут на два размера меньше. Пальцам больно, зато стопа становится жесткой. Это позволяет стоять на уступах толщиной в три миллиметра. А потные ладони сушат магнезией, иначе руки заскользят по граниту как по льду.\n\n[narration] Вертикальный подъем - это не просто сила рук. Это опасная игра с гравитацией, где на высоте пятисот метров выживает тот, кто доверяет физике.",
-          "textPartIndex": 0
+          "channelName": "TheHistoryBranches",
+          "videoFolderName": "2026-04-21_ohBDC",
+          "textPart": "[sarcastic] What happens to a pyramid scheme when it suddenly runs out of new investors to exploit? In a structural stalemate, the military conquest completely stops. When the conquest stops, the lucrative looting stops. And when the looting stops, the artificial economy faces immediate hyperinflation and total systemic collapse. [confident] Furthermore, the rigid, highly paranoid, autocratic nature of the system guaranteed that any sudden succession crisis at the top of the leadership would instantly tear the entire command structure apart from the inside out. [breath] The strict, undeniable reality is that to successfully execute these three life-saving structural pivots, the dictator could not act like the dictator, and the regime could not function like the regime. [narration] The incredibly narrow window for survival required a cold, calculated, pragmatic logic that the ideological leadership fundamentally despised and actively punished. [pensive] Total victory was always a ridiculous myth manufactured by state propaganda and perpetuated decades later by bad historical reasoning. The realization that should linger here is that the true history of human conflict is never governed by heroic destiny, racial superiority, or magical wonder weapons. It is strictly and permanently dictated by vulnerable supply lines, raw energy extraction, and the harsh, unbreakable laws of mathematics.",
+          "textPartIndex": 10
         },
         "pairedItem": {
           "item": 0
@@ -374,9 +374,9 @@
       }
     ]
   },
-  "versionId": "806361fb-3214-480f-b574-ca4031d1e5ff",
-  "activeVersionId": "806361fb-3214-480f-b574-ca4031d1e5ff",
-  "versionCounter": 229,
+  "versionId": "70c7b69e-0457-4da6-8df5-5fe559b63db2",
+  "activeVersionId": "1253b57e-5b51-4d94-a899-fc819bc94f66",
+  "versionCounter": 239,
   "triggerCount": 0,
   "tags": [],
   "shared": [

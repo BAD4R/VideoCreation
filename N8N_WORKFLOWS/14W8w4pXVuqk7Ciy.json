@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-18T22:10:18.337Z",
+  "updatedAt": "2026-04-23T23:19:59.895Z",
   "createdAt": "2026-03-27T18:43:39.108Z",
   "id": "14W8w4pXVuqk7Ciy",
   "name": "generate clips - paralleling",
@@ -4172,7 +4172,7 @@
             {
               "id": "1820dabd-6ad3-428d-8bb0-53d7fc743e39",
               "name": "clipHeight",
-              "value": "={{ (()=>{\n\nreturn $('get all workflow params').item.json.clipDimentionSameAsStartFrame ? $('get image sides').item.json.stdout.split(',')[1] : $('get all workflow params').first().json.clipWidth\n\n})() }}",
+              "value": "={{ (()=>{\n\nreturn $('get all workflow params').item.json.clipDimentionSameAsStartFrame ? $('get image sides').item.json.stdout.split(',')[1] : $('get all workflow params').first().json.clipHeight\n\n})() }}",
               "type": "number"
             },
             {
@@ -4903,10 +4903,9 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-04-16_YeLlV",
-          "partIndex": 6,
-          "durMs": 8669
+          "channelName": "TheHistoryBranches",
+          "videoFolderName": "2026-04-21_ohBDC",
+          "partIndex": 158
         },
         "pairedItem": {
           "item": 0
@@ -4914,9 +4913,9 @@
       }
     ]
   },
-  "versionId": "f202c681-a8d7-476d-b011-07f9d9658859",
-  "activeVersionId": "f202c681-a8d7-476d-b011-07f9d9658859",
-  "versionCounter": 802,
+  "versionId": "a215378c-f8cf-47d1-aab6-f2cb181deb8f",
+  "activeVersionId": "a215378c-f8cf-47d1-aab6-f2cb181deb8f",
+  "versionCounter": 826,
   "triggerCount": 0,
   "tags": [],
   "shared": [

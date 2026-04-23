@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-16T10:19:14.995Z",
+  "updatedAt": "2026-04-21T21:38:00.311Z",
   "createdAt": "2026-04-13T15:50:04.496Z",
   "id": "YKehCdycprctHONQ",
   "name": "visuals – 4 – Scene based planning",
@@ -791,7 +791,7 @@
     },
     {
       "parameters": {
-        "amount": 30
+        "amount": 120
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
@@ -1316,16 +1316,14 @@
     "Start": [
       {
         "json": {
-          "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-04-16_YeLlV"
+          "isArtificialRecoveredEventItem": true
         }
       }
     ]
   },
-  "versionId": "ac6e908e-169a-4b76-a879-f548bfd5dc2f",
-  "activeVersionId": "ac6e908e-169a-4b76-a879-f548bfd5dc2f",
-  "versionCounter": 513,
+  "versionId": "62a12be7-e178-42e3-ad1e-2f29571fc89e",
+  "activeVersionId": "62a12be7-e178-42e3-ad1e-2f29571fc89e",
+  "versionCounter": 521,
   "triggerCount": 0,
   "tags": [],
   "shared": [

@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-21T19:33:34.212Z",
+  "updatedAt": "2026-04-23T23:20:50.272Z",
   "createdAt": "2026-02-03T20:08:34.562Z",
   "id": "AmF6XaTnjkk9w41P",
   "name": "Main",
@@ -3013,7 +3013,7 @@
             {
               "id": "cbae57df-33ce-4f18-8f27-a46d854341c5",
               "name": "hours",
-              "value": 3,
+              "value": 6,
               "type": "number"
             }
           ]
@@ -3086,16 +3086,6 @@
               "display": true,
               "canBeUsedToMatch": true,
               "type": "object",
-              "removed": false
-            },
-            {
-              "id": "body_content_type",
-              "displayName": "body_content_type",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
               "removed": false
             }
           ],
@@ -4995,9 +4985,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "db59192c-cc84-4ff3-b9bb-64feb9a89ca5",
+  "versionId": "4431456a-93e5-41e2-8b58-ae49a9dc547f",
   "activeVersionId": null,
-  "versionCounter": 1631,
+  "versionCounter": 1642,
   "triggerCount": 0,
   "tags": [],
   "shared": [

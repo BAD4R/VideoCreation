@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-04T23:59:48.387Z",
+  "updatedAt": "2026-04-23T11:26:21.934Z",
   "createdAt": "2026-02-04T19:31:36.029Z",
   "id": "du4UzkaJt01yiEEG",
   "name": "generate voiceover",
@@ -2154,15 +2154,15 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-03-24_MbcCf"
+          "channelName": "TheHistoryBranches",
+          "videoFolderName": "2026-04-21_ohBDC"
         }
       }
     ]
   },
-  "versionId": "c6f6ee70-a081-4406-a928-f2ddbd6f8cb0",
-  "activeVersionId": "c6f6ee70-a081-4406-a928-f2ddbd6f8cb0",
-  "versionCounter": 720,
+  "versionId": "d5ab8a8b-0f4e-40e4-945f-5079de098281",
+  "activeVersionId": "d5ab8a8b-0f4e-40e4-945f-5079de098281",
+  "versionCounter": 731,
   "triggerCount": 0,
   "tags": [],
   "shared": [

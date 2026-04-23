@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-16T11:54:03.289Z",
+  "updatedAt": "2026-04-23T11:43:40.354Z",
   "createdAt": "2026-04-15T22:16:37.761Z",
   "id": "FqjF8GiYYDyVcBra",
   "name": "generate starting frames - paralleling",
@@ -1592,9 +1592,9 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-04-16_YeLlV",
-          "index": 8
+          "channelName": "TheHistoryBranches",
+          "videoFolderName": "2026-04-21_ohBDC",
+          "index": 4
         },
         "pairedItem": {
           "item": 0
@@ -1604,7 +1604,7 @@
   },
   "versionId": "0cc23b95-e08b-4144-b739-ceaf1834c8b8",
   "activeVersionId": "0cc23b95-e08b-4144-b739-ceaf1834c8b8",
-  "versionCounter": 242,
+  "versionCounter": 249,
   "triggerCount": 0,
   "tags": [],
   "shared": [

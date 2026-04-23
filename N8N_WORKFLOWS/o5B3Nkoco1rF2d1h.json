@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-21T15:39:41.284Z",
+  "updatedAt": "2026-04-23T13:35:16.406Z",
   "createdAt": "2026-02-05T16:30:06.860Z",
   "id": "o5B3Nkoco1rF2d1h",
   "name": "runpod works",
@@ -861,6 +861,31 @@
               },
               "renameOutput": true,
               "outputKey": "wrong gpu id"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "6621fc32-cab9-4718-a7fc-5c665a76b949",
+                    "leftValue": "={{ $json.errors[0].extensions.code == \"SUPPLY_CONSTRAINT\" }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not enough gpu"
             },
             {
               "conditions": {
@@ -1745,7 +1770,7 @@
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"comfyUiPort\": \"3000\",\n\"mode\": \"submit\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodT2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"t2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
+              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"mode\": \"submit\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodT2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"t2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
               "type": "object"
             }
           ]
@@ -2346,7 +2371,7 @@
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"mode\": \"download\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
+              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"mode\": \"download\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
               "type": "object"
             }
           ]
@@ -3288,7 +3313,7 @@
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"comfyUiPort\": \"3000\",\n\"mode\": \"status\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodI2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"i2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
+              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"mode\": \"status\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodI2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"i2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
               "type": "object"
             }
           ]
@@ -3988,7 +4013,7 @@
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"comfyUiPort\": \"3000\",\n\"mode\": \"submit\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodI2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"i2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
+              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"mode\": \"submit\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodI2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"i2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
               "type": "object"
             }
           ]
@@ -4312,7 +4337,7 @@
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"comfyUiPort\": \"3000\",\n\"mode\": \"status\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodT2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"t2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
+              "value": "={{ {\n\"podId\": $('read pod status').last().json.podMeta.id,\n\"comfyUiPort\": $('get all workflow params').last().json.comfyUiPort,\n\"mode\": \"status\",\n\"autoRetry\":true,\n\"maxRetries\":1,\n\n\n\"generationConfiguration\":{\n\"gpuTypeId\":$('read pod status').first().json.podMeta.machine.gpuTypeId,\n\"gpuCount\": $('read pod status').first().json.podMeta.gpuCount,\n\"podCostUsdPerHour\":$('read pod status').first().json.podMeta.costPerHr,\n\"workloadKey\":$('get all workflow params').first().json.runpodT2VWorkloadKey,\n\"modality\":\"video\",\n\"tags\":{\n\"resolution\":$('get all workflow params').first().json.clipWidth.toString()+'x'+$('get all workflow params').first().json.clipHeight.toString(),\n\"fps\":$('get all workflow params').first().json.clipFps,\n\"generationMode\": \"t2v\"\n},\n},\n\"comfyUiRequest\": {\n  \"client_id\": \"n8n\",\n  \"prompt\": $('Start').last().json.comfyUiRequest\n}\n} }}",
               "type": "object"
             }
           ]
@@ -4732,7 +4757,7 @@
             {
               "id": "e1e36b2f-2306-4a01-9df3-a635fe4627cf",
               "name": "body",
-              "value": "={{\n{\n  \"query\": \"mutation($input: PodFindAndDeployOnDemandInput) { podFindAndDeployOnDemand(input: $input) { id name desiredStatus machineId imageName templateId } }\",\n  \"variables\": {\n    \"input\": {\n      \"name\": \"deployed: \" + $now.format(\"dd-MM-yyyy HH:mm\"),\n      \"templateId\": $(\"Start\").first().json.runpodTemplateId,\n      \"cloudType\": $(\"Start\").first().json.runpodUseVolume ? \"SECURE\" : \"COMMUNITY\",\n      \"gpuTypeId\": $(\"Start\").first().json.runpodGpuList[0],\n      \"gpuCount\": 1,\n      \"containerDiskInGb\": $(\"Start\").first().json.runpodContainerDiskInGb,\n      \"volumeInGb\": $(\"Start\").first().json.runpodVolumeInGb,\n      \"supportPublicIp\": true,\n      \"startJupyter\": true,\n      \"startSsh\": true,\n      \"volumeMountPath\": \"/workspace\",\n      \"allowedCudaVersions\": [\"12.8\", \"12.9\", \"13.0\"],\n      \"env\": [\n        {\n          \"key\": \"CIVITAI_TOKEN\",\n          \"value\": \"{{ RUNPOD_SECRET_civitai_api_key \\}}\"\n        }\n      ]\n    }\n  }\n}\n}}",
+              "value": "={{\n{\n  \"query\": \"mutation($input: PodFindAndDeployOnDemandInput) { podFindAndDeployOnDemand(input: $input) { id name desiredStatus machineId imageName templateId } }\",\n  \"variables\": {\n    \"input\": {\n      \"name\": \"deployed: \" + $now.format(\"dd-MM-yyyy HH:mm\"),\n      \"templateId\": $(\"Start\").first().json.runpodTemplateId,\n      \"cloudType\": $(\"Start\").first().json.runpodUseVolume ? \"SECURE\" : \"COMMUNITY\",\n      \"gpuTypeId\": $(\"Start\").first().json.runpodGpuList[0],\n      \"gpuCount\": $(\"Start\").first().json.runpodGpuCount,\n      \"containerDiskInGb\": $(\"Start\").first().json.runpodContainerDiskInGb,\n      \"volumeInGb\": $(\"Start\").first().json.runpodVolumeInGb,\n      \"supportPublicIp\": true,\n      \"startJupyter\": true,\n      \"startSsh\": true,\n      \"volumeMountPath\": \"/workspace\",\n      \"allowedCudaVersions\": [\"12.8\", \"12.9\", \"13.0\"],\n      \"env\": [\n        {\n          \"key\": \"CIVITAI_TOKEN\",\n          \"value\": \"{{ RUNPOD_SECRET_civitai_api_key \\}}\"\n        }\n      ]\n    }\n  }\n}\n}}",
               "type": "object"
             }
           ]
@@ -4933,7 +4958,20 @@
             "index": 0
           }
         ],
-        [],
+        [
+          {
+            "node": "Stop and Error2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Stop and Error2",
+            "type": "main",
+            "index": 0
+          }
+        ],
         []
       ]
     },
@@ -5737,14 +5775,24 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "LifeOfAPirate",
-          "videoFolderName": "2026-04-16_YeLlV",
+          "channelName": "TheHistoryBranches",
+          "videoFolderName": "2026-04-21_ohBDC",
           "index": 0,
-          "method": "pausePod",
+          "method": "deployPod",
           "comfyUiRequest": {},
-          "request": {},
+          "request": null,
           "runpodTemplateId": "x4305f6gs5",
-          "runpodGpuList": [],
+          "runpodGpuList": [
+            "NVIDIA GeForce RTX 5090",
+            "NVIDIA GeForce RTX 5080",
+            "NVIDIA GeForce RTX 4090",
+            "NVIDIA GeForce RTX 4080 SUPER",
+            "NVIDIA GeForce RTX 3090",
+            "NVIDIA GeForce RTX 3080 Ti",
+            "NVIDIA GeForce RTX 3090 Ti",
+            "NVIDIA GeForce RTX 3070"
+          ],
+          "runpodGpuCount": 2,
           "runpodCountryCodes": []
         },
         "pairedItem": {
@@ -5753,9 +5801,9 @@
       }
     ]
   },
-  "versionId": "459c0100-3386-42d2-a15d-41790b87f18d",
-  "activeVersionId": "459c0100-3386-42d2-a15d-41790b87f18d",
-  "versionCounter": 3902,
+  "versionId": "89d7ad4e-f936-4bd4-8d10-f689be10f941",
+  "activeVersionId": "89d7ad4e-f936-4bd4-8d10-f689be10f941",
+  "versionCounter": 3943,
   "triggerCount": 0,
   "tags": [],
   "shared": [

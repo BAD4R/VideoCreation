@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-20T02:46:22.700Z",
+  "updatedAt": "2026-04-22T00:36:29.485Z",
   "createdAt": "2026-04-14T11:02:29.464Z",
   "id": "G0WxbBXDlzRiFBm2",
   "name": "Generate Prompts - paralleling",
@@ -1693,94 +1693,6 @@
     },
     {
       "parameters": {
-        "workflowId": {
-          "__rl": true,
-          "value": "qwG1pltFOQqqJLyh",
-          "mode": "list",
-          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
-          "cachedResultName": "JSON File Works"
-        },
-        "workflowInputs": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').first().json.generationData.segment_meta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
-            "fileAction": "write",
-            "keysToReturn": "={{ [] }}",
-            "keysToWrite": "={{ {\"segment_status\": {\"prompts_ready\": true} } }}",
-            "keysToDelete": "={{ [] }}"
-          },
-          "matchingColumns": [
-            "channelsFolderPath_firstItem",
-            "channelName_firstItem"
-          ],
-          "schema": [
-            {
-              "id": "filePath",
-              "displayName": "filePath",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "fileAction",
-              "displayName": "fileAction",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
-            },
-            {
-              "id": "keysToReturn",
-              "displayName": "keysToReturn",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            },
-            {
-              "id": "keysToWrite",
-              "displayName": "keysToWrite",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "object",
-              "removed": false
-            },
-            {
-              "id": "keysToDelete",
-              "displayName": "keysToDelete",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "array",
-              "removed": false
-            }
-          ],
-          "attemptToConvertTypes": false,
-          "convertFieldsToString": true
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.executeWorkflow",
-      "typeVersion": 1.2,
-      "position": [
-        5008,
-        640
-      ],
-      "name": "write status ready",
-      "id": "84bbe5cc-f45b-44b3-aedd-3053bcfa9cc2"
-    },
-    {
-      "parameters": {
         "jsCode": "// n8n Code node\n// Работает с raw Responses API ответом OpenAI\n\nfunction asObject(input) {\n  if (Array.isArray(input)) return input[0] ?? null;\n  return input ?? null;\n}\n\nfunction extractOpenAIOutputText(respRaw) {\n  const resp = asObject(respRaw);\n  if (!resp || typeof resp !== 'object') {\n    return {\n      ok: false,\n      error: 'Response is empty or not an object',\n      text: '',\n      parsed: null,\n      source: null,\n    };\n  }\n\n  // 1) Самый удобный путь, если поле уже есть\n  if (typeof resp.output_text === 'string' && resp.output_text.trim()) {\n    const text = resp.output_text.trim();\n    return {\n      ok: true,\n      error: null,\n      text,\n      parsed: tryParseJson(text),\n      source: 'output_text',\n    };\n  }\n\n  // 2) Фолбэк: ищем все message -> content -> output_text\n  const chunks = [];\n  const output = Array.isArray(resp.output) ? resp.output : [];\n\n  for (const item of output) {\n    if (!item || item.type !== 'message') continue;\n    const content = Array.isArray(item.content) ? item.content : [];\n\n    for (const part of content) {\n      if (!part || part.type !== 'output_text') continue;\n      if (typeof part.text === 'string' && part.text.trim()) {\n        chunks.push(part.text);\n      }\n    }\n  }\n\n  if (chunks.length > 0) {\n    const text = chunks.join('\\n').trim();\n    return {\n      ok: true,\n      error: null,\n      text,\n      parsed: tryParseJson(text),\n      source: 'output[].message.content[].output_text.text',\n    };\n  }\n\n  return {\n    ok: false,\n    error: 'No output text found in response.output_text or message content',\n    text: '',\n    parsed: null,\n    source: null,\n  };\n}\n\nfunction tryParseJson(text) {\n  if (typeof text !== 'string') return null;\n  const trimmed = text.trim();\n  if (!trimmed) return null;\n\n  try {\n    return JSON.parse(trimmed);\n  } catch {\n    return null;\n  }\n}\n\nconst items = $input.all();\n\nreturn items.map((item, index) => {\n  const raw = item.json;\n  const extracted = extractOpenAIOutputText(raw);\n\n  return {\n    json: {\n      index,\n      ok: extracted.ok,\n      source: extracted.source,\n      error: extracted.error,\n      outputText: extracted.text,\n      outputJson: extracted.parsed,\n    }\n  };\n});"
       },
       "type": "n8n-nodes-base.code",
@@ -2458,6 +2370,94 @@
       "name": "set prompts status unready",
       "id": "6f310ce0-010a-43fa-8b56-2cd5bae12147",
       "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "qwG1pltFOQqqJLyh",
+          "mode": "list",
+          "cachedResultUrl": "/workflow/qwG1pltFOQqqJLyh",
+          "cachedResultName": "JSON File Works"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "filePath": "={{ $('Start').first().json.channelsFolderPath }}/{{ $('Start').first().json.channelName }}/VIDEOS/{{ $('Start').first().json.videoFolderName }}/VISUALS/VISUAL_SEGMENTS/{{ $('Start').first().json.generationData.segment_meta.partIndex.toString().padStart(5,'0') }}_visualSegment.json",
+            "fileAction": "write",
+            "keysToReturn": "={{ [] }}",
+            "keysToWrite": "={{ {\"segment_status\": {\"prompts_ready\": true} } }}",
+            "keysToDelete": "={{ [] }}"
+          },
+          "matchingColumns": [
+            "channelsFolderPath_firstItem",
+            "channelName_firstItem"
+          ],
+          "schema": [
+            {
+              "id": "filePath",
+              "displayName": "filePath",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "fileAction",
+              "displayName": "fileAction",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string",
+              "removed": false
+            },
+            {
+              "id": "keysToReturn",
+              "displayName": "keysToReturn",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            },
+            {
+              "id": "keysToWrite",
+              "displayName": "keysToWrite",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "object",
+              "removed": false
+            },
+            {
+              "id": "keysToDelete",
+              "displayName": "keysToDelete",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "array",
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        5008,
+        640
+      ],
+      "name": "write status ready",
+      "id": "84bbe5cc-f45b-44b3-aedd-3053bcfa9cc2"
     }
   ],
   "connections": {
@@ -3040,62 +3040,61 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "HistoryBranches",
-          "videoFolderName": "2026-04-20_SAomD",
+          "channelName": "TheHistoryBranches",
+          "videoFolderName": "2026-04-21_ohBDC",
           "generationData": {
-            "schema_version": "1.0",
-            "segment_index": 0,
             "video_meta": {
-              "titles": "Что если бы Германия победила? Реальный сценарий,Победа ведущая к краху: альтернативная история,Неизбежный финал: почему империя была обречена",
-              "descriptions": "В этом видео мы разбираем реалистичный сценарий победы Германии во Второй мировой войне. Забудьте о фантастических фильмах и технологических антиутопиях. Вы узнаете, почему даже при падении СССР и захвате ресурсов Кавказа, управление Евразией стало бы логистическим кошмаром. Мы обсудим неизбежную партизанскую войну, экономику, обреченную на стагнацию из-за принудительного труда, и холодную войну с США. Почему немцы не создали бы атомную бомбу первыми и как внутренние конфликты привели бы к неминуемому краху империи к 1980-м годам. Смотрите ролик, чтобы узнать, почему законы географии и логистики оказались бы сильнее любой армии.,Мифы о высокотехнологичной немецкой империи после Второй мировой войны далеки от реальности. Что ждало бы мир, если бы Советский Союз пал в 1941 году? Огромные территории превратились бы в бесконечную партизанскую зону, требующую миллионную армию для удержания. В видео подробно разбирается экономика изоляции, нехватка ресурсов для создания ядерного оружия и грядущее противостояние с Соединенными Штатами. Вы узнаете, почему система, построенная на насилии, грабеже и ведомственных войнах, рухнула бы изнутри вскоре после смерти своего лидера. Подписывайтесь на канал, чтобы не пропустить новые исторические разборы.,Представьте, что Германия выиграла Вторую мировую войну. Вторжение в Америку? Глобальное господство? На самом деле, победителей ждала бы совершенно иная, гораздо более мрачная участь. В ролике мы анализируем, как разница в ширине железнодорожной колеи, партизанские восстания и гонка вооружений с нетронутыми США истощили бы ресурсы победителей. Разбираем миф о немецкой атомной бомбе и объясняем, почему смерть диктатора в 1950-х годах спровоцировала бы кровавую борьбу за власть. Узнайте, как законы экономики и банальная логистика разрушили бы континентальную империю изнутри к концу двадцатого века."
+              "titles": "Why the Axis Could Never Win WWII,The Only Strategy to Save the Axis,How Fascist Ideology Doomed the Axis",
+              "descriptions": "Internet historians often romanticize alternate outcomes of the Second World War, but industrial and mathematical realities made an Axis victory impossible by the winter of nineteen forty-one. In this video, we explore the only viable strategy the Axis had: forcing a global stalemate. We break down the three structural pivots required to achieve this, from prioritizing the Mediterranean and seizing the Suez Canal to securing Caucasus oil fields and avoiding war with the United States. Even with perfect logistical execution, find out why the inherently irrational and annihilatory nature of fascist ideology meant their empire was ultimately doomed to collapse.,Could the Axis have survived the Second World War? Total victory was completely out of reach, but forcing a global stalemate might have been possible if they changed their entire approach. This meant prioritizing the Suez Canal to sever the British Empire, focusing the Soviet invasion exclusively on the Caucasus oil fields, and completely avoiding a declaration of war against the United States. Discover how logistical incompetence and the rigid, aggressive nature of fascism prevented these pragmatic choices, ensuring their total defeat.,The fascist state was built purely for aggressive expansion, making peacetime governance and rational military strategy completely impossible. We dive into the industrial and logistical realities of WWII to explain why the Axis was fundamentally doomed by its own design. From the inability to show political flexibility with local populations to massive logistical incompetence, explore why even a hypothetical ceasefire would have resulted in technological stagnation and inevitable internal collapse for the Axis powers."
             },
             "segment_meta": {
               "partIndex": 0,
-              "text": "Let us immediately discard the Hollywood visions of a victorious Third Reich.",
+              "text": "Go to any internet forum discussing the European theater of World War Two, and you will inevitably trip over the",
               "previous_text": null,
-              "next_text": "There are no fleets of jet bombers crossing the Atlantic to level New York, no swastika flags draped over the Statue of Liberty, and no",
+              "next_text": "exact same romanticized, deeply unserious myth.",
               "start_ms": 0,
-              "end_ms": 5392,
-              "durMs": 5392,
-              "charCount": 77
+              "end_ms": 6808,
+              "durMs": 6808,
+              "charCount": 112
             },
             "segment_analysis": {
               "schema_version": "1.0",
               "segment_index": 0,
               "segment_function": "hook",
-              "visual_need": "show_location",
-              "abstraction_level": "concrete",
+              "visual_need": "show_object",
+              "abstraction_level": "abstract",
               "priority_entities": [
-                "World Map",
-                "Axis-controlled territory indicators"
+                "myth",
+                "total war",
+                "historical narrative"
               ],
               "needs_precise_overlay": false,
-              "reason": "Setting the stage with a neutral, grounded map to dispel common alt-history myths immediately."
+              "reason": "Establishing the hook by identifying and dismissing the romanticized myth of total war as the entry point for structural critique."
             },
             "segment_plan": {
               "segment_index": 0,
-              "selected_base_format": "spatial_map",
-              "format_tier": "secondary",
-              "use_explanatory_layer": true,
+              "selected_base_format": "observational_video",
+              "format_tier": "primary",
+              "use_explanatory_layer": false,
               "segment_role_in_flow": "anchor",
-              "reason": "A spatial map with territorial indicators immediately establishes geographical constraints and grounds the neutral, analytical tone, fitting the map-led causal flow strategy."
+              "reason": "Establishing the cold, analytical tone with observational visuals to begin debunking the romanticized internet myth."
             },
             "segment_prompt_route": {
               "schema_version": "1.0",
               "segment_index": 0,
               "visual_mode": "illustrated_2d",
-              "selected_base_format": "spatial_map",
-              "format_tier": "secondary",
-              "use_explanatory_layer": true,
+              "selected_base_format": "observational_video",
+              "format_tier": "primary",
+              "use_explanatory_layer": false,
               "segment_role_in_flow": "anchor",
-              "prompt_family": "spatial_map_graphic",
-              "prompt_family_kind": "graphic_based",
-              "use_legacy_scene_templates": false,
+              "prompt_family": "illustrated_scene_i2v",
+              "prompt_family_kind": "scene_based",
+              "use_legacy_scene_templates": true,
               "template_ids": {
-                "base_visuals_requirements_id": "spatial_map_base_requirements_v1",
-                "starting_frame_template_id": "spatial_map_start_frame_v1",
-                "clip_template_id": "spatial_map_clip_v1",
-                "overlay_template_id": "spatial_map_overlay_v1"
+                "base_visuals_requirements_id": "illustrated_2d_base_requirements_v1",
+                "starting_frame_template_id": "illustrated_2d_start_frame_v1",
+                "clip_template_id": "illustrated_2d_clip_v1",
+                "overlay_template_id": null
               },
               "language_policy": {
                 "camera_language_allowed": false,
@@ -3120,156 +3119,157 @@
               "generation_requirements": {
                 "requires_start_frame": true,
                 "requires_clip_prompt": true,
-                "requires_overlay_prompt": true
+                "requires_overlay_prompt": false
               },
-              "start_frame_text_mode": "required",
-              "allow_start_frame_embedded_annotations": true,
-              "requires_text_capable_start_frame_model": true,
+              "start_frame_text_mode": "forbid",
+              "allow_start_frame_embedded_annotations": false,
+              "requires_text_capable_start_frame_model": false,
               "global_inputs": {
                 "selected_cluster_plan": {
                   "schema_version": "1.0",
-                  "topic_idea": "What if germany would have won world war 2?",
+                  "topic_idea": "The Only Way Germany Could Have Won: Debunking the 'Total War' myth and presenting three strategic logistical pivots (Suez, Caucasus, avoiding US entry) that could have forced a stalemate.",
                   "confidence": 0.95,
                   "selected_cluster": {
-                    "cluster_id": "structural_realist_timeline_fans",
-                    "cluster_label": "Структурные реалисты развилки",
-                    "fit_score": 0.95,
-                    "fit_reason": "WWII is the most famous historical hinge; exploring an Axis victory requires a strict causal chain, logistics-based plausibility, and avoiding lazy mythmaking, matching this cluster's core demands."
+                    "cluster_id": "debunk_list_structural_skeptics",
+                    "cluster_label": "Skeptics of popular myths",
+                    "fit_score": 0.92,
+                    "fit_reason": "The topic explicitly sets out to debunk a famous historical cliché (Germany winning a long total war) by replacing romanticized narratives with a strict structural analysis of three logistical pivots."
                   },
-                  "selected_narrative_mode": "process_explainer",
-                  "narrative_mode_reason": "A process explainer perfectly structures the 'chained structure' and 'step-by-step build' needed to show exactly how a German victory would unfold through logistics, resources, and timing.",
+                  "selected_narrative_mode": "top_list",
+                  "narrative_mode_reason": "The outline is structurally built around analyzing three distinct strategic pivots one by one, perfectly aligning with a top-list format to dismantle or validate historical scenarios.",
                   "combined_brief": {
                     "self_identity": [
-                      "alt-history fan with history literacy",
                       "plausibility-focused history nerd",
-                      "map/game-literate scenario debater"
+                      "community participant who suggests scenarios",
+                      "viewer who enjoys myth-busting through structure"
                     ],
                     "worldview": [
-                      "material constraints drive outcomes",
-                      "timing and logistics dictate outcomes over hero worship",
-                      "single divergence works only through chained structure",
-                      "broad consequences of a WWII Axis victory must stay causally grounded"
+                      "most famous historical myths collapse under structural scrutiny",
+                      "systems and incentives outweigh romantic narratives",
+                      "good alt-history includes objection handling, not just invention"
                     ],
                     "pain_growth": [
-                      "attrition and resource strain explain outcomes",
-                      "losses and endurance are meaningful only when causally linked",
-                      "hardship is accepted as system cost rather than melodrama"
+                      "hard tradeoffs matter more than heroic fantasy",
+                      "failed plans and attrition reveal the real limits of scenarios",
+                      "suffering and collapse should clarify structure, not just raise stakes"
                     ],
                     "fears_desires": [
-                      "desire for coherent chain reaction from a famous hinge",
-                      "desire for plausible explanation over spectacle",
-                      "fear of unrealistic clichés",
-                      "fear of late-stage speculative overreach"
+                      "desire to see weak scenarios dismantled cleanly",
+                      "desire for objection-aware reasoning",
+                      "fear of recycled internet clichés",
+                      "fear that meme language will replace substance"
                     ],
                     "common_enemy": [
-                      "lazy alt-history clichés",
-                      "mythmaking over plausibility",
-                      "ignoring logistics and resources",
-                      "under-defended causal leaps"
+                      "bad historical reasoning",
+                      "oversimplification",
+                      "heroic determinism",
+                      "bait packaging around weak premises"
                     ],
                     "language_codes": [
-                      "casual historical explainer",
-                      "plainspoken speculative narration",
-                      "informal corrective framing",
-                      "gamer/meme shorthand with evidence"
+                      "sarcastic debunk tone",
+                      "casual corrective phrasing",
+                      "quotable catchphrases",
+                      "internet-native humor with argumentative edge"
                     ],
                     "visual_aesthetics": [
-                      "clear cartoon maps",
-                      "map-led causal flow",
-                      "symbolic figures over noisy spectacle",
-                      "readable conflict visuals"
+                      "bold readable thumbnails",
+                      "simple conflict framing",
+                      "cartoon geopolitics",
+                      "clean visual hierarchy over decorative detail"
                     ],
                     "fit_packaging": [
-                      "high-concept historical hinge",
-                      "clear one-question premise",
-                      "strong title-content alignment",
-                      "famous topic plus plausibility claim"
+                      "top-list debunk packaging",
+                      "emphatic myth-busting title",
+                      "simple yes-no-or-why-not premise",
+                      "strong title-thumbnail-script alignment"
                     ],
                     "preferred_text_tone": [
-                      "dry pragmatic breakdown",
-                      "ironic but evidence-based techno-narrative"
+                      "sarcastic debunk",
+                      "confident structural takedown"
                     ],
                     "usage_notes": [
-                      "Start with one clear divergence point for the German victory and immediately state the scenario limits.",
-                      "Tie every new level of escalation or post-war consequence to resources, timing, or institutional incentives.",
-                      "Use humor only if it does not replace the causal chain of events.",
-                      "Ground the largest consequences in the finale again to maintain trust and prevent scope drift."
+                      "Frame the thesis clearly as a myth check: state upfront that total victory was a mathematical impossibility, turning the 3 pivots into a structural test of a stalemate.",
+                      "Evaluate each of the three pivots using clear viability criteria like logistics, rail infrastructure, and resource pipelines rather than a chaotic set of battlefield facts.",
+                      "Anticipate viewer objections for each pivot (e.g. 'the US would have joined anyway') and embed the structural counter-arguments directly into the narrative.",
+                      "Keep the sarcasm and corrective tone aimed at the weak logic of the 'wonder weapons' or 'total conquest' myths, validating the viewer's structural understanding."
                     ],
                     "avoid_notes": [
-                      "Do not rely on pure spectacle-worldbuilding without structural support.",
-                      "Avoid deus ex machina events in the final act to explain long-term stability or collapse.",
-                      "Do not broaden the scope beyond what the title promises.",
-                      "Avoid late speculative overreach and weak causal bridging."
+                      "Do not present the topic with solemn seriousness; ensure there is an argumentative edge and irony when dismissing the original historical mistakes.",
+                      "Do not fall into heroic determinism or focus on the battles themselves; keep the focus strictly on the structural and logistical tradeoffs of the 3 pivots.",
+                      "Avoid framing the final conclusion as a glorious victory; ensure the 'stalemate' limitation remains the core premise without overpromising in the payoff.",
+                      "Do not use overconfident absolute phrasing without providing the structural proof behind the causal links for each pivot."
                     ]
                   },
                   "fileName": "selectedClusterPlan.json"
                 },
                 "visual_narration_strategy": {
                   "schema_version": "1.0",
-                  "cluster_id": "structural_realist_timeline_fans",
-                  "selected_narrative_mode": "process_explainer",
-                  "visual_goal": "Показать логистические, пространственные и ресурсные барьеры альтернативного сценария через наглядные причинно-следственные связи, исключая голливудскую зрелищность.",
+                  "cluster_id": "debunk_list_structural_skeptics",
+                  "selected_narrative_mode": "top_list",
+                  "visual_goal": "Деконструкция популярного исторического мифа через визуализацию непреодолимых структурных, логистических и географических барьеров, противопоставляя романтику войны суровой математике.",
                   "visual_evidence_style": [
+                    "comparative",
                     "explanatory",
-                    "comparative"
+                    "observational"
                   ],
                   "preferred_base_formats": [
                     "observational_video",
                     "archival_material"
                   ],
                   "secondary_base_formats": [
-                    "spatial_map",
-                    "explanatory_graphic"
+                    "spatial_map"
                   ],
                   "rare_base_formats": [
                     "still_image",
+                    "explanatory_graphic",
                     "ui_data_visual"
                   ],
                   "forbidden_base_formats": [
                     "text_only_card"
                   ],
                   "preferred_capture_styles": [
-                    "строгая и прагматичная съемка",
-                    "фокус на индустриальные и логистические объекты",
-                    "архивная хроника без эмоциональной перегрузки"
+                    "Холодная и отстраненная фиксация объектов",
+                    "Строгая композиция с чистой визуальной иерархией",
+                    "Акцент на масштабных индустриальных объектах, транспорте и конвейерах, игнорирующий человеческие фигуры"
                   ],
                   "preferred_shot_families": [
-                    "широкие общие планы инфраструктуры",
-                    "картографические панорамы",
-                    "макропланы сырья и механизмов"
+                    "Широкие планы портов, заводов и длинных железнодорожных составов",
+                    "Детальные макро-кадры элементов логистики (рельсы, трубы, бочки с топливом)",
+                    "Контрастные сопоставления масштабов (одиночный корабль в океане против узкого Суэцкого канала)"
                   ],
                   "preferred_explanatory_layers": [
-                    "минималистичные картографические слои",
-                    "схемы логистических цепочек",
-                    "символические маркеры ресурсов и войск"
+                    "Крупные контрастные текстовые плашки для фиксации математических фактов (тоннаж, километры, время)",
+                    "Упрощенная 'мультяшная' геополитика на картах для наглядной демонстрации уязвимостей маршрутов снабжения",
+                    "Простые графические маркеры блокировки (перечеркнутые пути, сужающиеся потоки ресурсов)"
                   ],
                   "continuity_rules": [
-                    "каждый новый визуальный тезис логически вытекает из предыдущего графического состояния",
-                    "строгая геопространственная привязка при смене локаций",
-                    "единая палитра для графики и карт"
+                    "Каждый из трех пунктов списка должен начинаться с четкого визуального переключения на новую географическую зону",
+                    "Постоянное возвращение к концепту 'неумолимой математики' через сквозное появление индустриальных объемов и логистических цепей"
                   ],
                   "transition_rules": [
-                    "плавные движения по карте вместо резкой смены декораций",
-                    "прямые склейки при сопоставлении цифр и фактов",
-                    "использование линий снабжения как направляющих для перехода"
+                    "Ироничные резкие склейки (hard cuts) от пафосных мифологизированных кадров боев к скучной рутине разгрузки вагонов",
+                    "Использование простых и четких переходов без декоративных эффектов, поддерживая аналитическую строгость",
+                    "Визуальное разрушение ожиданий зрителя: прерывание 'героического' видеоряда появлением жесткой географической преграды на карте"
                   ],
                   "repetition_limits": [
-                    "повторное использование глобальной карты допускается только для фиксации новых ограничивающих факторов",
-                    "избегать зацикливания одинаковой хроники боевых действий"
+                    "Строго ограничить появление лиц генералов и политиков; они не влияют на математику войны",
+                    "Минимизировать кадры боевых действий в пользу непрерывных циклов производства и транспортировки",
+                    "Не повторять кадры с 'чудо-оружием', использовать их лишь однократно как пример провального мифа"
                   ],
                   "tone_rules": [
-                    "отстраненный и доказательный тон",
-                    "визуальная сухость в противовес драматическому пафосу",
-                    "фокус на системную цену решений"
+                    "Уверенный, саркастичный и деконструирующий",
+                    "Холодный расчет вместо исторического пафоса или излишней эмоциональности",
+                    "Визуальное подчеркивание тривиальности и тяжелой рутины войны в противовес идеологическим фантазиям"
                   ],
                   "usage_notes": [
-                    "использовать карты для демонстрации пространственных и инфраструктурных тупиков",
-                    "визуализировать истощение ресурсов через графики на фоне реальных объектов индустрии"
+                    "Использовать archival_material исключительно для иллюстрации серой производственной и логистической рутины (смена колеи, перевозка грузов), а не парадов",
+                    "Формат spatial_map (несмотря на низкий базовый приоритет) жизненно необходим как вторичный формат для реализации требования кластера 'cartoon geopolitics' при описании Суэца и Кавказа",
+                    "Все визуальные доказательства должны подчеркивать структурные ограничения и отвечать на вероятные возражения зрителя"
                   ],
                   "avoid_notes": [
-                    "категорически избегать фантастических образов высокотехнологичного дистопичного будущего",
-                    "не использовать героические или эмоционально манипулятивные кадры",
-                    "отказаться от визуального перегруза и лишнего графического шума"
+                    "Абсолютно избегать героической детерминированности и эстетизации боевых действий",
+                    "Не перегружать визуал сложными многослойными графиками – сохранять простую и бьющую в цель 'мультяшную' геополитику",
+                    "Не подавать альтернативный сценарий тупика как победу: визуал финала должен оставаться мрачным, серым и истощающим"
                   ],
                   "fileName": "visualNarrationStrategy.json"
                 },
@@ -3282,46 +3282,44 @@
               },
               "warnings": []
             },
-            "shot_planning": null,
-            "graphic_treatment_plan": {
+            "shot_planning": {
               "schema_version": "1.0",
               "segment_index": 0,
               "visual_mode": "illustrated_2d",
-              "prompt_family": "spatial_map_graphic",
-              "selected_graphic_treatment_id": "topdown_route_map",
-              "layout_scope": "full_system",
-              "information_density": "high",
-              "motion_behavior": "guided_reveal",
-              "label_intensity": "medium",
-              "reason": "The segment focuses on geographical and logistical constraints over vast territories, requiring a top-down spatial map to illustrate supply lines and the scale of the occupation."
+              "selected_scene_treatment_id": "illustrated_wide",
+              "shot_scale": "wide",
+              "motion_intensity": "low",
+              "time_behavior": "realtime",
+              "reason": "The segment serves as an introduction to the global scope of the conflict, making a wide, layered environment best for establishing the scale and geographic stakes mentioned in the thesis."
             },
+            "graphic_treatment_plan": null,
             "still_treatment_plan": null,
             "prev_segment_meta": null,
             "next_segment_meta": {
               "partIndex": 1,
-              "text": "There are no fleets of jet bombers crossing the Atlantic to level New York, no swastika flags draped over the Statue of Liberty, and no",
-              "previous_text": "Let us immediately discard the Hollywood visions of a victorious Third Reich.",
-              "next_text": "seamless, high-tech global dystopia. The logistical reality of a German victory in World War Two is far less cinematic and far more suffocating.",
-              "start_ms": 5392,
-              "end_ms": 14971,
-              "durMs": 9579,
-              "charCount": 135
+              "text": "exact same romanticized, deeply unserious myth.",
+              "previous_text": "Go to any internet forum discussing the European theater of World War Two, and you will inevitably trip over the",
+              "next_text": "It is the persistent, almost desperate belief that if the German military had just built a few more jet fighters, or rolled out a fleet of indestructible",
+              "start_ms": 6808,
+              "end_ms": 13808,
+              "durMs": 7000,
+              "charCount": 47
             },
             "prev_segment_plan": null,
             "next_segment_plan": {
               "segment_index": 1,
-              "selected_base_format": "archival_material",
+              "selected_base_format": "observational_video",
               "format_tier": "primary",
               "use_explanatory_layer": false,
               "segment_role_in_flow": "expand",
-              "reason": "Historical archival footage directly debunks Hollywood tropes by contrasting sensationalism with grounded, pragmatic reality."
+              "reason": "Expanding on the myth concept, keeping the visual style grounded to contrast with the upcoming 'wonder weapon' imagery."
             },
             "prev_segment_prompt_route": null,
             "next_segment_prompt_route": {
               "schema_version": "1.0",
               "segment_index": 1,
               "visual_mode": "illustrated_2d",
-              "selected_base_format": "archival_material",
+              "selected_base_format": "observational_video",
               "format_tier": "primary",
               "use_explanatory_layer": false,
               "segment_role_in_flow": "expand",
@@ -3365,148 +3363,149 @@
               "global_inputs": {
                 "selected_cluster_plan": {
                   "schema_version": "1.0",
-                  "topic_idea": "What if germany would have won world war 2?",
+                  "topic_idea": "The Only Way Germany Could Have Won: Debunking the 'Total War' myth and presenting three strategic logistical pivots (Suez, Caucasus, avoiding US entry) that could have forced a stalemate.",
                   "confidence": 0.95,
                   "selected_cluster": {
-                    "cluster_id": "structural_realist_timeline_fans",
-                    "cluster_label": "Структурные реалисты развилки",
-                    "fit_score": 0.95,
-                    "fit_reason": "WWII is the most famous historical hinge; exploring an Axis victory requires a strict causal chain, logistics-based plausibility, and avoiding lazy mythmaking, matching this cluster's core demands."
+                    "cluster_id": "debunk_list_structural_skeptics",
+                    "cluster_label": "Skeptics of popular myths",
+                    "fit_score": 0.92,
+                    "fit_reason": "The topic explicitly sets out to debunk a famous historical cliché (Germany winning a long total war) by replacing romanticized narratives with a strict structural analysis of three logistical pivots."
                   },
-                  "selected_narrative_mode": "process_explainer",
-                  "narrative_mode_reason": "A process explainer perfectly structures the 'chained structure' and 'step-by-step build' needed to show exactly how a German victory would unfold through logistics, resources, and timing.",
+                  "selected_narrative_mode": "top_list",
+                  "narrative_mode_reason": "The outline is structurally built around analyzing three distinct strategic pivots one by one, perfectly aligning with a top-list format to dismantle or validate historical scenarios.",
                   "combined_brief": {
                     "self_identity": [
-                      "alt-history fan with history literacy",
                       "plausibility-focused history nerd",
-                      "map/game-literate scenario debater"
+                      "community participant who suggests scenarios",
+                      "viewer who enjoys myth-busting through structure"
                     ],
                     "worldview": [
-                      "material constraints drive outcomes",
-                      "timing and logistics dictate outcomes over hero worship",
-                      "single divergence works only through chained structure",
-                      "broad consequences of a WWII Axis victory must stay causally grounded"
+                      "most famous historical myths collapse under structural scrutiny",
+                      "systems and incentives outweigh romantic narratives",
+                      "good alt-history includes objection handling, not just invention"
                     ],
                     "pain_growth": [
-                      "attrition and resource strain explain outcomes",
-                      "losses and endurance are meaningful only when causally linked",
-                      "hardship is accepted as system cost rather than melodrama"
+                      "hard tradeoffs matter more than heroic fantasy",
+                      "failed plans and attrition reveal the real limits of scenarios",
+                      "suffering and collapse should clarify structure, not just raise stakes"
                     ],
                     "fears_desires": [
-                      "desire for coherent chain reaction from a famous hinge",
-                      "desire for plausible explanation over spectacle",
-                      "fear of unrealistic clichés",
-                      "fear of late-stage speculative overreach"
+                      "desire to see weak scenarios dismantled cleanly",
+                      "desire for objection-aware reasoning",
+                      "fear of recycled internet clichés",
+                      "fear that meme language will replace substance"
                     ],
                     "common_enemy": [
-                      "lazy alt-history clichés",
-                      "mythmaking over plausibility",
-                      "ignoring logistics and resources",
-                      "under-defended causal leaps"
+                      "bad historical reasoning",
+                      "oversimplification",
+                      "heroic determinism",
+                      "bait packaging around weak premises"
                     ],
                     "language_codes": [
-                      "casual historical explainer",
-                      "plainspoken speculative narration",
-                      "informal corrective framing",
-                      "gamer/meme shorthand with evidence"
+                      "sarcastic debunk tone",
+                      "casual corrective phrasing",
+                      "quotable catchphrases",
+                      "internet-native humor with argumentative edge"
                     ],
                     "visual_aesthetics": [
-                      "clear cartoon maps",
-                      "map-led causal flow",
-                      "symbolic figures over noisy spectacle",
-                      "readable conflict visuals"
+                      "bold readable thumbnails",
+                      "simple conflict framing",
+                      "cartoon geopolitics",
+                      "clean visual hierarchy over decorative detail"
                     ],
                     "fit_packaging": [
-                      "high-concept historical hinge",
-                      "clear one-question premise",
-                      "strong title-content alignment",
-                      "famous topic plus plausibility claim"
+                      "top-list debunk packaging",
+                      "emphatic myth-busting title",
+                      "simple yes-no-or-why-not premise",
+                      "strong title-thumbnail-script alignment"
                     ],
                     "preferred_text_tone": [
-                      "dry pragmatic breakdown",
-                      "ironic but evidence-based techno-narrative"
+                      "sarcastic debunk",
+                      "confident structural takedown"
                     ],
                     "usage_notes": [
-                      "Start with one clear divergence point for the German victory and immediately state the scenario limits.",
-                      "Tie every new level of escalation or post-war consequence to resources, timing, or institutional incentives.",
-                      "Use humor only if it does not replace the causal chain of events.",
-                      "Ground the largest consequences in the finale again to maintain trust and prevent scope drift."
+                      "Frame the thesis clearly as a myth check: state upfront that total victory was a mathematical impossibility, turning the 3 pivots into a structural test of a stalemate.",
+                      "Evaluate each of the three pivots using clear viability criteria like logistics, rail infrastructure, and resource pipelines rather than a chaotic set of battlefield facts.",
+                      "Anticipate viewer objections for each pivot (e.g. 'the US would have joined anyway') and embed the structural counter-arguments directly into the narrative.",
+                      "Keep the sarcasm and corrective tone aimed at the weak logic of the 'wonder weapons' or 'total conquest' myths, validating the viewer's structural understanding."
                     ],
                     "avoid_notes": [
-                      "Do not rely on pure spectacle-worldbuilding without structural support.",
-                      "Avoid deus ex machina events in the final act to explain long-term stability or collapse.",
-                      "Do not broaden the scope beyond what the title promises.",
-                      "Avoid late speculative overreach and weak causal bridging."
+                      "Do not present the topic with solemn seriousness; ensure there is an argumentative edge and irony when dismissing the original historical mistakes.",
+                      "Do not fall into heroic determinism or focus on the battles themselves; keep the focus strictly on the structural and logistical tradeoffs of the 3 pivots.",
+                      "Avoid framing the final conclusion as a glorious victory; ensure the 'stalemate' limitation remains the core premise without overpromising in the payoff.",
+                      "Do not use overconfident absolute phrasing without providing the structural proof behind the causal links for each pivot."
                     ]
                   },
                   "fileName": "selectedClusterPlan.json"
                 },
                 "visual_narration_strategy": {
                   "schema_version": "1.0",
-                  "cluster_id": "structural_realist_timeline_fans",
-                  "selected_narrative_mode": "process_explainer",
-                  "visual_goal": "Показать логистические, пространственные и ресурсные барьеры альтернативного сценария через наглядные причинно-следственные связи, исключая голливудскую зрелищность.",
+                  "cluster_id": "debunk_list_structural_skeptics",
+                  "selected_narrative_mode": "top_list",
+                  "visual_goal": "Деконструкция популярного исторического мифа через визуализацию непреодолимых структурных, логистических и географических барьеров, противопоставляя романтику войны суровой математике.",
                   "visual_evidence_style": [
+                    "comparative",
                     "explanatory",
-                    "comparative"
+                    "observational"
                   ],
                   "preferred_base_formats": [
                     "observational_video",
                     "archival_material"
                   ],
                   "secondary_base_formats": [
-                    "spatial_map",
-                    "explanatory_graphic"
+                    "spatial_map"
                   ],
                   "rare_base_formats": [
                     "still_image",
+                    "explanatory_graphic",
                     "ui_data_visual"
                   ],
                   "forbidden_base_formats": [
                     "text_only_card"
                   ],
                   "preferred_capture_styles": [
-                    "строгая и прагматичная съемка",
-                    "фокус на индустриальные и логистические объекты",
-                    "архивная хроника без эмоциональной перегрузки"
+                    "Холодная и отстраненная фиксация объектов",
+                    "Строгая композиция с чистой визуальной иерархией",
+                    "Акцент на масштабных индустриальных объектах, транспорте и конвейерах, игнорирующий человеческие фигуры"
                   ],
                   "preferred_shot_families": [
-                    "широкие общие планы инфраструктуры",
-                    "картографические панорамы",
-                    "макропланы сырья и механизмов"
+                    "Широкие планы портов, заводов и длинных железнодорожных составов",
+                    "Детальные макро-кадры элементов логистики (рельсы, трубы, бочки с топливом)",
+                    "Контрастные сопоставления масштабов (одиночный корабль в океане против узкого Суэцкого канала)"
                   ],
                   "preferred_explanatory_layers": [
-                    "минималистичные картографические слои",
-                    "схемы логистических цепочек",
-                    "символические маркеры ресурсов и войск"
+                    "Крупные контрастные текстовые плашки для фиксации математических фактов (тоннаж, километры, время)",
+                    "Упрощенная 'мультяшная' геополитика на картах для наглядной демонстрации уязвимостей маршрутов снабжения",
+                    "Простые графические маркеры блокировки (перечеркнутые пути, сужающиеся потоки ресурсов)"
                   ],
                   "continuity_rules": [
-                    "каждый новый визуальный тезис логически вытекает из предыдущего графического состояния",
-                    "строгая геопространственная привязка при смене локаций",
-                    "единая палитра для графики и карт"
+                    "Каждый из трех пунктов списка должен начинаться с четкого визуального переключения на новую географическую зону",
+                    "Постоянное возвращение к концепту 'неумолимой математики' через сквозное появление индустриальных объемов и логистических цепей"
                   ],
                   "transition_rules": [
-                    "плавные движения по карте вместо резкой смены декораций",
-                    "прямые склейки при сопоставлении цифр и фактов",
-                    "использование линий снабжения как направляющих для перехода"
+                    "Ироничные резкие склейки (hard cuts) от пафосных мифологизированных кадров боев к скучной рутине разгрузки вагонов",
+                    "Использование простых и четких переходов без декоративных эффектов, поддерживая аналитическую строгость",
+                    "Визуальное разрушение ожиданий зрителя: прерывание 'героического' видеоряда появлением жесткой географической преграды на карте"
                   ],
                   "repetition_limits": [
-                    "повторное использование глобальной карты допускается только для фиксации новых ограничивающих факторов",
-                    "избегать зацикливания одинаковой хроники боевых действий"
+                    "Строго ограничить появление лиц генералов и политиков; они не влияют на математику войны",
+                    "Минимизировать кадры боевых действий в пользу непрерывных циклов производства и транспортировки",
+                    "Не повторять кадры с 'чудо-оружием', использовать их лишь однократно как пример провального мифа"
                   ],
                   "tone_rules": [
-                    "отстраненный и доказательный тон",
-                    "визуальная сухость в противовес драматическому пафосу",
-                    "фокус на системную цену решений"
+                    "Уверенный, саркастичный и деконструирующий",
+                    "Холодный расчет вместо исторического пафоса или излишней эмоциональности",
+                    "Визуальное подчеркивание тривиальности и тяжелой рутины войны в противовес идеологическим фантазиям"
                   ],
                   "usage_notes": [
-                    "использовать карты для демонстрации пространственных и инфраструктурных тупиков",
-                    "визуализировать истощение ресурсов через графики на фоне реальных объектов индустрии"
+                    "Использовать archival_material исключительно для иллюстрации серой производственной и логистической рутины (смена колеи, перевозка грузов), а не парадов",
+                    "Формат spatial_map (несмотря на низкий базовый приоритет) жизненно необходим как вторичный формат для реализации требования кластера 'cartoon geopolitics' при описании Суэца и Кавказа",
+                    "Все визуальные доказательства должны подчеркивать структурные ограничения и отвечать на вероятные возражения зрителя"
                   ],
                   "avoid_notes": [
-                    "категорически избегать фантастических образов высокотехнологичного дистопичного будущего",
-                    "не использовать героические или эмоционально манипулятивные кадры",
-                    "отказаться от визуального перегруза и лишнего графического шума"
+                    "Абсолютно избегать героической детерминированности и эстетизации боевых действий",
+                    "Не перегружать визуал сложными многослойными графиками – сохранять простую и бьющую в цель 'мультяшную' геополитику",
+                    "Не подавать альтернативный сценарий тупика как победу: визуал финала должен оставаться мрачным, серым и истощающим"
                   ],
                   "fileName": "visualNarrationStrategy.json"
                 },
@@ -3528,7 +3527,7 @@
               "shot_scale": "wide",
               "motion_intensity": "medium",
               "time_behavior": "realtime",
-              "reason": "The segment focuses on the geographic and logistical impossibility of managing a vast continental empire, requiring a wide illustrated perspective to show territorial scope and scale."
+              "reason": "This segment introduces the strategic pivots and global geography required for the hypothetical stalemate scenario, necessitating a wide view of the map and logistics."
             },
             "prev_graphic_treatment_plan": null,
             "next_graphic_treatment_plan": null,
@@ -3543,9 +3542,9 @@
       }
     ]
   },
-  "versionId": "3200d4b3-9ba5-41ae-b5cc-e6076e0ca83c",
-  "activeVersionId": "3200d4b3-9ba5-41ae-b5cc-e6076e0ca83c",
-  "versionCounter": 746,
+  "versionId": "550b4932-e3bf-4978-bfe2-3d39d563c64a",
+  "activeVersionId": "550b4932-e3bf-4978-bfe2-3d39d563c64a",
+  "versionCounter": 757,
   "triggerCount": 0,
   "tags": [],
   "shared": [

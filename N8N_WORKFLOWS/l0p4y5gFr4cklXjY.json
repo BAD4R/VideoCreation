@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-21T15:41:23.621Z",
+  "updatedAt": "2026-04-23T23:48:18.275Z",
   "createdAt": "2026-02-05T15:40:02.769Z",
   "id": "l0p4y5gFr4cklXjY",
   "name": "generate clips",
@@ -1541,73 +1541,6 @@
     },
     {
       "parameters": {
-        "rules": {
-          "values": [
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "leftValue": "={{ (() => {\n  const existingFileIndexes = $('check ready clips').last().json.existingFilesNames.map(item => item.slice(6, -4)).map(item => item.toNumber());\n\n  const expectedFileIndexes = $('read visualSegment').all().filter(item => (\nitem.json.segment_plan.selected_base_format !== \"still_image\" &&\nitem.json.segment_prompt_route.prompt_family_kind !== \"graphic_based\" &&\nitem.json.segment_prompt_route.selected_base_format !== \"text_only_card\")).map(i=>i.json.segment_meta.partIndex)\n\n\n  const currentIndex = expectedFileIndexes[$itemIndex];\n\n  return !existingFileIndexes.includes(currentIndex)\n})() }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    },
-                    "id": "a798e700-5905-49f8-bb11-8dbada169803"
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "not ready"
-            },
-            {
-              "conditions": {
-                "options": {
-                  "caseSensitive": true,
-                  "leftValue": "",
-                  "typeValidation": "strict",
-                  "version": 3
-                },
-                "conditions": [
-                  {
-                    "id": "c9ca3313-dde7-490a-b0ab-50db59a8e1cf",
-                    "leftValue": "={{ (() => {\n  const existingFileIndexes = $('check ready clips').last().json.existingFilesNames.map(item => item.slice(6, -4)).map(item => item.toNumber());\n\n  const expectedFileIndexes = $('read visualSegment').all().filter(item => (\nitem.json.segment_plan.selected_base_format !== \"still_image\" &&\nitem.json.segment_prompt_route.prompt_family_kind !== \"graphic_based\" &&\nitem.json.segment_prompt_route.selected_base_format !== \"text_only_card\")).map(i=>i.json.segment_meta.partIndex)\n\n\n  const currentIndex = expectedFileIndexes[$itemIndex];\n\n  return existingFileIndexes.includes(currentIndex)\n})() }}",
-                    "rightValue": "",
-                    "operator": {
-                      "type": "boolean",
-                      "operation": "true",
-                      "singleValue": true
-                    }
-                  }
-                ],
-                "combinator": "and"
-              },
-              "renameOutput": true,
-              "outputKey": "ready"
-            }
-          ]
-        },
-        "options": {}
-      },
-      "type": "n8n-nodes-base.switch",
-      "typeVersion": 3.4,
-      "position": [
-        3760,
-        464
-      ],
-      "id": "adc9f8a3-c551-4e45-8899-0406c16f7291",
-      "name": "filter ready start frames1"
-    },
-    {
-      "parameters": {
         "workflowId": {
           "__rl": true,
           "value": "qwG1pltFOQqqJLyh",
@@ -1722,8 +1655,7 @@
             "channelsFolderPath": "={{ $('Start').item.json.channelsFolderPath }}",
             "channelName": "={{ $('Start').item.json.channelName }}",
             "videoFolderName": "={{ $('Start').item.json.videoFolderName }}",
-            "partIndex": "={{ $json.segment_meta.partIndex }}",
-            "durMs": "={{ $('Define Visuals Duration(normalized)1').item.json.parts[$json.segment_meta.partIndex].meta.durMs }}"
+            "partIndex": "={{ $json.segment_meta.partIndex }}"
           },
           "matchingColumns": [],
           "schema": [
@@ -1766,16 +1698,6 @@
               "canBeUsedToMatch": true,
               "type": "number",
               "removed": false
-            },
-            {
-              "id": "durMs",
-              "displayName": "durMs",
-              "required": false,
-              "defaultMatch": false,
-              "display": true,
-              "canBeUsedToMatch": true,
-              "type": "number",
-              "removed": false
             }
           ],
           "attemptToConvertTypes": false,
@@ -1789,8 +1711,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.3,
       "position": [
-        4144,
-        448
+        4240,
+        480
       ],
       "id": "98477a92-749e-44d2-a10f-aee6b64aa0be",
       "name": "generate clips - paralleling2"
@@ -2565,8 +2487,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
       "position": [
-        3536,
-        672
+        3520,
+        848
       ],
       "id": "e705f52b-a8f3-4515-8edd-42af908fe35e",
       "name": "Filter Still Based And Text And Graphic1"
@@ -2599,7 +2521,7 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
       "position": [
-        3520,
+        3536,
         464
       ],
       "id": "74724b57-0f9a-43b2-8f43-cf1deb5f8b20",
@@ -2687,8 +2609,8 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3664,
-        992
+        3648,
+        1168
       ],
       "name": "delete prompts",
       "id": "c35850b3-582b-4192-a9ba-b45e062a9f58"
@@ -2721,8 +2643,8 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.3,
       "position": [
-        3536,
-        864
+        3520,
+        1040
       ],
       "id": "c10bea4f-b97d-4119-898c-84038fa9ec57",
       "name": "Filter Still Based And Text And Graphic"
@@ -2809,11 +2731,135 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        3760,
-        864
+        3744,
+        1040
       ],
       "name": "set prompts unready",
       "id": "baa5b0a9-9bdf-4d99-849f-7939c58df166"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "ea8e4a56-6830-4b4b-89d6-32952c2230de",
+              "leftValue": "={{ $('Filter Still Image And Text Card').item.json.segment_analysis.segment_index == 20 }}",
+              "rightValue": 0,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        4208,
+        288
+      ],
+      "id": "8da6cb01-18d9-45d6-b8cb-e05bef063211",
+      "name": "Filter1"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fa8ff5e2-61c6-45b1-bd56-5c2df6767866",
+              "name": "xx",
+              "value": "={{ $input.all().map(item => item.json.segment_meta.durMs).filter(item => item) }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3776,
+        880
+      ],
+      "id": "6dd602dd-0040-4b5c-9003-507235ba4a8f",
+      "name": "Edit Fields2"
+    },
+    {
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ (() => {\n  const existingFileIndexes = $('check ready clips').last().json.existingFilesNames.map(item => item.slice(6, -4)).map(item => item.toNumber());\n\n  const expectedFileIndexes = $('read visualSegment').all().filter(item => (\nitem.json.segment_plan.selected_base_format !== \"still_image\" &&\nitem.json.segment_prompt_route.selected_base_format !== \"text_only_card\")).map(i=>i.json.segment_meta.partIndex)\n\n  const currentIndex = expectedFileIndexes[$itemIndex];\n  return !existingFileIndexes.includes(currentIndex)\n})() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    },
+                    "id": "a798e700-5905-49f8-bb11-8dbada169803"
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "not ready"
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict",
+                  "version": 3
+                },
+                "conditions": [
+                  {
+                    "id": "c9ca3313-dde7-490a-b0ab-50db59a8e1cf",
+                    "leftValue": "={{ (() => {\n  const existingFileIndexes = $('check ready clips').last().json.existingFilesNames.map(item => item.slice(6, -4)).map(item => item.toNumber());\n\n  const expectedFileIndexes = $('read visualSegment').all().filter(item => (\nitem.json.segment_plan.selected_base_format !== \"still_image\" &&\nitem.json.segment_prompt_route.selected_base_format !== \"text_only_card\")).map(i=>i.json.segment_meta.partIndex)\n\n\n  const currentIndex = expectedFileIndexes[$itemIndex];\n\n  return existingFileIndexes.includes(currentIndex)\n})() }}",
+                    "rightValue": "",
+                    "operator": {
+                      "type": "boolean",
+                      "operation": "true",
+                      "singleValue": true
+                    }
+                  }
+                ],
+                "combinator": "and"
+              },
+              "renameOutput": true,
+              "outputKey": "ready"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.4,
+      "position": [
+        3760,
+        464
+      ],
+      "id": "adc9f8a3-c551-4e45-8899-0406c16f7291",
+      "name": "filter ready clips1"
     }
   ],
   "connections": {
@@ -3099,29 +3145,6 @@
         ]
       ]
     },
-    "filter ready start frames1": {
-      "main": [
-        [
-          {
-            "node": "Limit1",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "generate clips - paralleling2",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Limit1",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "get start/end ms of each scentance from transcript1": {
       "main": [
         [
@@ -3283,7 +3306,7 @@
       "main": [
         [
           {
-            "node": "filter ready start frames1",
+            "node": "filter ready clips1",
             "type": "main",
             "index": 0
           }
@@ -3316,6 +3339,40 @@
           }
         ]
       ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "generate clips - paralleling2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "filter ready clips1": {
+      "main": [
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "generate clips - paralleling2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Limit1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "settings": {
@@ -3325,22 +3382,290 @@
   "staticData": null,
   "meta": null,
   "pinData": {
+    "Filter1": [
+      {
+        "json": {
+          "segment_analysis": {
+            "schema_version": "1.0",
+            "segment_index": 20,
+            "segment_function": "process_step",
+            "visual_need": "show_structure",
+            "abstraction_level": "concrete",
+            "priority_entities": [
+              "rail infrastructure",
+              "track gauge",
+              "Soviet/European rail network diagram"
+            ],
+            "needs_precise_overlay": true,
+            "reason": "Visualize the technical mismatch in rail gauges between European and Soviet networks to highlight a physical logistical constraint."
+          },
+          "segment_meta": {
+            "partIndex": 20,
+            "text": "This means every single train moving stolen grain, extracted oil, or military reinforcements has to be halted at the old borders, manually unloaded, and",
+            "previous_text": "physical limitations of infrastructure. The entire Soviet rail network uses a wider track gauge than the standard European lines.",
+            "next_text": "transferred to different railcars. This creates a perpetual, massive supply chain bottleneck that engineers cannot simply wave away.",
+            "start_ms": 153171,
+            "end_ms": 163150,
+            "durMs": 9979,
+            "charCount": 152
+          },
+          "segment_plan": {
+            "segment_index": 20,
+            "selected_base_format": "observational_video",
+            "format_tier": "primary",
+            "use_explanatory_layer": true,
+            "segment_role_in_flow": "bridge",
+            "reason": "Bridges the technical gauge graphic to the physical reality of halted trains and manual unloading operations."
+          },
+          "segment_prompt_route": {
+            "schema_version": "1.0",
+            "segment_index": 20,
+            "visual_mode": "illustrated_2d",
+            "selected_base_format": "observational_video",
+            "format_tier": "primary",
+            "use_explanatory_layer": true,
+            "segment_role_in_flow": "bridge",
+            "prompt_family": "illustrated_scene_i2v",
+            "prompt_family_kind": "scene_based",
+            "use_legacy_scene_templates": true,
+            "template_ids": {
+              "base_visuals_requirements_id": "illustrated_2d_base_requirements_v1",
+              "starting_frame_template_id": "illustrated_2d_start_frame_v1",
+              "clip_template_id": "illustrated_2d_clip_v1",
+              "overlay_template_id": "graphic_overlay_v1"
+            },
+            "language_policy": {
+              "camera_language_allowed": false,
+              "photo_technical_language_allowed": false,
+              "film_grain_allowed": false,
+              "lens_language_allowed": false,
+              "sensor_language_allowed": false,
+              "handheld_language_allowed": false,
+              "style_keywords_allowed": false,
+              "lora_style_external": true
+            },
+            "allowed_prompt_elements": [],
+            "forbidden_prompt_elements": [
+              "camera_language",
+              "photo_technical_language",
+              "film_grain",
+              "lens_language",
+              "sensor_language",
+              "handheld_language",
+              "style_keywords"
+            ],
+            "generation_requirements": {
+              "requires_start_frame": true,
+              "requires_clip_prompt": true,
+              "requires_overlay_prompt": true
+            },
+            "start_frame_text_mode": "forbid",
+            "allow_start_frame_embedded_annotations": false,
+            "requires_text_capable_start_frame_model": false,
+            "global_inputs": {
+              "selected_cluster_plan": {
+                "schema_version": "1.0",
+                "topic_idea": "What if germany would have won world war 2?",
+                "confidence": 0.95,
+                "selected_cluster": {
+                  "cluster_id": "structural_realist_timeline_fans",
+                  "cluster_label": "Структурные реалисты развилки",
+                  "fit_score": 0.95,
+                  "fit_reason": "WWII is the most famous historical hinge; exploring an Axis victory requires a strict causal chain, logistics-based plausibility, and avoiding lazy mythmaking, matching this cluster's core demands."
+                },
+                "selected_narrative_mode": "process_explainer",
+                "narrative_mode_reason": "A process explainer perfectly structures the 'chained structure' and 'step-by-step build' needed to show exactly how a German victory would unfold through logistics, resources, and timing.",
+                "combined_brief": {
+                  "self_identity": [
+                    "alt-history fan with history literacy",
+                    "plausibility-focused history nerd",
+                    "map/game-literate scenario debater"
+                  ],
+                  "worldview": [
+                    "material constraints drive outcomes",
+                    "timing and logistics dictate outcomes over hero worship",
+                    "single divergence works only through chained structure",
+                    "broad consequences of a WWII Axis victory must stay causally grounded"
+                  ],
+                  "pain_growth": [
+                    "attrition and resource strain explain outcomes",
+                    "losses and endurance are meaningful only when causally linked",
+                    "hardship is accepted as system cost rather than melodrama"
+                  ],
+                  "fears_desires": [
+                    "desire for coherent chain reaction from a famous hinge",
+                    "desire for plausible explanation over spectacle",
+                    "fear of unrealistic clichés",
+                    "fear of late-stage speculative overreach"
+                  ],
+                  "common_enemy": [
+                    "lazy alt-history clichés",
+                    "mythmaking over plausibility",
+                    "ignoring logistics and resources",
+                    "under-defended causal leaps"
+                  ],
+                  "language_codes": [
+                    "casual historical explainer",
+                    "plainspoken speculative narration",
+                    "informal corrective framing",
+                    "gamer/meme shorthand with evidence"
+                  ],
+                  "visual_aesthetics": [
+                    "clear cartoon maps",
+                    "map-led causal flow",
+                    "symbolic figures over noisy spectacle",
+                    "readable conflict visuals"
+                  ],
+                  "fit_packaging": [
+                    "high-concept historical hinge",
+                    "clear one-question premise",
+                    "strong title-content alignment",
+                    "famous topic plus plausibility claim"
+                  ],
+                  "preferred_text_tone": [
+                    "dry pragmatic breakdown",
+                    "ironic but evidence-based techno-narrative"
+                  ],
+                  "usage_notes": [
+                    "Start with one clear divergence point for the German victory and immediately state the scenario limits.",
+                    "Tie every new level of escalation or post-war consequence to resources, timing, or institutional incentives.",
+                    "Use humor only if it does not replace the causal chain of events.",
+                    "Ground the largest consequences in the finale again to maintain trust and prevent scope drift."
+                  ],
+                  "avoid_notes": [
+                    "Do not rely on pure spectacle-worldbuilding without structural support.",
+                    "Avoid deus ex machina events in the final act to explain long-term stability or collapse.",
+                    "Do not broaden the scope beyond what the title promises.",
+                    "Avoid late speculative overreach and weak causal bridging."
+                  ]
+                },
+                "fileName": "selectedClusterPlan.json"
+              },
+              "visual_narration_strategy": {
+                "schema_version": "1.0",
+                "cluster_id": "structural_realist_timeline_fans",
+                "selected_narrative_mode": "process_explainer",
+                "visual_goal": "Показать логистические, пространственные и ресурсные барьеры альтернативного сценария через наглядные причинно-следственные связи, исключая голливудскую зрелищность.",
+                "visual_evidence_style": [
+                  "explanatory",
+                  "comparative"
+                ],
+                "preferred_base_formats": [
+                  "observational_video",
+                  "archival_material"
+                ],
+                "secondary_base_formats": [
+                  "spatial_map",
+                  "explanatory_graphic"
+                ],
+                "rare_base_formats": [
+                  "still_image",
+                  "ui_data_visual"
+                ],
+                "forbidden_base_formats": [
+                  "text_only_card"
+                ],
+                "preferred_capture_styles": [
+                  "строгая и прагматичная съемка",
+                  "фокус на индустриальные и логистические объекты",
+                  "архивная хроника без эмоциональной перегрузки"
+                ],
+                "preferred_shot_families": [
+                  "широкие общие планы инфраструктуры",
+                  "картографические панорамы",
+                  "макропланы сырья и механизмов"
+                ],
+                "preferred_explanatory_layers": [
+                  "минималистичные картографические слои",
+                  "схемы логистических цепочек",
+                  "символические маркеры ресурсов и войск"
+                ],
+                "continuity_rules": [
+                  "каждый новый визуальный тезис логически вытекает из предыдущего графического состояния",
+                  "строгая геопространственная привязка при смене локаций",
+                  "единая палитра для графики и карт"
+                ],
+                "transition_rules": [
+                  "плавные движения по карте вместо резкой смены декораций",
+                  "прямые склейки при сопоставлении цифр и фактов",
+                  "использование линий снабжения как направляющих для перехода"
+                ],
+                "repetition_limits": [
+                  "повторное использование глобальной карты допускается только для фиксации новых ограничивающих факторов",
+                  "избегать зацикливания одинаковой хроники боевых действий"
+                ],
+                "tone_rules": [
+                  "отстраненный и доказательный тон",
+                  "визуальная сухость в противовес драматическому пафосу",
+                  "фокус на системную цену решений"
+                ],
+                "usage_notes": [
+                  "использовать карты для демонстрации пространственных и инфраструктурных тупиков",
+                  "визуализировать истощение ресурсов через графики на фоне реальных объектов индустрии"
+                ],
+                "avoid_notes": [
+                  "категорически избегать фантастических образов высокотехнологичного дистопичного будущего",
+                  "не использовать героические или эмоционально манипулятивные кадры",
+                  "отказаться от визуального перегруза и лишнего графического шума"
+                ],
+                "fileName": "visualNarrationStrategy.json"
+              },
+              "global_visual_policy": {
+                "prompt_json_language": "english",
+                "embedded_visual_text_language": "english",
+                "render_text_inside_generated_image": true,
+                "prefer_overlay_for_text": false
+              }
+            },
+            "warnings": []
+          },
+          "fileName": "00020_visualSegment.json",
+          "shot_planning": {
+            "schema_version": "1.0",
+            "segment_index": 20,
+            "visual_mode": "illustrated_2d",
+            "selected_scene_treatment_id": "illustrated_process_moment",
+            "shot_scale": "medium",
+            "motion_intensity": "medium",
+            "time_behavior": "realtime",
+            "reason": "This segment focuses on the specific logistical process of transferring supplies between different rail gauges, making it a procedural interaction that requires clarity on the mechanical workflow."
+          },
+          "segment_status": {
+            "shot_planning_ready": true,
+            "prompts_ready": true
+          },
+          "generation_data": {
+            "prompts": {
+              "startingFramePrompt": "{\n  \"shot\": {\n    \"composition\": \"Medium-scale, side view of a railway border station with clear foreground, midground, and background layers. Foreground shows a railway junction where wide Soviet-gauge tracks abruptly end next to narrower European standard-gauge tracks. Midground depicts stationary freight trains on both sets of rails with visible grain and oil barrels loaded on wagons. Background includes industrial warehouse buildings and cargo cranes aligned along the tracks, emphasizing a congested transshipment area.\",\n    \"focus\": \"The immediate visual attention is drawn to the adjacent Soviet and European rail tracks with clearly different widths, and the stationary freight trains halted side by side. Secondary focus on workers manually transferring crates and barrels between wagons on the two different gauges.\"\n  },\n  \"subject\": {\n    \"description\": \"No human figures dominate the scene; instead, a group of laborers dressed in practical 1940s industrial workwear are engaged in manual unloading activities on the platform between the two railway systems. Their physical effort conveys the procedural bottleneck caused by the gauge incompatibility.\",\n    \"wardrobe\": \"Workers wear flat caps, coarse fabric shirts, suspenders, and rugged trousers typical of mid-20th century railway laborers. No military or decorative uniforms.\",\n    \"pose\": \"Static, varied poses: some bending to lift barrels or crates, others standing and coordinating the transfer, all captured in a moment of deliberate, human-scale labor.\"\n  },\n  \"scene\": {\n    \"location\": \"A sizable railway transshipment yard situated at the frontier between former Soviet and German-controlled territories, characterized by mixed-use industrial infrastructure.\",\n    \"time_of_day\": \"Midday with diffuse overcast light, reducing harsh shadows to maintain clarity across complex elements.\",\n    \"environment\": \"An expansive, industrial rail terminal environment cluttered with freight cars, loading platforms, stacks of stolen grains in sacks, oil barrels, and scattered railway equipment. The horizon shows factory chimneys emitting low smoke, emphasizing heavy industrial activity.\"\n  },\n  \"visual_details\": {\n    \"props\": \"Multiple freight wagons of differing gauge sizes loaded with sacks of grain and metal oil barrels. Wooden crates and hand tools like shovels and rope coils lie on platforms. Railway signals and track switches mark the boundary between track gauges without textual markings.\"\n  },\n  \"lighting\": \"Natural daylight floods evenly the entire scene from above the clouded sky, providing soft shadows under the trains and platforms, highlighting textures of metal rails, wooden ties, and fabric sacks without artificial lighting sources.\",\n  \"color_palette\": \"Muted industrial hues dominate: dull gray steel rails and freight cars, weathered dark brown wooden platforms, beige and ochre sacks of grain, rusty orange and brown oil barrels, and neutral earth tones of worker clothing, all contrasted subtly against the cool gray sky and industrial buildings.\"\n}",
+              "jsonVideoClipPrompts": [
+                "{\n  \"shot\": {\n    \"composition\": \"Medium-scale side view of the railway border station with distinct foreground, midground, and background layers. Foreground features the abrupt end of wide Soviet-gauge tracks beside narrower European standard-gauge tracks, with visible track junction infrastructure. Midground shows stationary freight trains on both gauges unmoving, loaded with sacks and barrels. Background includes industrial warehouses and cargo cranes aligned along the rails, emphasizing the halted transshipment area.\",\n    \"camera_motion\": \"Slow horizontal pan following the railway tracks from wider Soviet gauge on left to narrower European gauge on right, with subtle vertical tilt to reveal multiple layers of freight cars and workers transferring cargo.\"\n  },\n  \"motion\": {\n    \"primary_action\": \"Laborers manually unloading sacks and barrels from wagons on Soviet-gauge trains and transferring them onto separate wagons on European-gauge tracks.\",\n    \"secondary_motion\": \"Occasional small movements of crates being slid or rolled, and workers gesturing coordination to each other.\",\n    \"layered_motion\": \"Foreground rails and wagons remain mostly static; midground workers show steady, repetitive manual movements; background cranes slowly oscillate, adding depth without distracting from main process.\"\n  },\n  \"continuity\": {\n    \"anchored_elements\": \"The stark visual difference between the wide Soviet and narrow European track gauges, stationary freight trains loaded with grain sacks and oil barrels, and surrounding industrial structures.\",\n    \"spatial_consistency\": \"Maintain accurate relative position of track gauges and freight cars; ensure workers remain between the two rail systems facilitating transfer; warehouse and crane positions held consistent.\",\n    \"readability\": \"Clear silhouettes of workers and freight elements remain distinct; loading and unloading actions easily legible; separation of foreground rails and midground cargo distinctly layered.\"\n  }\n}",
+                "{\n  \"shot\": {\n    \"composition\": \"Medium-scale side view of the railway border station focusing on the transshipment platform positioned between Soviet broad gauge tracks in the foreground and narrower European gauge tracks in the midground, with stationary freight trains loaded with grain sacks and oil barrels. The background maintains industrial warehouse buildings and cargo cranes aligned along the rails, preserving layered separation of foreground, midground, and background.\",\n    \"camera_motion\": \"Subtle horizontal tracking motion gently following the workflow from left (Soviet-gauge wagons) to right (European-gauge wagons), combined with a slow vertical reveal emphasizing workers’ manual unloading and transfer activities on the platform.\"\n  },\n  \"motion\": {\n    \"primary_action\": \"Workers manually unloading sacks and barrels from Soviet-gauge freight cars and methodically transferring them onto European-gauge wagons.\",\n    \"secondary_motion\": \"Occasional sliding or rolling movement of crates and barrels on the platform, and slow oscillation of cargo cranes in the background.\",\n    \"layered_motion\": \"Foreground and stationary trains remain mostly static; midground workers show continuous deliberate human-scale manual movements; background cranes exhibit slow, gentle oscillations to provide depth and parallax effect.\"\n  },\n  \"continuity\": {\n    \"anchored_elements\": \"Distinct contrast between broad Soviet gauge tracks and narrower European tracks; stationary freight trains loaded with grain sacks and oil barrels; industrial buildings and aligned cargo cranes in background.\",\n    \"spatial_consistency\": \"Maintain consistent spatial arrangement of railway tracks, wagons, loading platform, workers, and background industrial structures to preserve the logical transshipment environment within a flat 2D illustrated world.\",\n    \"readability\": \"Clear silhouettes of workers engaged in manual transfer actions; distinct separation of foreground rails and wagons from midground workers and background industrial elements; easily decipherable workflow of unloading and reloading cargo without visual clutter.\"\n  }\n}"
+              ],
+              "videoClipPrompts": [
+                "Medium-scale side view of the railway border station showing the abrupt end of wide Soviet-gauge tracks beside narrower European standard-gauge tracks with track junction infrastructure in foreground, stationary freight trains loaded with sacks and barrels on both gauges in midground, and industrial warehouses and cargo cranes aligned along rails in background; slow horizontal pan following tracks from wider Soviet gauge on left to narrower European gauge on right with subtle vertical tilt revealing multiple layers of freight cars and workers manually unloading sacks and barrels from Soviet-gauge wagons and transferring them to European-gauge wagons, occasional small movements of crates sliding or rolling and workers gesturing coordination; foreground rails and wagons mostly static while midground workers show steady manual movements and background cranes slowly oscillate; anchored elements include stark difference of track gauges, stationary freight trains loaded with grain sacks and oil barrels, and industrial structures with spatial consistency maintaining positions of tracks, freight cars, workers, warehouses, and cranes; clear silhouettes and distinct layered separation enable readable loading and unloading actions.",
+                "Medium-scale side view of the railway border station focusing on the transshipment platform positioned between Soviet broad gauge tracks in the foreground and narrower European gauge tracks in the midground, with stationary freight trains loaded with grain sacks and oil barrels, industrial warehouse buildings and cargo cranes aligned along the rails in the background. Subtle horizontal tracking motion gently following the workflow from left (Soviet-gauge wagons) to right (European-gauge wagons), combined with a slow vertical reveal emphasizing workers’ manual unloading and transfer activities on the platform. Workers manually unloading sacks and barrels from Soviet-gauge freight cars and methodically transferring them onto European-gauge wagons, with occasional sliding or rolling movement of crates and barrels on the platform, and slow oscillation of cargo cranes in the background. Foreground and stationary trains remain mostly static; midground workers show continuous deliberate human-scale manual movements; background cranes exhibit slow, gentle oscillations to provide depth and parallax effect. Distinct contrast between broad Soviet gauge tracks and narrower European tracks; stationary freight trains loaded with grain sacks and oil barrels; industrial buildings and aligned cargo cranes in background. Maintain consistent spatial arrangement of railway tracks, wagons, loading platform, workers, and background industrial structures to preserve the logical transshipment environment within a flat 2D illustrated world. Clear silhouettes of workers engaged in manual transfer actions; distinct separation of foreground rails and wagons from midground workers and background industrial elements; easily decipherable workflow of unloading and reloading cargo without visual clutter."
+              ]
+            }
+          }
+        },
+        "pairedItem": {
+          "item": 20
+        }
+      }
+    ],
     "Start": [
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "HistoryBranches",
-          "videoFolderName": "2026-04-20_SAomD"
-        },
-        "pairedItem": {
-          "item": 0
+          "channelName": "TheHistoryBranches",
+          "videoFolderName": "2026-04-21_ohBDC"
         }
       }
     ]
   },
-  "versionId": "39c3fe35-bcc6-4b6e-bd9c-4c5c6e7eac4d",
-  "activeVersionId": "39c3fe35-bcc6-4b6e-bd9c-4c5c6e7eac4d",
-  "versionCounter": 2407,
+  "versionId": "89fca8f1-47e2-4de6-b1f3-94a97886faa4",
+  "activeVersionId": "89fca8f1-47e2-4de6-b1f3-94a97886faa4",
+  "versionCounter": 2526,
   "triggerCount": 0,
   "tags": [],
   "shared": [

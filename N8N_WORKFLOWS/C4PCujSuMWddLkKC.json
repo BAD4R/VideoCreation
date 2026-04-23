@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-20T01:44:57.629Z",
+  "updatedAt": "2026-04-22T17:04:14.697Z",
   "createdAt": "2026-02-05T01:25:42.639Z",
   "id": "C4PCujSuMWddLkKC",
   "name": "generate starting frames and clips prompts",
@@ -539,7 +539,7 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        1856,
+        2128,
         192
       ],
       "id": "911fba92-8eec-4b64-b8f8-59f319cb0d3e",
@@ -631,7 +631,7 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        1632,
+        1904,
         224
       ],
       "name": "Generate Prompts For Scene Based Visuals - paralleling",
@@ -755,7 +755,7 @@
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        1456,
+        1712,
         224
       ],
       "id": "33dde282-1d9d-49af-90a6-efda9294fbe1",
@@ -938,7 +938,7 @@
     },
     {
       "parameters": {
-        "amount": 30
+        "amount": 120
       },
       "type": "n8n-nodes-base.wait",
       "typeVersion": 1.1,
@@ -1863,7 +1863,7 @@
                 },
                 "conditions": [
                   {
-                    "leftValue": "={{ !$('read visualSegment').item.json.segment_status.prompts_ready }}",
+                    "leftValue": "={{ !$('read visualSegment').item.json.segment_status?.prompts_ready }}",
                     "rightValue": "",
                     "operator": {
                       "type": "boolean",
@@ -1910,8 +1910,8 @@
       "type": "n8n-nodes-base.switch",
       "typeVersion": 3.4,
       "position": [
-        1248,
-        224
+        1408,
+        256
       ],
       "id": "de6381c9-f83d-460d-9365-91fdb7440787",
       "name": "Switch"
@@ -1923,11 +1923,45 @@
       "type": "n8n-nodes-base.stopAndError",
       "typeVersion": 1,
       "position": [
-        1248,
-        336
+        1408,
+        368
       ],
       "id": "68839b6e-1ebf-406c-8991-f76ee556b38b",
       "name": "Stop and Error"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "f63e05a2-5efa-40a7-91ee-fe838ea5ea7a",
+              "leftValue": "={{ $json.segment_index == 148 }}",
+              "rightValue": "",
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.filter",
+      "typeVersion": 2.3,
+      "position": [
+        1264,
+        224
+      ],
+      "id": "1d7f8467-b0bd-464f-a78a-bb18ed234919",
+      "name": "Filter1"
     }
   ],
   "connections": {
@@ -2043,7 +2077,7 @@
       "main": [
         [
           {
-            "node": "Switch",
+            "node": "Filter1",
             "type": "main",
             "index": 0
           }
@@ -2285,16 +2319,32 @@
     },
     "Switch": {
       "main": [
-        [
-          {
-            "node": "set generation data",
-            "type": "main",
-            "index": 0
-          }
-        ],
+        [],
         [
           {
             "node": "Stop and Error",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Prompts For Scene Based Visuals - paralleling": {
+      "main": [
+        [
+          {
+            "node": "Switch Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Filter1": {
+      "main": [
+        [
+          {
+            "node": "set generation data",
             "type": "main",
             "index": 0
           }
@@ -2313,8 +2363,8 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "HistoryBranches",
-          "videoFolderName": "2026-04-20_SAomD"
+          "channelName": "TheHistoryBranches",
+          "videoFolderName": "2026-04-21_ohBDC"
         },
         "pairedItem": {
           "item": 0
@@ -2322,9 +2372,9 @@
       }
     ]
   },
-  "versionId": "13918849-dfa7-4534-951b-f5a439e280e3",
-  "activeVersionId": "13918849-dfa7-4534-951b-f5a439e280e3",
-  "versionCounter": 4395,
+  "versionId": "ebd242ca-f4dd-414e-9c27-a09c5131ed0c",
+  "activeVersionId": "c81d2ef9-fea0-4589-b13b-c865792d3202",
+  "versionCounter": 4449,
   "triggerCount": 0,
   "tags": [],
   "shared": [

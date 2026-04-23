@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-19T10:45:02.069Z",
+  "updatedAt": "2026-04-23T23:52:16.037Z",
   "createdAt": "2026-02-04T17:21:30.069Z",
   "id": "ljH0uamrMfc4IBJx",
   "name": "http works",
@@ -32,7 +32,7 @@
         "specifyBody": "json",
         "jsonBody": "={{ $('Start').first().json.body.toJsonString() }}",
         "options": {
-          "timeout": 300000
+          "timeout": 150000
         }
       },
       "type": "n8n-nodes-base.httpRequest",
@@ -396,9 +396,9 @@
   "staticData": null,
   "meta": null,
   "pinData": {},
-  "versionId": "a8a75bcd-a96f-4269-9146-8de885049cb2",
-  "activeVersionId": "a8a75bcd-a96f-4269-9146-8de885049cb2",
-  "versionCounter": 1110,
+  "versionId": "19bff540-a830-4764-80a0-3373ce61247e",
+  "activeVersionId": "19bff540-a830-4764-80a0-3373ce61247e",
+  "versionCounter": 1119,
   "triggerCount": 0,
   "tags": [],
   "shared": [

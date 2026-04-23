@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-04-21T15:40:30.781Z",
+  "updatedAt": "2026-04-22T17:18:57.533Z",
   "createdAt": "2026-03-14T12:24:48.695Z",
   "id": "FRgyLjNPqMix6o6C",
   "name": "generate starting frames",
@@ -3215,8 +3215,8 @@
       {
         "json": {
           "channelsFolderPath": "C:/Users/V/Desktop/Channels",
-          "channelName": "HistoryBranches",
-          "videoFolderName": "2026-04-20_SAomD"
+          "channelName": "TheHistoryBranches",
+          "videoFolderName": "2026-04-21_ohBDC"
         },
         "pairedItem": {
           "item": 0
@@ -3224,9 +3224,9 @@
       }
     ]
   },
-  "versionId": "0c683933-7cc5-4aa4-a08f-2657e0a75d4e",
-  "activeVersionId": "0c683933-7cc5-4aa4-a08f-2657e0a75d4e",
-  "versionCounter": 1242,
+  "versionId": "010a5ea6-f122-47de-bc0b-13be58f6a549",
+  "activeVersionId": "010a5ea6-f122-47de-bc0b-13be58f6a549",
+  "versionCounter": 1252,
   "triggerCount": 0,
   "tags": [],
   "shared": [
