@@ -28,10 +28,27 @@ const CONFIG = {
   commentsScrollPauseMs: 1100,
   commentsClickPauseMs: 220,
   commentsStableRoundsToStop: 4,
+  commentsMaxChars: 100000,
   perVideoDelayMs: 1000,
-  perVideoTimeoutMs: 360000,
+  perVideoTimeoutMs: 240000,
   previewFetchTimeoutMs: 15000,
   pageDebugOverlay: true,
+  requireTranscript: true,
+  requireComments: true,
+  maxCollectionAttempts: 8,
+  retryDelayMs: 2200,
+  retryBackoffMs: 1600,
+  transcriptCollectionAttempts: 3,
+  commentsCollectionAttempts: 3,
+  workerPageAcquireAttempts: 4,
+  workerPageRetryDelayMs: 2000,
+  verbose: false,
+  maxPageLogLines: 250,
+  retryUntilSuccess: true,
+  maxVideoTotalMinutes: 0,
+  maxHardAttemptsPerVideo: 0,
+  retryJitterMs: 900,
+  browserRestartEveryAttempts: 3,
 };
 
 const STOP_STATE = {
@@ -45,6 +62,7 @@ const PAUSE_STATE = {
 };
 
 const PAGE_BRIDGES_READY = new WeakSet();
+let PREFLIGHT_WORKER_PAGE = null;
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -114,6 +132,110 @@ function parseArgs(argv) {
     i++;
   }
   return args;
+}
+
+function parseBooleanArg(args, key, defaultValue = false) {
+  if (!(key in args)) return defaultValue;
+
+  const value = args[key];
+  if (typeof value === 'boolean') return value;
+
+  const normalized = String(value || '').trim().toLowerCase();
+  if (!normalized) return true;
+
+  if (['1', 'true', 'yes', 'y', 'on'].includes(normalized)) return true;
+  if (['0', 'false', 'no', 'n', 'off'].includes(normalized)) return false;
+
+  return true;
+}
+
+function parsePositiveIntArg(args, key, defaultValue, minValue = 1, maxValue = 999999) {
+  if (!(key in args)) return defaultValue;
+  const raw = Number(args[key]);
+  if (!Number.isFinite(raw)) return defaultValue;
+  const intVal = Math.floor(raw);
+  if (intVal < minValue) return minValue;
+  if (intVal > maxValue) return maxValue;
+  return intVal;
+}
+
+function buildAttemptUrl(originalUrl, attempt) {
+  const source = String(originalUrl || '').trim();
+  if (!source) return source;
+
+  const localeCycle = ['en', 'ru'];
+
+  try {
+    const url = new URL(source);
+    const locale = localeCycle[(attempt - 1) % localeCycle.length];
+    url.searchParams.set('persist_hl', '1');
+    url.searchParams.set('hl', locale);
+    if (attempt % 3 === 0) {
+      url.searchParams.set('bpctr', String(9999999999 - attempt));
+      url.searchParams.set('has_verified', '1');
+    }
+    return url.toString();
+  } catch {
+    return source;
+  }
+}
+
+function computeRetryDelayMs(attempt) {
+  const base = CONFIG.retryDelayMs + Math.max(0, attempt - 1) * CONFIG.retryBackoffMs;
+  const jitter = CONFIG.retryJitterMs > 0 ? Math.floor(Math.random() * CONFIG.retryJitterMs) : 0;
+  return base + jitter;
+}
+
+function isRecoverableProtocolError(message) {
+  const text = String(message || '').toLowerCase();
+  if (!text) return false;
+
+  return (
+    text.includes('target closed') ||
+    text.includes('session closed') ||
+    text.includes('execution context was destroyed') ||
+    text.includes('cannot find context with specified id') ||
+    text.includes('protocol error') ||
+    text.includes('navigation timeout') ||
+    text.includes('network.enable timed out')
+  );
+}
+
+function isNonRetryableExtractionError(message) {
+  const text = String(message || '').toLowerCase();
+  return text.includes('transcript_button_not_found');
+}
+
+function isPageClosedSafe(page) {
+  if (!page) return true;
+  try {
+    return page.isClosed();
+  } catch {
+    return true;
+  }
+}
+
+async function closePageSafe(page) {
+  if (!page) return;
+  try {
+    if (!isPageClosedSafe(page)) {
+      await page.close();
+    }
+  } catch {}
+}
+
+async function recreateBrowserSession(runtimeState) {
+  await closePageSafe(runtimeState.page);
+  runtimeState.page = null;
+
+  try {
+    if (runtimeState.browser) {
+      await runtimeState.browser.disconnect();
+    }
+  } catch {}
+
+  runtimeState.browser = await getBrowser(runtimeState.browserOptions);
+  runtimeState.page = await getWorkerPage(runtimeState.browser);
 }
 
 function sanitizeForJsonLine(value) {
@@ -273,19 +395,21 @@ async function getBrowser({
   userDataDir,
   profileDirectory,
 }) {
-  if (!(await isDebuggerUp(port))) {
+  async function ensureDebugger(portToUse, userDataDirToUse) {
+    if (await isDebuggerUp(portToUse)) return;
+
     launchChromeWithProfile({
       chromePath,
-      port,
-      userDataDir,
+      port: portToUse,
+      userDataDir: userDataDirToUse,
       profileDirectory,
     });
 
-    const ok = await waitForDebugger(port, CONFIG.connectTimeoutMs);
+    const ok = await waitForDebugger(portToUse, CONFIG.connectTimeoutMs);
     if (!ok) {
       throw new Error(
         [
-          `Could not start/connect to Chrome on port ${port}.`,
+          `Could not start/connect to Chrome on port ${portToUse}.`,
           'Most often this happens because regular Chrome is already open and the profile is locked.',
           'Close all Chrome windows and run again.',
         ].join(' ')
@@ -293,11 +417,83 @@ async function getBrowser({
     }
   }
 
-  return puppeteer.connect({
-    browserURL: `http://127.0.0.1:${port}`,
-    defaultViewport: null,
-    protocolTimeout: CONFIG.protocolTimeoutMs,
-  });
+  async function connectOnPort(portToUse) {
+    return puppeteer.connect({
+      browserURL: `http://127.0.0.1:${portToUse}`,
+      defaultViewport: null,
+      protocolTimeout: CONFIG.protocolTimeoutMs,
+    });
+  }
+
+  async function checkBrowserHealth(browser, label) {
+    let healthPage = null;
+    try {
+      healthPage = await browser.newPage();
+      await healthPage.goto('about:blank', {
+        waitUntil: 'domcontentloaded',
+        timeout: Math.min(30000, CONFIG.navigationTimeoutMs),
+      });
+      PREFLIGHT_WORKER_PAGE = healthPage;
+      healthPage = null;
+      return true;
+    } catch (err) {
+      const message = err?.message || String(err);
+      console.warn(`[WARN] Browser health check failed (${label}): ${message}`);
+      return false;
+    } finally {
+      if (healthPage) {
+        try {
+          await healthPage.close();
+        } catch {}
+      }
+    }
+  }
+
+  await ensureDebugger(port, userDataDir);
+
+  PREFLIGHT_WORKER_PAGE = null;
+  let browser = await connectOnPort(port);
+  if (await checkBrowserHealth(browser, `port=${port}`)) {
+    return browser;
+  }
+  try {
+    await browser.disconnect();
+  } catch {}
+
+  console.warn('[WARN] Reconnecting with isolated fallback Chrome profile');
+
+  for (let offset = 1; offset <= 3; offset++) {
+    const fallbackPort = port + offset;
+    const fallbackUserDataDir = path.join(userDataDir, `_codex_fallback_${fallbackPort}`);
+    ensureDir(fallbackUserDataDir);
+
+    try {
+      await ensureDebugger(fallbackPort, fallbackUserDataDir);
+      PREFLIGHT_WORKER_PAGE = null;
+      browser = await connectOnPort(fallbackPort);
+      if (await checkBrowserHealth(browser, `port=${fallbackPort}`)) {
+        console.warn(
+          `[WARN] Using fallback debugger port ${fallbackPort} and profile ${fallbackUserDataDir}`
+        );
+        return browser;
+      }
+      try {
+        await browser.disconnect();
+      } catch {}
+    } catch (err) {
+      console.warn(
+        `[WARN] Fallback browser start/connect failed (port=${fallbackPort}): ${
+          err?.message || String(err)
+        }`
+      );
+    }
+  }
+
+  throw new Error(
+    `Could not establish healthy browser session on port ${port} or fallback ports ${port + 1}..${
+      port + 3
+    }.`
+  );
 }
 
 function parseVideosFromArgs(args) {
@@ -414,12 +610,43 @@ async function savePreview(page, previewCandidates, videoId, outDir) {
 }
 
 function attachPageDebugLogging(page, task) {
+  if (!CONFIG.verbose) {
+    return () => {};
+  }
+
   const prefix = task?.url ? extractVideoId(task.url) : 'page';
+  let pageLogLines = 0;
+  let truncationPrinted = false;
 
   const onConsole = (msg) => {
     const text = msg.text();
     if (!text) return;
-    console.log(`[PAGE ${prefix}] ${text}`);
+    const normalized = String(text).trim();
+    if (!normalized) return;
+
+    // Drop ultra-noisy browser internals and network warnings that flood stdout.
+    if (
+      normalized.includes('preloaded using link preload') ||
+      normalized.includes('LegacyDataMixin will be applied') ||
+      normalized.includes('requestStorageAccessFor: Permission denied') ||
+      normalized.includes('Access to fetch at') ||
+      normalized.includes('Failed to load resource')
+    ) {
+      return;
+    }
+
+    if (pageLogLines >= CONFIG.maxPageLogLines) {
+      if (!truncationPrinted) {
+        truncationPrinted = true;
+        console.warn(
+          `[PAGE ${prefix}] log output truncated after ${CONFIG.maxPageLogLines} lines (use --max-page-log-lines to adjust)`
+        );
+      }
+      return;
+    }
+
+    pageLogLines += 1;
+    console.log(`[PAGE ${prefix}] ${normalized}`);
   };
 
   const onPageError = (err) => {
@@ -452,13 +679,36 @@ async function ensurePageBridges(page) {
 }
 
 async function getWorkerPage(browser) {
-  const pages = await browser.pages();
-  const reusable =
-    pages.find((page) => page.url() === 'about:blank') ||
-    pages.find((page) => page.url().startsWith('chrome://newtab'));
+  let lastError = null;
 
-  if (reusable) return reusable;
-  return browser.newPage();
+  if (PREFLIGHT_WORKER_PAGE) {
+    try {
+      if (!PREFLIGHT_WORKER_PAGE.isClosed() && PREFLIGHT_WORKER_PAGE.browser() === browser) {
+        const readyPage = PREFLIGHT_WORKER_PAGE;
+        PREFLIGHT_WORKER_PAGE = null;
+        return readyPage;
+      }
+    } catch {}
+    PREFLIGHT_WORKER_PAGE = null;
+  }
+
+  for (let attempt = 1; attempt <= CONFIG.workerPageAcquireAttempts; attempt++) {
+    try {
+      return await browser.newPage();
+    } catch (err) {
+      lastError = err;
+      const message = err?.message || String(err);
+      console.warn(
+        `[WARN] Worker page acquire failed (${attempt}/${CONFIG.workerPageAcquireAttempts}): ${message}`
+      );
+
+      if (attempt < CONFIG.workerPageAcquireAttempts) {
+        await sleep(CONFIG.workerPageRetryDelayMs + (attempt - 1) * 1000);
+      }
+    }
+  }
+
+  throw lastError || new Error('Could not get worker page');
 }
 
 async function collectFromPage(page, task) {
@@ -1149,6 +1399,64 @@ async function collectFromPage(page, task) {
       return best;
     }
 
+    function formatTimestampFromMs(ms) {
+      const totalSeconds = Math.max(0, Math.floor((Number(ms) || 0) / 1000));
+      const hh = Math.floor(totalSeconds / 3600);
+      const mm = Math.floor((totalSeconds % 3600) / 60);
+      const ss = totalSeconds % 60;
+      if (hh > 0) return `${String(hh).padStart(2, '0')}:${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
+      return `${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')}`;
+    }
+
+    async function fetchTranscriptFromCaptionTracks() {
+      try {
+        const playerResponse =
+          window.ytInitialPlayerResponse ||
+          window.ytplayer?.config?.args?.player_response &&
+            JSON.parse(window.ytplayer.config.args.player_response);
+
+        const tracks =
+          playerResponse?.captions?.playerCaptionsTracklistRenderer?.captionTracks || [];
+
+        for (const track of tracks) {
+          const baseUrl = String(track?.baseUrl || '');
+          if (!baseUrl) continue;
+
+          const trackUrl = baseUrl.includes('fmt=') ? baseUrl : `${baseUrl}&fmt=json3`;
+
+          try {
+            const res = await fetch(trackUrl, { cache: 'no-store', credentials: 'include' });
+            if (!res.ok) continue;
+            const json = await res.json();
+            const events = Array.isArray(json?.events) ? json.events : [];
+            const items = [];
+            const seen = new Set();
+
+            for (const ev of events) {
+              const segs = Array.isArray(ev?.segs) ? ev.segs : [];
+              const text = sanitizeForJsonLine(
+                segs.map((s) => String(s?.utf8 || '')).join('')
+              );
+              if (!text) continue;
+              const tMs = Number(ev?.tStartMs || 0);
+              const timestamp = formatTimestampFromMs(tMs);
+              const key = `${timestamp}__${text}`;
+              if (seen.has(key)) continue;
+              seen.add(key);
+              items.push({ timestamp, text });
+            }
+
+            if (items.length > 0) {
+              debugStep('Transcript fetched from captions', `segments=${items.length}`);
+              return items;
+            }
+          } catch {}
+        }
+      } catch {}
+
+      return [];
+    }
+
     async function clickAllMatching(selectors, perRoundLimit = 200) {
       let clicked = 0;
 
@@ -1186,6 +1494,43 @@ async function collectFromPage(page, task) {
       } catch {}
 
       return true;
+    }
+
+    async function applyCommentsSortPreference() {
+      try {
+        const menuButton =
+          document.querySelector('#sort-menu #button button') ||
+          document.querySelector('ytd-comments-header-renderer #sort-menu button') ||
+          document.querySelector('ytd-comments-header-renderer tp-yt-paper-button#button') ||
+          document.querySelector('ytd-comments-header-renderer [aria-label*="Sort" i]');
+
+        if (!menuButton || !isVisible(menuButton)) return false;
+        clickElement(menuButton);
+        await sleep(600);
+
+        const options = Array.from(
+          document.querySelectorAll('tp-yt-paper-listbox tp-yt-paper-item, ytd-menu-service-item-renderer')
+        ).filter((el) => isVisible(el));
+
+        const normalizedText = (el) => sanitizeForJsonLine(getElementText(el)).toLowerCase();
+
+        const newest =
+          options.find((el) => normalizedText(el).includes('newest first')) ||
+          options.find((el) => normalizedText(el).includes('сначала новые')) ||
+          options.find((el) => normalizedText(el).includes('новые сначала'));
+
+        const top =
+          options.find((el) => normalizedText(el).includes('top comments')) ||
+          options.find((el) => normalizedText(el).includes('популярные'));
+
+        const target = newest || top || options[0];
+        if (!target) return false;
+        clickElement(target);
+        await sleep(900);
+        return true;
+      } catch {
+        return false;
+      }
     }
 
     async function ensureCommentsVisible() {
@@ -1291,6 +1636,24 @@ async function collectFromPage(page, task) {
       return nodes.length ? nodes[nodes.length - 1] : null;
     }
 
+    function limitCommentLines(lines, maxChars) {
+      const safeLines = Array.isArray(lines) ? lines.filter(Boolean) : [];
+      if (!Number.isFinite(maxChars) || maxChars <= 0) return safeLines;
+
+      const limited = [];
+      let totalChars = 0;
+
+      for (const line of safeLines) {
+        const nextTotalChars = totalChars + line.length + (limited.length > 0 ? 1 : 0);
+        limited.push(line);
+        totalChars = nextTotalChars;
+
+        if (totalChars >= maxChars) break;
+      }
+
+      return limited;
+    }
+
     function hasPendingCommentControls() {
       const root = getCommentsRoot();
       if (!root) return false;
@@ -1339,12 +1702,14 @@ async function collectFromPage(page, task) {
       let stableHeightRounds = 0;
       const seenLines = [];
       const seenKeys = new Set();
+      let seenChars = 0;
 
       debugStep('Loading comments');
 
       for (let round = 0; round < cfg.commentsMaxScrollRounds; round++) {
         await waitWhilePaused();
         assertNotStopped();
+        let charLimitReached = false;
 
         focusCommentsRoot();
         await expandEverythingVisible();
@@ -1353,6 +1718,12 @@ async function collectFromPage(page, task) {
           if (!entry?.key || seenKeys.has(entry.key)) continue;
           seenKeys.add(entry.key);
           seenLines.push(entry.line);
+          seenChars += entry.line.length + (seenLines.length > 1 ? 1 : 0);
+
+          if (cfg.commentsMaxChars > 0 && seenChars >= cfg.commentsMaxChars) {
+            charLimitReached = true;
+            break;
+          }
         }
 
         const count = seenLines.length;
@@ -1373,8 +1744,13 @@ async function collectFromPage(page, task) {
 
         debugStep(
           'Loading comments',
-          `items=${count}, pending=${pendingControls ? 'yes' : 'no'}, stable=${Math.min(stableCountRounds, stableHeightRounds)}/${cfg.commentsStableRoundsToStop}`
+          `items=${count}, chars=${seenChars}, pending=${pendingControls ? 'yes' : 'no'}, stable=${Math.min(stableCountRounds, stableHeightRounds)}/${cfg.commentsStableRoundsToStop}`
         );
+
+        if (charLimitReached) {
+          debugStep('Comments limit reached', `items=${count}, chars=${seenChars}/${cfg.commentsMaxChars}`);
+          break;
+        }
 
         if (count === 0) {
           focusCommentsRoot();
@@ -1401,7 +1777,7 @@ async function collectFromPage(page, task) {
       }
 
       await expandEverythingVisible();
-      return seenLines;
+      return limitCommentLines(seenLines, cfg.commentsMaxChars);
     }
 
     function extractCommentsEntries() {
@@ -1427,19 +1803,47 @@ async function collectFromPage(page, task) {
     }
 
     async function collectCommentsText() {
-      try {
-        await ensureCommentsVisible();
-        const lines = await scrollCommentsUntilLoaded();
-        if (lines.length === 0) {
-          lines.push(...extractCommentsEntries().map((entry) => entry.line));
+      const attempts = Math.max(1, Number(cfg.commentsCollectionAttempts) || 1);
+
+      for (let attempt = 1; attempt <= attempts; attempt++) {
+        try {
+          await ensureCommentsVisible();
+          if (attempt === 1 || attempt % 2 === 0) {
+            await applyCommentsSortPreference();
+          }
+          let lines = await scrollCommentsUntilLoaded();
+          if (lines.length === 0) {
+            lines = limitCommentLines(
+              extractCommentsEntries().map((entry) => entry.line),
+              cfg.commentsMaxChars
+            );
+          }
+          const text = sanitizeMultilineForJson(lines.join('\n'));
+
+          if (text.length > 0) {
+            debugStep(
+              'Comments loaded',
+              `items=${lines.length}, chars=${text.length}, attempt=${attempt}/${attempts}`
+            );
+            return text;
+          }
+
+          debugStep('Comments empty', `attempt=${attempt}/${attempts}`);
+        } catch (err) {
+          debugStep('Comments attempt failed', `attempt=${attempt}/${attempts}: ${err.message}`);
         }
-        const text = sanitizeMultilineForJson(lines.join('\n'));
-        debugStep('Comments loaded', `items=${lines.length}, chars=${text.length}`);
-        return text;
-      } catch (err) {
-        debugStep('Comments failed', err.message);
-        return '';
+
+        if (attempt < attempts) {
+          try {
+            window.scrollBy(0, -600);
+          } catch {}
+          await sleep(cfg.commentsScrollPauseMs + attempt * 700);
+          continue;
+        }
       }
+
+      debugStep('Comments failed', 'No comments collected after retries');
+      return '';
     }
 
     function getPreviewCandidates(videoId) {
@@ -1471,50 +1875,59 @@ async function collectFromPage(page, task) {
       return m ? m[1] : 'video';
     }
 
+    async function collectTranscriptSegments() {
+      const attempts = Math.max(1, Number(cfg.transcriptCollectionAttempts) || 1);
+      let panel = findTranscriptPanel({ visibleOnly: true });
+
+      for (let attempt = 1; attempt <= attempts; attempt++) {
+        if (!panel) {
+          debugStep('Opening transcript', `attempt=${attempt}/${attempts}`);
+          const buttonFoundOrPanelOpened = await clickTranscriptButton();
+          panel = await waitForTranscriptPanel(
+            attempt === 1 ? cfg.transcriptPanelTimeoutMs : Math.min(12000, cfg.transcriptPanelTimeoutMs)
+          );
+          if (!buttonFoundOrPanelOpened && !panel && attempt === 1) {
+            debugStep('Transcript control missing');
+            throw new Error('TRANSCRIPT_BUTTON_NOT_FOUND');
+          }
+        } else {
+          debugStep('Transcript panel available', `attempt=${attempt}/${attempts}`);
+        }
+
+        if (panel) {
+          await sleep(900 + attempt * 300);
+          const segments = await loadFullTranscript(panel, cfg);
+          if (segments.length > 0) return segments;
+          debugStep('Transcript empty', `attempt=${attempt}/${attempts}`);
+        } else {
+          debugStep('Transcript unavailable', `attempt=${attempt}/${attempts}`);
+        }
+
+        if (attempt < attempts) {
+          await openDescription();
+          await sleep(cfg.transcriptScrollPauseMs + attempt * 500);
+          panel = findTranscriptPanel({ visibleOnly: true });
+        }
+      }
+
+      const captionFallback = await fetchTranscriptFromCaptionTracks();
+      if (captionFallback.length > 0) return captionFallback;
+
+      debugStep('Transcript unavailable');
+      return [];
+    }
+
     debugStep('Video started', taskUrl);
 
     await waitForWatchReady(30000);
     await acceptConsentIfNeeded();
     await openDescription();
 
-    let panel = findTranscriptPanel({ visibleOnly: true });
-
-    if (!panel) {
-      debugStep('Opening transcript after description');
-      await clickTranscriptButton();
-      panel = await waitForTranscriptPanel(cfg.transcriptPanelTimeoutMs);
-    } else {
-      debugStep('Transcript panel already open');
-    }
-
     const meta = collectTitleAndDescription();
     const videoId = extractVideoId(taskUrl);
     debugStep('Metadata collected', meta.videoTitle || videoId);
 
-    let segments = [];
-    if (panel) {
-      await sleep(1200);
-      segments = await loadFullTranscript(panel, cfg);
-      if (!segments.length) {
-        debugStep('Transcript visible but empty', 'retrying after description');
-        await clickTranscriptButton();
-        panel = await waitForTranscriptPanel(Math.min(10000, cfg.transcriptPanelTimeoutMs));
-        if (panel) {
-          await sleep(1200);
-          segments = await loadFullTranscript(panel, cfg);
-        }
-      }
-    } else {
-      debugStep('Transcript unavailable', 'retrying after description');
-      await clickTranscriptButton();
-      panel = await waitForTranscriptPanel(Math.min(10000, cfg.transcriptPanelTimeoutMs));
-      if (panel) {
-        await sleep(1200);
-        segments = await loadFullTranscript(panel, cfg);
-      } else {
-        debugStep('Transcript unavailable');
-      }
-    }
+    const segments = await collectTranscriptSegments();
 
     const videoTranscript = sanitizeForJsonLine(segments.map((x) => x.text).join(' '));
     const videoTranscriptTimed = sanitizeMultilineForJson(
@@ -1543,20 +1956,167 @@ async function collectFromPage(page, task) {
   return result;
 }
 
-async function processOneVideo(browser, page, task, outputRoot) {
+async function processOneVideo(runtimeState, task, outputRoot) {
   await waitIfPaused(`Before video ${task.url}`);
   ensureNotStopped(`Before video ${task.url}`);
   const videoId = extractVideoId(task.url);
-  const detachDebugLogging = attachPageDebugLogging(page, task);
   const successDir = path.join(outputRoot, `${videoId}`);
   const failedDir = path.join(outputRoot, `FAILED-${videoId}`);
+  const attemptsLog = [];
 
   try {
-    const data = await withTimeout(
-      () => collectFromPage(page, task),
-      CONFIG.perVideoTimeoutMs,
-      `Video ${videoId}`
-    );
+    let data = null;
+    let lastAttemptError = null;
+    let lastValidationReasons = [];
+    const startedAt = Date.now();
+    const maxAttempts = CONFIG.retryUntilSuccess
+      ? CONFIG.maxHardAttemptsPerVideo > 0
+        ? CONFIG.maxHardAttemptsPerVideo
+        : Number.MAX_SAFE_INTEGER
+      : Math.max(2, CONFIG.maxCollectionAttempts);
+    const deadline = CONFIG.maxVideoTotalMinutes > 0
+      ? startedAt + CONFIG.maxVideoTotalMinutes * 60 * 1000
+      : null;
+    const pushAttemptLog = (entry) => {
+      attemptsLog.push(entry);
+      if (attemptsLog.length > 300) {
+        attemptsLog.shift();
+      }
+    };
+
+    for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+      await waitIfPaused(`Video ${videoId} attempt ${attempt}`);
+      ensureNotStopped(`Video ${videoId} attempt ${attempt}`);
+
+      if (deadline && Date.now() > deadline) {
+        console.warn(
+          `[NODE ${videoId}] deadline reached after ${CONFIG.maxVideoTotalMinutes} min`
+        );
+        break;
+      }
+
+      if (isPageClosedSafe(runtimeState.page)) {
+        runtimeState.page = await getWorkerPage(runtimeState.browser);
+      }
+
+      const attemptUrl = task.url;
+      const attemptTask = {
+        ...task,
+        url: attemptUrl,
+      };
+      const detachDebugLogging = attachPageDebugLogging(runtimeState.page, {
+        ...task,
+        url: attemptUrl,
+      });
+
+      try {
+        const oneData = await withTimeout(
+          () => collectFromPage(runtimeState.page, attemptTask),
+          CONFIG.perVideoTimeoutMs,
+          `Video ${videoId} attempt ${attempt}/${maxAttempts}`
+        );
+
+        const transcriptPlain = sanitizeForJsonLine(oneData.videoTranscript || '');
+        const transcriptTimed = sanitizeMultilineForJson(oneData.videoTranscriptTimed || '');
+        const commentsText = sanitizeMultilineForJson(oneData.videoCommets || '');
+
+        const transcriptMissing = !transcriptPlain && !transcriptTimed;
+        const commentsMissing = !commentsText;
+        const reasons = [];
+        if (transcriptMissing) reasons.push('Transcript not collected');
+        if (commentsMissing) reasons.push('Comments not collected');
+
+        pushAttemptLog({
+          attempt,
+          ok: reasons.length === 0,
+          reasons,
+          transcriptChars: transcriptPlain.length + transcriptTimed.length,
+          commentsChars: commentsText.length,
+          attemptUrl,
+        });
+
+        if (reasons.length === 0) {
+          data = oneData;
+          break;
+        }
+
+        lastValidationReasons = reasons.slice();
+        console.warn(
+          `[NODE ${videoId}] attempt ${attempt}/${maxAttempts} incomplete: ${reasons.join('; ')}`
+        );
+      } catch (err) {
+        const message = err && err.message ? err.message : String(err);
+        lastAttemptError = err;
+        pushAttemptLog({
+          attempt,
+          ok: false,
+          reasons: ['Exception'],
+          error: message,
+          attemptUrl,
+        });
+        console.error(`[NODE ${videoId}] attempt ${attempt}/${maxAttempts} error: ${message}`);
+
+        if (isNonRetryableExtractionError(message)) {
+          console.warn(
+            `[NODE ${videoId}] non-retryable extraction error, skip retries: transcript button not found`
+          );
+          break;
+        }
+
+        if (isRecoverableProtocolError(message)) {
+          try {
+            if (!isPageClosedSafe(runtimeState.page)) {
+              await runtimeState.page.close();
+            }
+          } catch {}
+
+          runtimeState.page = await getWorkerPage(runtimeState.browser);
+        }
+
+        const lowerMessage = message.toLowerCase();
+        if (
+          lowerMessage.includes('timed out') ||
+          lowerMessage.includes('target closed') ||
+          lowerMessage.includes('session closed')
+        ) {
+          console.warn(`[NODE ${videoId}] restarting browser session after attempt ${attempt}`);
+          await recreateBrowserSession(runtimeState);
+        }
+      } finally {
+        detachDebugLogging();
+      }
+
+      if (attempt >= maxAttempts) break;
+
+      const retryDelayMs = computeRetryDelayMs(attempt);
+      console.warn(`[NODE ${videoId}] retry in ${retryDelayMs}ms`);
+
+      if (CONFIG.browserRestartEveryAttempts > 0 && attempt % CONFIG.browserRestartEveryAttempts === 0) {
+        console.warn(`[NODE ${videoId}] periodic browser session restart after attempt ${attempt}`);
+        await recreateBrowserSession(runtimeState);
+      }
+
+      try {
+        if (!isPageClosedSafe(runtimeState.page)) {
+          await runtimeState.page.goto('about:blank', {
+            waitUntil: 'domcontentloaded',
+            timeout: Math.min(30000, CONFIG.navigationTimeoutMs),
+          });
+        }
+      } catch {}
+
+      await sleep(retryDelayMs);
+    }
+
+    if (!data) {
+      const message =
+        lastValidationReasons.length > 0
+          ? lastValidationReasons.join('; ')
+          : lastAttemptError?.message || 'No data collected';
+      const err = new Error(`All attempts failed: ${message}`);
+      err.attemptsLog = attemptsLog;
+      throw err;
+    }
 
     const resultJson = {
       videoPerformanceLabel: data.videoPerformanceLabel || '',
@@ -1568,14 +2128,23 @@ async function processOneVideo(browser, page, task, outputRoot) {
       previewFileName: '',
       sourceUrl: task.url,
       videoId,
+      attemptsUsed: attemptsLog.length,
     };
 
     const transcriptMissing = !resultJson.videoTranscript && !resultJson.videoTranscriptTimed;
     const commentsMissing = !resultJson.videoCommets;
     const failureReasons = [];
+    const missingWarnings = [];
 
-    if (transcriptMissing) failureReasons.push('Transcript not collected');
-    if (commentsMissing) failureReasons.push('Comments not collected');
+    if (transcriptMissing) missingWarnings.push('Transcript not collected');
+    if (commentsMissing) missingWarnings.push('Comments not collected');
+
+    if (transcriptMissing && CONFIG.requireTranscript) {
+      failureReasons.push('Transcript not collected');
+    }
+    if (commentsMissing && CONFIG.requireComments) {
+      failureReasons.push('Comments not collected');
+    }
 
     const failed = failureReasons.length > 0;
     const failureMessage = failureReasons.join('; ');
@@ -1585,7 +2154,15 @@ async function processOneVideo(browser, page, task, outputRoot) {
     console.log(`[NODE ${videoId}] Output dir ready: ${targetDir}`);
 
     await waitIfPaused(`Before preview ${videoId}`);
-    const previewFileName = await savePreview(page, data.previewCandidates || [], videoId, targetDir);
+    if (isPageClosedSafe(runtimeState.page)) {
+      runtimeState.page = await getWorkerPage(runtimeState.browser);
+    }
+    const previewFileName = await savePreview(
+      runtimeState.page,
+      data.previewCandidates || [],
+      videoId,
+      targetDir
+    );
     resultJson.previewFileName = previewFileName || '';
     resultJson.status = failed ? 'FAILED' : 'OK';
 
@@ -1598,6 +2175,7 @@ async function processOneVideo(browser, page, task, outputRoot) {
             ok: false,
             error: failureMessage,
             reasons: failureReasons,
+            attempts: attemptsLog,
             videoId,
             sourceUrl: task.url,
           },
@@ -1628,6 +2206,11 @@ async function processOneVideo(browser, page, task, outputRoot) {
       };
     }
 
+    if (missingWarnings.length > 0) {
+      console.warn(`[WARN] ${task.url}`);
+      console.warn(`       ${missingWarnings.join('; ')}`);
+    }
+
     console.log(`[OK] ${task.url}`);
     console.log(`     saved to: ${targetDir}`);
 
@@ -1645,6 +2228,7 @@ async function processOneVideo(browser, page, task, outputRoot) {
         {
           ok: false,
           error: err.message,
+          attempts: err.attemptsLog || attemptsLog,
           videoId,
           sourceUrl: task.url,
         },
@@ -1664,13 +2248,100 @@ async function processOneVideo(browser, page, task, outputRoot) {
       error: err.message,
       url: task.url,
     };
-  } finally {
-    detachDebugLogging();
   }
 }
 
 async function main() {
   const args = parseArgs(process.argv);
+  CONFIG.verbose = parseBooleanArg(args, 'verbose', CONFIG.verbose);
+  if (parseBooleanArg(args, 'quiet', false)) {
+    CONFIG.verbose = false;
+  }
+  CONFIG.maxPageLogLines = parsePositiveIntArg(
+    args,
+    'max-page-log-lines',
+    CONFIG.maxPageLogLines,
+    50,
+    10000
+  );
+  CONFIG.requireTranscript = parseBooleanArg(args, 'require-transcript', CONFIG.requireTranscript);
+  CONFIG.requireComments = parseBooleanArg(args, 'require-comments', CONFIG.requireComments);
+  CONFIG.maxCollectionAttempts = parsePositiveIntArg(
+    args,
+    'max-collection-attempts',
+    CONFIG.maxCollectionAttempts,
+    1,
+    10
+  );
+  CONFIG.retryDelayMs = parsePositiveIntArg(args, 'retry-delay-ms', CONFIG.retryDelayMs, 200, 120000);
+  CONFIG.retryBackoffMs = parsePositiveIntArg(
+    args,
+    'retry-backoff-ms',
+    CONFIG.retryBackoffMs,
+    0,
+    120000
+  );
+  CONFIG.transcriptCollectionAttempts = parsePositiveIntArg(
+    args,
+    'transcript-attempts',
+    CONFIG.transcriptCollectionAttempts,
+    1,
+    8
+  );
+  CONFIG.commentsCollectionAttempts = parsePositiveIntArg(
+    args,
+    'comments-attempts',
+    CONFIG.commentsCollectionAttempts,
+    1,
+    8
+  );
+  CONFIG.workerPageAcquireAttempts = parsePositiveIntArg(
+    args,
+    'worker-page-attempts',
+    CONFIG.workerPageAcquireAttempts,
+    1,
+    10
+  );
+  CONFIG.workerPageRetryDelayMs = parsePositiveIntArg(
+    args,
+    'worker-page-retry-delay-ms',
+    CONFIG.workerPageRetryDelayMs,
+    200,
+    120000
+  );
+  CONFIG.retryUntilSuccess = parseBooleanArg(
+    args,
+    'retry-until-success',
+    CONFIG.retryUntilSuccess
+  );
+  CONFIG.maxVideoTotalMinutes = parsePositiveIntArg(
+    args,
+    'max-video-total-minutes',
+    CONFIG.maxVideoTotalMinutes,
+    0,
+    24 * 60
+  );
+  CONFIG.maxHardAttemptsPerVideo = parsePositiveIntArg(
+    args,
+    'max-hard-attempts-per-video',
+    CONFIG.maxHardAttemptsPerVideo,
+    0,
+    10000
+  );
+  CONFIG.retryJitterMs = parsePositiveIntArg(
+    args,
+    'retry-jitter-ms',
+    CONFIG.retryJitterMs,
+    0,
+    120000
+  );
+  CONFIG.browserRestartEveryAttempts = parsePositiveIntArg(
+    args,
+    'browser-restart-every-attempts',
+    CONFIG.browserRestartEveryAttempts,
+    0,
+    1000
+  );
 
   const tasks = parseVideosFromArgs(args).map((item) => {
     if (typeof item === 'string') {
@@ -1700,6 +2371,22 @@ async function main() {
   console.log('Debugger port:', port);
   console.log('Output:', outputRoot);
   console.log('Videos:', tasks.length);
+  console.log('Require transcript:', CONFIG.requireTranscript);
+  console.log('Require comments:', CONFIG.requireComments);
+  console.log('Max collection attempts:', CONFIG.maxCollectionAttempts);
+  console.log('Retry delay ms:', CONFIG.retryDelayMs);
+  console.log('Retry backoff ms:', CONFIG.retryBackoffMs);
+  console.log('Transcript attempts:', CONFIG.transcriptCollectionAttempts);
+  console.log('Comments attempts:', CONFIG.commentsCollectionAttempts);
+  console.log('Worker page attempts:', CONFIG.workerPageAcquireAttempts);
+  console.log('Worker page retry delay ms:', CONFIG.workerPageRetryDelayMs);
+  console.log('Verbose page logs:', CONFIG.verbose);
+  console.log('Max page log lines:', CONFIG.maxPageLogLines);
+  console.log('Retry until success:', CONFIG.retryUntilSuccess);
+  console.log('Max video total minutes:', CONFIG.maxVideoTotalMinutes);
+  console.log('Max hard attempts per video:', CONFIG.maxHardAttemptsPerVideo);
+  console.log('Retry jitter ms:', CONFIG.retryJitterMs);
+  console.log('Browser restart every attempts:', CONFIG.browserRestartEveryAttempts);
 
   if (isDefaultChromeUserDataDir(userDataDir)) {
     console.warn('');
@@ -1717,7 +2404,16 @@ async function main() {
     userDataDir,
     profileDirectory,
   });
-  const workerPage = await getWorkerPage(browser);
+  const runtimeState = {
+    browserOptions: {
+      chromePath,
+      port,
+      userDataDir,
+      profileDirectory,
+    },
+    browser,
+    page: await getWorkerPage(browser),
+  };
 
   const summary = [];
 
@@ -1729,7 +2425,7 @@ async function main() {
         break;
       }
       if (!task.url) continue;
-      const one = await processOneVideo(browser, workerPage, task, outputRoot);
+      const one = await processOneVideo(runtimeState, task, outputRoot);
       summary.push(one);
       if (STOP_STATE.requested) {
         console.warn(`[STOP] Processing interrupted: ${STOP_STATE.reason}`);
@@ -1740,7 +2436,9 @@ async function main() {
     }
   } finally {
     try {
-      await browser.disconnect();
+      if (runtimeState.browser) {
+        await runtimeState.browser.disconnect();
+      }
     } catch {}
   }
 
